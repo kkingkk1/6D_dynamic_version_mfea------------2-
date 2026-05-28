@@ -1,0 +1,89 @@
+# =========================
+# Maven / Java build output
+# =========================
+target/
+out/
+build/
+*.class
+*.jar
+*.war
+*.ear
+
+# =========================
+# Logs / temp files
+# =========================
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# =========================
+# OS generated files
+# =========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# =========================
+# IDE / editor local files
+# =========================
+.idea/
+*.iml
+
+# VS Code: ignore all by default, keep shared config files
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+
+# =========================
+# Local AI / assistant state
+# =========================
+.serena/
+.claude/
+.codepilot-uploads/
+
+# =========================
+# Runtime / crash dumps
+# =========================
+hs_err_pid*
+replay_pid*
+
+# =========================
+# Local experiment artifacts
+# =========================
+outputs/
+result/
+
+# Legacy single-parent tuning notes kept on disk, not in fresh MFEA root history
+scripts/parse_lshade_*.ps1
+scripts/run_lshade_*.ps1
+scripts/run_pso_*.ps1
+vault/Daily/2026-05-04.md
+vault/Daily/2026-05-10.md
+vault/Daily/2026-05-13.md
+vault/Daily/2026-05-15.md
+vault/Daily/2026-05-16.md
+vault/Daily/2026-05-17.md
+vault/Daily/2026-05-18.md
+vault/Daily/2026-05-19.md
+vault/Daily/2026-05-20.md
+vault/Daily/2026-05-21.md
+vault/Daily/2026-05-22.md
+vault/Daily/2026-05-23.md
+vault/Daily/2026-05-25.md
+vault/Plan/2026-05-19-*
+vault/Plan/2026-05-22-alns-hyperparam-speed-plan.md
+vault/Plan/algorithm-optimization-analysis.md
+vault/Plan/archive/
+vault/Plan/component-library-optimization.md
+vault/Plan/speedup-master-plan.md
+vault/Results/Reports/2026-05-16-*
+vault/Results/Reports/2026-05-17-*
+vault/Results/Reports/2026-05-18-*
+vault/Results/Reports/2026-05-19-*
+vault/Results/Reports/2026-05-22-alns-hyperparam-speed-id135.md
+vault/Results/Reports/figures/
