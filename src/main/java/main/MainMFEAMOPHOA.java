@@ -28,7 +28,8 @@ public class MainMFEAMOPHOA {
 
   // Timeout constants
   private static final long EXECUTOR_SHUTDOWN_TIMEOUT_SECONDS = 30;
-  private static final long POPULATION_EVALUATION_TIMEOUT_MINUTES = 5;
+  private static final long POPULATION_EVALUATION_TIMEOUT_MINUTES =
+      Long.getLong("autohyb.outer.evalTimeoutMinutes", 30);
   private static final String FIXED_INSERTION_MODE = "GREEDY";
   private static final String OUTER_CACHE_ENABLED_PROPERTY = "autohyb.outer.cache.enabled";
   private static final String OUTER_RACING_ENABLED_PROPERTY = "autohyb.outer.racing.enabled";

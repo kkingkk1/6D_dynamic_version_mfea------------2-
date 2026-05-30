@@ -66,7 +66,8 @@ public class EvaluationHyb {
     }
 
     private static long resolveRunSeed(int[] config, int configDimension, int nPop, int maxFes, int runIndex) {
-        return stableSeed(config, configDimension, nPop, maxFes) + runIndex + 8L;
+        long runIndexBase = Long.getLong("evaluation.runIndexBase", 0L);
+        return stableSeed(config, configDimension, nPop, maxFes) + runIndexBase + runIndex + 8L;
     }
 
     public static class RunMetrics {

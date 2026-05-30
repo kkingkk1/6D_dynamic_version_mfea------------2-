@@ -35,6 +35,7 @@ updated: 2026-05-28
 | Plan | 状态 | 测试 | 结果 |
 |---|---|---|---|
 | MFEA 初始化 | running | compile | fresh Git root |
+| [MFEA 激进搜索](Plan/2026-05-29-mfea-aggressive-search-plan.md) | planned | ID1/ID3/ID5 | nPopHyb=35, gMax=20, nRun=3, 60% maxFes |
 
 ### Plan 详情
 

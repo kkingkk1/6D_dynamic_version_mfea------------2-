@@ -49,13 +49,13 @@ public class RunSingleHybridConfig {
     private static final boolean DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET = true;
     private static final double DEBUG_POPULATION_FACTOR = 2.5;
     /** Current 6D baseline vector; the latest ID1 benchmark anchor has best ratio 99.600145%. */
-    private static final int[] DEFAULT_CONFIG = {4, 1, 0, 0, 0, 0};
+    private static final int[] DEFAULT_CONFIG = {9, 2, 0, 0, 0, 0};
     private static final int SMALL_TASK_ASSIGNMENT_STRATEGY = 7;
     private static final int LARGE_TASK_ASSIGNMENT_STRATEGY = 8;
-    private static final String DEFAULT_DATA_DIR =
-        "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-0-0-24";
     //private static final String DEFAULT_DATA_DIR =
-    //    "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-1-0-24";
+    //    "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-0-0-24";
+    private static final String DEFAULT_DATA_DIR =
+        "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-1-0-24";
     //private static final String DEFAULT_DATA_DIR =
     //    "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\1000-10-0-0-12";
     //private static final String DEFAULT_DATA_DIR =
