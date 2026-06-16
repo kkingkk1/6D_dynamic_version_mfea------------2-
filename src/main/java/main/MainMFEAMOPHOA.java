@@ -779,8 +779,15 @@ public class MainMFEAMOPHOA {
 
       double genTime = (System.currentTimeMillis() - genStartTime) / 1000.0;
       if (shouldPrintGenerationLog(g + 1, gMax)) {
-        System.out.printf("[Global 6D][Generation %d/%d] bestTotalProfit=%.4f, generationBest=%.4f, time=%.1fs%n",
-          g + 1, gMax, bestGlobalFitness, popFit[0], genTime);
+        System.out.printf(
+          "[Global 6D][Generation %d/%d] bestTotalProfit=%.4f, generationBest=%.4f, bestConfig=%s, time=%.1fs%n",
+          g + 1,
+          gMax,
+          bestGlobalFitness,
+          popFit[0],
+          Arrays.toString(bestGlobalSolution),
+          genTime
+        );
       }
     }
 

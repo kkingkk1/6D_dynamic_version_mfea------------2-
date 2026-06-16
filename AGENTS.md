@@ -10,7 +10,7 @@
 
 - 当前搜索空间为 6D 纯语义编码：`{parent1,parent2,update1,update2,operationOrder,survivor}`。
 - `de.*`、`hybcec.insertionMode`、父算法内部参数和 speedup 开关都是运行时配置，不进入 6D 基因。
-- 默认固定基线为 `{4,1,0,0,0,0}`；单配置复现实验从 `main.RunSingleHybridConfig.main()` 进入。
+- 默认固定基线为 `{9,2,0,0,0,0}`；单配置复现实验从 `main.RunSingleHybridConfig.main()` 进入，默认开启 `autohyb.deterministic=true` 复现实验模式。
 - G2/G3 是 update policy，G4 是 operation-order policy，G5 是 survivor policy。
 - `singleParentMode` 仅用于 OA1-only 单算法实验，不进入混合算法组件库语义。
 - 当前默认和 MFEA 主线阶段结论见 `vault/01-Plan.md`；历史单算法调参计划、报告和原始日志保留在本地但不进入 fresh MFEA Git 历史。
@@ -89,18 +89,18 @@ main → core → strategy → algorithm → operator → common → model/utils
 DataLoader → Initialize（任务-卫星分配）
   → 自动设计路径：MainMFEAMOPHOA（外层 MFEA，int[nPop][6]）
     → HybridInitial（优先读取 EliteConfigArchive 实例归档，缺失/损坏时回退到默认 4 组精英种子）
- → EvaluationHyb（只接收当前 6D 配置，默认 `GREEDY` 插入策略与 `de.fSchedule=SIGMOID,de.fMax=0.10,de.fMin=0.01,de.crossoverRate=0.3,de.boundaryPolicy=RANDOM_REINIT`；可通过 `-Dhybcec.insertionMode=...` 和 `de.*` 覆盖运行时插入 / DE 参数，`PlanUtils` 里可对选定任务开启窗口偏好路径；`ParallelPolicy` 在外层评估活跃时禁用 `PlanUtils` 的 common-pool 向量并行）
-      → TaskAllocationCoordinator.scheduleWithReassignment()（刷新 best 后，小规模任务立即完整校准；大规模中间校准按 `CALIBRATION_INTERVAL` 与最后一轮触发；末尾 final calibration 保留）
+ → EvaluationHyb（只接收当前 6D 配置，默认 `GREEDY` 插入策略与 `de.fSchedule=SIGMOID,de.fMax=0.10,de.fMin=0.01,de.crossoverRate=0.3,de.boundaryPolicy=RANDOM_REINIT`；可通过 `-Dhybcec.insertionMode=...` 和 `de.*` 覆盖运行时插入 / DE 参数；MFEA fitness 直接使用优化后调度收益，不再用 baseline 兜底；`PlanUtils` 里可对选定任务开启窗口偏好路径；`ParallelPolicy` 在外层评估活跃时禁用 `PlanUtils` 的 common-pool 向量并行）
+      → TaskAllocationCoordinator.scheduleWithReassignment()（刷新 best 后，小规模任务立即完整校准；大规模中间校准按 `CALIBRATION_INTERVAL` 与最后一轮触发；末尾 final calibration 保留；`autohyb.deterministic=true` 时多卫星快照仍并行评估，但读取固定 `SatelliteState` 快照并按 satellite id 固定顺序提交结果）
         → reassignUnscheduledTasks()（由 ReassignmentOrchestrator 编排优先级迁移循环与任务束后处理；由 AssignmentDeltaEvaluator 处理试探移动和增量评估；由 ReassignmentMoveEvaluator 外观类转发替换、交换、任务束移动到对应子评估器；delta fast refine 的 limited insertion 默认对齐 8D，使用基础候选位置，以及 replacement/swap 原任务位置附近的锚点候选）
         → buildPopulationWithInheritance()（重分配阶段可注入跨卫星共享任务排序模板）
         → HybCec.run()（内层混合算法，double[nPop][D]；operationOrder 控制执行顺序；survivor 在全量更新和 partial-update fast path 中分别控制全局/局部生存选择；DE 运行时使用 `HybCecConfigManager` 生成 `DEConfig`，默认 sigmoid F 路径，可 opt-in 覆盖为 static / linear / explicit F 序列）
-          → HybridLevelCalculator（G2/G3 update policy 掩码；`FULL` 做全体更新，其余 policy 做个体子集更新；`TOP_SUBSET` / `MIXED_SUBSET` 使用固定 `0.5` 子集比例，`RANDOM_DECAY` 使用递减随机子集，`hybcec.mixedTopRatio` 控制 `MIXED_SUBSET` 的高适应度个体子集占比，默认 0.8）
+          → HybridLevelCalculator（G2/G3 update policy 掩码；`FULL` 做全体更新，其余 policy 做个体子集更新；`TOP_SUBSET` / `MIXED_SUBSET` 使用固定 `0.5` 子集比例，`RANDOM_DECAY` 使用递减随机子集，`hybcec.mixedTopRatio` 控制 `MIXED_SUBSET` 的高适应度个体子集占比，默认 0.8；随机子集使用当前 HybCec run-owned `Random`）
           → CreditManager（按滑动窗口记录 OA 收益 / evalCost，并由 G4=`ADAPTIVE_CREDIT` 路由读取概率）
           → runParentAlgorithm()
           → PlanUtils.decode() → evaluatePlan()
       → 收集未调度任务 → 停滞时重分配 → 返回历史最优
     → EliteConfigArchive.saveBestConfig()（按 dataDir + numTasks + numSatellites + populationFactor + maxFes + insertionMode 的实例签名回写最优 6D 配置）
-  → 单配置复现实验路径：RunSingleHybridConfig（直接评估固定 6D 配置；命令行只接收 6D 配置，DE 参数从 `tuning.properties` 或 JVM `de.*` 属性读取）
+  → 单配置复现实验路径：RunSingleHybridConfig（直接评估固定 6D 配置；命令行只接收 6D 配置，DE 参数从 `tuning.properties` 或 JVM `de.*` 属性读取；默认 `autohyb.deterministic=true`，可设为 `false` 恢复并行快跑）
     → EvaluationHyb → TaskAllocationCoordinator.scheduleWithReassignment()
     → 可选 EliteConfigArchive.saveCandidateConfig()（仅在显式开启 --record-elite-archive 时，将固定配置追加到同实例域热启动归档）
   → 单算法复现实验路径：RunSingleParentConfig（直接评估独立 3D 单算法配置 `{P0 algorithm, P1 updateRatio, P2 survivor}`；运行时固定 `operationOrder=sequential`，DE 参数从 `de.*` 读取，并通过 `singleParentMode=true` 强制仅启用 OA1；可选 `--convergence-file` 输出正式卫星调度阶段的 per-run / per-satellite HybCec best-fitness 曲线）

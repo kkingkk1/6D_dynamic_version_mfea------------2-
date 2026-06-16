@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import common.AlgorithmConstants;
 import core.state.HybCecState;
 import java.util.List;
+import java.util.Random;
 import org.junit.jupiter.api.Test;
 
 class HybridLevelCalculatorRegressionTest {
@@ -39,7 +40,8 @@ class HybridLevelCalculatorRegressionTest {
       oL,
       100,
       AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
-      AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL
+      AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL,
+      new Random(42L)
     );
 
     int updatedCount = calculator.determineHybridLevel1();
@@ -79,7 +81,8 @@ class HybridLevelCalculatorRegressionTest {
       oL,
       100,
       AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
-      AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL
+      AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL,
+      new Random(42L)
     );
 
     int updatedCount = calculator.determineHybridLevel1();

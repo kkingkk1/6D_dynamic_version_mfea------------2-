@@ -3,7 +3,7 @@ import algorithm.shade.UpdateArchive;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 import utils.FitnessUtils;
 
 public class ResizePop {
@@ -59,7 +59,8 @@ public class ResizePop {
     int nfes,
     int maxNfes,
     int maxPopSize,
-    int minPopSize) {
+    int minPopSize,
+    Random rand) {
 
     // ======================================================
     // Step 1: Input validation
@@ -184,8 +185,10 @@ public class ResizePop {
         );
       }
 
-      // Shuffle randomly using ThreadLocalRandom (thread-safe)
-      Collections.shuffle(archiveIndexedFitness, ThreadLocalRandom.current());
+      if (rand == null) {
+        throw new IllegalArgumentException("rand cannot be null");
+      }
+      Collections.shuffle(archiveIndexedFitness, rand);
 
       // Keep the first NP
       List<double[]> newArchivePop = new ArrayList<>();

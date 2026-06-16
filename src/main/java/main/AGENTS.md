@@ -8,10 +8,10 @@
 
 | 文件 | 类名 | 职责 |
 |------|------|------|
-| MainMFEAMOPHOA.java | `MainMFEAMOPHOA` | 外层 Global MFEA 自动设计入口；构造 6D 纯语义全局配置种群，调用 `EvaluationHyb` 并行评估候选混合配置，输出全局最优自动设计结果；支持 outer fitness cache 与 progressive racing opt-in，默认保持旧评估路径 |
+| MainMFEAMOPHOA.java | `MainMFEAMOPHOA` | 外层 Global MFEA 自动设计入口；构造 6D 纯语义全局配置种群，调用 `EvaluationHyb` 并行评估候选混合配置，输出全局最优自动设计结果；逐代日志打印当前全局最优 `bestConfig`；支持 outer fitness cache 与 progressive racing opt-in，默认保持旧评估路径 |
 | ParallelPolicy.java | `ParallelPolicy` | 并行层级策略；集中解析 `autohyb.parallel.level=run|satellite|vector|auto`，在外层评估活跃时阻止 `PlanUtils` 使用 common-pool 向量并行 |
-| EvaluationHyb.java | `EvaluationHyb` | 6D 混合配置评估器；将单个全局配置解码为 HybCec 参数、运行时插入模式与单一 fixed DE scale，按多次独立运行评估配置质量，并向 `TaskAllocationCoordinator` 传递 run seed、配置与历史最优结果；run seed 统一使用 `stableSeed + runIndex + 8`，用于保持 6D baseline 与旧 8D `{...,GREEDY,flag}` 路径的 seed 兼容 |
-| RunSingleHybridConfig.java | `RunSingleHybridConfig` | 单配置复现实验入口；加载数据、初始化任务分配、使用固定 6D 配置运行评估链路、输出调度结果；命令行只接收 6D 配置；DE 运行时统一为固定缩放因子；支持两种开关控制方式：1）直接在源码顶部修改 `DEFAULT_ENABLE_DELTA_FAST_REFINE` / `DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET` 两个布尔常量，便于 VSCode 直接运行时手动切换；2）通过前两个命令行参数显式覆盖，分别控制 delta fast refine 与局部重算热启动预算；可通过 `-Dhybcec.insertionMode=<InsertionMode>` 对单配置消融运行覆盖插入策略，默认 `GREEDY`；程序内部会将这些开关映射到协调器对应系统属性；默认 stdout 只打印当前混合配置、收益比例和总耗时；支持 `--record-baseline` / `--baseline-file` 将当前默认场景与配置的效用指标固化到基线文件，并仅在记录基线时打印基线对比；支持 `--quiet` 压制 warmup 状态日志，最终紧凑结果仍打印；`--log-interval=N` 继续控制显式开启的逐代曲线日志间隔 |
+| EvaluationHyb.java | `EvaluationHyb` | 6D 混合配置评估器；将单个全局配置解码为 HybCec 参数、运行时插入模式与单一 fixed DE scale，按多次独立运行评估配置质量，并向 `TaskAllocationCoordinator` 传递 run seed、配置与历史最优结果；MFEA fitness 直接使用优化后调度收益，不再用 baseline 兜底；run seed 统一使用 `stableSeed + runIndex + 8`，用于保持 6D baseline 与旧 8D `{...,GREEDY,flag}` 路径的 seed 兼容 |
+| RunSingleHybridConfig.java | `RunSingleHybridConfig` | 单配置复现实验入口；加载数据、初始化任务分配、使用固定 6D 配置运行评估链路、输出调度结果；命令行只接收 6D 配置；DE 运行时统一为固定缩放因子；支持两种开关控制方式：1）直接在源码顶部修改 `DEFAULT_ENABLE_DELTA_FAST_REFINE` / `DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET` 两个布尔常量，便于 VSCode 直接运行时手动切换；2）通过前两个命令行参数显式覆盖，分别控制 delta fast refine 与局部重算热启动预算；源码顶部 `DEFAULT_RANDOM_SEED_ID` 用于切换单次复现实验的 1-based seed id，填 `1/2/3` 分别复现多次运行中的第 1/2/3 次 seed，未显式设置 `-Devaluation.runIndexBase` 时映射到 `evaluation.runIndexBase`；可通过 `-Dhybcec.insertionMode=<InsertionMode>` 对单配置消融运行覆盖插入策略，默认 `GREEDY`；默认开启 `-Dautohyb.deterministic=true` 复现实验模式，入口会重置 `RandomProvider` 全局随机源和线程计数；程序内部会将这些开关映射到协调器对应系统属性；默认 stdout 只打印当前混合配置、收益比例和总耗时；支持 `--record-baseline` / `--baseline-file` 将当前默认场景与配置的效用指标固化到基线文件，并仅在记录基线时打印基线对比；支持 `--quiet` 压制 warmup 状态日志，最终紧凑结果仍打印；`--log-interval=N` 继续控制显式开启的逐代曲线日志间隔 |
 | RunSingleParentConfig.java | `RunSingleParentConfig` | 单算法复现实验入口；使用独立 3D 单算法配置 `{algorithmIndex, updateRatioCode, survivorStrategy}` 构建 OA1-only 运行；命令行不再复用混合组件语义，固定 `operationOrder=sequential` 与固定 DE 缩放因子，并通过运行时 `singleParentMode=true` 强制只启用 parent1；支持 `--run-index-base` 做 seed 分段诊断；支持 `--generation-log` 与 `--log-interval=N` 打印 HybCec 逐代最优适应度曲线；支持 `--convergence-file` 输出每个 run / 卫星的 HybCec best-fitness 曲线 |
 | TargetSatelliteRanker.java | `TargetSatelliteRanker` | 目标星排序器；抽象候选目标星的任务侧与任务-卫星配对特征，只执行低成本排序，并按固定 Top-K 返回候选目标星；普通任务默认 Top-2，prioritized 任务默认 Top-4；卫星侧 `B_j` 通路已删除 |
 | TargetSatelliteSelector.java | `TargetSatelliteSelector` | 包内私有候选目标星选择辅助类；从协调器状态构造 `TargetSatelliteRanker.RankRequest`，封装候选星上下文、任务侧优先级/约束紧度/未调度压力特征、任务-卫星窗口特征与 Top-K 结果转换 |
@@ -24,8 +24,8 @@
 | BundleMoveEvaluator.java | `BundleMoveEvaluator` | 包内私有任务束移动辅助类；按共同候选星和时间窗口邻近度生成 2-3 任务束，构造联合迁移试探分配并评估收益 |
 | ReassignmentMoveEvaluator.java | `ReassignmentMoveEvaluator` | 包内私有高阶重分配动作外观类；保留替换、交换、任务束的原调用面，将具体职责转发给 `ReplacementMoveEvaluator`、`SwapMoveEvaluator` 与 `BundleMoveEvaluator` |
 | ReassignmentOrchestrator.java | `ReassignmentOrchestrator` | 包内私有重分配主循环辅助类；编排优先级迁移循环、标准迁移接受、替换/交换回退触发与任务束后处理，并通过上下文回调复用协调器的候选选择、试探评估和反馈状态 |
-| TaskAllocationModels.java | `SatelliteState`, `ReassignmentStats`, `ReassignmentWorkingState`, `PrioritizedTask`, `SatelliteCandidateSelection`, `SchedulingStats`, `TaskDelta`, `TrialMoveResult` | 包内私有数据结构集合；承载协调器内部状态快照、迁移统计、重分配候选工作状态、增量任务差异、候选选择结果与试探移动结果，不作为外部 API |
-| TaskAllocationCoordinator.java | `TaskAllocationCoordinator`, `ConvergenceTrace` | 多卫星协调器；维护任务分配、全局任务键、任务-卫星 base score 与反馈 delta；编排跨卫星重分配的顶层触发、结果提交和刷新 best 后的完整校准；小规模任务默认立即校准，大规模中间校准只保留 interval/last 触发，末尾 final calibration 仍保留；记录正式卫星调度的 HybCec best-fitness 曲线供单父算法预算诊断使用；Phase 4 新增 sat state 池化、初始化 KNN 缓存、卫星池尺寸、自适应初始 ensemble 与校准 racing opt-in，默认均关闭或保持旧行为；候选目标星上下文构造下沉给 `TargetSatelliteSelector`，增量方案与试探移动评估下沉给 `AssignmentDeltaEvaluator`，重分配主循环下沉给 `ReassignmentOrchestrator`，替换/交换/任务束移动下沉给 `ReassignmentMoveEvaluator`，delta fast refine 下沉给 `DeltaFastRefiner`，排序仍由 `TargetSatelliteRanker` 完成 |
+| TaskAllocationModels.java | `SatelliteState`, `SatelliteEvaluationResult`, `ReassignmentStats`, `ReassignmentWorkingState`, `PrioritizedTask`, `SatelliteCandidateSelection`, `SchedulingStats`, `TaskDelta`, `TrialMoveResult` | 包内私有数据结构集合；承载协调器内部状态快照、卫星并行评估结果、迁移统计、重分配候选工作状态、增量任务差异、候选选择结果与试探移动结果，不作为外部 API |
+| TaskAllocationCoordinator.java | `TaskAllocationCoordinator`, `ConvergenceTrace` | 多卫星协调器；维护任务分配、全局任务键、任务-卫星 base score 与反馈 delta；编排跨卫星重分配的顶层触发、结果提交和刷新 best 后的完整校准；小规模任务默认立即校准，大规模中间校准只保留 interval/last 触发，末尾 final calibration 仍保留；记录正式卫星调度的 HybCec best-fitness 曲线供单父算法预算诊断使用；`autohyb.deterministic=true` 时仍使用卫星级并行评估，但每颗卫星只读取同一份 `SatelliteState` 快照，跑完后按 satellite id 固定顺序提交状态与收敛曲线，并按 satellite id 排序跨星模板 donor，避免线程完成顺序和 `ConcurrentHashMap` 遍历顺序影响复现实验；Phase 4 新增 sat state 池化、初始化 KNN 缓存、卫星池尺寸、自适应初始 ensemble 与校准 racing opt-in，默认均关闭或保持旧行为；候选目标星上下文构造下沉给 `TargetSatelliteSelector`，增量方案与试探移动评估下沉给 `AssignmentDeltaEvaluator`，重分配主循环下沉给 `ReassignmentOrchestrator`，替换/交换/任务束移动下沉给 `ReassignmentMoveEvaluator`，delta fast refine 下沉给 `DeltaFastRefiner`，排序仍由 `TargetSatelliteRanker` 完成 |
 
 ## 接口说明
 
@@ -48,6 +48,8 @@ public static EvaluationResult evaluationHyb(
 
 Seed 约定：统一使用 `stableSeed + runIndex + 8`。其中 `{4,1,0,0,0,0}` 在 ID1 基准预算下复用旧 8D `{4,1,0,0,0,0,1,0}` 的 stable seed，保证 6D 折叠后仍命中旧 8D 单轮复现实验 seed。
 
+评估约定：MFEA 搜索阶段只把优化后调度收益写入 run profit 和 best run，不再把初始化 assignment 的 baseline 方案作为兜底 fitness。
+
 ### RunSingleHybridConfig
 
 ```java
@@ -58,6 +60,8 @@ public static void main(String[] args)
 - `--record-baseline`：将当前运行结果写入默认基线文件 `outputs/run-single-baseline.properties`
 - `--baseline-file <path>`：覆盖默认基线路径
 - `-Dhybcec.insertionMode=<InsertionMode>`：覆盖本次评估链路使用的插入策略；默认 `GREEDY`
+- `DEFAULT_RANDOM_SEED_ID`：源码顶部 1-based 单次 seed id；默认 `1`，改成 `2/3/...` 可模拟多次运行中的第 2/3 次 seed；若 JVM 显式传入 `-Devaluation.runIndexBase=<long>`，则以 JVM 参数为准
+- `-Dautohyb.deterministic=true|false`：控制单配置复现实验模式；默认 `true`，会重置 `RandomProvider`，多卫星快照评估仍并行执行，但读取固定状态快照并按 satellite id 固定顺序提交结果；设为 `false` 可恢复旧并行路径
 - `--quiet`：隐藏 warmup 状态日志；最终混合配置、收益比例和耗时仍打印
 - `--log-interval=N`：控制逐代日志间隔，默认 1，保持旧输出频率
 - `-Dautohyb.generationLog=true|false`：控制 `TaskAllocationCoordinator` 内部 HybCec 是否打印 `[HybCecCurve]` 逐代曲线日志；默认 `false`
@@ -115,7 +119,7 @@ public List<Integer> rank(RankRequest request)
 - `ReplacementMoveEvaluator`：集中处理替换移动的可替换任务识别、一对一替换、批量移除替换和被挤出任务回传
 - `SwapMoveEvaluator`：集中处理交换移动的交换候选识别、接收星排序、2-3 星联动增量评估和成功反馈写回
 - `BundleMoveEvaluator`：集中处理任务束候选构建、共同目标星交集筛选、任务束试探分配和增量收益评估
-- `TaskAllocationModels`：保存迁移流程内部数据结构，包括已接受状态、候选工作状态、增量差异与试探移动结果，避免 `TaskAllocationCoordinator` 内部类继续膨胀
+- `TaskAllocationModels`：保存迁移流程内部数据结构，包括已接受状态、卫星并行评估结果、候选工作状态、增量差异与试探移动结果，避免 `TaskAllocationCoordinator` 内部类继续膨胀
 
 ### TaskAllocationCoordinator
 

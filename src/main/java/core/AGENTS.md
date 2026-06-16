@@ -10,7 +10,7 @@
 |------|------|------|------|
 | FitnessEvaluator.java | `FitnessEvaluator` | (根) | 外置适应度评估接口，供 HybCec 与测试/替代评估器解耦 |
 | HybCec.java | `HybCec`, `HybResult` | (根) | 主控制器，接收由 `main.EvaluationHyb` 解码后的 6D 纯语义 hybrid 配置，或由 `main.RunSingleParentConfig` 构造的 OA1-only 单算法运行配置，编排初始化→迭代→评估→结果返回的完整生命周期；`HybResult` 同步返回 best-fitness 曲线和对应 eval 计数 |
-| HybridLevelCalculator.java | `HybridLevelCalculator` | calculator | 有状态的混合级别计算器，封装 G2/G3 update policy 掩码生成、个体子集选择与校验逻辑 |
+| HybridLevelCalculator.java | `HybridLevelCalculator` | calculator | 有状态的混合级别计算器，封装 G2/G3 update policy 掩码生成、个体子集选择与校验逻辑；随机子集选择使用当前 HybCec 运行持有的 `Random`，不再读取静态 thread-local 随机源 |
 | AlgorithmIndex.java | `AlgorithmIndex` | config | 枚举，映射算法类型到 flagPar 数组索引；当前 6D 搜索只暴露 ID 0-10，ID 11-15 为实现库归档尾部 |
 | ConfigValidatable.java | `ConfigValidatable`, `ValidationResult`, `ValidationResultBuilder` | config | 配置参数校验接口与流式构建器 |
 | HybCecConfig.java | `HybCecConfig` | config | 配置序列化类，支持 Properties 文件读写；Phase D opt-in 参数带默认安全回退 |
@@ -19,7 +19,7 @@
 | CreditManager.java | `CreditManager` | manager | adaptive-credit 路由管理器，按滑动窗口记录 OA 收益 / evalCost，输出 OA1 路由概率 |
 | FitnessManager.java | `FitnessManager` | manager | 适应度评估与最优解更新，性能关键热路径 |
 | PopulationManager.java | `PopulationManager` | manager | 种群选择、准备与更新的完整生命周期管理（模块最大文件） |
-| PopulationResizer.java | `PopulationResizer` | manager | L-SHADE 线性种群缩减（LPSR）实现 |
+| PopulationResizer.java | `PopulationResizer` | manager | L-SHADE 线性种群缩减（LPSR）实现；archive 裁剪随机顺序使用当前 HybCec 运行持有的 `Random` |
 | HybCecState.java | `HybCecState` | state | 中央状态容器，管理种群、适应度、迭代、算法专用参数和算法工作区等全部运行时状态 |
 | StateKey.java | `StateKey` | state | 枚举，类型安全的状态键，替代魔法字符串 |
 | StateUpdater.java | `StateUpdater` | state | 状态更新接口，定义策略执行后的状态回写协议 |
@@ -53,6 +53,8 @@
 | `reSetParameters(int D, int newNPop)` | 种群规模变化时重置所有数据结构 |
 
 ### HybridLevelCalculator（有状态掩码计算器）
+
+构造器接收当前 HybCec 运行持有的 `Random`。`MIXED_SUBSET`、`RANDOM_DECAY` 和并行补集回退都使用该随机源，保证同一 seed 下可复现。
 
 | 方法 | 说明 |
 |------|------|
@@ -233,6 +235,8 @@ G5 survivor policy：
 
 含内部类 `ResizeResult`（字段：`needsParameterReset`, `newNPop`, `resizeResult`）。
 
+构造器接收当前 HybCec 运行持有的 `Random`，并传给 `ResizePop.resizePop()`。L-SHADE/SHADE archive 超容量裁剪因此随 run seed 复现。
+
 | 方法 | 说明 |
 |------|------|
 | `resizePopulation(int)` | L-SHADE LPSR 种群缩减，返回 ResizeResult |
@@ -281,11 +285,11 @@ G5 survivor policy：
 
 ### 模块内部依赖
 - `HybCec` → `HybCecState`, `HybCecConfigManager`, `CreditManager`, `PopulationResizer`, `FitnessManager`, `HybridLevelCalculator`, `PopulationManager`, `HybCecExecutionException`, `StateUpdater`
-- `HybridLevelCalculator` → `HybCecState`
+- `HybridLevelCalculator` → `HybCecState`, `java.util.Random`
 - `PopulationManager` → `HybCecState`, `HybCecConfigManager`, `PopulationResizer`, `HybridLevelCalculator`
 - `FitnessManager` → `HybCecState`
 - `CreditManager` → `java.util.ArrayDeque`
-- `PopulationResizer` → `HybCecState`, `HybCecConfigManager`
+- `PopulationResizer` → `HybCecState`, `HybCecConfigManager`, `java.util.Random`
 - `HybCecConfig` → `HybCec`, `ConfigValidatable`
 - `HybCecConfigManager` → `AlgorithmIndex`
 - `StateUpdater` → `StateKey`

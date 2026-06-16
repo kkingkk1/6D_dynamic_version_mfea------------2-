@@ -15,7 +15,7 @@
 | FastGaussian.java | `FastGaussian` | opt-in Gaussian 采样器；仅当 `autohyb.fastGaussian=true` 时由算法热路径调用，默认不影响 `Random.nextGaussian()` |
 | HybridInitial.java | `HybridInitial` | 当前 6D 纯语义全局混合配置初始化器，供外层 MFEA 自动设计生成初始种群，插入策略固定为 GREEDY |
 | RandomProvider.java | `RandomProvider` | 线程安全、确定性随机数提供器，固定种子(42)保证实验可复现 |
-| ResizePop.java | `ResizePop` | L-SHADE 风格线性种群缩减（LPSR），含外部存档按比例裁剪 |
+| ResizePop.java | `ResizePop` | L-SHADE 风格线性种群缩减（LPSR），含外部存档按比例裁剪；archive 裁剪随机顺序由调用方传入的 `Random` 控制 |
 | TuningConfig.java | `TuningConfig` | 统一参数调优配置读取工具；加载 `.properties` 配置文件，提供带默认值的 `getInt/getDouble/getBoolean/getLong/getString(key, default)` 与无默认值的 `getInt/getDouble/getBoolean/getLong/getString(key)`（未配置时抛异常）两组方法；加载优先级：配置文件 > System Property > 默认值/异常 |
 | TuningDefaults.java | `TuningDefaults` | 可调参数的硬编码默认值集中定义；纯常量类（`public final class`），所有字段均为 `public static final`；涵盖运行控制、重分配循环、迁移策略、候选排序、k_sat 权重、星内排序、高价值任务排序、Fast Refine、k_sat 反馈、热启动预算、Delta Fast Refine、Replacement/Swap/Bundle、TargetSatelliteRanker 低成本排序权重、固定 Top-K 默认值、CompositeStrategy 权重；不指定配置文件时各调用方使用这些常量作为回退默认值；当前默认值与 `tuning.properties` 的同名生效参数保持一致；`EVAL_KEY_PERTURB_THRESHOLD=1` 与 `EVAL_KEY_PERTURB_STRENGTH=0.02` 是 2026-05-17 GA 质量优先默认口径的一部分；`COORD_FAST_REFINE_ADJACENT_SWAP_ENABLED` 控制邻接交换默认开启；额外补充插入候选配置、delta fast refine eligibility guard 配置和卫星侧 `B_j` 排序配置已删除 |
 
@@ -159,7 +159,7 @@ G5 survivor policy：
 
 | 方法 | 说明 |
 |------|------|
-| `resizePop(List<double[]>, List<Double>, List<double[]>, List<Double>, ListArchive, int, int, int, int)` | L-SHADE 线性种群缩减，移除最差个体，按 1.4x 比例裁剪存档 |
+| `resizePop(List<double[]>, List<Double>, List<double[]>, List<Double>, ListArchive, int, int, int, int, Random)` | L-SHADE 线性种群缩减，移除最差个体，按 1.4x 比例裁剪存档；archive 超容量时用传入 `Random` 洗牌裁剪 |
 
 ### TuningConfig
 工具类（`public final class`，私有构造器）。
@@ -204,6 +204,6 @@ G5 survivor policy：
 - `FastGaussian` → `java.util.Random`
 - `HybridInitial` → `java.util.Random`, `src.common.RandomProvider`
 - `RandomProvider` → `java.util.Random`, `java.util.concurrent.atomic.AtomicLong`, `src.common.AlgorithmConstants`
-- `ResizePop` → `java.util.List`, `src.algorithm.shade.UpdateArchive`, `utils.FitnessUtils`
+- `ResizePop` → `java.util.List`, `java.util.Random`, `src.algorithm.shade.UpdateArchive`, `utils.FitnessUtils`
 - `TuningConfig` → `java.io.FileInputStream`, `java.util.Properties`（纯 JDK，无外部模块依赖）
 - `TuningDefaults` → 无外部依赖

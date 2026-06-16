@@ -32,6 +32,7 @@ public class RunSingleHybridConfig {
     static final String LOG_INTERVAL_PROPERTY = "autohyb.logInterval";
     static final String GENERATION_LOG_ENABLED_PROPERTY = "autohyb.generationLog.enabled";
     static final String GENERATION_LOG_PROPERTY = "autohyb.generationLog";
+    static final String DETERMINISTIC_PROPERTY = "autohyb.deterministic";
     private static final int MIN_HYB_THREADS = 2;
     private static final long EXECUTOR_SHUTDOWN_TIMEOUT_SECONDS = 30;
     private static final int CONFIG_DIMENSION = AlgorithmConstants.HYBRID_CONFIG_DIMENSION;
@@ -42,6 +43,8 @@ public class RunSingleHybridConfig {
     private static final int DEFAULT_NUM_TASKS = 500;
     private static final int DEFAULT_NUM_SATELLITES = 5;
     private static final int DEFAULT_N_RUN = 1;
+    /** 1-based seed id: 1, 2, 3... match the corresponding run in a multi-run experiment. */
+    private static final long DEFAULT_RANDOM_SEED_ID = 5L;
     private static final Path DEFAULT_BASELINE_FILE =
         Paths.get("outputs", "run-single-baseline.properties");
     private static final int SMALL_TASK_THRESHOLD = 500;
@@ -783,6 +786,8 @@ public class RunSingleHybridConfig {
         ExecutorService hybExecutor = null;
         try {
             RunArguments arguments = parseArgs(args);
+            enableDeterministicReplayIfUnset();
+            applyDefaultRandomSeedIdIfUnset();
             System.setProperty(
                 DELTA_FAST_REFINE_ENABLED_PROPERTY,
                 Boolean.toString(arguments.enableDeltaFastRefine)
@@ -890,6 +895,23 @@ public class RunSingleHybridConfig {
             System.exit(1);
         } finally {
             shutdownExecutor(hybExecutor, "hybExecutor");
+        }
+    }
+
+    private static void enableDeterministicReplayIfUnset() {
+        if (System.getProperty(DETERMINISTIC_PROPERTY) == null) {
+            System.setProperty(DETERMINISTIC_PROPERTY, Boolean.TRUE.toString());
+        }
+        if (Boolean.getBoolean(DETERMINISTIC_PROPERTY)) {
+            common.RandomProvider.reset();
+            common.RandomProvider.resetThreadCounter();
+        }
+    }
+
+    private static void applyDefaultRandomSeedIdIfUnset() {
+        if (System.getProperty("evaluation.runIndexBase") == null) {
+            long runIndexBase = Math.max(1L, DEFAULT_RANDOM_SEED_ID) - 1L;
+            System.setProperty("evaluation.runIndexBase", Long.toString(runIndexBase));
         }
     }
 }

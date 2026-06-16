@@ -88,6 +88,40 @@ class TaskAllocationCoordinatorMigrationTemplateRegressionTest {
     assertNull(coordinator.buildCrossSatelliteMigrationTemplateForTest(1, List.of(t1, t3)));
   }
 
+  @Test
+  void satelliteStateSnapshotIsDetachedFromLaterStateCommits() {
+    Task t1 = task(1);
+    Task t2 = task(2);
+    Satellite sat1 = satellite(1, List.of(t1, t2));
+    TaskAllocationCoordinator coordinator = new TaskAllocationCoordinator(
+      List.of(t1, t2),
+      List.of(sat1),
+      new MaxWindowCountStrategy(),
+      3,
+      2,
+      0.1
+    );
+
+    List<Task> firstOrder = List.of(t1, t2);
+    coordinator.updateSatelliteStateForTest(
+      1,
+      PlanUtils.encodePlan(new SchedulingPlan(firstOrder), firstOrder),
+      firstOrder,
+      new SchedulingPlan(firstOrder)
+    );
+    Map<Integer, SatelliteState> snapshot = coordinator.copySatelliteStatesForTest();
+
+    List<Task> secondOrder = List.of(t2, t1);
+    coordinator.updateSatelliteStateForTest(
+      1,
+      PlanUtils.encodePlan(new SchedulingPlan(secondOrder), secondOrder),
+      secondOrder,
+      new SchedulingPlan(secondOrder)
+    );
+
+    assertEquals(List.of(1, 2), taskIds(snapshot.get(1).orderedTasksSnapshot));
+  }
+
   private Task task(int id) {
     return new Task(id, id, id, 10 - id, 1);
   }

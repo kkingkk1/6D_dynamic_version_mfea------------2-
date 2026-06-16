@@ -392,8 +392,8 @@ public class HybCec implements StateUpdater {
     this.maxG = (maxItera - this.nPopInit) + 1;
 
     // Initialize the manager (needs to be done after setting maxPopSize, minPopSize, maxItera, and D)
-    this.populationResizer = new PopulationResizer(state, configManager, maxItera, 
-      maxPopSize, minPopSize);
+    this.populationResizer = new PopulationResizer(state, configManager, maxItera,
+      maxPopSize, minPopSize, rand);
     this.fitnessManager = new FitnessManager(state, D);
     this.creditManager = new CreditManager(AlgorithmConstants.CREDIT_ASSIGNMENT_WINDOW);
 
@@ -1291,7 +1291,7 @@ public class HybCec implements StateUpdater {
     state.setOLReal(oLReal);
     state.setHybLevel(Math.max(oLReal[0], oLReal[1]));
 
-    this.hybridLevelCalculator = new HybridLevelCalculator(state, D, oL, maxItera, oLRand, oO);
+    this.hybridLevelCalculator = new HybridLevelCalculator(state, D, oL, maxItera, oLRand, oO, rand);
 
     this.populationManager = new PopulationManager(
       state, configManager, populationResizer, hybridLevelCalculator,

@@ -6,6 +6,7 @@ import core.config.HybCecConfigManager;
 import core.state.HybCecState;
 import algorithm.shade.UpdateArchive;
 import algorithm.shade.SHADELoopBrief;
+import java.util.Random;
 /**
  * Population Size Adjuster
  * 
@@ -34,6 +35,9 @@ public class PopulationResizer {
 
   /** Minimum population size */
   private final int minPopSize;
+
+  /** Random source owned by the current HybCec run. */
+  private final Random rand;
 
   /**
    * Population Adjustment Results
@@ -97,7 +101,7 @@ public class PopulationResizer {
    * @throws IllegalArgumentException if any validation fails
    */
   public PopulationResizer(HybCecState state, HybCecConfigManager configManager,
-    int maxItera, int maxPopSize, int minPopSize) {
+    int maxItera, int maxPopSize, int minPopSize, Random rand) {
     if (state == null) {
       throw new IllegalArgumentException("state cannot be null");
     }
@@ -117,12 +121,16 @@ public class PopulationResizer {
       throw new IllegalArgumentException(
         "minPopSize (" + minPopSize + ") cannot be greater than maxPopSize (" + maxPopSize + ")");
     }
+    if (rand == null) {
+      throw new IllegalArgumentException("rand cannot be null");
+    }
 
     this.state = state;
     this.configManager = configManager;
     this.maxItera = maxItera;
     this.maxPopSize = maxPopSize;
     this.minPopSize = minPopSize;
+    this.rand = rand;
   }
 
   /**
@@ -169,7 +177,7 @@ public class PopulationResizer {
     ResizePop.ResizeResult resultResize = ResizePop.resizePop(
       state.getPop(), state.getPopFit(), state.getPbestSolution(), state.getPbestFit(),
       currentArchive,
-      state.getItera(), maxItera, maxPopSize, minPopSize);
+      state.getItera(), maxItera, maxPopSize, minPopSize, rand);
 
     int newNPop = resultResize.nPop;
     boolean needsReset = (newNPop != previousPopSize);
@@ -180,4 +188,3 @@ public class PopulationResizer {
     return new ResizeResult(needsReset, newNPop, resultResize);
   }
 }
-

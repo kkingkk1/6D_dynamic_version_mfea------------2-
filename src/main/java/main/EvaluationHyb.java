@@ -288,18 +288,6 @@ public class EvaluationHyb {
 
         java.util.Map<Integer, Integer> initialAssignment = buildInitialAssignment(allSatellites);
 
-        // Pre-compute baseline outside nRun loop: depends only on initialAssignment + insertionMode, not runSeed
-        java.util.List<Satellite> baselineSatellites = copySatellites(allSatellites);
-        java.util.Map<Integer, SchedulingPlan> baselinePlans = buildPlansFromAssignment(
-            baselineSatellites,
-            initialAssignment,
-            insertionMode
-        );
-        double baselineProfit = ENABLE_OPTIMAL_REEVAL
-            ? reevaluateTotalProfit(baselinePlans, baselineSatellites)
-            : sumPlanFitness(baselinePlans);
-        int baselineScheduledTaskCount = countScheduledTasks(baselinePlans, allTasks);
-
         java.util.List<Future<PerRunResult>> futures = new ArrayList<>();
 
         for (int perRun = 0; perRun < nRun; perRun++) {
@@ -348,11 +336,8 @@ public class EvaluationHyb {
                         optimizedAssignmentSnapshot = coordinator.getTaskAssignmentSnapshot();
                     }
 
-                    PerRunResult result = selectBetterPerRunResult(
+                    PerRunResult result = buildOptimizedPerRunResult(
                         runIndex,
-                        baselineProfit,
-                        baselineScheduledTaskCount,
-                        baselinePlans,
                         initialAssignment,
                         optimizedProfit,
                         optimizedScheduledTaskCount,
@@ -455,12 +440,9 @@ public class EvaluationHyb {
         );
     }
 
-    static PerRunResult selectBetterPerRunResult(
+    static PerRunResult buildOptimizedPerRunResult(
         int runIndex,
-        double baselineProfit,
-        int baselineScheduledTaskCount,
-        java.util.Map<Integer, SchedulingPlan> baselinePlans,
-        java.util.Map<Integer, Integer> baselineAssignmentSnapshot,
+        java.util.Map<Integer, Integer> initialAssignmentSnapshot,
         double optimizedProfit,
         int optimizedScheduledTaskCount,
         java.util.Map<Integer, SchedulingPlan> optimizedPlans,
@@ -470,18 +452,15 @@ public class EvaluationHyb {
         java.util.List<Integer> migrationCountHistory,
         java.util.List<Double> totalProfitHistory,
         long elapsedMillis) {
-        boolean useBaseline = baselineProfit >= optimizedProfit;
-        double finalProfit = useBaseline ? baselineProfit : optimizedProfit;
-        int finalScheduledTaskCount = useBaseline ? baselineScheduledTaskCount : optimizedScheduledTaskCount;
-        java.util.Map<Integer, SchedulingPlan> finalPlans = copyPlans(useBaseline ? baselinePlans : optimizedPlans);
-        java.util.Map<Integer, Integer> finalAssignment = new java.util.HashMap<>(
-            useBaseline ? baselineAssignmentSnapshot : optimizedAssignmentSnapshot
-        );
+        double finalProfit = optimizedProfit;
+        int finalScheduledTaskCount = optimizedScheduledTaskCount;
+        java.util.Map<Integer, SchedulingPlan> finalPlans = copyPlans(optimizedPlans);
+        java.util.Map<Integer, Integer> finalAssignment = new java.util.HashMap<>(optimizedAssignmentSnapshot);
         RunMetrics metrics = new RunMetrics(
             runIndex,
             finalProfit,
             finalScheduledTaskCount,
-            baselineAssignmentSnapshot.size(),
+            initialAssignmentSnapshot.size(),
             elapsedMillis,
             strategyHistory,
             unscheduledTaskCountHistory,
@@ -496,37 +475,6 @@ public class EvaluationHyb {
             finalAssignment,
             metrics
         );
-    }
-
-    static java.util.Map<Integer, SchedulingPlan> buildPlansFromAssignment(
-        java.util.List<Satellite> satellites,
-        java.util.Map<Integer, Integer> assignmentSnapshot,
-        operator.insertion.InsertionMode insertionMode) {
-        java.util.Map<Integer, SchedulingPlan> plans = new java.util.LinkedHashMap<>();
-        java.util.Map<Integer, java.util.List<Task>> groupedTasks = new java.util.LinkedHashMap<>();
-        for (Satellite satellite : satellites) {
-            groupedTasks.put(satellite.getId(), new ArrayList<>());
-        }
-        for (Satellite satellite : satellites) {
-            java.util.List<Task> assignedTasks = satellite.getAssignedTasks();
-            if (assignedTasks == null) {
-                continue;
-            }
-            for (Task task : assignedTasks) {
-                Integer assignedSatelliteId = assignmentSnapshot.get(task.getId());
-                if (assignedSatelliteId != null) {
-                    groupedTasks.computeIfAbsent(assignedSatelliteId, key -> new ArrayList<>()).add(task);
-                }
-            }
-        }
-        for (Satellite satellite : satellites) {
-            java.util.List<Task> taskSequence = groupedTasks.getOrDefault(satellite.getId(), new ArrayList<>());
-            SchedulingPlan plan = new SchedulingPlan(taskSequence);
-            double fitness = PlanUtils.evaluatePlan(plan, satellite, insertionMode);
-            plan.setFitness(fitness);
-            plans.put(satellite.getId(), plan);
-        }
-        return plans;
     }
 
     private static java.util.Map<Integer, Integer> buildInitialAssignment(List<Satellite> allSatellites) {

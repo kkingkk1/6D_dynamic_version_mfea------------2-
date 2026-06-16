@@ -594,6 +594,10 @@ public class TaskAllocationCoordinator {
     return buildCrossSatelliteMigrationTemplate(satelliteId, orderedTasks, satelliteStates);
   }
 
+  Map<Integer, SatelliteState> copySatelliteStatesForTest() {
+    return copySatelliteStates(satelliteStates);
+  }
+
   private void initializeGlobalKeys(long seed) {
     if (!globalTaskKeys.isEmpty()) {
       return;
@@ -1095,11 +1099,31 @@ public class TaskAllocationCoordinator {
     boolean refreshAnchorOnFallback,
     Map<Integer, SatelliteState> stateStore
   ) throws Exception {
+    return evaluateSingleSatellite(
+      satellite,
+      orderedTasks,
+      config,
+      commitState,
+      refreshAnchorOnFallback,
+      stateStore,
+      false
+    ).plan;
+  }
+
+  private SatelliteEvaluationResult evaluateSingleSatellite(
+    Satellite satellite,
+    List<Task> orderedTasks,
+    HybCecConfig config,
+    boolean commitState,
+    boolean refreshAnchorOnFallback,
+    Map<Integer, SatelliteState> stateStore,
+    boolean deferStateCommit
+  ) throws Exception {
     int dimension = orderedTasks.size();
     if (dimension <= 0) {
       SchedulingPlan emptyPlan = new SchedulingPlan(new ArrayList<>());
       emptyPlan.setFitness(0.0);
-      return emptyPlan;
+      return new SatelliteEvaluationResult(satellite.getId(), emptyPlan, null, Collections.emptyList());
     }
     // Mini-ensemble: run multiple times during initial full eval (commitState=true, no inherited state) and pick best
     int initialEnsembleSize = resolveInitialEnsembleSize(orderedTasks.size());
@@ -1109,6 +1133,7 @@ public class TaskAllocationCoordinator {
     double bestEnsembleFitness = Double.NEGATIVE_INFINITY;
     double[] bestEnsembleSolution = null;
     SchedulingPlan bestEnsemblePlan = null;
+    List<ConvergenceTrace> localTraces = deferStateCommit ? new ArrayList<>() : Collections.emptyList();
     for (int ensembleIdx = 0; ensembleIdx < ensembleRuns; ensembleIdx++) {
       long ensembleSeed = config.seed + satellite.getId() + ensembleIdx * ENSEMBLE_SEED_OFFSET;
       Random rand = RandomProvider.newWithSeed(ensembleSeed);
@@ -1147,7 +1172,21 @@ public class TaskAllocationCoordinator {
       hybCec.setTotalTaskCount(allTasks.size());
       hybCec.setDeltaPath(!commitState);
       HybCec.HybResult result = hybCec.run();
-      recordConvergenceTrace(satellite.getId(), ensembleIdx, effectiveMaxFes, commitState, result);
+      if (deferStateCommit) {
+        ConvergenceTrace trace = buildConvergenceTrace(
+          -1,
+          satellite.getId(),
+          ensembleIdx,
+          effectiveMaxFes,
+          commitState,
+          result
+        );
+        if (trace != null) {
+          localTraces.add(trace);
+        }
+      } else {
+        recordConvergenceTrace(satellite.getId(), ensembleIdx, effectiveMaxFes, commitState, result);
+      }
       double[] solution = result.getGbestSolution();
       if (solution == null) {
         continue;
@@ -1164,16 +1203,20 @@ public class TaskAllocationCoordinator {
     if (bestEnsembleSolution == null) {
       SchedulingPlan emptyPlan = new SchedulingPlan(new ArrayList<>());
       emptyPlan.setFitness(0.0);
-      return emptyPlan;
+      return new SatelliteEvaluationResult(satellite.getId(), emptyPlan, null, localTraces);
     }
     if (useEnsemble) {
       // Re-materialize best plan to ensure satellite state consistency
       materializePlanSchedule(bestEnsemblePlan, satellite, config.insertionMode);
     }
     if (commitState || refreshAnchorOnFallback) {
-      updateSatelliteState(satellite.getId(), bestEnsembleSolution, orderedTasks, bestEnsemblePlan, stateStore);
+      SatelliteState newState = new SatelliteState(bestEnsembleSolution, orderedTasks, bestEnsemblePlan);
+      if (deferStateCommit) {
+        return new SatelliteEvaluationResult(satellite.getId(), bestEnsemblePlan, newState, localTraces);
+      }
+      updateSatelliteState(satellite.getId(), newState, stateStore);
     }
-    return bestEnsemblePlan;
+    return new SatelliteEvaluationResult(satellite.getId(), bestEnsemblePlan, null, localTraces);
   }
 
   private void recordConvergenceTrace(
@@ -1183,21 +1226,54 @@ public class TaskAllocationCoordinator {
     boolean commitState,
     HybCec.HybResult result
   ) {
-    if (!commitState || result == null || result.getBestFitRecord() == null) {
-      return;
-    }
+    ConvergenceTrace trace = buildConvergenceTrace(
+      -1,
+      satelliteId,
+      ensembleIndex,
+      maxFes,
+      commitState,
+      result
+    );
+    if (trace == null) return;
     synchronized (convergenceTraces) {
-      convergenceTraces.add(new ConvergenceTrace(
-        convergenceTraceCounter++,
-        satelliteId,
-        ensembleIndex,
-        maxFes,
-        result.getGen(),
-        commitState,
-        result.getBestFitRecord(),
-        result.getEvalRecord()
-      ));
+      appendConvergenceTrace(trace);
     }
+  }
+
+  private ConvergenceTrace buildConvergenceTrace(
+    int traceIndex,
+    int satelliteId,
+    int ensembleIndex,
+    int maxFes,
+    boolean commitState,
+    HybCec.HybResult result
+  ) {
+    if (!commitState || result == null || result.getBestFitRecord() == null) {
+      return null;
+    }
+    return new ConvergenceTrace(
+      traceIndex,
+      satelliteId,
+      ensembleIndex,
+      maxFes,
+      result.getGen(),
+      commitState,
+      result.getBestFitRecord(),
+      result.getEvalRecord()
+    );
+  }
+
+  private void appendConvergenceTrace(ConvergenceTrace trace) {
+    convergenceTraces.add(new ConvergenceTrace(
+      convergenceTraceCounter++,
+      trace.satelliteId,
+      trace.ensembleIndex,
+      trace.maxFes,
+      trace.genUsed,
+      trace.commitState,
+      trace.bestFitnessByGeneration,
+      trace.evalsByGeneration
+    ));
   }
 
   private int resolveInitialEnsembleSize(int assignedTaskCount) {
@@ -1335,13 +1411,16 @@ public class TaskAllocationCoordinator {
 
     List<Task> bestSharedTemplate = null;
     int bestSharedCount = 0;
-    for (Map.Entry<Integer, SatelliteState> entry : stateStore.entrySet()) {
-      if (entry.getKey() == satelliteId || entry.getValue() == null || entry.getValue().orderedTasksSnapshot == null) {
+    List<Integer> donorSatelliteIds = new ArrayList<>(stateStore.keySet());
+    Collections.sort(donorSatelliteIds);
+    for (Integer donorSatelliteId : donorSatelliteIds) {
+      SatelliteState donorState = stateStore.get(donorSatelliteId);
+      if (donorSatelliteId == satelliteId || donorState == null || donorState.orderedTasksSnapshot == null) {
         continue;
       }
       List<Task> sharedTemplate = new ArrayList<>();
       Set<Integer> seenSharedTaskIds = new LinkedHashSet<>();
-      for (Task donorTask : entry.getValue().orderedTasksSnapshot) {
+      for (Task donorTask : donorState.orderedTasksSnapshot) {
         Task mappedTask = currentTasksById.get(donorTask.getId());
         if (mappedTask != null && seenSharedTaskIds.add(mappedTask.getId())) {
           sharedTemplate.add(mappedTask);
@@ -1452,7 +1531,21 @@ public class TaskAllocationCoordinator {
   }
 
   private void updateSatelliteState(int satelliteId, double[] bestSolution, List<Task> orderedTasks, SchedulingPlan bestPlan) {
-    updateSatelliteState(satelliteId, bestSolution, orderedTasks, bestPlan, satelliteStates);
+    updateSatelliteState(satelliteId, new SatelliteState(bestSolution, orderedTasks, bestPlan), satelliteStates);
+  }
+
+  private void updateSatelliteState(int satelliteId, SatelliteState state, Map<Integer, SatelliteState> stateStore) {
+    if (state == null) {
+      return;
+    }
+    if (Boolean.getBoolean(SATELLITE_STATE_POOL_PROPERTY)) {
+      SatelliteState existing = stateStore.get(satelliteId);
+      if (existing != null) {
+        existing.reset(state.bestSolution, state.orderedTasksSnapshot, state.bestPlan);
+        return;
+      }
+    }
+    stateStore.put(satelliteId, state.copy());
   }
 
   private void updateSatelliteState(
@@ -1462,14 +1555,7 @@ public class TaskAllocationCoordinator {
     SchedulingPlan bestPlan,
     Map<Integer, SatelliteState> stateStore
   ) {
-    if (Boolean.getBoolean(SATELLITE_STATE_POOL_PROPERTY)) {
-      SatelliteState existing = stateStore.get(satelliteId);
-      if (existing != null) {
-        existing.reset(bestSolution, orderedTasks, bestPlan);
-        return;
-      }
-    }
-    stateStore.put(satelliteId, new SatelliteState(bestSolution, orderedTasks, bestPlan));
+    updateSatelliteState(satelliteId, new SatelliteState(bestSolution, orderedTasks, bestPlan), stateStore);
   }
 
   private void injectRealBaselineIndividual(
@@ -1592,19 +1678,39 @@ public class TaskAllocationCoordinator {
         precomputedOrderedTasks.put(sat.getId(),
             getOrderedTasksForSatellite(sat.getId(), assignmentSnapshot));
       }
+      boolean deterministic = Boolean.getBoolean(RunSingleHybridConfig.DETERMINISTIC_PROPERTY);
+      Map<Integer, SatelliteState> readOnlyStateSnapshot = deterministic
+        ? copySatelliteStates(satelliteStates)
+        : satelliteStates;
       // Parallel satellite evaluation: each satellite's HybCec is independent.
       // Uses dedicated SATELLITE_POOL to avoid thread-pool starvation
       // with HybCec's internal parallelStream (common ForkJoinPool).
-      plans = new ConcurrentHashMap<>();
+      Map<Integer, SchedulingPlan> parallelPlans = new ConcurrentHashMap<>();
+      Map<Integer, SatelliteEvaluationResult> deterministicResults = deterministic
+        ? new ConcurrentHashMap<>()
+        : Collections.emptyMap();
       CompletableFuture<?>[] futures = new CompletableFuture[satellites.size()];
       for (int i = 0; i < satellites.size(); i++) {
         Satellite sat = satellites.get(i);
         List<Task> orderedTasks = precomputedOrderedTasks.get(sat.getId());
-        final Map<Integer, SchedulingPlan> target = plans;
         futures[i] = CompletableFuture.runAsync(() -> {
           try {
-            SchedulingPlan plan = scheduleSingleSatellite(sat, orderedTasks, config);
-            target.put(sat.getId(), plan);
+            if (deterministic) {
+              SatelliteEvaluationResult result = evaluateSingleSatellite(
+                sat,
+                orderedTasks,
+                config,
+                true,
+                false,
+                readOnlyStateSnapshot,
+                true
+              );
+              deterministicResults.put(sat.getId(), result);
+              parallelPlans.put(sat.getId(), result.plan);
+            } else {
+              SchedulingPlan plan = scheduleSingleSatellite(sat, orderedTasks, config);
+              parallelPlans.put(sat.getId(), plan);
+            }
           } catch (Exception e) {
             throw new CompletionException(e);
           }
@@ -1619,8 +1725,49 @@ public class TaskAllocationCoordinator {
         }
         throw new RuntimeException(cause);
       }
+      if (deterministic) {
+        plans = newSatelliteIdMap();
+        List<Integer> sortedSatelliteIds = sortedSatelliteIds();
+        for (Integer satelliteId : sortedSatelliteIds) {
+          SatelliteEvaluationResult result = deterministicResults.get(satelliteId);
+          if (result == null) {
+            continue;
+          }
+          plans.put(satelliteId, result.plan);
+          updateSatelliteState(satelliteId, result.state, satelliteStates);
+          synchronized (convergenceTraces) {
+            for (ConvergenceTrace trace : result.traces) {
+              appendConvergenceTrace(trace);
+            }
+          }
+        }
+      } else {
+        plans = parallelPlans;
+      }
     }
     return assignmentDeltaEvaluator.materializePlans(plans, assignmentSnapshot, config.insertionMode);
+  }
+
+  private Map<Integer, SatelliteState> copySatelliteStates(Map<Integer, SatelliteState> source) {
+    Map<Integer, SatelliteState> snapshot = newSatelliteIdMap();
+    List<Integer> satelliteIds = new ArrayList<>(source.keySet());
+    Collections.sort(satelliteIds);
+    for (Integer satelliteId : satelliteIds) {
+      SatelliteState state = source.get(satelliteId);
+      if (state != null) {
+        snapshot.put(satelliteId, state.copy());
+      }
+    }
+    return snapshot;
+  }
+
+  private List<Integer> sortedSatelliteIds() {
+    List<Integer> satelliteIds = new ArrayList<>(satellites.size());
+    for (Satellite satellite : satellites) {
+      satelliteIds.add(satellite.getId());
+    }
+    Collections.sort(satelliteIds);
+    return satelliteIds;
   }
 
   private TrialMoveResult evaluateTrialMove(

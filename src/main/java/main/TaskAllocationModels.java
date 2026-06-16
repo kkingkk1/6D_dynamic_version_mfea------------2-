@@ -18,10 +18,33 @@ final class SatelliteState {
     reset(bestSolution, orderedTasks, bestPlan);
   }
 
+  SatelliteState copy() {
+    return new SatelliteState(bestSolution, orderedTasksSnapshot, bestPlan);
+  }
+
   void reset(double[] bestSolution, List<Task> orderedTasks, SchedulingPlan bestPlan) {
     this.bestSolution = java.util.Arrays.copyOf(bestSolution, bestSolution.length);
     this.orderedTasksSnapshot = new ArrayList<>(orderedTasks);
     this.bestPlan = bestPlan != null ? bestPlan.copy() : null;
+  }
+}
+
+final class SatelliteEvaluationResult {
+  final int satelliteId;
+  final SchedulingPlan plan;
+  final SatelliteState state;
+  final List<TaskAllocationCoordinator.ConvergenceTrace> traces;
+
+  SatelliteEvaluationResult(
+    int satelliteId,
+    SchedulingPlan plan,
+    SatelliteState state,
+    List<TaskAllocationCoordinator.ConvergenceTrace> traces
+  ) {
+    this.satelliteId = satelliteId;
+    this.plan = plan;
+    this.state = state;
+    this.traces = traces;
   }
 }
 

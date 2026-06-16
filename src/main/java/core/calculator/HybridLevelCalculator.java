@@ -1,7 +1,6 @@
 package core.calculator;
 
 import common.AlgorithmConstants;
-import common.RandomProvider;
 import core.state.HybCecState;
 import java.util.Arrays;
 import java.util.List;
@@ -32,18 +31,6 @@ public class HybridLevelCalculator {
   /** Operation Algorithm 2 index */
   private static final int INDEX_OA2 = 1;
 
-  /** Thread-safe random number generator - each thread gets unique seed */
-  private static final ThreadLocal<Random> rand = ThreadLocal.withInitial(() ->
-    RandomProvider.getThreadLocal()
-  );
-
-  /**
-   * Get the thread-local Random instance.
-   */
-  private static Random getRandom() {
-    return rand.get();
-  }
-
   /** State Manager Reference */
   private final HybCecState state;
 
@@ -62,17 +49,24 @@ public class HybridLevelCalculator {
   /** Operation order */
   private final int oO;
 
+  /** Random source owned by the current HybCec run. */
+  private final Random rand;
+
   /**
    * Construct hybrid level calculator
    */
   public HybridLevelCalculator(HybCecState state, int D,
-    int[] oL, int maxItera, int oLRand, int oO) {
+    int[] oL, int maxItera, int oLRand, int oO, Random rand) {
+    if (rand == null) {
+      throw new IllegalArgumentException("rand cannot be null");
+    }
     this.state = state;
     this.D = D;
     this.oL = oL;
     this.maxItera = maxItera;
     this.oLRand = oLRand;
     this.oO = oO;
+    this.rand = rand;
   }
 
   // ==========================================================
@@ -209,7 +203,7 @@ public class HybridLevelCalculator {
     if (randomCount <= 0) {
       return;
     }
-    Random random = getRandom();
+    Random random = rand;
     int selected = 0;
     int guard = 0;
     while (selected < randomCount && guard < nPop * 4) {
@@ -233,7 +227,7 @@ public class HybridLevelCalculator {
       sortBuf = new Integer[nPop];
     }
     for (int i = 0; i < nPop; i++) sortBuf[i] = i;
-    Random random = getRandom();
+    Random random = rand;
     for (int i = 0; i < numToSelect; i++) {
       int swapIndex = i + random.nextInt(nPop - i);
       Integer temp = sortBuf[i];
@@ -486,7 +480,7 @@ public class HybridLevelCalculator {
         if (!hasAnyTrueInMask(resUnitMask1) && nPop > 0) {
           // Fallback: OA1 selected everything, randomly select one for OA2
           clearMask(unitMask2);
-          Arrays.fill(unitMask2.get(getRandom().nextInt(nPop)), true);
+          Arrays.fill(unitMask2.get(rand.nextInt(nPop)), true);
         } else {
           copyMask(resUnitMask1, unitMask2);
         }

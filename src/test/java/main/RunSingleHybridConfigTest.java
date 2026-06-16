@@ -42,6 +42,32 @@ class RunSingleHybridConfigTest {
   }
 
   @Test
+  void defaultRandomSeedIdIsOneBasedAndMapsToRunIndexBase() throws Exception {
+    String previous = System.getProperty("evaluation.runIndexBase");
+    System.clearProperty("evaluation.runIndexBase");
+    try {
+      Field defaultSeedId = RunSingleHybridConfig.class.getDeclaredField("DEFAULT_RANDOM_SEED_ID");
+      defaultSeedId.setAccessible(true);
+      long seedId = (long) defaultSeedId.get(null);
+
+      Method applySeedId = RunSingleHybridConfig.class.getDeclaredMethod("applyDefaultRandomSeedIdIfUnset");
+      applySeedId.setAccessible(true);
+      applySeedId.invoke(null);
+
+      assertEquals(
+        Long.toString(Math.max(1L, seedId) - 1L),
+        System.getProperty("evaluation.runIndexBase")
+      );
+    } finally {
+      if (previous == null) {
+        System.clearProperty("evaluation.runIndexBase");
+      } else {
+        System.setProperty("evaluation.runIndexBase", previous);
+      }
+    }
+  }
+
+  @Test
   void normalizeHybridConfigRejectsNonSixDimensionalInputs() {
     int[][] invalidConfigs = {
       {4, 1, 0, 0, 0, 0, 1},
