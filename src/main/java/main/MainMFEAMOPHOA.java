@@ -8,7 +8,6 @@ import common.RandomProvider;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -180,8 +179,7 @@ public class MainMFEAMOPHOA {
    * @param n Total number of positions
    * @return Array of randomly selected mutation point indices
    */
-  private static int[] generateMutationPoints(int n) {
-    ThreadLocalRandom rand = ThreadLocalRandom.current();
+  private static int[] generateMutationPoints(int n, Random rand) {
     int numMutation = rand.nextInt(n) + 1;
     int[] mutationPoints = new int[numMutation];
     int[] indices = new int[n];
@@ -203,8 +201,7 @@ public class MainMFEAMOPHOA {
    *
    * @param array Array to shuffle
    */
-  private static void shuffleArray(int[] array) {
-    ThreadLocalRandom rand = ThreadLocalRandom.current();
+  private static void shuffleArray(int[] array, Random rand) {
     for (int i = array.length - 1; i > 0; i--) {
       int j = rand.nextInt(i + 1);
       int temp = array[i];
@@ -679,6 +676,7 @@ public class MainMFEAMOPHOA {
     int[][] popMerge = new int[mergeSize][];
     double[] popFitMerge = new double[mergeSize];
     int[] sortIndices = new int[mergeSize];
+    Random outerRand = RandomProvider.newWithSeed(AlgorithmConstants.FIXED_RANDOM_SEED_LONG);
 
     System.out.println("\n========================================================");
     System.out.println("Start global 6D MFEA optimization");
@@ -690,7 +688,7 @@ public class MainMFEAMOPHOA {
       for (int i = 0; i < nPopHyb; i++) {
         parentIndices[i] = i;
       }
-      shuffleArray(parentIndices);
+      shuffleArray(parentIndices, outerRand);
 
       for (int i = 0; i < nPopHyb; i += 2) {
         int parentIndex1 = parentIndices[i];
@@ -700,10 +698,10 @@ public class MainMFEAMOPHOA {
           int parentIndex2 = parentIndices[i + 1];
           int[] son2;
 
-          if (ThreadLocalRandom.current().nextDouble() < crossRate) {
+          if (outerRand.nextDouble() < crossRate) {
             int[] parent1 = pop[parentIndex1];
             int[] parent2 = pop[parentIndex2];
-            int crossPoint = ThreadLocalRandom.current().nextInt(n - 1) + 1;
+            int crossPoint = outerRand.nextInt(n - 1) + 1;
 
             son1 = new int[n];
             son2 = new int[n];
@@ -714,14 +712,14 @@ public class MainMFEAMOPHOA {
             System.arraycopy(parent1, crossPoint, son2, crossPoint, n - crossPoint);
 
             if (son1[0] == son1[1]) {
-              son1[1] = (son1[0] + 1 + ThreadLocalRandom.current().nextInt(nPar - 1)) % nPar;
+              son1[1] = (son1[0] + 1 + outerRand.nextInt(nPar - 1)) % nPar;
             }
 
             if (son2[0] == son2[1]) {
-              son2[1] = (son2[0] + 1 + ThreadLocalRandom.current().nextInt(nPar - 1)) % nPar;
+              son2[1] = (son2[0] + 1 + outerRand.nextInt(nPar - 1)) % nPar;
             }
           } else {
-            int[] mutationPoints = generateMutationPoints(n);
+            int[] mutationPoints = generateMutationPoints(n, outerRand);
             son1 = MutationHyb.mutationHyb(
               pop[parentIndex1], mutationPoints, nPar, nOL, nOO, nSS
             );
@@ -732,7 +730,7 @@ public class MainMFEAMOPHOA {
           newPop[i] = son1;
           newPop[i + 1] = son2;
         } else {
-          int[] mutationPoints = generateMutationPoints(n);
+          int[] mutationPoints = generateMutationPoints(n, outerRand);
           son1 = MutationHyb.mutationHyb(
             pop[parentIndex1], mutationPoints, nPar, nOL, nOO, nSS
           );

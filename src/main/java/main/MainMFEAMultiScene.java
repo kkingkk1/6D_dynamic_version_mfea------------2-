@@ -7,7 +7,6 @@ import common.RandomProvider;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import model.Satellite;
@@ -220,33 +219,34 @@ public class MainMFEAMultiScene {
       int[][] popMerge = new int[mergeSize][];
       double[] popFitMerge = new double[mergeSize];
       int[] sortIndices = new int[mergeSize];
+      Random outerRand = RandomProvider.newWithSeed(AlgorithmConstants.FIXED_RANDOM_SEED_LONG);
       for (int g = 0; g < gMax; g++) {
         long genStart = System.currentTimeMillis();
 
         for (int i = 0; i < nPopHyb; i++) parentIndices[i] = i;
-        shuffleArray(parentIndices);
+        shuffleArray(parentIndices, outerRand);
 
         for (int i = 0; i < nPopHyb; i += 2) {
           int p1 = parentIndices[i];
           if (i + 1 < nPopHyb) {
             int p2 = parentIndices[i + 1];
-            if (ThreadLocalRandom.current().nextDouble() < crossRate) {
-              int cp = ThreadLocalRandom.current().nextInt(n - 1) + 1;
+            if (outerRand.nextDouble() < crossRate) {
+              int cp = outerRand.nextInt(n - 1) + 1;
               int[] s1 = new int[n], s2 = new int[n];
               System.arraycopy(pop[p1], 0, s1, 0, cp);
               System.arraycopy(pop[p2], cp, s1, cp, n - cp);
               System.arraycopy(pop[p2], 0, s2, 0, cp);
               System.arraycopy(pop[p1], cp, s2, cp, n - cp);
-              if (s1[0] == s1[1]) s1[1] = (s1[0] + 1 + ThreadLocalRandom.current().nextInt(nPar - 1)) % nPar;
-              if (s2[0] == s2[1]) s2[1] = (s2[0] + 1 + ThreadLocalRandom.current().nextInt(nPar - 1)) % nPar;
+              if (s1[0] == s1[1]) s1[1] = (s1[0] + 1 + outerRand.nextInt(nPar - 1)) % nPar;
+              if (s2[0] == s2[1]) s2[1] = (s2[0] + 1 + outerRand.nextInt(nPar - 1)) % nPar;
               newPop[i] = s1;
               newPop[i + 1] = s2;
             } else {
-              newPop[i] = MutationHyb.mutationHyb(pop[p1], generateMutationPoints(n), nPar, nOL, nOO, nSS);
-              newPop[i + 1] = MutationHyb.mutationHyb(pop[p2], generateMutationPoints(n), nPar, nOL, nOO, nSS);
+              newPop[i] = MutationHyb.mutationHyb(pop[p1], generateMutationPoints(n, outerRand), nPar, nOL, nOO, nSS);
+              newPop[i + 1] = MutationHyb.mutationHyb(pop[p2], generateMutationPoints(n, outerRand), nPar, nOL, nOO, nSS);
             }
           } else {
-            newPop[i] = MutationHyb.mutationHyb(pop[p1], generateMutationPoints(n), nPar, nOL, nOO, nSS);
+            newPop[i] = MutationHyb.mutationHyb(pop[p1], generateMutationPoints(n, outerRand), nPar, nOL, nOO, nSS);
           }
         }
 
@@ -274,8 +274,9 @@ public class MainMFEAMultiScene {
         }
 
         double genTime = (System.currentTimeMillis() - genStart) / 1000.0;
-        System.out.printf("[MultiScene][Gen %d/%d] bestFitness=%.6f, genBest=%.6f, time=%.1fs%n",
-            g + 1, gMax, bestFitness, popFit[0], genTime);
+        System.out.printf(
+            "[MultiScene][Gen %d/%d] bestFitness=%.6f, genBest=%.6f, bestConfig=%s, time=%.1fs%n",
+            g + 1, gMax, bestFitness, popFit[0], Arrays.toString(bestSolution), genTime);
       }
 
       System.out.printf("%n========================================%n");
@@ -309,17 +310,17 @@ public class MainMFEAMultiScene {
     }
   }
 
-  private static int[] generateMutationPoints(int n) {
+  private static int[] generateMutationPoints(int n, Random rand) {
     int[] points = new int[n];
     for (int i = 0; i < n; i++) {
-      points[i] = ThreadLocalRandom.current().nextInt(2);
+      points[i] = rand.nextInt(2);
     }
     return points;
   }
 
-  private static void shuffleArray(int[] array) {
+  private static void shuffleArray(int[] array, Random rand) {
     for (int i = array.length - 1; i > 0; i--) {
-      int j = ThreadLocalRandom.current().nextInt(i + 1);
+      int j = rand.nextInt(i + 1);
       int temp = array[i];
       array[i] = array[j];
       array[j] = temp;
