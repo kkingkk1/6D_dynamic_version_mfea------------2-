@@ -17,14 +17,14 @@ import org.junit.jupiter.api.Test;
 class RunSingleHybridConfigTest {
 
   @Test
-  void defaultConfigUsesCurrentBaselineVector() throws Exception {
+  void defaultConfigUsesCurrentAutoDesignedVector() throws Exception {
     Field defaultConfig = RunSingleHybridConfig.class.getDeclaredField("DEFAULT_CONFIG");
     defaultConfig.setAccessible(true);
 
     assertArrayEquals(
       new int[] {
-        AlgorithmConstants.ALGORITHM_INDEX_DE_RAND_1,
-        AlgorithmConstants.ALGORITHM_INDEX_PSO,
+        AlgorithmConstants.ALGORITHM_INDEX_LSHADE,
+        AlgorithmConstants.ALGORITHM_INDEX_EDA,
         AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
         AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
         AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL,

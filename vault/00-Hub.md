@@ -8,7 +8,7 @@ tags:
   - satellite-scheduling
   - metaheuristic
   - optimization
-updated: 2026-05-28
+updated: 2026-06-01
 ---
 
 # 6D 动态卫星调度混合元启发式项目
@@ -48,4 +48,5 @@ main → core → strategy → algorithm → operator → common → model/utils
 
 - `Plan/`：新的 MFEA 搜索计划和测试方案。
 - `Knowledge/`：架构、代码库概览、来源清单、已删除机制与防回退边界。
+- `Writing/`：论文草稿和写作材料。
 - `Daily/`：后续 MFEA 研究记录。

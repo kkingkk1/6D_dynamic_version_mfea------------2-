@@ -1,6 +1,6 @@
 # 6D pure-semantic dynamic version 全局地图
 
-> 最后更新：2026-05-28
+> 最后更新：2026-06-16
 
 ## 项目概述
 
@@ -55,6 +55,11 @@
 ```text
 6D_dynamic_version_mfea/
 ├── pom.xml / tuning.properties
+├── vault/
+│   ├── Plan/          ← MFEA 搜索计划和测试方案
+│   ├── Results/       ← 完整实验报告和结果表
+│   ├── Knowledge/     ← 架构、来源清单和防回退知识
+│   └── Writing/       ← 论文草稿和写作材料
 ├── src/main/java/
 │   ├── main/          ← 入口与全局协调层（详见本文件「关键入口」）
 │   ├── core/          ← 混合优化核心引擎（详见 core/AGENTS.md）

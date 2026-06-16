@@ -52,10 +52,10 @@ public class RunSingleHybridConfig {
     private static final int[] DEFAULT_CONFIG = {9, 2, 0, 0, 0, 0};
     private static final int SMALL_TASK_ASSIGNMENT_STRATEGY = 7;
     private static final int LARGE_TASK_ASSIGNMENT_STRATEGY = 8;
-    //private static final String DEFAULT_DATA_DIR =
-    //    "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-0-0-24";
     private static final String DEFAULT_DATA_DIR =
-        "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-1-0-24";
+        "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-0-0-24";
+    //private static final String DEFAULT_DATA_DIR =
+    //    "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-1-0-24";
     //private static final String DEFAULT_DATA_DIR =
     //    "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\1000-10-0-0-12";
     //private static final String DEFAULT_DATA_DIR =
@@ -349,7 +349,7 @@ public class RunSingleHybridConfig {
         System.out.println("  --record-baseline  Write current result as performance baseline");
         System.out.println("  --record-elite-archive  Append current config into the instance-scoped elite archive");
         System.out.println("  --baseline-file <path>  Override baseline file path (default: outputs/run-single-baseline.properties)");
-        System.out.println("  --quiet  Suppress detailed run and adjacent-swap logs; final metrics remain printed");
+        System.out.println("  --quiet  Suppress warmup status logs; compact final metrics remain printed");
         System.out.println("  --log-interval=N  Print generation logs every N generations (default: 1)");
         System.out.println("  --warmup-runs=N  Run N short warmup evaluations before measured timing (default: 0)");
         System.out.println("VSCode direct run: edit DEFAULT_ENABLE_DELTA_FAST_REFINE / DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET in source, then run without args.");
@@ -735,16 +735,10 @@ public class RunSingleHybridConfig {
         System.out.printf("[Baseline] Recorded baseline to %s%n", baselineFile.toAbsolutePath());
     }
 
-    private static void printCompactSummary(
-        int totalTaskCount,
-        int assignedTaskCount,
-        double totalPossibleFitness,
-        ProfitSummary profitSummary,
-        long elapsedMillis) {
-        System.out.printf(
-            "Optimized profit ratio: %.2f%%%n",
-            calculatePercentage(profitSummary.optimizedProfit, totalPossibleFitness));
-        System.out.printf("Elapsed: %.2f s%n", elapsedMillis / 1000.0);
+    private static void printCompactSummary(RunArguments arguments, RunSummary runSummary) {
+        System.out.println("Hybrid config: " + configToCsv(arguments.config));
+        System.out.printf("Optimized profit ratio: %.2f%%%n", runSummary.profitRatio);
+        System.out.printf("Elapsed: %.2f s%n", runSummary.elapsedMillis / 1000.0);
     }
 
     static String buildBudgetSummary(
@@ -771,68 +765,6 @@ public class RunSingleHybridConfig {
             maxFes,
             maxFesSource
         );
-    }
-
-    private static void printAverageSummary(
-        EvaluationHyb.EvaluationResult result,
-        int totalTaskCount,
-        long wallClockMillis,
-        int nRun) {
-        double avgMillis = (double) wallClockMillis / nRun;
-        double avgScheduledTaskCount = result.runMetrics.stream()
-            .filter(metric -> metric != null)
-            .mapToInt(metric -> metric.scheduledTaskCount)
-            .average()
-            .orElse(0.0);
-        int bestRunScheduledTaskCount = result.bestRunIndex >= 0
-            && result.bestRunIndex < result.runMetrics.size()
-            && result.runMetrics.get(result.bestRunIndex) != null
-                ? result.runMetrics.get(result.bestRunIndex).scheduledTaskCount
-                : 0;
-        System.out.println("================ Multi-Run Summary ================");
-        System.out.printf("Avg profit: %.2f%n", result.meanProfit);
-        System.out.printf("Best profit: %.2f%n", result.bestRunProfit);
-        System.out.printf("Avg scheduled tasks: %.2f / %d%n", avgScheduledTaskCount, totalTaskCount);
-        System.out.printf("Best-run scheduled tasks: %d / %d%n", bestRunScheduledTaskCount, totalTaskCount);
-        System.out.printf("Wall clock: %.2f s%n", wallClockMillis / 1000.0);
-        System.out.printf("Avg elapsed (wall / nRun): %.2f s%n", avgMillis / 1000.0);
-        System.out.println("====================================================");
-    }
-
-    private static void printPerRunDetails(EvaluationHyb.EvaluationResult result, int totalTaskCount) {
-        System.out.println("================ Per-Run Details ================");
-        for (int i = 0; i < result.runProfits.length; i++) {
-            EvaluationHyb.RunMetrics metric = i < result.runMetrics.size()
-                ? result.runMetrics.get(i)
-                : null;
-            int scheduledTaskCount = metric != null ? metric.scheduledTaskCount : 0;
-            double elapsedSeconds = metric != null ? metric.elapsedMillis / 1000.0 : 0.0;
-            System.out.printf(
-                "Run %d profit: %.2f | scheduled tasks: %d / %d | elapsed: %.2f s%n",
-                i + 1,
-                result.runProfits[i],
-                scheduledTaskCount,
-                totalTaskCount,
-                elapsedSeconds
-            );
-        }
-        System.out.println("=================================================");
-    }
-
-    private static void printAdjacentSwapSummary(int nRun) {
-        DeltaFastRefiner.AdjacentSwapStats.Snapshot stats = DeltaFastRefiner.adjacentSwapStatsSnapshot();
-        double elapsedSeconds = stats.elapsedNanos / 1_000_000_000.0;
-        double avgGainPerRun = nRun > 0 ? stats.profitGain / nRun : 0.0;
-        double avgElapsedPerRun = nRun > 0 ? elapsedSeconds / nRun : 0.0;
-        System.out.println("================ Adjacent Swap Summary ================");
-        System.out.printf("Adjacent swap calls: %d%n", stats.callCount);
-        System.out.printf("Adjacent swap attempted positions: %d%n", stats.attemptedPositions);
-        System.out.printf("Adjacent swap accepted swaps: %d%n", stats.acceptedSwaps);
-        System.out.printf("Adjacent swap total profit gain: %.2f%n", stats.profitGain);
-        System.out.printf("Adjacent swap avg profit gain (/nRun): %.2f%n", avgGainPerRun);
-        System.out.printf("Adjacent swap elapsed: %.2f s%n", elapsedSeconds);
-        System.out.printf("Adjacent swap avg elapsed (/nRun): %.2f s%n", avgElapsedPerRun);
-        System.out.println("=======================================================");
     }
 
     public static void main(String[] args) {
@@ -867,25 +799,12 @@ public class RunSingleHybridConfig {
             );
             List<Task> allTasks = dataSet.taskList;
             List<Satellite> allSatellites = dataSet.satelliteList;
-            int computedDefaultAssignmentStrategy = defaultAssignmentStrategy(arguments.numTasks);
-
-            if (!loggingOptions.quiet) {
-                System.out.printf(
-                    "[RunSingleHybridConfig] numTasks=%d, assignmentStrategy=%d, computedDefaultAssignmentStrategy=%d, sourceVersion=2026-04-28-pure-6d-fixed-de-scale%n",
-                    arguments.numTasks,
-                    arguments.assignmentStrategy,
-                    computedDefaultAssignmentStrategy
-                );
-            }
 
             List<List<Integer>> initialAssignment = arguments.assignmentStrategy >= 0
                 ? Initialize.initializeWithStrategy(allTasks, allSatellites, arguments.assignmentStrategy)
                 : Initialize.initialize(allTasks, allSatellites);
             AssignTaskOperator.assignTaskToSatellites(initialAssignment, allTasks, allSatellites);
             InsertionMode insertionMode = resolveInsertionMode();
-            if (!loggingOptions.quiet) {
-                System.out.println("[RunSingleHybridConfig] insertionMode=" + insertionMode);
-            }
             int assignedTaskCount = countAssignedTasks(allSatellites);
             int totalPossibleFitness = calculateTotalTaskPriority(allTasks);
 
@@ -901,20 +820,6 @@ public class RunSingleHybridConfig {
             int autoMaxFes = (int) Math.round(populationFactor * Math.max(1, maxAssignedTaskCount) * iterationCoefficient);
             int nPop = arguments.nPopOverride != null ? arguments.nPopOverride : autoNPop;
             int maxFes = arguments.maxFesOverride != null ? arguments.maxFesOverride : autoMaxFes;
-
-            if (!loggingOptions.quiet) {
-                System.out.println(buildBudgetSummary(
-                    populationFactor,
-                    iterationCoefficient,
-                    maxAssignedTaskCount,
-                    autoNPop,
-                    autoMaxFes,
-                    arguments.nPopOverride,
-                    arguments.maxFesOverride,
-                    nPop,
-                    maxFes
-                ));
-            }
 
             int totalCores = Runtime.getRuntime().availableProcessors();
             int hybThreads = ParallelPolicy.hybThreadsForSingleRun(totalCores, MIN_HYB_THREADS);
@@ -961,28 +866,15 @@ public class RunSingleHybridConfig {
                 totalElapsedMillis
             );
 
-            if (arguments.nRun > 1) {
-                printAverageSummary(result, allTasks.size(), totalElapsedMillis, arguments.nRun);
-                if (!loggingOptions.quiet) {
-                    printPerRunDetails(result, allTasks.size());
-                }
-            } else {
-                printCompactSummary(
-                    allTasks.size(),
-                    assignedTaskCount,
-                    totalPossibleFitness,
-                    new ProfitSummary(runSummary.primaryProfit),
-                    totalElapsedMillis);
-            }
-            if (!loggingOptions.quiet) {
-                printAdjacentSwapSummary(arguments.nRun);
-            }
+            printCompactSummary(arguments, runSummary);
 
             if (baselineOptions.recordEliteArchive) {
                 EliteConfigArchive.saveCandidateConfig(archiveContext, arguments.config);
             }
 
-            printBaselineComparison(arguments, runSummary, baselineOptions.baselineFile);
+            if (baselineOptions.recordBaseline) {
+                printBaselineComparison(arguments, runSummary, baselineOptions.baselineFile);
+            }
             if (baselineOptions.recordBaseline) {
                 writeBaselineProperties(arguments, runSummary, baselineOptions.baselineFile);
             }

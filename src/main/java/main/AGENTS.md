@@ -11,7 +11,7 @@
 | MainMFEAMOPHOA.java | `MainMFEAMOPHOA` | 外层 Global MFEA 自动设计入口；构造 6D 纯语义全局配置种群，调用 `EvaluationHyb` 并行评估候选混合配置，输出全局最优自动设计结果；支持 outer fitness cache 与 progressive racing opt-in，默认保持旧评估路径 |
 | ParallelPolicy.java | `ParallelPolicy` | 并行层级策略；集中解析 `autohyb.parallel.level=run|satellite|vector|auto`，在外层评估活跃时阻止 `PlanUtils` 使用 common-pool 向量并行 |
 | EvaluationHyb.java | `EvaluationHyb` | 6D 混合配置评估器；将单个全局配置解码为 HybCec 参数、运行时插入模式与单一 fixed DE scale，按多次独立运行评估配置质量，并向 `TaskAllocationCoordinator` 传递 run seed、配置与历史最优结果；run seed 统一使用 `stableSeed + runIndex + 8`，用于保持 6D baseline 与旧 8D `{...,GREEDY,flag}` 路径的 seed 兼容 |
-| RunSingleHybridConfig.java | `RunSingleHybridConfig` | 单配置复现实验入口；加载数据、初始化任务分配、使用固定 6D 配置运行评估链路、输出调度结果；命令行只接收 6D 配置；DE 运行时统一为固定缩放因子；支持两种开关控制方式：1）直接在源码顶部修改 `DEFAULT_ENABLE_DELTA_FAST_REFINE` / `DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET` 两个布尔常量，便于 VSCode 直接运行时手动切换；2）通过前两个命令行参数显式覆盖，分别控制 delta fast refine 与局部重算热启动预算；可通过 `-Dhybcec.insertionMode=<InsertionMode>` 对单配置消融运行覆盖插入策略，默认 `GREEDY`；程序内部会将这些开关映射到协调器对应系统属性并输出重分配轨迹；支持 `--record-baseline` / `--baseline-file` 将当前默认场景与配置的效用指标固化到基线文件，并在普通运行时自动对比基线；支持 `--quiet` 与 `--log-interval=N` 控制日志噪声，默认仍为详细输出；当 `nRun>1` 时，评估结束、总流程结束与多次运行摘要中的耗时统一按”墙钟总时间 / nRun”展示，同时输出平均调度任务数、最佳收益轮调度任务数和每个 run 的利润/调度数/耗时明细；单配置运行会额外输出邻接交换调用次数、尝试位置数、接受次数、累计收益和累计耗时 |
+| RunSingleHybridConfig.java | `RunSingleHybridConfig` | 单配置复现实验入口；加载数据、初始化任务分配、使用固定 6D 配置运行评估链路、输出调度结果；命令行只接收 6D 配置；DE 运行时统一为固定缩放因子；支持两种开关控制方式：1）直接在源码顶部修改 `DEFAULT_ENABLE_DELTA_FAST_REFINE` / `DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET` 两个布尔常量，便于 VSCode 直接运行时手动切换；2）通过前两个命令行参数显式覆盖，分别控制 delta fast refine 与局部重算热启动预算；可通过 `-Dhybcec.insertionMode=<InsertionMode>` 对单配置消融运行覆盖插入策略，默认 `GREEDY`；程序内部会将这些开关映射到协调器对应系统属性；默认 stdout 只打印当前混合配置、收益比例和总耗时；支持 `--record-baseline` / `--baseline-file` 将当前默认场景与配置的效用指标固化到基线文件，并仅在记录基线时打印基线对比；支持 `--quiet` 压制 warmup 状态日志，最终紧凑结果仍打印；`--log-interval=N` 继续控制显式开启的逐代曲线日志间隔 |
 | RunSingleParentConfig.java | `RunSingleParentConfig` | 单算法复现实验入口；使用独立 3D 单算法配置 `{algorithmIndex, updateRatioCode, survivorStrategy}` 构建 OA1-only 运行；命令行不再复用混合组件语义，固定 `operationOrder=sequential` 与固定 DE 缩放因子，并通过运行时 `singleParentMode=true` 强制只启用 parent1；支持 `--run-index-base` 做 seed 分段诊断；支持 `--generation-log` 与 `--log-interval=N` 打印 HybCec 逐代最优适应度曲线；支持 `--convergence-file` 输出每个 run / 卫星的 HybCec best-fitness 曲线 |
 | TargetSatelliteRanker.java | `TargetSatelliteRanker` | 目标星排序器；抽象候选目标星的任务侧与任务-卫星配对特征，只执行低成本排序，并按固定 Top-K 返回候选目标星；普通任务默认 Top-2，prioritized 任务默认 Top-4；卫星侧 `B_j` 通路已删除 |
 | TargetSatelliteSelector.java | `TargetSatelliteSelector` | 包内私有候选目标星选择辅助类；从协调器状态构造 `TargetSatelliteRanker.RankRequest`，封装候选星上下文、任务侧优先级/约束紧度/未调度压力特征、任务-卫星窗口特征与 Top-K 结果转换 |
@@ -58,7 +58,7 @@ public static void main(String[] args)
 - `--record-baseline`：将当前运行结果写入默认基线文件 `outputs/run-single-baseline.properties`
 - `--baseline-file <path>`：覆盖默认基线路径
 - `-Dhybcec.insertionMode=<InsertionMode>`：覆盖本次评估链路使用的插入策略；默认 `GREEDY`
-- `--quiet`：隐藏逐 run 明细和邻接交换明细；最终收益/耗时仍打印
+- `--quiet`：隐藏 warmup 状态日志；最终混合配置、收益比例和耗时仍打印
 - `--log-interval=N`：控制逐代日志间隔，默认 1，保持旧输出频率
 - `-Dautohyb.generationLog=true|false`：控制 `TaskAllocationCoordinator` 内部 HybCec 是否打印 `[HybCecCurve]` 逐代曲线日志；默认 `false`
 - `-Dautohyb.generationLog.enabled=true|false`：旧兼容别名，作用同 `autohyb.generationLog`
@@ -71,9 +71,9 @@ public static void main(String[] args)
 - `-Dautohyb.init.knnCache=true|false`：控制初始化与目标星排序共享任务-卫星窗口特征缓存；默认 `false`
 - `-Dautohyb.coord.adaptiveEnsemble=true|false`：控制低负载卫星初始 ensemble racing；默认 `false`
 - `-Dautohyb.coord.calibrationRacing=true|false`：控制刷新 best 后先做 cheap inherited-vector 校准筛查；默认 `false`
-- 普通运行若发现基线文件且上下文（场景、任务规模、配置、`nRun`、`nPop`、`maxFes`）一致，会自动打印效用与耗时相对基线的增减
+- `RunSingleHybridConfig` 默认 stdout 只打印 `Hybrid config`、`Optimized profit ratio` 和 `Elapsed` 三行
+- 使用 `--record-baseline` 时，若基线文件存在且上下文（场景、任务规模、配置、`nRun`、`nPop`、`maxFes`）一致，会打印效用与耗时相对基线的增减，并写回当前基线
 - 当前基线：`{4,1,0,0,0,0}`；ID1 基准预算 `nPop=270,maxFes=27000` 下使用 `runIndex+8` seed 序列；无参 `nRun=1` 默认命中旧 8D `{4,1,0,0,0,0,1,0}` 单轮复现实验 seed
-- 当 `nRun>1` 时，stdout 会输出 `Run <k> profit: ... | scheduled tasks: ... | elapsed: ...`。全场景基线脚本用这些行按同一 run index 汇总 10 个场景，避免把每场景最大值误当成一次连续运行。
 
 ### RunSingleParentConfig
 
