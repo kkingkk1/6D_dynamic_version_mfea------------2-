@@ -23,12 +23,12 @@ class RunSingleHybridConfigTest {
 
     assertArrayEquals(
       new int[] {
-        AlgorithmConstants.ALGORITHM_INDEX_LSHADE,
         AlgorithmConstants.ALGORITHM_INDEX_EDA,
+        AlgorithmConstants.ALGORITHM_INDEX_LSHADE,
         AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
         AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
         AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL,
-        AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_PERMUTATION
+        AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_PAIRWISE_GREEDY
       },
       (int[]) defaultConfig.get(null)
     );
@@ -142,6 +142,44 @@ class RunSingleHybridConfigTest {
     );
 
     assertEquals(1103879922877097636L, actualSeed);
+  }
+
+  @Test
+  void explicitRunSeedBasePairsDifferentHybridConfigs() {
+    String previousSeedBase = System.getProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY);
+    String previousRunIndexBase = System.getProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
+    System.setProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, "42");
+    System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, "0");
+    try {
+      long baselineSeed = EvaluationHyb.resolveRunSeed(
+        new int[] {4, 1, 0, 0, 0, 0},
+        AlgorithmConstants.HYBRID_CONFIG_DIMENSION,
+        270,
+        27000,
+        4
+      );
+      long autoDesignedSeed = EvaluationHyb.resolveRunSeed(
+        new int[] {2, 9, 0, 0, 0, 2},
+        AlgorithmConstants.HYBRID_CONFIG_DIMENSION,
+        270,
+        27000,
+        4
+      );
+
+      assertEquals(46L, baselineSeed);
+      assertEquals(baselineSeed, autoDesignedSeed);
+    } finally {
+      restoreProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, previousSeedBase);
+      restoreProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, previousRunIndexBase);
+    }
+  }
+
+  private static void restoreProperty(String name, String value) {
+    if (value == null) {
+      System.clearProperty(name);
+    } else {
+      System.setProperty(name, value);
+    }
   }
 
   @Test

@@ -42,7 +42,7 @@ public class RunSingleParentConfig {
   private static final double DEBUG_ITERATION_COEFFICIENT =
     TuningConfig.getDouble("iteration.coefficient", TuningDefaults.ITERATION_COEFFICIENT);
   private static final int[] DEFAULT_CONFIG = {
-    1
+    2
   };
   private static final String DEFAULT_DATA_DIR =
     "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-0-0-24";
@@ -473,6 +473,11 @@ public class RunSingleParentConfig {
       seed = 31L * seed + value;
     }
     return seed;
+  }
+
+  static long resolveRunSeed(int[] config, int nPop, int maxFes, int runIndex) {
+    long defaultSeedBase = Math.addExact(stableSeed(config, nPop, maxFes), RUN_SEED_OFFSET);
+    return EvaluationHyb.resolveConfiguredRunSeed(defaultSeedBase, runIndex);
   }
 
   private static java.util.Map<Integer, Integer> buildInitialAssignment(List<Satellite> allSatellites) {
@@ -945,9 +950,7 @@ public class RunSingleParentConfig {
       List<RunConvergenceTrace> convergenceTraces = new ArrayList<>();
       for (int runOffset = 0; runOffset < arguments.nRun; runOffset++) {
         int runIndex = runOptions.runIndexBase + runOffset;
-        long runSeed = stableSeed(arguments.config, nPop, maxFes)
-          + runIndex
-          + RUN_SEED_OFFSET;
+        long runSeed = resolveRunSeed(arguments.config, nPop, maxFes, runIndex);
         long runStartNanos = System.nanoTime();
         RunResult runResult = runSingleParentOnce(
           allTasks,

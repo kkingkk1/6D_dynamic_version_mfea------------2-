@@ -17,15 +17,17 @@ import utils.Initialize;
 
 /**
  * Multi-scene MFEA: searches for a single 6D config that maximizes
- * aggregated improvement over baseline across multiple scenes.
+ * aggregated normalized profit across multiple scenes.
  *
- * fitness = sum_i((meanProfit_i - baselineProfit_i) / totalProfit_i)
+ * fitness = sum_i(meanProfit_i / totalProfit_i)
  */
 public class MainMFEAMultiScene {
 
   private static final int MIN_EVAL_THREADS = 2;
   private static final int MAX_EVAL_THREADS = 6;
   private static final int MIN_HYB_THREADS = 2;
+  private static final double HYBCEC_POPULATION_FACTOR = 2.5;
+  private static final double HYBCEC_ITERATION_COEFFICIENT = 100.0;
   private static final long POPULATION_EVALUATION_TIMEOUT_MINUTES =
       Long.getLong("autohyb.outer.evalTimeoutMinutes", 60);
 
@@ -37,15 +39,12 @@ public class MainMFEAMultiScene {
     final String sceneDir;
     final int numTasks;
     final int numSatellites;
-    final double baselineProfit;
     final double totalProfit;
 
-    SceneConfig(String sceneDir, int numTasks, int numSatellites,
-                double baselineProfit, double totalProfit) {
+    SceneConfig(String sceneDir, int numTasks, int numSatellites, double totalProfit) {
       this.sceneDir = sceneDir;
       this.numTasks = numTasks;
       this.numSatellites = numSatellites;
-      this.baselineProfit = baselineProfit;
       this.totalProfit = totalProfit;
     }
   }
@@ -73,11 +72,12 @@ public class MainMFEAMultiScene {
     List<List<Integer>> assignment = Initialize.initialize(tasks, satellites);
     AssignTaskOperator.assignTaskToSatellites(assignment, tasks, satellites);
 
-    int populationFactor = AlgorithmConstants.DEFAULT_POPULATION_Factor;
-    double iterCoeff = AlgorithmConstants.DEFAULT_ITERATION_COEFFICIENT;
     int maxD = satellites.stream().mapToInt(s -> s.getAssignedTasks().size()).max().orElse(0);
-    int nPop = Math.max(1, populationFactor * Math.max(1, maxD));
-    int maxFes = (int) Math.round(populationFactor * maxD * iterCoeff * fesBudgetRatio);
+    int nPop = Math.max(1, (int) Math.round(
+        HYBCEC_POPULATION_FACTOR * Math.max(1, maxD)));
+    int maxFes = Math.max(1, (int) Math.round(
+        HYBCEC_POPULATION_FACTOR * Math.max(1, maxD)
+            * HYBCEC_ITERATION_COEFFICIENT * fesBudgetRatio));
     return new LoadedScene(sc, satellites, tasks, nPop, maxFes);
   }
 
@@ -97,8 +97,7 @@ public class MainMFEAMultiScene {
     double fitness = 0.0;
     for (LoadedScene scene : scenes) {
       double profit = evaluateConfigOnScene(config, scene, nRun, hybExecutor);
-      double improvement = (profit - scene.config.baselineProfit) / scene.config.totalProfit;
-      fitness += improvement;
+      fitness += profit / scene.config.totalProfit;
     }
     return fitness;
   }
@@ -155,16 +154,12 @@ public class MainMFEAMultiScene {
     int nSS = AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_COUNT;
     int n = AlgorithmConstants.HYBRID_CONFIG_DIMENSION;
 
-    // Baseline profits from Ave 5-run results; totalProfit from scene data
+    // totalProfit values come from scene data.
     List<SceneConfig> sceneConfigs = Arrays.asList(
-        new SceneConfig(SCENE_BASE_DIR + "\\500-5-0-0-24", 500, 5,
-            0.9940 * 2751, 2751),
-        new SceneConfig(SCENE_BASE_DIR + "\\1000-10-0-0-12", 1000, 10,
-            0.4709 * 5571, 5571),
-        new SceneConfig(SCENE_BASE_DIR + "\\1000-20-0-0-12", 1000, 20,
-            0.7804 * 5606, 5606),
-        new SceneConfig(SCENE_BASE_DIR + "\\4000-40-0-0-6", 4000, 40,
-            0.6405 * 21849, 21849)
+        new SceneConfig(SCENE_BASE_DIR + "\\500-5-0-0-24", 500, 5, 2751),
+        new SceneConfig(SCENE_BASE_DIR + "\\1000-10-0-0-12", 1000, 10, 5571),
+        new SceneConfig(SCENE_BASE_DIR + "\\1000-20-0-0-12", 1000, 20, 5606),
+        new SceneConfig(SCENE_BASE_DIR + "\\4000-40-0-0-6", 4000, 40, 21849)
     );
 
     int totalCores = Runtime.getRuntime().availableProcessors();
@@ -172,13 +167,12 @@ public class MainMFEAMultiScene {
     int hybThreads = Math.max(MIN_HYB_THREADS, totalCores - evalThreads);
     System.out.printf("[THREADS] evalExecutor=%d, hybExecutor=%d, cores=%d%n",
         evalThreads, hybThreads, totalCores);
-    System.out.printf("[CONFIG] nPopHyb=%d, gMax=%d, nRun=%d, fesBudgetRatio=%.2f%n",
-        nPopHyb, gMax, nRun, fesBudgetRatio);
-    System.out.printf("[SCENES] %d scenes, baselines=[%.2f, %.2f, %.2f]%n",
-        sceneConfigs.size(),
-        sceneConfigs.get(0).baselineProfit,
-        sceneConfigs.get(1).baselineProfit,
-        sceneConfigs.get(2).baselineProfit);
+    System.out.printf(
+        "[CONFIG] nPopHyb=%d, gMax=%d, nRun=%d, populationFactor=%.4f, iterationCoefficient=%.4f, fesBudgetRatio=%.2f%n",
+        nPopHyb, gMax, nRun, HYBCEC_POPULATION_FACTOR,
+        HYBCEC_ITERATION_COEFFICIENT, fesBudgetRatio);
+    System.out.printf("[SCENES] %d scenes, fitness=sum(profit/totalProfit)%n",
+        sceneConfigs.size());
 
     ExecutorService hybExecutor = Executors.newFixedThreadPool(hybThreads);
     ExecutorService evalExecutor = Executors.newFixedThreadPool(evalThreads);
@@ -284,19 +278,7 @@ public class MainMFEAMultiScene {
       System.out.printf("========================================%n%n");
       System.out.printf("Best 6D config: %s%n", Arrays.toString(bestSolution));
       System.out.printf("Best aggregated fitness: %.6f%n", bestFitness);
-      System.out.printf("  (positive = improvement over baseline across all scenes)%n%n");
-
-      System.out.println("Per-scene breakdown (100%% budget re-evaluation):");
-      for (LoadedScene scene : scenes) {
-        double profit = evaluateConfigOnScene(bestSolution, scene, nRun, hybExecutor);
-        double pct = profit / scene.config.totalProfit * 100;
-        double baselinePct = scene.config.baselineProfit / scene.config.totalProfit * 100;
-        double delta = pct - baselinePct;
-        String sceneName = scene.config.sceneDir.substring(
-            scene.config.sceneDir.lastIndexOf('\\') + 1);
-        System.out.printf("  %s: profit=%.2f (%.2f%%), baseline=%.2f%%, delta=%+.2f%%%n",
-            sceneName, profit, pct, baselinePct, delta);
-      }
+      System.out.printf("  (higher = better normalized profit across all scenes)%n%n");
 
     } catch (Exception e) {
       System.out.println("\n===================================================");

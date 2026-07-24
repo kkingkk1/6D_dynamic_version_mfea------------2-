@@ -22,6 +22,11 @@ import java.util.concurrent.*;
 
 public class EvaluationHyb {
 
+    static final String RUN_INDEX_BASE_PROPERTY = "evaluation.runIndexBase";
+    static final String RUN_SEED_BASE_PROPERTY = "evaluation.runSeedBase";
+    static final String RUN_SEED_LOG_PROPERTY = "evaluation.runSeedLog";
+    private static final long RUN_SEED_OFFSET = 8L;
+
     /**
      * A1 switch: re-evaluate the final best solution using optimal insertion mode.
      * Optimal mode tries all feasible insertion points, picks the one with minimum transition time, can schedule more tasks.
@@ -65,9 +70,41 @@ public class EvaluationHyb {
             && Arrays.equals(BASELINE_CONFIG, x);
     }
 
-    private static long resolveRunSeed(int[] config, int configDimension, int nPop, int maxFes, int runIndex) {
-        long runIndexBase = Long.getLong("evaluation.runIndexBase", 0L);
-        return stableSeed(config, configDimension, nPop, maxFes) + runIndexBase + runIndex + 8L;
+    static long resolveRunSeed(int[] config, int configDimension, int nPop, int maxFes, int runIndex) {
+        long runIndexBase = Long.getLong(RUN_INDEX_BASE_PROPERTY, 0L);
+        long effectiveRunIndex = Math.addExact(runIndexBase, runIndex);
+        long defaultSeedBase = Math.addExact(
+            stableSeed(config, configDimension, nPop, maxFes),
+            RUN_SEED_OFFSET
+        );
+        long runSeed = resolveConfiguredRunSeed(defaultSeedBase, effectiveRunIndex);
+        if (Boolean.getBoolean(RUN_SEED_LOG_PROPERTY)) {
+            System.out.printf("[RunSeed] index=%d seed=%d%n", effectiveRunIndex, runSeed);
+        }
+        return runSeed;
+    }
+
+    static long resolveConfiguredRunSeed(long defaultSeedBase, long runIndex) {
+        String configuredSeedBase = System.getProperty(RUN_SEED_BASE_PROPERTY);
+        long seedBase = defaultSeedBase;
+        if (configuredSeedBase != null) {
+            try {
+                seedBase = Long.parseLong(configuredSeedBase.trim());
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException(
+                    RUN_SEED_BASE_PROPERTY + " must be a long, got: " + configuredSeedBase,
+                    e
+                );
+            }
+        }
+        try {
+            return Math.addExact(seedBase, runIndex);
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException(
+                "Run seed overflow: seedBase=" + seedBase + ", runIndex=" + runIndex,
+                e
+            );
+        }
     }
 
     public static class RunMetrics {

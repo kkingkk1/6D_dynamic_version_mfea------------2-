@@ -76,6 +76,35 @@ class RunSingleParentConfigTest {
   }
 
   @Test
+  void explicitRunSeedBasePairsDifferentParentConfigs() {
+    String previousSeedBase = System.getProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY);
+    System.setProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, "42");
+    try {
+      long deRandSeed = RunSingleParentConfig.resolveRunSeed(
+        new int[] {4},
+        270,
+        27000,
+        4
+      );
+      long psoSeed = RunSingleParentConfig.resolveRunSeed(
+        new int[] {1},
+        270,
+        27000,
+        4
+      );
+
+      assertEquals(46L, deRandSeed);
+      assertEquals(deRandSeed, psoSeed);
+    } finally {
+      if (previousSeedBase == null) {
+        System.clearProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY);
+      } else {
+        System.setProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, previousSeedBase);
+      }
+    }
+  }
+
+  @Test
   void extractConvergenceOptionsParsesFileAndKeepsRemainingArgs() {
     RunSingleParentConfig.ConvergenceOptions options =
       RunSingleParentConfig.extractConvergenceOptions(

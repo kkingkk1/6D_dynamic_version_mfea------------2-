@@ -2,7 +2,7 @@
 type: meta
 title: 来源清单 - 6D_dynamic_version_mfea
 project: 6d-dynamic-version-mfea
-updated: 2026-05-28T00:00:00+08:00
+updated: 2026-06-18T00:00:00+08:00
 ---
 
 # 来源清单
@@ -51,6 +51,7 @@ updated: 2026-05-28T00:00:00+08:00
 - 重分配校准策略保持当前实现：小规模任务（`allTasks < 4000`）刷新 best 后立即用热启动 HybCec 做完整 assignment 校准；大规模任务才允许跳过中间校准，并用 final calibration 兜底。即时校准使用 `evaluateAssignmentSnapshot()`，已有 `SatelliteState` 时注入 inherited solution，`commitState=true` 的校准预算按 `coord.fullRefineBudgetRatio=0.5` 缩减并受 `coord.fullRefineMinGenerations=20` 下限保护。2026-05-16 的 ID1/ID3/ID5 消融显示，关闭小规模即时校准会使均值分别下降 22.34、30.67、38.00；在即时校准关闭前提下再关闭 final calibration 会继续下降 5.00、15.67、33.67。`4000-40-0-0-6` 的大规模消融显示 `profitGain > bestTotalProfit * 0.005` 触发条件没有观测到行为影响，开关前后均为 `Avg profit=13974.33`、`Best profit=13995.00`，该 bigGain 条件已删除。半程 full calibration reachability 检查显示，第 13 轮触发在当前默认流程下不可达，因为三个 run 分别在 iter=6、7、9 因 `consecutiveZeroProfitGain >= 2` 提前退出；真实测试中途 full 修正需提前触发点或临时放宽该 large-task early stop。当前证据支持保留小规模即时校准和 final calibration，大规模中间校准只保留 interval/last 触发。
 - 当前配置 10 场景固定基线已在 2026-05-16 重建：这里的基线是当前代码、`tuning.properties` 和固定 6D 对照配置 `{4,1,0,0,0,0}` 的参考性能，不是自动设计搜索结果。每个场景一次 `nRun=3`，显式加载 `tuning.properties`。统计基线按场景汇总 run 1/2/3；整体单次最好按同一 `run_index` 汇总 10 场景总利润后选择。本次 run1/run2/run3 总利润分别为 `116241.03`、`116161.03`、`116418.03`，整体单次最好为 `run_index=3`。每场景最大值单独记录，不作为整体单次最好。完整历史报告和原始产物保留在本地 legacy artifacts。
 - 速度优化综合计划已在 2026-05-17 完成 5 个 phase。新增主线能力包括 `evaluateVector` 直评、primitive fitness mirror、best/rank cache、primitive survivor metadata、fast path batch size、SA/ALNS/SHADE/FastGaussian opt-in、初始化 KNN cache、satellite state pool、并行层级策略、协调器 adaptive ensemble / calibration racing、warmup runs、scene cache、lazy config reload 和 outer progressive racing。新增性能控件默认关闭、unset 或等价旧行为。`RAND-1` 与 `DE-1` 已跳过，`OM-3` surrogate prefilter 延后。旧 speedup 报告保留在本地 legacy artifacts。
+- 可迁移性能知识：6D 相对旧 8D `RunSingleHybridConfig` 的主要速度收益来自内层 fitness 热路径，而不是 `nPop/maxFes/InsertionMode` 等外层预算。2026-06-18 在 `500-5-0-0-24`、`nPop=270`、`maxFes=27000`、`GREEDY`、`nRun=1`、配置 `4,1,0,0,0,0` / `4,1,0,0,0,0,1,0` 下复测，6D 原生为 `9.16s`，6D 同步 8D keyPerturb/delta 阈值为 `7.32s`，8D 原生为 `41.13s`，8D 同步 6D 阈值仍为 `36.19s`。可迁移的核心实现是 `PlanUtils.evaluateVector(...)` + `DecodeWorkspace` + primitive `double[]` fitness：复用 `int[] order`、`int[] scratch` 和 `Task[] sequence` 容器，每个个体只覆盖数组内容，不重建 `Integer[]`、`ArrayList<Task>` 和 `SchedulingPlan`；同时避免 comparator/装箱/拆箱和 `List<Double>` 结果装箱。若把该优化迁回 8D 或其他分支，优先迁移 `evaluateVector`、`evaluatePopInto`、`DecodeWorkspace`、primitive fitness mirror 和调用方对 `double[]` 的直接消费，再单独处理 baseline 兜底和重分配统计等次要开销。
 - `OM-3` surrogate prefilter 是外层 `MainMFEAMOPHOA` 搜索策略扩展，不影响固定配置入口 `RunSingleHybridConfig`。预期机制是用已评估的 6D 配置训练轻量质量预测器，优先完整评估预测较好的配置，并保留随机或不确定候选探索 quota。该项可能改变自动设计搜索轨迹，后续应作为独立 PR、默认关闭，并以真实 `EvaluationHyb` 复测结果作为最终证据。
 - L-SHADE 缩群后 GA workspace 复用的 `popFit` size mismatch 已在 2026-05-17 修复。`GAWorkspace.fitnessBuffer` 现在按当前 `nPop` 精确重建，避免从较大 population 缩到较小 population 后把旧长度 fitness array 传入 `GeneticAlgorithmNoSelect.runInto(...)`。
 - Speedup 后 ID1 11 个 OA1-only 单父算法 runtime 表已在 2026-05-17 重测：入口 `RunSingleParentConfig`，配置 `{algorithm,0,0}`，`nRun=3,nPop=270,maxFes=27000`，显式加载 `tuning.properties`。当前最快是 `DE_BEST_1`（wall `89.71s`），`DE_RAND_1` wall `95.92s` 且 AvgProfit 最高（`2739.00`），`L_SHADE` AvgProfit `2738.33`，`ALNS` 最慢（wall `423.81s`）。历史报告和原始产物保留在本地 legacy artifacts。

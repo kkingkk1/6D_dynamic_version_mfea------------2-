@@ -44,7 +44,7 @@ public class RunSingleHybridConfig {
     private static final int DEFAULT_NUM_SATELLITES = 5;
     private static final int DEFAULT_N_RUN = 1;
     /** 1-based seed id: 1, 2, 3... match the corresponding run in a multi-run experiment. */
-    private static final long DEFAULT_RANDOM_SEED_ID = 5L;
+    private static final long DEFAULT_RANDOM_SEED_ID = 10L;
     private static final Path DEFAULT_BASELINE_FILE =
         Paths.get("outputs", "run-single-baseline.properties");
     private static final int SMALL_TASK_THRESHOLD = 500;
@@ -52,7 +52,7 @@ public class RunSingleHybridConfig {
     private static final boolean DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET = true;
     private static final double DEBUG_POPULATION_FACTOR = 2.5;
     /** Current 6D baseline vector; the latest ID1 benchmark anchor has best ratio 99.600145%. */
-    private static final int[] DEFAULT_CONFIG = {9, 2, 0, 0, 0, 0};
+    private static final int[] DEFAULT_CONFIG = {2, 9, 0, 0, 0, 2};
     private static final int SMALL_TASK_ASSIGNMENT_STRATEGY = 7;
     private static final int LARGE_TASK_ASSIGNMENT_STRATEGY = 8;
     private static final String DEFAULT_DATA_DIR =
@@ -909,9 +909,9 @@ public class RunSingleHybridConfig {
     }
 
     private static void applyDefaultRandomSeedIdIfUnset() {
-        if (System.getProperty("evaluation.runIndexBase") == null) {
+        if (System.getProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY) == null) {
             long runIndexBase = Math.max(1L, DEFAULT_RANDOM_SEED_ID) - 1L;
-            System.setProperty("evaluation.runIndexBase", Long.toString(runIndexBase));
+            System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, Long.toString(runIndexBase));
         }
     }
 }
