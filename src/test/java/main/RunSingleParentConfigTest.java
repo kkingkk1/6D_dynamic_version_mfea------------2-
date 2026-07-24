@@ -76,6 +76,24 @@ class RunSingleParentConfigTest {
   }
 
   @Test
+  void extractRunOptionsParsesExplicitRunSeed() {
+    RunSingleParentConfig.RunOptions options = RunSingleParentConfig.extractRunOptions(
+      new String[] {"--run-seed=1146972547739808", "true"}
+    );
+
+    assertEquals(1146972547739808L, options.runSeedOverride);
+    assertArrayEquals(new String[] {"true"}, options.remainingArgs);
+  }
+
+  @Test
+  void explicitRunSeedAdvancesByRunOffset() {
+    assertEquals(
+      1146972547739812L,
+      RunSingleParentConfig.resolveExplicitRunSeed(1146972547739808L, 4)
+    );
+  }
+
+  @Test
   void extractRunOptionsUsesSharedJvmRunIndexBaseWhenCliFlagIsAbsent() {
     String previousRunIndexBase = System.getProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
     System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, "9");

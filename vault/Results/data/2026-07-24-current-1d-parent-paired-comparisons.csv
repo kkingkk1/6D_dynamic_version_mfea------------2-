@@ -1,0 +1,3 @@
+comparison,baseline,candidate,n_scenes,wins,ties,losses,mean_delta_profit_ratio,std_delta_profit_ratio,ci95_low,ci95_high,test,statistic,p_value,effect_size,effect_size_name,sign_test_p,shapiro_p,seed_sensitivity_n,seed_sensitivity_p,holm_p_value
+hybrid-290002-vs-410000,hybrid-410000,hybrid-290002,10,6,4,0,0.48000000000000187,0.9262008421503493,-0.1825641687480959,1.1425641687480996,Wilcoxon signed-rank,0.0,0.03125,1.0,rank-biserial correlation,0.03125,4.854559302963653e-05,50,4.27819361845566e-06,0.0625
+parent-4-vs-1,parent-1,parent-4,10,6,4,0,1.0828000000000018,1.1193407583633046,0.28207185837037074,1.8835281416296328,Wilcoxon signed-rank,0.0,0.03125,1.0,rank-biserial correlation,0.03125,0.02292093076555862,50,2.876862725459015e-06,0.0625

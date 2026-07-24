@@ -627,18 +627,21 @@ foreach ($run in $expectedRuns) {
   $argsList = @(
     "-Dtuning.config.path=tuning.properties",
     "-Dautohyb.deterministic=true",
-    "-Dautohyb.experimentId=$ExperimentId",
-    "-Devaluation.runSeedBase=$($run.runSeedBase)",
-    "-Devaluation.runSeedLog=true"
+    "-Dautohyb.experimentId=$ExperimentId"
   )
   if ($run.kind -eq "hybrid") {
+    $argsList += "-Devaluation.runSeedBase=$($run.runSeedBase)"
+    $argsList += "-Devaluation.runSeedLog=true"
     $argsList += "-Devaluation.runIndexBase=$($run.perRun)"
+  } else {
+    $argsList += "-Devaluation.runSeedLog=true"
   }
   $argsList += @("-cp", $classPath, $run.entrypoint)
   if ($run.kind -eq "hybrid") {
     $argsList += "--quiet"
   } else {
     $argsList += "--run-index-base=$($run.perRun)"
+    $argsList += "--run-seed=$($run.effectiveSeed)"
   }
   $argsList += @(
     "true",

@@ -132,16 +132,19 @@ public class RunSingleParentConfig {
 
   static final class RunOptions {
     final int runIndexBase;
+    final Long runSeedOverride;
     final boolean generationLogEnabled;
     final int logInterval;
     final String[] remainingArgs;
 
     RunOptions(
       int runIndexBase,
+      Long runSeedOverride,
       boolean generationLogEnabled,
       int logInterval,
       String[] remainingArgs) {
       this.runIndexBase = runIndexBase;
+      this.runSeedOverride = runSeedOverride;
       this.generationLogEnabled = generationLogEnabled;
       this.logInterval = logInterval;
       this.remainingArgs = remainingArgs;
@@ -417,6 +420,7 @@ public class RunSingleParentConfig {
   static RunOptions extractRunOptions(String[] args) {
     List<String> remaining = new ArrayList<>();
     int runIndexBase = configuredRunIndexBase();
+    Long runSeedOverride = null;
     boolean generationLogEnabled = Boolean.getBoolean(RunSingleHybridConfig.GENERATION_LOG_PROPERTY)
       || Boolean.getBoolean(RunSingleHybridConfig.GENERATION_LOG_ENABLED_PROPERTY);
     int logInterval = Integer.getInteger(RunSingleHybridConfig.LOG_INTERVAL_PROPERTY, 1);
@@ -427,6 +431,11 @@ public class RunSingleParentConfig {
         i++;
       } else if (arg.startsWith("--run-index-base=")) {
         runIndexBase = Integer.parseInt(arg.substring("--run-index-base=".length()));
+      } else if ("--run-seed".equals(arg) && i + 1 < args.length) {
+        runSeedOverride = parseRunSeed(args[i + 1]);
+        i++;
+      } else if (arg.startsWith("--run-seed=")) {
+        runSeedOverride = parseRunSeed(arg.substring("--run-seed=".length()));
       } else if ("--generation-log".equals(arg)) {
         generationLogEnabled = true;
       } else if (arg.startsWith("--log-interval=")) {
@@ -450,6 +459,7 @@ public class RunSingleParentConfig {
     System.setProperty(RunSingleHybridConfig.LOG_INTERVAL_PROPERTY, Integer.toString(logInterval));
     return new RunOptions(
       runIndexBase,
+      runSeedOverride,
       generationLogEnabled,
       logInterval,
       remaining.toArray(new String[0]));
@@ -461,6 +471,32 @@ public class RunSingleParentConfig {
       throw new IllegalArgumentException("--log-interval must be positive, got: " + rawValue);
     }
     return value;
+  }
+
+  private static long parseRunSeed(String rawValue) {
+    String trimmedValue = rawValue == null ? "" : rawValue.trim();
+    if (trimmedValue.isEmpty()) {
+      throw new IllegalArgumentException("--run-seed must be a long, got: " + rawValue);
+    }
+    try {
+      return Long.parseLong(trimmedValue);
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException("--run-seed must be a long, got: " + rawValue, e);
+    }
+  }
+
+  static long resolveExplicitRunSeed(long firstRunSeed, int runOffset) {
+    if (runOffset < 0) {
+      throw new IllegalArgumentException("runOffset must be non-negative, got: " + runOffset);
+    }
+    try {
+      return Math.addExact(firstRunSeed, runOffset);
+    } catch (ArithmeticException e) {
+      throw new IllegalArgumentException(
+        "Run seed overflow: firstRunSeed=" + firstRunSeed + ", runOffset=" + runOffset,
+        e
+      );
+    }
   }
 
   private static int configuredRunIndexBase() {
@@ -879,10 +915,11 @@ public class RunSingleParentConfig {
   }
 
   private static void printUsage() {
-    System.out.println("Usage: java -cp target/classes main.RunSingleParentConfig [--config <path>] [--record-baseline] [--baseline-file <path>] [--convergence-file <path>] [--run-index-base N] [--generation-log] [--log-interval=N] [enableDeltaFastRefine] [enableLocalRefineHotStartBudget] [dataDir] [numTasks] [numSatellites] [configCsv] [nRun] [nPop] [maxFes] [populationFactor]");
+    System.out.println("Usage: java -cp target/classes main.RunSingleParentConfig [--config <path>] [--record-baseline] [--baseline-file <path>] [--convergence-file <path>] [--run-index-base N] [--run-seed S] [--generation-log] [--log-interval=N] [enableDeltaFastRefine] [enableLocalRefineHotStartBudget] [dataDir] [numTasks] [numSatellites] [configCsv] [nRun] [nPop] [maxFes] [populationFactor]");
     System.out.println("  configCsv format: algorithmIndex");
     System.out.println("  the dynamic reassignment layer calls SingleAlgorithmOptimizer directly with pairwise greedy replacement");
-    System.out.println("  seed pairing: set -Devaluation.runSeedBase=S and -Devaluation.runIndexBase=B in both 6D/1D entries; run i uses seed S+B+i");
+    System.out.println("  --run-seed S: use S for runOffset=0 and S+runOffset for later runs; this overrides calculated Parent seeds");
+    System.out.println("  seed pairing: pass Hybrid's final perRun seed through --run-seed S in the 1D entry; run i uses S+i");
     System.out.println("  --generation-log prints per-generation best fitness; --log-interval=N controls the sampling interval");
     System.out.println("  --convergence-file writes per-run, per-satellite single-algorithm best-fitness traces as CSV");
     System.out.println("Example: java -cp target/classes main.RunSingleParentConfig --generation-log --log-interval=10 true true \"" + DEFAULT_DATA_DIR + "\" 500 5 \"1\" 1 270 16200");
@@ -975,7 +1012,9 @@ public class RunSingleParentConfig {
       List<RunConvergenceTrace> convergenceTraces = new ArrayList<>();
       for (int runOffset = 0; runOffset < arguments.nRun; runOffset++) {
         int runIndex = runOptions.runIndexBase + runOffset;
-        long runSeed = resolveRunSeed(arguments.config, nPop, maxFes, runIndex);
+        long runSeed = runOptions.runSeedOverride == null
+          ? resolveRunSeed(arguments.config, nPop, maxFes, runIndex)
+          : resolveExplicitRunSeed(runOptions.runSeedOverride, runOffset);
         long runStartNanos = System.nanoTime();
         RunResult runResult = runSingleParentOnce(
           allTasks,
