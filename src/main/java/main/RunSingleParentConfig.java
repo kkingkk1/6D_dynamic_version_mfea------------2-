@@ -51,7 +51,6 @@ public class RunSingleParentConfig {
   private static final String DELTA_FAST_REFINE_ENABLED_PROPERTY =
     "taskcoord.deltaFastRefine.enabled";
   private static final String RUNNER_NAME = "RunSingleParentConfig";
-  private static final long RUN_SEED_OFFSET = 3L;
   private static final int DEFAULT_MAX_REASSIGN_ITERATIONS =
     TuningConfig.getInt("eval.maxReassignIterations", TuningDefaults.EVAL_MAX_REASSIGN_ITERATIONS);
   private static final int DEFAULT_KEY_PERTURB_THRESHOLD =
@@ -417,7 +416,7 @@ public class RunSingleParentConfig {
 
   static RunOptions extractRunOptions(String[] args) {
     List<String> remaining = new ArrayList<>();
-    int runIndexBase = 0;
+    int runIndexBase = configuredRunIndexBase();
     boolean generationLogEnabled = Boolean.getBoolean(RunSingleHybridConfig.GENERATION_LOG_PROPERTY)
       || Boolean.getBoolean(RunSingleHybridConfig.GENERATION_LOG_ENABLED_PROPERTY);
     int logInterval = Integer.getInteger(RunSingleHybridConfig.LOG_INTERVAL_PROPERTY, 1);
@@ -464,6 +463,28 @@ public class RunSingleParentConfig {
     return value;
   }
 
+  private static int configuredRunIndexBase() {
+    String configuredValue = System.getProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
+    if (configuredValue == null || configuredValue.trim().isEmpty()) {
+      return 0;
+    }
+    try {
+      long parsedValue = Long.parseLong(configuredValue.trim());
+      if (parsedValue < 0L || parsedValue > Integer.MAX_VALUE) {
+        throw new IllegalArgumentException(
+          EvaluationHyb.RUN_INDEX_BASE_PROPERTY
+            + " must be in [0, " + Integer.MAX_VALUE + "], got: " + configuredValue
+        );
+      }
+      return (int) parsedValue;
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException(
+        EvaluationHyb.RUN_INDEX_BASE_PROPERTY + " must be a non-negative integer, got: " + configuredValue,
+        e
+      );
+    }
+  }
+
   private static long stableSeed(int[] config, int nPop, int maxFes) {
     long seed = AlgorithmConstants.FIXED_RANDOM_SEED_LONG;
     seed = 31L * seed + CONFIG_DIMENSION;
@@ -476,7 +497,10 @@ public class RunSingleParentConfig {
   }
 
   static long resolveRunSeed(int[] config, int nPop, int maxFes, int runIndex) {
-    long defaultSeedBase = Math.addExact(stableSeed(config, nPop, maxFes), RUN_SEED_OFFSET);
+    long defaultSeedBase = Math.addExact(
+      stableSeed(config, nPop, maxFes),
+      EvaluationHyb.RUN_SEED_OFFSET
+    );
     return EvaluationHyb.resolveConfiguredRunSeed(defaultSeedBase, runIndex);
   }
 
@@ -858,6 +882,7 @@ public class RunSingleParentConfig {
     System.out.println("Usage: java -cp target/classes main.RunSingleParentConfig [--config <path>] [--record-baseline] [--baseline-file <path>] [--convergence-file <path>] [--run-index-base N] [--generation-log] [--log-interval=N] [enableDeltaFastRefine] [enableLocalRefineHotStartBudget] [dataDir] [numTasks] [numSatellites] [configCsv] [nRun] [nPop] [maxFes] [populationFactor]");
     System.out.println("  configCsv format: algorithmIndex");
     System.out.println("  the dynamic reassignment layer calls SingleAlgorithmOptimizer directly with pairwise greedy replacement");
+    System.out.println("  seed pairing: set -Devaluation.runSeedBase=S and -Devaluation.runIndexBase=B in both 6D/1D entries; run i uses seed S+B+i");
     System.out.println("  --generation-log prints per-generation best fitness; --log-interval=N controls the sampling interval");
     System.out.println("  --convergence-file writes per-run, per-satellite single-algorithm best-fitness traces as CSV");
     System.out.println("Example: java -cp target/classes main.RunSingleParentConfig --generation-log --log-interval=10 true true \"" + DEFAULT_DATA_DIR + "\" 500 5 \"1\" 1 270 16200");

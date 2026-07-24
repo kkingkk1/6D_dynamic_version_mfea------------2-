@@ -25,7 +25,7 @@ public class EvaluationHyb {
     static final String RUN_INDEX_BASE_PROPERTY = "evaluation.runIndexBase";
     static final String RUN_SEED_BASE_PROPERTY = "evaluation.runSeedBase";
     static final String RUN_SEED_LOG_PROPERTY = "evaluation.runSeedLog";
-    private static final long RUN_SEED_OFFSET = 8L;
+    static final long RUN_SEED_OFFSET = 8L;
 
     /**
      * A1 switch: re-evaluate the final best solution using optimal insertion mode.

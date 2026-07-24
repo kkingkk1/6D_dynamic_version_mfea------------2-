@@ -76,6 +76,46 @@ class RunSingleParentConfigTest {
   }
 
   @Test
+  void extractRunOptionsUsesSharedJvmRunIndexBaseWhenCliFlagIsAbsent() {
+    String previousRunIndexBase = System.getProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
+    System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, "9");
+    try {
+      RunSingleParentConfig.RunOptions options = RunSingleParentConfig.extractRunOptions(
+        new String[] {"true"}
+      );
+
+      assertEquals(9, options.runIndexBase);
+      assertArrayEquals(new String[] {"true"}, options.remainingArgs);
+    } finally {
+      if (previousRunIndexBase == null) {
+        System.clearProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
+      } else {
+        System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, previousRunIndexBase);
+      }
+    }
+  }
+
+  @Test
+  void extractRunOptionsCliBaseOverridesSharedJvmBase() {
+    String previousRunIndexBase = System.getProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
+    System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, "9");
+    try {
+      RunSingleParentConfig.RunOptions options = RunSingleParentConfig.extractRunOptions(
+        new String[] {"--run-index-base=2", "true"}
+      );
+
+      assertEquals(2, options.runIndexBase);
+      assertArrayEquals(new String[] {"true"}, options.remainingArgs);
+    } finally {
+      if (previousRunIndexBase == null) {
+        System.clearProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
+      } else {
+        System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, previousRunIndexBase);
+      }
+    }
+  }
+
+  @Test
   void explicitRunSeedBasePairsDifferentParentConfigs() {
     String previousSeedBase = System.getProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY);
     System.setProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, "42");
@@ -100,6 +140,45 @@ class RunSingleParentConfigTest {
         System.clearProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY);
       } else {
         System.setProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, previousSeedBase);
+      }
+    }
+  }
+
+  @Test
+  void explicitRunSeedBasePairsParentWithHybridAcrossFiveRuns() {
+    String previousSeedBase = System.getProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY);
+    String previousRunIndexBase = System.getProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
+    System.setProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, "42");
+    System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, "0");
+    try {
+      for (int runIndex = 0; runIndex < 5; runIndex++) {
+        long hybridSeed = EvaluationHyb.resolveRunSeed(
+          new int[] {2, 9, 0, 0, 0, 2},
+          AlgorithmConstants.HYBRID_CONFIG_DIMENSION,
+          270,
+          27000,
+          runIndex
+        );
+        long parentSeed = RunSingleParentConfig.resolveRunSeed(
+          new int[] {4},
+          270,
+          27000,
+          runIndex
+        );
+
+        assertEquals(42L + runIndex, hybridSeed);
+        assertEquals(hybridSeed, parentSeed);
+      }
+    } finally {
+      if (previousSeedBase == null) {
+        System.clearProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY);
+      } else {
+        System.setProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, previousSeedBase);
+      }
+      if (previousRunIndexBase == null) {
+        System.clearProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
+      } else {
+        System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, previousRunIndexBase);
       }
     }
   }
