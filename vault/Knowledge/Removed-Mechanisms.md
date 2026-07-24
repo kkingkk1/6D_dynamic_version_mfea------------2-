@@ -2,12 +2,19 @@
 type: knowledge
 title: 已移除机制
 project: 6d-dynamic-version-mfea
-updated: 2026-05-26
+updated: 2026-07-24
 ---
 
 # 已移除机制
 
 本页记录已从主线移除、但后续容易误恢复的机制。根 `AGENTS.md` 只写当前行为；删除理由、证据入口和恢复条件放在这里。
+
+## 3D OA1-only 单算法入口
+
+- 已移除：`RunSingleParentConfig` 的 `{algorithmIndex,updateRatioCode,survivorStrategy}` 配置、`HybCec.singleParentMode` 和 OA1-only 执行路径。
+- 当前行为：入口只接收 `{algorithmIndex}`；`TaskAllocationCoordinator` 保留动态重分配，并直接调用 `SingleAlgorithmOptimizer.optimize()`；候选使用一对一 greedy replacement。
+- 证据入口：旧 OA1-only 调参与配对结果保留在 `vault/Results/Reports/` 和 `vault/Knowledge/Source-Inventory.md`，只解释历史决策，不作为新 1D 路径的收益基线。
+- 恢复条件：若需要复查旧结果，应使用独立历史 checkout；不要在当前入口恢复多维兼容解析或 `singleParentMode`。
 
 ## 校准 bigGain 触发条件
 

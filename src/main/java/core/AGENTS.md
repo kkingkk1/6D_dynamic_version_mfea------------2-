@@ -9,7 +9,7 @@
 | 文件 | 类名 | 子包 | 职责 |
 |------|------|------|------|
 | FitnessEvaluator.java | `FitnessEvaluator` | (根) | 外置适应度评估接口，供 HybCec 与测试/替代评估器解耦 |
-| HybCec.java | `HybCec`, `HybResult` | (根) | 主控制器，接收由 `main.EvaluationHyb` 解码后的 6D 纯语义 hybrid 配置，或由 `main.RunSingleParentConfig` 构造的 OA1-only 单算法运行配置，编排初始化→迭代→评估→结果返回的完整生命周期；`HybResult` 同步返回 best-fitness 曲线和对应 eval 计数 |
+| HybCec.java | `HybCec`, `HybResult` | (根) | 混合优化主控制器，接收由 `main.EvaluationHyb` 解码后的 6D 纯语义 hybrid 配置，编排初始化→迭代→评估→结果返回的完整生命周期；`HybResult` 同步返回 best-fitness 曲线和对应 eval 计数 |
 | HybridLevelCalculator.java | `HybridLevelCalculator` | calculator | 有状态的混合级别计算器，封装 G2/G3 update policy 掩码生成、个体子集选择与校验逻辑；随机子集选择使用当前 HybCec 运行持有的 `Random`，不再读取静态 thread-local 随机源 |
 | AlgorithmIndex.java | `AlgorithmIndex` | config | 枚举，映射算法类型到 flagPar 数组索引；当前 6D 搜索只暴露 ID 0-10，ID 11-15 为实现库归档尾部 |
 | ConfigValidatable.java | `ConfigValidatable`, `ValidationResult`, `ValidationResultBuilder` | config | 配置参数校验接口与流式构建器 |
@@ -48,7 +48,7 @@
 | `getCurrentInsertionMode()` | 根据当前迭代进度选择早期/后期插入策略 |
 | `getParentAlgorithm(int)` | 工厂方法，根据索引返回对应的 ParentStrategy |
 | `createParentContext(...)` | 构建含算法专用子上下文的 ParentContext |
-| `updateEnableParents()` | 8 种 operation-order policy（serial、periodic、stage、best-no-improvement、process-no-improvement、diversity、parallel、adaptive-credit）；若运行时 `singleParentMode=true`，则短路为 OA1-only |
+| `updateEnableParents()` | 8 种 operation-order policy（serial、periodic、stage、best-no-improvement、process-no-improvement、diversity、parallel、adaptive-credit） |
 | `initializeRun()` | 评估初始种群，设置 pbest/gbest，创建管理器 |
 | `reSetParameters(int D, int newNPop)` | 种群规模变化时重置所有数据结构 |
 

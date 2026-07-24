@@ -1,6 +1,6 @@
 # 6D pure-semantic dynamic version 全局地图
 
-> 最后更新：2026-06-16
+> 最后更新：2026-07-24
 
 ## 项目概述
 
@@ -12,7 +12,7 @@
 - `de.*`、`hybcec.insertionMode`、父算法内部参数和 speedup 开关都是运行时配置，不进入 6D 基因。
 - 默认固定基线为 `{9,2,0,0,0,0}`；单配置复现实验从 `main.RunSingleHybridConfig.main()` 进入，默认开启 `autohyb.deterministic=true` 复现实验模式。
 - G2/G3 是 update policy，G4 是 operation-order policy，G5 是 survivor policy。
-- `singleParentMode` 仅用于 OA1-only 单算法实验，不进入混合算法组件库语义。
+- 单算法入口使用独立 1D `algorithmIndex`，由动态重分配层直接调用 `SingleAlgorithmOptimizer`；不复用 6D 混合基因或 HybCec OA1-only 模式。
 - 当前默认和 MFEA 主线阶段结论见 `vault/01-Plan.md`；历史单算法调参计划、报告和原始日志保留在本地但不进入 fresh MFEA Git 历史。
 - 防回退边界和恢复条件见 `vault/Knowledge/Removed-Mechanisms.md`。
 
@@ -75,10 +75,10 @@
 ## 模块依赖
 
 ```text
-main → core → strategy → algorithm → operator → common → model/utils
+main → core / strategy / algorithm → operator → common → model/utils
 ```
 
-- `main → core / utils / model / common / operator.assignment`
+- `main → core / strategy / algorithm / utils / model / common / operator.assignment`
 - `utils → model / operator.insertion / operator.assignment`
 - `model` 为底层领域对象，不依赖上层模块
 - 禁止循环依赖
@@ -103,7 +103,7 @@ DataLoader → Initialize（任务-卫星分配）
   → 单配置复现实验路径：RunSingleHybridConfig（直接评估固定 6D 配置；命令行只接收 6D 配置，DE 参数从 `tuning.properties` 或 JVM `de.*` 属性读取；默认 `autohyb.deterministic=true`，可设为 `false` 恢复并行快跑）
     → EvaluationHyb → TaskAllocationCoordinator.scheduleWithReassignment()
     → 可选 EliteConfigArchive.saveCandidateConfig()（仅在显式开启 --record-elite-archive 时，将固定配置追加到同实例域热启动归档）
-  → 单算法复现实验路径：RunSingleParentConfig（直接评估独立 3D 单算法配置 `{P0 algorithm, P1 updateRatio, P2 survivor}`；运行时固定 `operationOrder=sequential`，DE 参数从 `de.*` 读取，并通过 `singleParentMode=true` 强制仅启用 OA1；可选 `--convergence-file` 输出正式卫星调度阶段的 per-run / per-satellite HybCec best-fitness 曲线）
+  → 单算法复现实验路径：RunSingleParentConfig（只接收 1D `{algorithmIndex}`；DE 参数从 `de.*` 读取；动态重分配层直接调用 `SingleAlgorithmOptimizer.optimize()`，每轮由单个 parent strategy 生成候选并做逐候选 greedy replacement；可选 `--convergence-file` 输出正式卫星调度阶段的 per-run / per-satellite 单算法 best-fitness 曲线）
 ```
 
 ## 关键入口

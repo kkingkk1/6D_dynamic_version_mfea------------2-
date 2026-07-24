@@ -137,7 +137,6 @@ public class HybCec implements StateUpdater {
   // Input parameters
   // ----------------------------------------------------------
   private int parent1, parent2, D, oLRand, oO, strSurvive, maxItera;
-  private boolean singleParentMode;
   private int nPopInit;
   private int[] oL;
   private Satellite satellite;
@@ -338,7 +337,6 @@ public class HybCec implements StateUpdater {
     this.oO = oO;
     this.strSurvive = strSurvive;
     this.maxItera = maxItera;
-    this.singleParentMode = false;
     this.satellite = satellite;
 
     // Initialize phase transition configuration
@@ -1440,10 +1438,6 @@ public class HybCec implements StateUpdater {
    */
   private void updateEnableParents() {
     List<Boolean> enableParents = state.getEnableParents();
-    if (singleParentMode) {
-      enableOnlyParent(enableParents, 0);
-      return;
-    }
     switch (oO) {
       case AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL:
         enableParents.set(0, true);
@@ -1850,14 +1844,6 @@ public class HybCec implements StateUpdater {
 
   public void setMaxItera(int maxItera) {
     this.maxItera = maxItera;
-  }
-
-  public boolean isSingleParentMode() {
-    return singleParentMode;
-  }
-
-  public void setSingleParentMode(boolean singleParentMode) {
-    this.singleParentMode = singleParentMode;
   }
 
   public int getNPop() {

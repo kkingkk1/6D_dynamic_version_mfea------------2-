@@ -421,7 +421,7 @@ public class TaskAllocationCoordinator {
     public final int oLRand;
     public final int oO;
     public final int strSurvive;
-    public final boolean singleParentMode;
+    public final boolean singleAlgorithmMode;
     public final int nPop;
     public final int maxFes;
     public final InsertionMode insertionMode;
@@ -442,13 +442,13 @@ public class TaskAllocationCoordinator {
       );
     }
 
-    public HybCecConfig(int[] parentsIndex, int[] oL, int oLRand, int oO, int strSurvive, int nPop, int maxFes, InsertionMode insertionMode, long seed, boolean singleParentMode) {
+    public HybCecConfig(int[] parentsIndex, int[] oL, int oLRand, int oO, int strSurvive, int nPop, int maxFes, InsertionMode insertionMode, long seed, boolean singleAlgorithmMode) {
       this.parentsIndex = parentsIndex;
       this.oL = oL;
       this.oLRand = oLRand;
       this.oO = oO;
       this.strSurvive = strSurvive;
-      this.singleParentMode = singleParentMode;
+      this.singleAlgorithmMode = singleAlgorithmMode;
       this.nPop = nPop;
       this.maxFes = maxFes;
       this.insertionMode = insertionMode;
@@ -1147,33 +1147,22 @@ public class TaskAllocationCoordinator {
         !commitState
       );
       int effectiveMaxFes = computeEffectiveMaxFes(satellite.getId(), config, commitState, stateStore);
-      HybCec hybCec = new HybCec(
-        config.parentsIndex[0],
-        config.parentsIndex[1],
-        dimension,
-        config.nPop,
-        config.oL,
-        config.oLRand,
-        config.oO,
-        config.strSurvive,
-        effectiveMaxFes,
-        satellite,
-        popIni,
-        rand,
-        config.insertionMode
-      );
-      hybCec.setSingleParentMode(config.singleParentMode);
-      hybCec.setEnableGenerationLog(
-        Boolean.getBoolean(RunSingleHybridConfig.GENERATION_LOG_PROPERTY)
-          || Boolean.getBoolean(RunSingleHybridConfig.GENERATION_LOG_ENABLED_PROPERTY));
-      hybCec.setGenerationLogInterval(Integer.getInteger(RunSingleHybridConfig.LOG_INTERVAL_PROPERTY, 1));
-      hybCec.setEnableInitialPopLog(useEnsemble);
-      hybCec.setAllTasks(new ArrayList<>(orderedTasks));
-      hybCec.setTotalTaskCount(allTasks.size());
-      hybCec.setDeltaPath(!commitState);
-      HybCec.HybResult result = hybCec.run();
-      if (deferStateCommit) {
-        ConvergenceTrace trace = buildConvergenceTrace(
+      double[] solution;
+      ConvergenceTrace trace;
+      if (config.singleAlgorithmMode) {
+        SingleAlgorithmOptimizer.Result result = SingleAlgorithmOptimizer.optimize(
+          config.parentsIndex[0],
+          dimension,
+          config.nPop,
+          effectiveMaxFes,
+          satellite,
+          orderedTasks,
+          popIni,
+          rand,
+          config.insertionMode
+        );
+        solution = result.getBestSolution();
+        trace = buildConvergenceTrace(
           -1,
           satellite.getId(),
           ensembleIdx,
@@ -1181,13 +1170,50 @@ public class TaskAllocationCoordinator {
           commitState,
           result
         );
-        if (trace != null) {
-          localTraces.add(trace);
-        }
       } else {
-        recordConvergenceTrace(satellite.getId(), ensembleIdx, effectiveMaxFes, commitState, result);
+        HybCec hybCec = new HybCec(
+          config.parentsIndex[0],
+          config.parentsIndex[1],
+          dimension,
+          config.nPop,
+          config.oL,
+          config.oLRand,
+          config.oO,
+          config.strSurvive,
+          effectiveMaxFes,
+          satellite,
+          popIni,
+          rand,
+          config.insertionMode
+        );
+        hybCec.setEnableGenerationLog(
+          Boolean.getBoolean(RunSingleHybridConfig.GENERATION_LOG_PROPERTY)
+            || Boolean.getBoolean(RunSingleHybridConfig.GENERATION_LOG_ENABLED_PROPERTY));
+        hybCec.setGenerationLogInterval(Integer.getInteger(RunSingleHybridConfig.LOG_INTERVAL_PROPERTY, 1));
+        hybCec.setEnableInitialPopLog(useEnsemble);
+        hybCec.setAllTasks(new ArrayList<>(orderedTasks));
+        hybCec.setTotalTaskCount(allTasks.size());
+        hybCec.setDeltaPath(!commitState);
+        HybCec.HybResult result = hybCec.run();
+        solution = result.getGbestSolution();
+        trace = buildConvergenceTrace(
+          -1,
+          satellite.getId(),
+          ensembleIdx,
+          effectiveMaxFes,
+          commitState,
+          result
+        );
       }
-      double[] solution = result.getGbestSolution();
+      if (trace != null) {
+        if (deferStateCommit) {
+          localTraces.add(trace);
+        } else {
+          synchronized (convergenceTraces) {
+            appendConvergenceTrace(trace);
+          }
+        }
+      }
       if (solution == null) {
         continue;
       }
@@ -1219,27 +1245,6 @@ public class TaskAllocationCoordinator {
     return new SatelliteEvaluationResult(satellite.getId(), bestEnsemblePlan, null, localTraces);
   }
 
-  private void recordConvergenceTrace(
-    int satelliteId,
-    int ensembleIndex,
-    int maxFes,
-    boolean commitState,
-    HybCec.HybResult result
-  ) {
-    ConvergenceTrace trace = buildConvergenceTrace(
-      -1,
-      satelliteId,
-      ensembleIndex,
-      maxFes,
-      commitState,
-      result
-    );
-    if (trace == null) return;
-    synchronized (convergenceTraces) {
-      appendConvergenceTrace(trace);
-    }
-  }
-
   private ConvergenceTrace buildConvergenceTrace(
     int traceIndex,
     int satelliteId,
@@ -1260,6 +1265,29 @@ public class TaskAllocationCoordinator {
       commitState,
       result.getBestFitRecord(),
       result.getEvalRecord()
+    );
+  }
+
+  private ConvergenceTrace buildConvergenceTrace(
+    int traceIndex,
+    int satelliteId,
+    int ensembleIndex,
+    int maxFes,
+    boolean commitState,
+    SingleAlgorithmOptimizer.Result result
+  ) {
+    if (!commitState || result == null) {
+      return null;
+    }
+    return new ConvergenceTrace(
+      traceIndex,
+      satelliteId,
+      ensembleIndex,
+      maxFes,
+      result.getGenerations(),
+      commitState,
+      result.getBestFitnessByGeneration(),
+      result.getEvalsByGeneration()
     );
   }
 

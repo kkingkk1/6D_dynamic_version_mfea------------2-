@@ -24,7 +24,6 @@ class HybCecAlnsRegressionTest {
   @Test
   void alnsParentAlgorithmInitializesAndRunsThroughHybCec() throws Exception {
     HybCec hybCec = createHybCec();
-    hybCec.setSingleParentMode(true);
     hybCec.setAllTasks(createTasks(3));
     hybCec.setEnableGenerationLog(false);
 
@@ -248,7 +247,6 @@ class HybCecAlnsRegressionTest {
   @Test
   void alnsOperatorStatePersistsThroughHybCecStateAcrossStrategyInstances() throws Exception {
     HybCec hybCec = createHybCec();
-    hybCec.setSingleParentMode(true);
     hybCec.setAllTasks(createTasks(3));
     hybCec.setEnableGenerationLog(false);
 

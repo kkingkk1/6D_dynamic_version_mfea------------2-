@@ -3,7 +3,7 @@ type: project
 title: 计划 - 卫星调度混合元启发式项目
 project: 6d-dynamic-version-mfea
 status: active
-updated: 2026-05-28
+updated: 2026-07-24
 ---
 
 # 计划
@@ -48,8 +48,8 @@ updated: 2026-05-28
 - 固定配置 `{4,1,0,0,0,0}` 是对照基线，不是最终目标；主线目标是通过自动设计找到超过该基线的配置。
 - 当前父算法搜索空间只包含 ID 0-10 的 11 个主动父算法；ID 11-15 为实现库归档尾部，不进入自动设计搜索。
 - 根 `AGENTS.md` 只保留当前架构、默认语义、入口、数据流、模块依赖和回环规则；新 MFEA 实验表格、CI 和阶段流水账归档到 `vault/Results/Reports/`，本文件只同步会改变项目主线的压缩结论。
-- ID1 的 OA1-only parent sanity check 已验证 11 个主动父算法都能通过 `RunSingleParentConfig` 跑完；收益和耗时差异明显，自动设计结果需要同时报告 profit 和 wall time。
-- 2026-05-18 的 ID1 单父 `{updatePolicy,survivor}` 参数格搜索显示，各算法最佳策略不同。全局最好按 AvgProfit 为 `L_SHADE {9,3,0}` 与 `DE_RAND_1 {4,0,0}` 并列 `2740.33`；这支持保留算法组件、更新范围和 survivor 三类语义。
+- 旧 OA1-only parent sanity check 和多维参数格结果只解释 6D 混合空间为何保留 update policy 与 survivor，不再作为当前单算法入口的性能结论。
+- `RunSingleParentConfig` 当前只接收 1D `{algorithmIndex}`，由动态重分配层直接调用独立单算法循环，并使用一对一 greedy replacement；新路径需要单独重建收益和耗时基线。
 - `InsertionMode` 保持运行时消融开关，不升级为 6D 搜索基因。ID1 消融显示 `GREEDY` 仍是收益最好且耗时最低的默认值。
 - G2/G3 已收敛为 7 个 update policy：`FULL`、`TOP_SUBSET`、`MIXED_SUBSET`、`RANDOM_DECAY`、`ABOVE_MEAN`、`LOCAL_SEARCH`、`WORST_REPAIR`。
 - G4 已扩为 8 个 operation-order policy：`SERIAL`、`PERIODIC_SWITCH`、`STAGE_SWITCH`、`BEST_NO_IMPROVEMENT_SWITCH`、`PROCESS_NO_IMPROVEMENT_SWITCH`、`DIVERSITY_SWITCH`、`PARALLEL`、`ADAPTIVE_CREDIT`。
@@ -73,37 +73,21 @@ updated: 2026-05-28
 - 单算法内部超参数每个算法只保留一套代码默认。当前固定为 GA `0.9/0.15/k2/sigma0.2/elite1/mutationDim0.1/adaptive=false`，DE 系 `SIGMOID F=0.10->0.01,CR=0.3,RANDOM_REINIT`，L-SHADE `pbestRate=0.4,memorySize=45,archiveRate=3.0,learnPeriod=20,crStd=0.1,cauchy=0.1`，EDA `kElite=0.12,sigmaScale=1.00,minSigmaRatio=0.002,stagnation=off`，PSO `TVAC + RANDOM_REBOUND r=0.05 + vMaxLimit=80`，ACO `0.80/0.35/0.5/0.001`，SA `freezeRate=0.99,temperature=0.5,LOGARITHMIC offset=3.0`，ABC `numNoImp=100,phiScale=2.0,phiOffset=1.0`，ALNS A37 `initialTemperatureRatio=0.032,coolingRate=0.99975`。
 - Phase D 和 speedup 新增性能 / 调参开关默认关闭、unset 或等价旧行为；改变搜索轨迹的开关必须用真实评估复测最终配置。
 
-## 单算法最优配置与内部超参数
+## 单算法内部超参数
 
-### 单父最优配置总表
-
-| 算法 | 配置 | 平均收益 | 最优收益 |
-|---|---|---:|---:|
-| GA | `0,0,0` | `2735.67` | `2743.00` |
-| PSO | `1,2,0` | `2729.33` | `2732.00` |
-| EDA | `2,2,2` | `2738.00` | `2740.00` |
-| ACO | `3,3,0` | `2693.33` | `2698.00` |
-| DE_RAND_1 | `4,0,0` | `2740.33` | `2741.00` |
-| DE_BEST_1 | `5,4,2` | `2739.00` | `2741.00` |
-| DE_CURRENT_TO_RAND_1 | `6,5,0` | `2737.67` | `2740.00` |
-| ABC | `7,1,1` | `2694.67` | `2699.00` |
-| SA | `8,1,1` | `2724.33` | `2727.00` |
-| L_SHADE | `9,3,0` | `2740.33` | `2742.00` |
-| ALNS | `10,1,0` | `2737.00` | `2740.00` |
-
-数据来自历史单父参数格搜索和 GA 参数影响实验；原始报告保留在本地 legacy artifacts，不进入 fresh MFEA Git 历史。
+旧多维单父最优表已移出当前计划。原始报告保留在本地历史 artifacts；新 1D 独立优化器尚未重建跨算法基线。
 
 ### 内部超参数快照
 
-- `GA {0,0,0}`：`ga.probCrossover=0.9,ga.probMutation=0.15,ga.kTournament=2,ga.sigmaScale=0.2,ga.nElite=1,ga.maxMutationDimRatio=0.1,ga.adaptiveMutation=false`。
-- `DE_RAND_1 {4,0,0}`、`DE_BEST_1 {5,4,2}`、`DE_CURRENT_TO_RAND_1 {6,5,0}`：`de.fSchedule=SIGMOID,de.fMax=0.10,de.fMin=0.01,de.crossoverRate=0.3,de.boundaryPolicy=RANDOM_REINIT`。
-- `L_SHADE {9,3,0}`：`pbestRate=0.4,memorySize=45,archiveRate=3.0,learnPeriod=20,crGaussianStd=0.1,cauchyScale=0.1`。
-- `EDA {2,2,2}`：`eda.kElite=0.12,eda.sigmaScale=1.00,eda.minSigmaRatio=0.002,eda.stagnationGenerations=0,eda.stagnationBoostRatio=1.0`。
-- `PSO {1,2,0}`：`pso.enableTVAC=true,pso.tvacC1=2.5->0.5,pso.tvacC2=0.5->2.5,pso.inertia=0.9->0.4,pso.boundaryMode=RANDOM_REBOUND,pso.boundaryRepairRatio=0.05,pso.vMaxLimit=80`。
-- `ACO {3,3,0}`：`aco.nSample=0.80,aco.intenseFactor=0.35,aco.deviateDistanceRatio=0.5,aco.minSigmaRatio=0.001`。
-- `SA {8,1,1}`：`freezeRate=0.99,temperature=0.5,temperatureSchedule=LOGARITHMIC,temperatureLogOffset=3.0,adaptiveSigma=false,hybcec.sa.genSAFast=5`。
-- `ABC {7,1,1}`：`abc.numNoImp=100,abc.phiScale=2.0,abc.phiOffset=1.0`。
-- `ALNS {10,1,0}`：`innerIterations=3,initialTemperatureRatio=0.032,coolingRate=0.99975,maxDestroyRatio=0.15,sigmaGlobal=30,sigmaLocal=20,sigmaBad=10,reactionFactor=0.5,weightUpdateInterval=3,maxInitialTemperature=100,enableRegret2Repair=false`。
+- `GA`：`ga.probCrossover=0.9,ga.probMutation=0.15,ga.kTournament=2,ga.sigmaScale=0.2,ga.nElite=1,ga.maxMutationDimRatio=0.1,ga.adaptiveMutation=false`。
+- `DE_RAND_1`、`DE_BEST_1`、`DE_CURRENT_TO_RAND_1`：`de.fSchedule=SIGMOID,de.fMax=0.10,de.fMin=0.01,de.crossoverRate=0.3,de.boundaryPolicy=RANDOM_REINIT`。
+- `L_SHADE`：`pbestRate=0.4,memorySize=45,archiveRate=3.0,learnPeriod=20,crGaussianStd=0.1,cauchyScale=0.1`。
+- `EDA`：`eda.kElite=0.12,eda.sigmaScale=1.00,eda.minSigmaRatio=0.002,eda.stagnationGenerations=0,eda.stagnationBoostRatio=1.0`。
+- `PSO`：`pso.enableTVAC=true,pso.tvacC1=2.5->0.5,pso.tvacC2=0.5->2.5,pso.inertia=0.9->0.4,pso.boundaryMode=RANDOM_REBOUND,pso.boundaryRepairRatio=0.05,pso.vMaxLimit=80`。
+- `ACO`：`aco.nSample=0.80,aco.intenseFactor=0.35,aco.deviateDistanceRatio=0.5,aco.minSigmaRatio=0.001`。
+- `SA`：`freezeRate=0.99,temperature=0.5,temperatureSchedule=LOGARITHMIC,temperatureLogOffset=3.0,adaptiveSigma=false,hybcec.sa.genSAFast=5`。
+- `ABC`：`abc.numNoImp=100,abc.phiScale=2.0,abc.phiOffset=1.0`。
+- `ALNS`：`innerIterations=3,initialTemperatureRatio=0.032,coolingRate=0.99975,maxDestroyRatio=0.15,sigmaGlobal=30,sigmaLocal=20,sigmaBad=10,reactionFactor=0.5,weightUpdateInterval=3,maxInitialTemperature=100,enableRegret2Repair=false`。
 
 ## 阶段结论索引
 
@@ -115,6 +99,5 @@ updated: 2026-05-28
 - 2026-05-16 已重建当前配置 10 场景固定基线；整体单次最好为 `run_index=3`。完整历史报告保留在本地 legacy artifacts。
 - 重分配每轮迁移预算应保留；取消预算没有稳定收益，ID5 明显变差且更慢。
 - 每类重分配移动中，Standard 是主要贡献来源，Replace 是稳定补充，Swap 更偏小规模，Bundle 是低频高价值修复。
-- Speedup 后 ID1 单父 runtime 表显示，`DE_BEST_1` 最快，`DE_RAND_1` AvgProfit 最高；该结果只作为 MFEA 父算法代价参考。
-- ID1 单父 `{updatePolicy,survivor}` 参数格搜索显示，`L_SHADE {9,3,0}` 与 `DE_RAND_1 {4,0,0}` 按 AvgProfit 并列第一；该结果支持保留 update policy 和 survivor 语义。
+- 旧 OA1-only runtime 与参数格结果只作为 MFEA 组件选择的历史证据，不外推到当前 1D 独立优化器。
 - GA、DE、L-SHADE、EDA、PSO、ACO、SA、ABC、ALNS 的内部默认已收口为本文件“内部超参数快照”；后续不再沿单算法调参主线展开。

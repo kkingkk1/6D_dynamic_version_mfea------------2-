@@ -23,25 +23,21 @@ class RunSingleParentConfigTest {
   }
 
   @Test
-  void parseConfigRejectsNonThreeDimensionalInput() {
+  void parseConfigRejectsMultiDimensionalInput() {
     IllegalArgumentException exception = assertThrows(
       IllegalArgumentException.class,
-      () -> RunSingleParentConfig.parseConfig("4,0,0,1")
+      () -> RunSingleParentConfig.parseConfig("4,0,0")
     );
 
-    assertTrue(exception.getMessage().contains("3 integers"));
+    assertTrue(exception.getMessage().contains("exactly 1 integer"));
   }
 
   @Test
-  void parseConfigKeepsCurrentWorstRepairPolicyCode() {
-    RunSingleParentConfig.ParsedConfig parsed = RunSingleParentConfig.parseConfig("4,6,0");
+  void parseConfigKeepsAlgorithmIndex() {
+    RunSingleParentConfig.ParsedConfig parsed = RunSingleParentConfig.parseConfig("4");
 
     assertArrayEquals(
-      new int[] {
-        AlgorithmConstants.ALGORITHM_INDEX_DE_RAND_1,
-        AlgorithmConstants.UPDATE_RATIO_CODE_WORST_REPAIR,
-        AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_PERMUTATION
-      },
+      new int[] {AlgorithmConstants.ALGORITHM_INDEX_DE_RAND_1},
       parsed.config
     );
   }
@@ -91,13 +87,9 @@ class RunSingleParentConfigTest {
   }
 
   @Test
-  void buildSingleParentHybCecConfigDuplicatesParentAndForcesRuntimeSingleParentMode() {
-    TaskAllocationCoordinator.HybCecConfig config = RunSingleParentConfig.buildSingleParentHybCecConfig(
-      new int[] {
-        AlgorithmConstants.ALGORITHM_INDEX_PSO,
-        AlgorithmConstants.UPDATE_RATIO_CODE_MIXED_SUBSET,
-        AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_CHAMPION
-      },
+  void buildSingleAlgorithmConfigEnablesStandaloneOptimizerMode() {
+    TaskAllocationCoordinator.HybCecConfig config = RunSingleParentConfig.buildSingleAlgorithmConfig(
+      new int[] {AlgorithmConstants.ALGORITHM_INDEX_PSO},
       32,
       3200,
       InsertionMode.GREEDY,
@@ -109,14 +101,11 @@ class RunSingleParentConfigTest {
       config.parentsIndex
     );
     assertArrayEquals(
-      new int[] {
-        AlgorithmConstants.UPDATE_RATIO_CODE_MIXED_SUBSET,
-        AlgorithmConstants.UPDATE_RATIO_CODE_MIXED_SUBSET
-      },
+      new int[] {AlgorithmConstants.UPDATE_RATIO_CODE_FULL, AlgorithmConstants.UPDATE_RATIO_CODE_FULL},
       config.oL
     );
     assertEquals(AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL, config.oO);
-    assertTrue(config.singleParentMode);
+    assertTrue(config.singleAlgorithmMode);
   }
 
   @Test
@@ -137,11 +126,7 @@ class RunSingleParentConfigTest {
       null,
       500,
       5,
-      new int[] {
-        AlgorithmConstants.HYBCEC_PARENT_ALGORITHM_COUNT,
-        AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
-        AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_PERMUTATION
-      },
+      new int[] {AlgorithmConstants.HYBCEC_PARENT_ALGORITHM_COUNT},
       1,
       null,
       null,

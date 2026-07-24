@@ -100,16 +100,6 @@ class HybCecOperationOrderRegressionTest {
     assertEquals(0.001138550085106622, diversity, 1.0e-12);
   }
 
-  @Test
-  void singleParentModeForcesOnlyParent1EvenWhenSequential() {
-    HybCec hybCec = createHybCec(AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL);
-
-    hybCec.setSingleParentMode(true);
-    hybCec.updateEnableParentsForTest();
-
-    assertEquals(List.of(true, false), hybCec.getState().getEnableParents());
-  }
-
   private HybCec createHybCec(int operationOrder) {
     List<double[]> popIni = new ArrayList<>();
     for (int i = 0; i < 6; i++) {

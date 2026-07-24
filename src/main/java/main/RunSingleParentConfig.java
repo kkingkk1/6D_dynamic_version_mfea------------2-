@@ -26,10 +26,8 @@ import java.util.Properties;
 
 public class RunSingleParentConfig {
 
-  private static final int CONFIG_DIMENSION = 3;
+  private static final int CONFIG_DIMENSION = 1;
   private static final int N_PAR = AlgorithmConstants.HYBCEC_PARENT_ALGORITHM_COUNT;
-  private static final int N_OL = AlgorithmConstants.UPDATE_RATIO_CODE_COUNT;
-  private static final int N_SS = AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_COUNT;
   private static final int DEFAULT_NUM_TASKS = 500;
   private static final int DEFAULT_NUM_SATELLITES = 5;
   private static final int DEFAULT_N_RUN = 1;
@@ -44,9 +42,7 @@ public class RunSingleParentConfig {
   private static final double DEBUG_ITERATION_COEFFICIENT =
     TuningConfig.getDouble("iteration.coefficient", TuningDefaults.ITERATION_COEFFICIENT);
   private static final int[] DEFAULT_CONFIG = {
-    1,
-    0,
-    0
+    1
   };
   private static final String DEFAULT_DATA_DIR =
     "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-0-0-24";
@@ -260,7 +256,7 @@ public class RunSingleParentConfig {
     String[] parts = configCsv.split(",");
     if (parts.length != CONFIG_DIMENSION) {
       throw new IllegalArgumentException(
-        "single-parent configCsv must contain " + CONFIG_DIMENSION + " integers, got: "
+        "single-algorithm configCsv must contain exactly 1 integer, got: "
           + configCsv
       );
     }
@@ -268,11 +264,10 @@ public class RunSingleParentConfig {
     for (int i = 0; i < parts.length; i++) {
       rawConfig[i] = Integer.parseInt(parts[i].trim());
     }
-    rawConfig[1] = AlgorithmConstants.normalizeUpdatePolicyCode(rawConfig[1]);
-    return new ParsedConfig(rawConfig);
+    return new ParsedConfig(new int[] {rawConfig[0]});
   }
 
-  static TaskAllocationCoordinator.HybCecConfig buildSingleParentHybCecConfig(
+  static TaskAllocationCoordinator.HybCecConfig buildSingleAlgorithmConfig(
     int[] config,
     int nPop,
     int maxFes,
@@ -280,10 +275,13 @@ public class RunSingleParentConfig {
     long seed) {
     return new TaskAllocationCoordinator.HybCecConfig(
       new int[] {config[0], config[0]},
-      new int[] {config[1], config[1]},
-      config[1],
+      new int[] {
+        AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
+        AlgorithmConstants.UPDATE_RATIO_CODE_FULL
+      },
+      AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
       AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL,
-      config[2],
+      AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_ELITIST_BEST_N,
       nPop,
       maxFes,
       insertionMode,
@@ -356,12 +354,10 @@ public class RunSingleParentConfig {
     }
     if (config == null || config.length != CONFIG_DIMENSION) {
       throw new IllegalArgumentException(
-        "single-parent config must contain exactly " + CONFIG_DIMENSION + " integers"
+        "single-algorithm config must contain exactly " + CONFIG_DIMENSION + " integer"
       );
     }
     validateRange("config[0]", config[0], 0, N_PAR - 1);
-    validateRange("config[1]", config[1], 0, N_OL - 1);
-    validateRange("config[2]", config[2], 0, N_SS - 1);
   }
 
   private static void validateRange(String label, int value, int min, int max) {
@@ -703,7 +699,7 @@ public class RunSingleParentConfig {
       DEFAULT_KEY_PERTURB_THRESHOLD,
       DEFAULT_KEY_PERTURB_STRENGTH
     );
-    TaskAllocationCoordinator.HybCecConfig hybCecConfig = buildSingleParentHybCecConfig(
+    TaskAllocationCoordinator.HybCecConfig hybCecConfig = buildSingleAlgorithmConfig(
       config,
       nPop,
       maxFes,
@@ -855,11 +851,11 @@ public class RunSingleParentConfig {
 
   private static void printUsage() {
     System.out.println("Usage: java -cp target/classes main.RunSingleParentConfig [--config <path>] [--record-baseline] [--baseline-file <path>] [--convergence-file <path>] [--run-index-base N] [--generation-log] [--log-interval=N] [enableDeltaFastRefine] [enableLocalRefineHotStartBudget] [dataDir] [numTasks] [numSatellites] [configCsv] [nRun] [nPop] [maxFes] [populationFactor]");
-    System.out.println("  configCsv format: algorithmIndex,updateRatioCode,survivorStrategy");
-    System.out.println("  operation order is fixed to sequential, DE runtime uses a single fixed scale, and runtime singleParentMode forces OA1-only execution");
-    System.out.println("  --generation-log prints HybCec per-generation best fitness; --log-interval=N controls the sampling interval");
-    System.out.println("  --convergence-file writes per-run, per-satellite HybCec best-fitness traces as CSV");
-    System.out.println("Example: java -cp target/classes main.RunSingleParentConfig --generation-log --log-interval=10 true true \"" + DEFAULT_DATA_DIR + "\" 500 5 \"1,2,0\" 1 270 16200");
+    System.out.println("  configCsv format: algorithmIndex");
+    System.out.println("  the dynamic reassignment layer calls SingleAlgorithmOptimizer directly with pairwise greedy replacement");
+    System.out.println("  --generation-log prints per-generation best fitness; --log-interval=N controls the sampling interval");
+    System.out.println("  --convergence-file writes per-run, per-satellite single-algorithm best-fitness traces as CSV");
+    System.out.println("Example: java -cp target/classes main.RunSingleParentConfig --generation-log --log-interval=10 true true \"" + DEFAULT_DATA_DIR + "\" 500 5 \"1\" 1 270 16200");
   }
 
   public static void main(String[] args) {
@@ -895,14 +891,12 @@ public class RunSingleParentConfig {
       int computedDefaultAssignmentStrategy = defaultAssignmentStrategy(arguments.numTasks);
 
       System.out.printf(
-        "[RunSingleParentConfig] numTasks=%d, assignmentStrategy=%d, computedDefaultAssignmentStrategy=%d, configCsv=%s, algorithmIndex=%d, updateRatioCode=%d, survivorStrategy=%d, generationLog=%s, logInterval=%d, sourceVersion=2026-05-20-single-parent-generation-log-pso-sweep%n",
+        "[RunSingleParentConfig] numTasks=%d, assignmentStrategy=%d, computedDefaultAssignmentStrategy=%d, configCsv=%s, algorithmIndex=%d, mode=standalone-greedy, generationLog=%s, logInterval=%d, sourceVersion=2026-07-24-single-algorithm-optimizer%n",
         arguments.numTasks,
         arguments.assignmentStrategy,
         computedDefaultAssignmentStrategy,
         configToCsv(arguments.config),
         arguments.config[0],
-        arguments.config[1],
-        arguments.config[2],
         runOptions.generationLogEnabled,
         runOptions.logInterval
       );

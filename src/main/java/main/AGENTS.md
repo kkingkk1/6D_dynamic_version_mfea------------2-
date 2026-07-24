@@ -13,7 +13,8 @@
 | ParallelPolicy.java | `ParallelPolicy` | 并行层级策略；集中解析 `autohyb.parallel.level=run|satellite|vector|auto`，在外层评估活跃时阻止 `PlanUtils` 使用 common-pool 向量并行 |
 | EvaluationHyb.java | `EvaluationHyb` | 6D 混合配置评估器；将单个全局配置解码为 HybCec 参数、运行时插入模式与单一 fixed DE scale，按多次独立运行评估配置质量，并向 `TaskAllocationCoordinator` 传递 run seed、配置与历史最优结果；MFEA fitness 直接使用优化后调度收益，不再用 baseline 兜底；run seed 统一使用 `stableSeed + runIndex + 8`，用于保持 6D baseline 与旧 8D `{...,GREEDY,flag}` 路径的 seed 兼容 |
 | RunSingleHybridConfig.java | `RunSingleHybridConfig` | 单配置复现实验入口；加载数据、初始化任务分配、使用固定 6D 配置运行评估链路、输出调度结果；命令行只接收 6D 配置；DE 运行时统一为固定缩放因子；支持两种开关控制方式：1）直接在源码顶部修改 `DEFAULT_ENABLE_DELTA_FAST_REFINE` / `DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET` 两个布尔常量，便于 VSCode 直接运行时手动切换；2）通过前两个命令行参数显式覆盖，分别控制 delta fast refine 与局部重算热启动预算；源码顶部 `DEFAULT_RANDOM_SEED_ID` 用于切换单次复现实验的 1-based seed id，填 `1/2/3` 分别复现多次运行中的第 1/2/3 次 seed，未显式设置 `-Devaluation.runIndexBase` 时映射到 `evaluation.runIndexBase`；可通过 `-Dhybcec.insertionMode=<InsertionMode>` 对单配置消融运行覆盖插入策略，默认 `GREEDY`；默认开启 `-Dautohyb.deterministic=true` 复现实验模式，入口会重置 `RandomProvider` 全局随机源和线程计数；程序内部会将这些开关映射到协调器对应系统属性；默认 stdout 只打印当前混合配置、收益比例和总耗时；支持 `--record-baseline` / `--baseline-file` 将当前默认场景与配置的效用指标固化到基线文件，并仅在记录基线时打印基线对比；支持 `--quiet` 压制 warmup 状态日志，最终紧凑结果仍打印；`--log-interval=N` 继续控制显式开启的逐代曲线日志间隔 |
-| RunSingleParentConfig.java | `RunSingleParentConfig` | 单算法复现实验入口；使用独立 3D 单算法配置 `{algorithmIndex, updateRatioCode, survivorStrategy}` 构建 OA1-only 运行；命令行不再复用混合组件语义，固定 `operationOrder=sequential` 与固定 DE 缩放因子，并通过运行时 `singleParentMode=true` 强制只启用 parent1；支持 `--run-index-base` 做 seed 分段诊断；支持 `--generation-log` 与 `--log-interval=N` 打印 HybCec 逐代最优适应度曲线；支持 `--convergence-file` 输出每个 run / 卫星的 HybCec best-fitness 曲线 |
+| RunSingleParentConfig.java | `RunSingleParentConfig` | 单算法复现实验入口；只接收 1D `{algorithmIndex}`，保留动态重分配层，并通过 `singleAlgorithmMode=true` 路由到独立单算法优化器；支持 `--run-index-base` 做 seed 分段诊断；支持 `--generation-log` 与 `--log-interval=N` 打印独立优化器逐代最优适应度；支持 `--convergence-file` 输出每个 run / 卫星的单算法 best-fitness 曲线 |
+| SingleAlgorithmOptimizer.java | `SingleAlgorithmOptimizer` | 包内私有单算法优化器；复用 16 个 parent strategy 和运行时算法参数，维护单算法状态、评估预算、历史最优与收敛记录，每轮对选中个体生成候选并做一对一 greedy replacement；不进入 6D 混合组件编码 |
 | TargetSatelliteRanker.java | `TargetSatelliteRanker` | 目标星排序器；抽象候选目标星的任务侧与任务-卫星配对特征，只执行低成本排序，并按固定 Top-K 返回候选目标星；普通任务默认 Top-2，prioritized 任务默认 Top-4；卫星侧 `B_j` 通路已删除 |
 | TargetSatelliteSelector.java | `TargetSatelliteSelector` | 包内私有候选目标星选择辅助类；从协调器状态构造 `TargetSatelliteRanker.RankRequest`，封装候选星上下文、任务侧优先级/约束紧度/未调度压力特征、任务-卫星窗口特征与 Top-K 结果转换 |
 | TaskAllocationScoring.java | `TaskAllocationScoring` | 包内私有打分辅助类；集中维护未调度任务优先级、fast refine 修复评分、任务-卫星 effective score、时间窗冲突、约束紧度、未调度压力与归一化/截断等纯打分逻辑 |
@@ -26,7 +27,7 @@
 | ReassignmentMoveEvaluator.java | `ReassignmentMoveEvaluator` | 包内私有高阶重分配动作外观类；保留替换、交换、任务束的原调用面，将具体职责转发给 `ReplacementMoveEvaluator`、`SwapMoveEvaluator` 与 `BundleMoveEvaluator` |
 | ReassignmentOrchestrator.java | `ReassignmentOrchestrator` | 包内私有重分配主循环辅助类；编排优先级迁移循环、标准迁移接受、替换/交换回退触发与任务束后处理，并通过上下文回调复用协调器的候选选择、试探评估和反馈状态 |
 | TaskAllocationModels.java | `SatelliteState`, `SatelliteEvaluationResult`, `ReassignmentStats`, `ReassignmentWorkingState`, `PrioritizedTask`, `SatelliteCandidateSelection`, `SchedulingStats`, `TaskDelta`, `TrialMoveResult` | 包内私有数据结构集合；承载协调器内部状态快照、卫星并行评估结果、迁移统计、重分配候选工作状态、增量任务差异、候选选择结果与试探移动结果，不作为外部 API |
-| TaskAllocationCoordinator.java | `TaskAllocationCoordinator`, `ConvergenceTrace` | 多卫星协调器；维护任务分配、全局任务键、任务-卫星 base score 与反馈 delta；编排跨卫星重分配的顶层触发、结果提交和刷新 best 后的完整校准；小规模任务默认立即校准，大规模中间校准只保留 interval/last 触发，末尾 final calibration 仍保留；记录正式卫星调度的 HybCec best-fitness 曲线供单父算法预算诊断使用；`autohyb.deterministic=true` 时仍使用卫星级并行评估，但每颗卫星只读取同一份 `SatelliteState` 快照，跑完后按 satellite id 固定顺序提交状态与收敛曲线，并按 satellite id 排序跨星模板 donor，避免线程完成顺序和 `ConcurrentHashMap` 遍历顺序影响复现实验；Phase 4 新增 sat state 池化、初始化 KNN 缓存、卫星池尺寸、自适应初始 ensemble 与校准 racing opt-in，默认均关闭或保持旧行为；候选目标星上下文构造下沉给 `TargetSatelliteSelector`，增量方案与试探移动评估下沉给 `AssignmentDeltaEvaluator`，重分配主循环下沉给 `ReassignmentOrchestrator`，替换/交换/任务束移动下沉给 `ReassignmentMoveEvaluator`，delta fast refine 下沉给 `DeltaFastRefiner`，排序仍由 `TargetSatelliteRanker` 完成 |
+| TaskAllocationCoordinator.java | `TaskAllocationCoordinator`, `ConvergenceTrace` | 多卫星协调器；维护任务分配、全局任务键、任务-卫星 base score 与反馈 delta；编排跨卫星重分配的顶层触发、结果提交和刷新 best 后的完整校准；小规模任务默认立即校准，大规模中间校准只保留 interval/last 触发，末尾 final calibration 仍保留；混合配置路由到 `HybCec`，1D 单算法配置路由到 `SingleAlgorithmOptimizer`，两条路径都记录 best-fitness/eval 曲线；`autohyb.deterministic=true` 时仍使用卫星级并行评估，但每颗卫星只读取同一份 `SatelliteState` 快照，跑完后按 satellite id 固定顺序提交状态与收敛曲线，并按 satellite id 排序跨星模板 donor，避免线程完成顺序和 `ConcurrentHashMap` 遍历顺序影响复现实验；Phase 4 新增 sat state 池化、初始化 KNN 缓存、卫星池尺寸、自适应初始 ensemble 与校准 racing opt-in，默认均关闭或保持旧行为；候选目标星上下文构造下沉给 `TargetSatelliteSelector`，增量方案与试探移动评估下沉给 `AssignmentDeltaEvaluator`，重分配主循环下沉给 `ReassignmentOrchestrator`，替换/交换/任务束移动下沉给 `ReassignmentMoveEvaluator`，delta fast refine 下沉给 `DeltaFastRefiner`，排序仍由 `TargetSatelliteRanker` 完成 |
 
 ## 接口说明
 
@@ -87,12 +88,12 @@ public static void main(String[] args)
 ```
 
 补充约定：
-- `configCsv` 固定为 3D：`algorithmIndex,updateRatioCode,survivorStrategy`
-- 运行时固定 `operationOrder=sequential` 与固定 DE 缩放因子
-- 运行链路通过 `singleParentMode=true` 强制只启用 OA1，因此不再把“单算法”伪装成双亲混合算法
+- `configCsv` 固定为 1D：`algorithmIndex`；多维输入直接拒绝
+- 动态重分配层通过 `singleAlgorithmMode=true` 直接调用 `SingleAlgorithmOptimizer.optimize()`，不构造 `HybCec`
+- 每轮只运行选定 parent strategy，并用候选与对应原个体做一对一 greedy replacement
 - `--run-index-base N`：从指定 runIndex 开始跑 `nRun` 个连续 seed，用于定位波动来源
-- `--generation-log`：打开 HybCec 逐代日志，输出 `[HybCecCurve]` 单星收敛曲线；`--log-interval=N` 控制采样间隔，用于单算法收敛曲线诊断
-- 也可配合 `-Dautohyb.generationLog=true -Dautohyb.logInterval=N` 观察单算法在多卫星协调器内部的 HybCec 收敛曲线
+- `--generation-log`：打开独立优化器逐代日志，输出 `[SingleAlgorithmCurve]` 单星收敛曲线；`--log-interval=N` 控制采样间隔
+- 也可配合 `-Dautohyb.generationLog=true -Dautohyb.logInterval=N` 观察单算法收敛曲线
 - L-SHADE/SHADE 单算法调参可配合 `-Dhybcec.shade.archiveRateFast=<double>`、`-Dhybcec.shade.memorySize=<int>`、`-Dhybcec.shade.pbestRate=<double>`、`-Dhybcec.shade.learnPeriod=<int>`、`-Dhybcec.shade.crGaussianStd=<double>`、`-Dhybcec.shade.cauchyScale=<double>`，未设置时保持默认参数
 - `--convergence-file <path>`：把正式调度阶段的每个 run / 卫星 / generation best-fitness 和已用 eval budget 曲线写成 CSV，用于估算短测预算
 
@@ -149,7 +150,7 @@ public List<Double> getTotalProfitHistorySnapshot()
 ```
 
 内部类：
-- `HybCecConfig` — HybCec 运行配置（父算法索引、操作级别、执行顺序、生存选择策略、运行时 `singleParentMode`、插入模式、种子等）
+- `HybCecConfig` — 协调器优化配置（混合路径的父算法索引、操作级别、执行顺序、生存选择策略，以及单算法路径的 `singleAlgorithmMode`、插入模式、种子等）
 
 ## 动态调度特性
 
