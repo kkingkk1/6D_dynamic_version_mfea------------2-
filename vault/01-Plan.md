@@ -3,7 +3,7 @@ type: project
 title: 计划 - 卫星调度混合元启发式项目
 project: 6d-dynamic-version-mfea
 status: active
-updated: 2026-07-24
+updated: 2026-07-25
 ---
 
 # 计划
@@ -28,7 +28,7 @@ updated: 2026-07-24
 - [x] 量化重分配级联与 delta fast refine 的贡献，重点检查邻接交换和插入候选位置。压缩结论见 [[Knowledge/Removed-Mechanisms|已移除机制]] 和 [[Knowledge/Source-Inventory|Source Inventory]]。
 - [ ] 自动设计最优配置产出后，只对最终候选补做一次重分配 / delta fast refine 复核。
 - [x] 测试自动设计配置在 500/5 到 10000/100 的 10 个任务-卫星体系下的可扩展性和跨场景稳定性。
-- [x] 在 ID1-ID10、`perRun=0..4` 下完成当前 1D Parent 与 Hybrid 的四配置 full-budget 配对运行与完整性验收；每个 `(scene, perRun)` 使用同一实际 seed。旧 OA1-only parent 对照已归档，不作为新 1D 单算法入口的基线。
+- [x] 在 ID1-ID10、原生 `perRun=0..4` 下完成当前 1D Parent 与 Hybrid 的四配置 full-budget 配对运行、seed 验收和 Evidence 分析；每个 `(scene, perRun)` 使用同一实际 seed。旧非原生 seed 批次和 OA1-only parent 对照均不作为当前证据。
 - [ ] 后续 MFEA 搜索方案写入 `vault/Plan/`，完整 MFEA 实验结果写入 `vault/Results/Reports/`，本文件只同步会改变项目主线的压缩结论。
 
 ## Plan 状态总表
@@ -39,7 +39,9 @@ updated: 2026-07-24
 | [MFEA 激进搜索](Plan/2026-05-29-mfea-aggressive-search-plan.md) | planned | ID1/ID3/ID5 | nPopHyb=35, gMax=20, nRun=3, 60% maxFes |
 | 多场景 MFEA full 搜索与 seed10-14 replay | done | ID1/ID3/ID5/ID7 search; ID1-ID10 replay | best `[2,9,0,0,0,2]`, aggregated fitness `2.928452`, replay avg gain +0.58 over 8D Hybrid |
 | [四配置全场景五轮配对实验](Plan/2026-07-24-paired-config-all-scenes-perrun0-4.md) | done | ID1-ID10; seed42-46 | 200/200；混合配置对比仍有效，旧 OA1-only parent 对照只作历史证据 |
-| [当前 1D Parent 与 Hybrid 全场景配对运行](Plan/2026-07-24-current-1d-parent-all-scenes-perrun0-4.md) | done | ID1-ID10; perRun0-4 | 200/200、零失败；两候选均 6 胜4平0负，但 Holm 后 p=0.0625，仅保留为候选 |
+| [当前 1D Parent 与 Hybrid 全场景配对运行](Plan/2026-07-24-current-1d-parent-all-scenes-perrun0-4.md) | superseded | ID1-ID10；非原生 seed | 旧输出和报告已删除，不再作为 canonical 证据 |
+| [原生 perRun 结果更新论文](Plan/2026-07-24-update-paper-with-current-410000-ablation.md) | done | ID1-ID10；原生 perRun0-4 | 200/200、零失败；Evidence、结果简报和论文 Fig. 6/9、Tab. IV–VI 已同步 |
+| [Information Sciences 模板 PDF 构建](Plan/2026-07-25-information-sciences-pdf-build.md) | done | 官方 CAS 构建与视觉检查 | `cas-sc.cls` 2.4 成功编译为 25 页 A4 PDF；最终文件仅位于 `vault/Writing/paper_draft.pdf`，中间产物保留在 `outputs/` |
 
 ### Plan 详情
 
@@ -108,4 +110,4 @@ updated: 2026-07-24
 - 2026-06-17 多场景 MFEA full 搜索选出 `[2,9,0,0,0,2]`，即 EDA + L-SHADE、FULL/FULL、SERIAL、PAIRWISE_GREEDY；设计阶段最佳聚合适应度为 `2.928452`。
 - 该配置在 seed ID 10-14 的 10 场景 full-budget replay 中，相比最新 8D Hybrid 平均收益全场景提升 `+0.58` 个百分点，6 个非饱和场景提升 `+0.97` 个百分点；最佳单种子为 seed ID 13，总和 `770.95`，均值 `77.09`。
 - 2026-07-24 的 seed42-46 四配置配对实验再次验证 `[2,9,0,0,0,2]`：相对 `{4,1,0,0,0,0}` 为 6 胜、4 平、0 负，场景宏平均提高 `0.4458` 个百分点。完整数据见 [[Results/Reports/2026-07-24-paired-config-all-scenes-perrun0-4|四配置全场景五轮配对实验报告]]。
-- 当前 1D Parent 全场景配对实验重建了独立入口基线：`[2,9,0,0,0,2]` 比 `{4,1,0,0,0,0}` 高 `0.4800` pp，算法 4 比算法 1 高 `1.0828` pp；两组均 6 胜、4 平、0 负，但两个对比的 Holm 校正后 `p=0.0625`，只作为方向一致候选。详见 [[Results/Reports/2026-07-24--current-1d-parent--r01--paired-summary|当前 1D Parent 配对总结]]。
+- 2026-07-25 原生 `perRun=0..4` 四配置实验重建了当前 1D Parent 消融证据：`410000` 比 Parent 4 高 `1.0526` pp、比 Parent 1 高 `2.1078` pp，均为 6 胜、4 平、0 负；`410000` 比 `290002` 低 `0.4272` pp，为 0 胜、4 平、6 负。三个 exact Wilcoxon raw `p=0.03125`，Holm 校正后均为 `p=0.09375`，只支持方向一致和实际效应，不支持校正后显著性措辞。结果已同步到论文 Fig. 6/9、Tab. IV–VI、摘要和结论；详见 [[Results/Reports/2026-07-25--native-paired-ablation--r01--results-summary|Native Paired Ablation 总结]]。

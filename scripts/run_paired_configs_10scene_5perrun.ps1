@@ -1,13 +1,14 @@
 param(
   [string]$SearchOutDir = "outputs\mfea-multiscene-full-20260616",
-  [string]$OutputDir = "outputs\paired-hybrid-10scene-5perrun-seedid10-14-20260724",
+  [string]$OutputDir = "outputs\paired-native-perrun0-4-10scene-20260724-r01",
   [long]$ReferenceSeedIdStart = 10,
   [int]$PerRunStart = 0,
   [int]$PerRuns = 5,
-  [string]$ExperimentId = "paired-hybrid-10scene-5perrun-seedid10-14-20260724",
-  [string]$RuntimeClassesDir = "",
+  [string]$ExperimentId = "paired-native-perrun0-4-10scene-20260724-r01",
+  [string]$RuntimeClassesDir = "target\classes",
   [string]$ReuseOutputDir = "",
   [switch]$IncludeParents,
+  [switch]$PreflightOnly,
   [switch]$ValidateOnly
 )
 
@@ -81,6 +82,57 @@ function Append-CsvRow([object]$row, [string]$path) {
     $row | Export-Csv -LiteralPath $path -NoTypeInformation -Encoding UTF8 -Append
   } else {
     $row | Export-Csv -LiteralPath $path -NoTypeInformation -Encoding UTF8
+  }
+}
+
+function Invoke-JavaProcess(
+  [string]$javaExe,
+  [string[]]$argsList,
+  [string]$workingDirectory,
+  [string]$logPath,
+  [string]$errPath) {
+  $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
+  $startInfo.FileName = $javaExe
+  $startInfo.WorkingDirectory = $workingDirectory
+  $startInfo.UseShellExecute = $false
+  $startInfo.CreateNoWindow = $true
+  $startInfo.RedirectStandardOutput = $true
+  $startInfo.RedirectStandardError = $true
+  foreach ($arg in $argsList) {
+    [void]$startInfo.ArgumentList.Add([string]$arg)
+  }
+
+  $process = [System.Diagnostics.Process]::new()
+  $process.StartInfo = $startInfo
+  $started = Get-Date
+  if (-not $process.Start()) {
+    throw "Failed to start Java process: $javaExe"
+  }
+  try {
+    $process.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::Normal
+    $actualPriority = $process.PriorityClass.ToString()
+  } catch {
+    try { $process.Kill() } catch {}
+    throw "Failed to set Java PID $($process.Id) to Normal priority: $($_.Exception.Message)"
+  }
+
+  $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+  $stderrTask = $process.StandardError.ReadToEndAsync()
+  $process.WaitForExit()
+  $finished = Get-Date
+  $stdout = $stdoutTask.GetAwaiter().GetResult()
+  $stderr = $stderrTask.GetAwaiter().GetResult()
+  [System.IO.File]::WriteAllText($logPath, $stdout, [System.Text.UTF8Encoding]::new($false))
+  [System.IO.File]::WriteAllText($errPath, $stderr, [System.Text.UTF8Encoding]::new($false))
+  try { $processCpuSeconds = $process.TotalProcessorTime.TotalSeconds } catch { $processCpuSeconds = [double]::NaN }
+  $exitCode = $process.ExitCode
+  $process.Dispose()
+  return [pscustomobject]@{
+    ExitCode = $exitCode
+    Priority = $actualPriority
+    Started = $started
+    Finished = $finished
+    ProcessCpuSeconds = $processCpuSeconds
   }
 }
 
@@ -160,6 +212,9 @@ if ($perRunEndDecimal -gt [int]::MaxValue) {
   throw "perRun end exceeds Int32: $perRunEndDecimal"
 }
 $perRunEnd = [int]$perRunEndDecimal
+if ($PerRunStart -ne 0 -or $PerRuns -ne 5) {
+  throw "Native seed contract requires perRun 0..4, got: $PerRunStart..$perRunEnd"
+}
 
 $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 $outPath = Resolve-WorkspacePath $repoRoot $OutputDir
@@ -169,27 +224,34 @@ $commandsDir = Join-Path $outPath "commands"
 New-Item -ItemType Directory -Force -Path $logsDir, $commandsDir | Out-Null
 
 $searchCommandFile = Join-Path $repoRoot (Join-Path $SearchOutDir "mfea_multiscene_full.command.txt")
-if (-not (Test-Path -LiteralPath $searchCommandFile -PathType Leaf)) {
-  throw "Command file not found: $searchCommandFile"
+$classPathEntries = @()
+if (Test-Path -LiteralPath $searchCommandFile -PathType Leaf) {
+  $commandText = Get-Content -LiteralPath $searchCommandFile -Raw
+  if ($commandText -notmatch '^(.*?)\s+-Dtuning\.config\.path=.*?\s+-Dautohyb\.deterministic=true\s+.*?-cp\s+(.+?)\s+main\.MainMFEAMultiScene\s*$') {
+    throw "Failed to parse Java executable/classpath from $searchCommandFile"
+  }
+  $javaExe = $Matches[1].Trim()
+  $classPathEntries = @($Matches[2].Trim() -split ';')
+} else {
+  $javaExe = (Get-Command java -CommandType Application -ErrorAction Stop).Source
+  $commonsMath = Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)) ".m2\repository\org\apache\commons\commons-math3\3.6.1\commons-math3-3.6.1.jar"
+  if (-not (Test-Path -LiteralPath $commonsMath -PathType Leaf)) {
+    throw "Fallback dependency not found: $commonsMath"
+  }
+  $classPathEntries = @((Join-Path $repoRoot "target\classes"), $commonsMath)
+  Write-Warning "Search command file missing; using current Java runtime and target\\classes fallback."
 }
-$commandText = Get-Content -LiteralPath $searchCommandFile -Raw
-if ($commandText -notmatch '^(.*?)\s+-Dtuning\.config\.path=.*?\s+-Dautohyb\.deterministic=true\s+.*?-cp\s+(.+?)\s+main\.MainMFEAMultiScene\s*$') {
-  throw "Failed to parse Java executable/classpath from $searchCommandFile"
-}
-$javaExe = $Matches[1].Trim()
-$classPath = $Matches[2].Trim()
 if (-not (Test-Path -LiteralPath $javaExe -PathType Leaf)) {
   throw "Java executable not found: $javaExe"
 }
-$classPathEntries = @($classPath -split ';')
 if ($RuntimeClassesDir) {
   $runtimeClassesPath = Resolve-WorkspacePath $repoRoot $RuntimeClassesDir
   if (-not (Test-Path -LiteralPath $runtimeClassesPath -PathType Container)) {
     throw "RuntimeClassesDir not found: $runtimeClassesPath"
   }
   $classPathEntries[0] = $runtimeClassesPath
-  $classPath = $classPathEntries -join ';'
 }
+$classPath = $classPathEntries -join ';'
 foreach ($classPathEntry in ($classPath -split ';')) {
   $resolvedEntry = Resolve-WorkspacePath $repoRoot $classPathEntry
   if (-not (Test-Path -LiteralPath $resolvedEntry)) {
@@ -290,9 +352,9 @@ if ($ValidateOnly) {
   exit 0
 }
 
-$referenceConfig = $configs | Where-Object { $_.Key -eq "hybrid-290002" } | Select-Object -First 1
+$referenceConfig = $configs | Where-Object { $_.Key -eq "hybrid-410000" } | Select-Object -First 1
 if ($null -eq $referenceConfig) {
-  throw "Reference config hybrid-290002 is missing"
+  throw "Reference config hybrid-410000 is missing"
 }
 $probeContext = [ordered]@{
   sourceHashes = $sourceHashes
@@ -301,6 +363,8 @@ $probeContext = [ordered]@{
   referenceConfig = $referenceConfig.Config
   referenceSeedIdStart = $ReferenceSeedIdStart
   perRunStart = $PerRunStart
+  perRunEnd = $perRunEnd
+  seedMode = "native-source-anchor"
 }
 $probeContextHash = Get-TextSha256 ($probeContext | ConvertTo-Json -Depth 8 -Compress)
 $seedReferencePath = Join-Path $outPath "seed-reference.csv"
@@ -354,12 +418,9 @@ if (Test-Path -LiteralPath $seedReferencePath) {
   }
 }
 
-$referenceSeedIdDecimal = [decimal]$ReferenceSeedIdStart + [decimal]$PerRunStart
-if ($referenceSeedIdDecimal -gt [long]::MaxValue) {
-  throw "Reference seed ID exceeds Int64: start=$ReferenceSeedIdStart, perRun=$PerRunStart"
-}
-$referenceSeedId = [long]$referenceSeedIdDecimal
-$referenceRunIndex = [long]($referenceSeedId - 1L)
+$nativeSeedStartIndex = [long]($ReferenceSeedIdStart - 1L)
+$nativeAnchorIndex = [long]($nativeSeedStartIndex + $perRunEnd)
+$nativeAnchorSeedId = [long]($ReferenceSeedIdStart + $perRunEnd)
 $probeLogsDir = Join-Path $outPath "seed-probes\logs"
 $probeCommandsDir = Join-Path $outPath "seed-probes\commands"
 New-Item -ItemType Directory -Force -Path $probeLogsDir, $probeCommandsDir | Out-Null
@@ -367,12 +428,12 @@ New-Item -ItemType Directory -Force -Path $probeLogsDir, $probeCommandsDir | Out
 foreach ($scene in $scenes) {
   $existingReference = $seedReferenceRows | Where-Object { $_.sceneId -eq $scene.Id } | Select-Object -First 1
   if ($null -ne $existingReference) {
-    Write-Host "[SEED-PROBE SKIP] $($scene.Id) seedId=$referenceSeedId actualSeed=$($existingReference.actualSeed)"
+    Write-Host "[SEED-PROBE SKIP] $($scene.Id) anchorSeedId=$nativeAnchorSeedId actualSeed=$($existingReference.actualSeed)"
     continue
   }
 
   $sceneDir = Join-Path $sceneRoot $scene.Name
-  $probeKey = "{0}_seedid{1}_{2}" -f $scene.Id, $referenceSeedId, $referenceConfig.Key
+  $probeKey = "{0}_native-anchor-perrun{1}_{2}" -f $scene.Id, $perRunEnd, $referenceConfig.Key
   $attempt = 1
   do {
     $logPath = Join-Path $probeLogsDir ("{0}.attempt{1}.log" -f $probeKey, $attempt)
@@ -386,7 +447,6 @@ foreach ($scene in $scenes) {
     "-Dautohyb.deterministic=true",
     "-Dautohyb.experimentId=$ExperimentId-seed-probe",
     "-Devaluation.runSeedLog=true",
-    "-Devaluation.runIndexBase=$referenceRunIndex",
     "-cp", $classPath,
     $referenceConfig.Entrypoint,
     "--quiet",
@@ -404,36 +464,21 @@ foreach ($scene in $scenes) {
     javaExe = $javaExe
     workingDirectory = $repoRoot
     arguments = $argsList
-    referenceSeedId = $referenceSeedId
-    expectedRunIndex = $referenceRunIndex
+    referenceSeedId = $nativeAnchorSeedId
+    expectedRunIndex = $nativeAnchorIndex
+    seedMode = "source-default-native-anchor"
     priority = "Normal"
     logicalProcessors = $logicalProcessors
     started = Get-Date -Format o
   } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $commandRecordPath -Encoding UTF8
 
-  Write-Host ("[{0}] SEED-PROBE {1} seedId={2} config={3} priority=Normal" -f
-    (Get-Date -Format "HH:mm:ss"), $scene.Id, $referenceSeedId, $referenceConfig.Config)
-  $started = Get-Date
-  $process = Start-Process -FilePath $javaExe `
-    -ArgumentList $argsList `
-    -WorkingDirectory $repoRoot `
-    -RedirectStandardOutput $logPath `
-    -RedirectStandardError $errPath `
-    -WindowStyle Hidden `
-    -PassThru
-  $actualPriority = "Normal"
-  if (-not $process.HasExited) {
-    try {
-      $process.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::Normal
-      $actualPriority = $process.PriorityClass.ToString()
-    } catch {
-      try { $process.Kill() } catch {}
-      throw "Failed to set seed probe Java PID $($process.Id) to Normal priority: $($_.Exception.Message)"
-    }
-  }
-  $process.WaitForExit()
-  $finished = Get-Date
-  $exitCode = $process.ExitCode
+  Write-Host ("[{0}] SEED-PROBE {1} nativeAnchor=perRun+{2} config={3} priority=Normal" -f
+    (Get-Date -Format "HH:mm:ss"), $scene.Id, $perRunEnd, $referenceConfig.Config)
+  $processResult = Invoke-JavaProcess $javaExe $argsList $repoRoot $logPath $errPath
+  $started = $processResult.Started
+  $finished = $processResult.Finished
+  $exitCode = $processResult.ExitCode
+  $actualPriority = $processResult.Priority
   $logText = if (Test-Path -LiteralPath $logPath) { Get-Content -LiteralPath $logPath -Raw } else { "" }
   $seedMatch = Get-LastRegexMatch $logText '^\[RunSeed\] index=(\d+) seed=(-?\d+)\r?$'
   $ratioMatch = Get-LastRegexMatch $logText '^Optimized profit ratio:\s*([0-9.]+)%\r?$'
@@ -446,12 +491,12 @@ foreach ($scene in $scenes) {
   }
   $actualIndex = [long]$seedMatch.Groups[1].Value
   $actualSeed = [long]$seedMatch.Groups[2].Value
-  if ($actualIndex -ne $referenceRunIndex) {
-    throw "Seed probe index mismatch: $probeKey, expected=$referenceRunIndex, actual=$actualIndex"
+  if ($actualIndex -ne $nativeAnchorIndex) {
+    throw "Native seed preflight mismatch: $probeKey, expected index=$nativeAnchorIndex for perRun+$perRunEnd, actual=$actualIndex. Check EvaluationHyb runIndex and RunSingleHybridConfig DEFAULT_RANDOM_SEED_ID before running the batch."
   }
-  $sceneRunSeedBaseDecimal = [decimal]$actualSeed - [decimal]$PerRunStart
+  $sceneRunSeedBaseDecimal = [decimal]$actualSeed - [decimal]$actualIndex
   if ($sceneRunSeedBaseDecimal -lt [long]::MinValue -or $sceneRunSeedBaseDecimal -gt [long]::MaxValue) {
-    throw "Scene run seed base exceeds Int64: scene=$($scene.Id), actualSeed=$actualSeed, perRun=$PerRunStart"
+    throw "Native scene run seed base exceeds Int64: scene=$($scene.Id), actualSeed=$actualSeed, index=$actualIndex"
   }
   $sceneRunSeedBase = [long]$sceneRunSeedBaseDecimal
   $seedReferenceRow = [pscustomobject]@{
@@ -459,8 +504,10 @@ foreach ($scene in $scenes) {
     sceneName = $scene.Name
     referenceConfigKey = $referenceConfig.Key
     referenceConfig = $referenceConfig.Config
-    referenceSeedId = $referenceSeedId
-    referenceRunIndex = $referenceRunIndex
+    referenceSeedId = $nativeAnchorSeedId
+    referenceRunIndex = $nativeAnchorIndex
+    anchorPerRun = $perRunEnd
+    seedMode = "source-default-native-anchor"
     actualSeed = $actualSeed
     runSeedBase = $sceneRunSeedBase
     profitRatio = [double]$ratioMatch.Groups[1].Value
@@ -490,13 +537,16 @@ foreach ($scene in $scenes) {
   }
   $sceneRunSeedBases[$scene.Id] = [long]$seedRow.runSeedBase
 }
+$nativeRunIndexOffset = [long]($nativeAnchorIndex - $nativeSeedStartIndex)
 
 $expectedRuns = foreach ($scene in $scenes) {
   $sceneRunSeedBase = [long]$sceneRunSeedBases[$scene.Id]
   for ($perRun = $PerRunStart; $perRun -le $perRunEnd; $perRun++) {
-    $effectiveSeedDecimal = [decimal]$sceneRunSeedBase + [decimal]$perRun
+    $effectiveRunIndex = [long]($nativeSeedStartIndex + $perRun)
+    $runIndexBase = [long]($effectiveRunIndex - $nativeRunIndexOffset)
+    $effectiveSeedDecimal = [decimal]$sceneRunSeedBase + [decimal]$effectiveRunIndex
     if ($effectiveSeedDecimal -lt [long]::MinValue -or $effectiveSeedDecimal -gt [long]::MaxValue) {
-      throw "Effective seed exceeds Int64: scene=$($scene.Id), seedBase=$sceneRunSeedBase, perRun=$perRun"
+      throw "Effective seed exceeds Int64: scene=$($scene.Id), seedBase=$sceneRunSeedBase, effectiveIndex=$effectiveRunIndex"
     }
     $effectiveSeed = [long]$effectiveSeedDecimal
     foreach ($config in $configs) {
@@ -508,12 +558,15 @@ $expectedRuns = foreach ($scene in $scenes) {
         satellites = $scene.Sats
         perRun = $perRun
         referenceSeedId = [long]($ReferenceSeedIdStart + $perRun)
+        effectiveRunIndex = $effectiveRunIndex
+        runIndexBase = $runIndexBase
         runSeedBase = $sceneRunSeedBase
         effectiveSeed = $effectiveSeed
         configKey = $config.Key
         kind = $config.Kind
         entrypoint = $config.Entrypoint
         config = $config.Config
+        seedMode = if ($config.Key -eq $referenceConfig.Key) { "source-native" } else { "paired-native-reference" }
       }
     }
   }
@@ -522,7 +575,7 @@ $expectedPath = Join-Path $outPath "expected-runs.csv"
 @($expectedRuns) | Export-Csv -LiteralPath $expectedPath -NoTypeInformation -Encoding UTF8
 
 $contract = [ordered]@{
-  schemaVersion = 2
+  schemaVersion = 3
   experimentId = $ExperimentId
   gitHead = $gitHead
   sourceHashes = $sourceHashes
@@ -530,10 +583,14 @@ $contract = [ordered]@{
   runtimeClassHashes = $runtimeClassHashes
   sceneRoot = $sceneRoot
   sceneManifestSha256 = $sceneManifestHash
-  runSeedMode = "reference-config-seed-id"
+  runSeedMode = "source-native-perrun-0-4"
   referenceConfigKey = $referenceConfig.Key
   referenceConfig = $referenceConfig.Config
   referenceSeedIdStart = $ReferenceSeedIdStart
+  nativeSeedStartIndex = $nativeSeedStartIndex
+  nativeAnchorPerRun = $perRunEnd
+  nativeAnchorIndex = $nativeAnchorIndex
+  nativeRunIndexOffset = $nativeRunIndexOffset
   seedReferencePath = $seedReferencePath
   seedReferenceSha256 = (Get-FileHash -LiteralPath $seedReferencePath -Algorithm SHA256).Hash.ToLowerInvariant()
   sceneRunSeedBases = $sceneRunSeedBases
@@ -562,13 +619,28 @@ if (Test-Path -LiteralPath $contractPath) {
   $contractJson | Set-Content -LiteralPath $contractPath -Encoding UTF8
 }
 
-$detailsPath = Join-Path $outPath "run-details.csv"
-$summaryPath = Join-Path $outPath "summary.csv"
-$statusPath = Join-Path $outPath "run-status.csv"
-$progressPath = Join-Path $outPath "progress.json"
+$detailsStem = if ($PreflightOnly) { "seed-preflight-details" } else { "run-details" }
+$summaryName = if ($PreflightOnly) { "seed-preflight-summary.csv" } else { "summary.csv" }
+$statusName = if ($PreflightOnly) { "seed-preflight-status.csv" } else { "run-status.csv" }
+$progressName = if ($PreflightOnly) { "seed-preflight-progress.json" } else { "progress.json" }
+$detailsPath = Join-Path $outPath ("{0}.csv" -f $detailsStem)
+$summaryPath = Join-Path $outPath $summaryName
+$statusPath = Join-Path $outPath $statusName
+$progressPath = Join-Path $outPath $progressName
 $reuseManifestPath = Join-Path $outPath "reused-runs.csv"
+$runsToExecute = if ($PreflightOnly) {
+  @($expectedRuns | Where-Object {
+    $_.sceneId -eq "ID1" -and ($_.perRun -eq $PerRunStart -or $_.perRun -eq $perRunEnd)
+  })
+} else {
+  @($expectedRuns)
+}
+$plannedRunCount = @($runsToExecute).Count
 $completedKeys = @{}
-if ($null -ne $reusePath) {
+if ($PreflightOnly -and $null -ne $reusePath) {
+  throw "PreflightOnly cannot reuse prior run details."
+}
+if (-not $PreflightOnly -and $null -ne $reusePath) {
   $reuseDetailsPath = Join-Path $reusePath "run-details.csv"
   if (-not (Test-Path -LiteralPath $reuseDetailsPath -PathType Leaf)) {
     throw "Reuse run details not found: $reuseDetailsPath"
@@ -601,14 +673,14 @@ if (Test-Path -LiteralPath $detailsPath) {
     $completedKeys[$row.runKey] = $true
   }
 }
-Write-Progress $progressPath "validated" @($expectedRuns).Count $completedKeys.Count 0 ""
+Write-Progress $progressPath "validated" $plannedRunCount $completedKeys.Count 0 ""
 
 $failureAttempts = 0
 $consecutiveFailures = 0
 $lastRunKey = ""
-Write-Progress $progressPath "running" @($expectedRuns).Count $completedKeys.Count $failureAttempts $lastRunKey
+Write-Progress $progressPath "running" $plannedRunCount $completedKeys.Count $failureAttempts $lastRunKey
 
-foreach ($run in $expectedRuns) {
+foreach ($run in $runsToExecute) {
   $lastRunKey = $run.runKey
   if ($completedKeys.ContainsKey($run.runKey)) {
     Write-Host "[SKIP] $($run.runKey)"
@@ -630,9 +702,11 @@ foreach ($run in $expectedRuns) {
     "-Dautohyb.experimentId=$ExperimentId"
   )
   if ($run.kind -eq "hybrid") {
-    $argsList += "-Devaluation.runSeedBase=$($run.runSeedBase)"
+    if ($run.configKey -ne $referenceConfig.Key) {
+      $argsList += "-Devaluation.runSeedBase=$($run.runSeedBase)"
+    }
     $argsList += "-Devaluation.runSeedLog=true"
-    $argsList += "-Devaluation.runIndexBase=$($run.perRun)"
+    $argsList += "-Devaluation.runIndexBase=$($run.runIndexBase)"
   } else {
     $argsList += "-Devaluation.runSeedLog=true"
   }
@@ -640,7 +714,7 @@ foreach ($run in $expectedRuns) {
   if ($run.kind -eq "hybrid") {
     $argsList += "--quiet"
   } else {
-    $argsList += "--run-index-base=$($run.perRun)"
+    $argsList += "--run-index-base=$($run.effectiveRunIndex)"
     $argsList += "--run-seed=$($run.effectiveSeed)"
   }
   $argsList += @(
@@ -660,38 +734,25 @@ foreach ($run in $expectedRuns) {
     workingDirectory = $repoRoot
     arguments = $argsList
     referenceSeedId = [long]$run.referenceSeedId
+    effectiveRunIndex = [long]$run.effectiveRunIndex
+    runIndexBase = [long]$run.runIndexBase
     runSeedBase = [long]$run.runSeedBase
     expectedSeed = [long]$run.effectiveSeed
+    seedMode = $run.seedMode
     priority = "Normal"
     logicalProcessors = $logicalProcessors
     started = Get-Date -Format o
   } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $commandRecordPath -Encoding UTF8
 
-  Write-Host ("[{0}] {1} seed={2} config={3} priority=Normal" -f
-    (Get-Date -Format "HH:mm:ss"), $run.runKey, $run.effectiveSeed, $run.config)
+  Write-Host ("[{0}] {1} index={2} seed={3} config={4} priority=Normal" -f
+    (Get-Date -Format "HH:mm:ss"), $run.runKey, $run.effectiveRunIndex, $run.effectiveSeed, $run.config)
   $cpuBefore = Get-CpuPercent
-  $started = Get-Date
-  $process = Start-Process -FilePath $javaExe `
-    -ArgumentList $argsList `
-    -WorkingDirectory $repoRoot `
-    -RedirectStandardOutput $logPath `
-    -RedirectStandardError $errPath `
-    -WindowStyle Hidden `
-    -PassThru
-  $actualPriority = "Normal"
-  if (-not $process.HasExited) {
-    try {
-      $process.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::Normal
-      $actualPriority = $process.PriorityClass.ToString()
-    } catch {
-      try { $process.Kill() } catch {}
-      throw "Failed to set Java PID $($process.Id) to Normal priority: $($_.Exception.Message)"
-    }
-  }
-  $process.WaitForExit()
-  $finished = Get-Date
-  $exitCode = $process.ExitCode
-  try { $processCpuSeconds = $process.TotalProcessorTime.TotalSeconds } catch { $processCpuSeconds = [double]::NaN }
+  $processResult = Invoke-JavaProcess $javaExe $argsList $repoRoot $logPath $errPath
+  $started = $processResult.Started
+  $finished = $processResult.Finished
+  $exitCode = $processResult.ExitCode
+  $processCpuSeconds = $processResult.ProcessCpuSeconds
+  $actualPriority = $processResult.Priority
   $cpuAfter = Get-CpuPercent
 
   $logText = if (Test-Path -LiteralPath $logPath) { Get-Content -LiteralPath $logPath -Raw } else { "" }
@@ -716,7 +777,7 @@ foreach ($run in $expectedRuns) {
     if ($run.kind -eq "parent") {
       $optimizedProfit = [double]$seedMatch.Groups[3].Value
     }
-    if ($actualIndex -ne [int]$run.perRun -or $actualSeed -ne [long]$run.effectiveSeed) {
+    if ($actualIndex -ne [int]$run.effectiveRunIndex -or $actualSeed -ne [long]$run.effectiveSeed) {
       $parseStatus = "seed-mismatch"
     }
   }
@@ -744,10 +805,10 @@ foreach ($run in $expectedRuns) {
   if ($parseStatus -ne "ok") {
     $failureAttempts++
     $consecutiveFailures++
-    Write-Progress $progressPath "running" @($expectedRuns).Count $completedKeys.Count $failureAttempts $lastRunKey
+    Write-Progress $progressPath "running" $plannedRunCount $completedKeys.Count $failureAttempts $lastRunKey
     Write-Warning "Run failed: $($run.runKey), status=$parseStatus, log=$logPath, err=$errPath"
     if ($consecutiveFailures -ge 3) {
-      Write-Progress $progressPath "stopped-after-failures" @($expectedRuns).Count $completedKeys.Count $failureAttempts $lastRunKey
+      Write-Progress $progressPath "stopped-after-failures" $plannedRunCount $completedKeys.Count $failureAttempts $lastRunKey
       throw "Stopped after 3 consecutive failures. Last run: $($run.runKey)"
     }
     continue
@@ -761,11 +822,14 @@ foreach ($run in $expectedRuns) {
     satellites = $run.satellites
     perRun = $run.perRun
     referenceSeedId = $run.referenceSeedId
+    effectiveRunIndex = $run.effectiveRunIndex
+    runIndexBase = $run.runIndexBase
     runSeedBase = $run.runSeedBase
     effectiveSeed = $run.effectiveSeed
     configKey = $run.configKey
     entrypoint = $run.entrypoint
     config = $run.config
+    seedMode = $run.seedMode
     optimizedProfit = $optimizedProfit
     profitRatio = [double]$ratioMatch.Groups[1].Value
     elapsedSeconds = [double]$elapsedMatch.Groups[1].Value
@@ -779,11 +843,11 @@ foreach ($run in $expectedRuns) {
   $completedKeys[$run.runKey] = $true
   $consecutiveFailures = 0
   Write-Summary $detailsPath $summaryPath
-  Write-Progress $progressPath "running" @($expectedRuns).Count $completedKeys.Count $failureAttempts $lastRunKey
+  Write-Progress $progressPath "running" $plannedRunCount $completedKeys.Count $failureAttempts $lastRunKey
 }
 
 Write-Summary $detailsPath $summaryPath
-Write-Progress $progressPath "completed" @($expectedRuns).Count $completedKeys.Count $failureAttempts $lastRunKey
+Write-Progress $progressPath "completed" $plannedRunCount $completedKeys.Count $failureAttempts $lastRunKey
 Write-Host "Done."
 Write-Host "Details: $detailsPath"
 Write-Host "Summary: $summaryPath"

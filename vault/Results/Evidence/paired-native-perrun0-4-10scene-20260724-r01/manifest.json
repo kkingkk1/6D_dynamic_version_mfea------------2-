@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "experiment_id": "paired-native-perrun0-4-10scene-20260724-r01",
+  "experiment_date": "2026-07-24",
+  "analysis_date": "2026-07-25",
+  "git_head": "f19cc4a6f6a60847cdba7d736b88affb1c613005",
+  "current_git_head": "f19cc4a6f6a60847cdba7d736b88affb1c613005",
+  "git_status_before_analysis": [
+    "M AGENTS.md",
+    " M scripts/run_paired_configs_10scene_5perrun.ps1",
+    " M src/main/java/main/EvaluationHyb.java",
+    " M src/main/java/main/RunSingleHybridConfig.java",
+    " D vault/Results/Reports/2026-07-24--current-1d-parent--r01--paired-summary.md",
+    " D vault/Results/analysis-output/2026-07-24-current-1d-parent-paired/analysis-report.md",
+    " D vault/Results/analysis-output/2026-07-24-current-1d-parent-paired/analysis-summary.json",
+    " D vault/Results/analysis-output/2026-07-24-current-1d-parent-paired/figure-catalog.md",
+    " D vault/Results/analysis-output/2026-07-24-current-1d-parent-paired/figures/figure-01-scene-means.png",
+    " D vault/Results/analysis-output/2026-07-24-current-1d-parent-paired/figures/figure-01-scene-means.svg",
+    " D vault/Results/analysis-output/2026-07-24-current-1d-parent-paired/figures/figure-02-scene-deltas.png",
+    " D vault/Results/analysis-output/2026-07-24-current-1d-parent-paired/figures/figure-02-scene-deltas.svg",
+    " D vault/Results/analysis-output/2026-07-24-current-1d-parent-paired/stats-appendix.md",
+    " D vault/Results/data/2026-07-24-current-1d-parent-paired-scene-summary.csv",
+    "?? scripts/__pycache__/analyze_native_paired_ablation.cpython-313.pyc",
+    "?? scripts/analyze_native_paired_ablation.py",
+    "?? vault/Plan/2026-07-24-update-paper-with-current-410000-ablation.md",
+    "?? vault/Results/Evidence/"
+  ],
+  "experiment": {
+    "status": "completed",
+    "expected_runs": 200,
+    "completed_runs": 200,
+    "failure_attempts": 0,
+    "scenes": [
+      "ID1",
+      "ID2",
+      "ID3",
+      "ID4",
+      "ID5",
+      "ID6",
+      "ID7",
+      "ID8",
+      "ID9",
+      "ID10"
+    ],
+    "per_run_values": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "effective_indices": [
+      9,
+      10,
+      11,
+      12,
+      13
+    ],
+    "configs": {
+      "hybrid-410000": {
+        "entrypoint": "main.RunSingleHybridConfig",
+        "config": "4,1,0,0,0,0",
+        "label": "410000"
+      },
+      "hybrid-290002": {
+        "entrypoint": "main.RunSingleHybridConfig",
+        "config": "2,9,0,0,0,2",
+        "label": "290002"
+      },
+      "parent-4": {
+        "entrypoint": "main.RunSingleParentConfig",
+        "config": "4",
+        "label": "Parent 4 (DE/rand/1)"
+      },
+      "parent-1": {
+        "entrypoint": "main.RunSingleParentConfig",
+        "config": "1",
+        "label": "Parent 1 (PSO)"
+      }
+    },
+    "seed_contract": {
+      "mode": "source-native-perrun-0-4",
+      "reference_config_key": "hybrid-410000",
+      "native_anchor_per_run": 4,
+      "native_anchor_index": 13,
+      "scene_run_seed_bases": {
+        "ID1": 1103879922877097644,
+        "ID2": 1146114381550404,
+        "ID3": 1138252873944106,
+        "ID4": 1145533066639349,
+        "ID5": 1132439724833556,
+        "ID6": 1146114381550404,
+        "ID7": 1162391199059944,
+        "ID8": 1146391282698876,
+        "ID9": 1351318545152819,
+        "ID10": 1333574684058586
+      },
+      "pairing_validation": {
+        "groups": 50,
+        "seed_mismatches": 0,
+        "config_mismatches": 0,
+        "effective_index_mismatches": 0
+      },
+      "id1_fifth_run": {
+        "per_run": 4,
+        "effective_index": 13,
+        "effective_seed": 1103879922877097657,
+        "profit_ratio": 99.64
+      }
+    },
+    "deterministic": true,
+    "process_priority": "Normal",
+    "logical_processors": 28,
+    "source_hash_validation": {
+      "src/main/java/main/EvaluationHyb.java": {
+        "experiment_hash": "87e5c54389865faf3f9acd08d0d0de884e4b04fc7ed474e4f070fdab3436e56b",
+        "current_hash": "87e5c54389865faf3f9acd08d0d0de884e4b04fc7ed474e4f070fdab3436e56b",
+        "matches": true
+      },
+      "src/main/java/main/RunSingleHybridConfig.java": {
+        "experiment_hash": "72cfe63ca2556d44f3c513eede2f0137269678e3f54e0d937389baa80466628f",
+        "current_hash": "72cfe63ca2556d44f3c513eede2f0137269678e3f54e0d937389baa80466628f",
+        "matches": true
+      },
+      "tuning.properties": {
+        "experiment_hash": "9b3079a8ca10d3784d16f6f8d3cf575a4f0cf62efeec47ed06d1d4df741213e4",
+        "current_hash": "9b3079a8ca10d3784d16f6f8d3cf575a4f0cf62efeec47ed06d1d4df741213e4",
+        "matches": true
+      },
+      "pom.xml": {
+        "experiment_hash": "b1b84a73905e670e1dd47437ccad789e4d5139ec0671a70c53704a76d3d0649c",
+        "current_hash": "b1b84a73905e670e1dd47437ccad789e4d5139ec0671a70c53704a76d3d0649c",
+        "matches": true
+      },
+      "scripts/run_paired_configs_10scene_5perrun.ps1": {
+        "experiment_hash": "d3245678e745a7475aeed07c8a889cc1211d938eb7907a2762afa17364b0fc8e",
+        "current_hash": "d3245678e745a7475aeed07c8a889cc1211d938eb7907a2762afa17364b0fc8e",
+        "matches": true
+      },
+      "src/main/java/main/RunSingleParentConfig.java": {
+        "experiment_hash": "fa0eea0ecbef169f8272bb8b7b1c9d22baf2cca95cc2f4182f9bf833a3b85277",
+        "current_hash": "fa0eea0ecbef169f8272bb8b7b1c9d22baf2cca95cc2f4182f9bf833a3b85277",
+        "matches": true
+      },
+      "src/main/java/main/SingleAlgorithmOptimizer.java": {
+        "experiment_hash": "baffe01a7afd076746887753aba73b682663e25b8a7b83f1689c66a27d9b70ab",
+        "current_hash": "baffe01a7afd076746887753aba73b682663e25b8a7b83f1689c66a27d9b70ab",
+        "matches": true
+      }
+    },
+    "runtime_class_hashes": {
+      "main\\EvaluationHyb.class": "a9b7f1f32450def6bf7a5b57e7313b86aa7114303f610bc36fac9629676a0944",
+      "main\\RunSingleHybridConfig.class": "2e1ab598ce179398d369619851d44163a6a69f8234b7184e0c788d5bda8b6d8d",
+      "main\\RunSingleParentConfig.class": "480c5338bb74302575203ef53d19b21284cd5ea7b1e59cf1be51b2f4c7e82408",
+      "main\\SingleAlgorithmOptimizer.class": "1fb103c28c723cff4be83e0f21d94f3e8f150b27ffe3b725f5ae51ad4f357cf2"
+    }
+  },
+  "sources": {
+    "run_details": {
+      "path": "outputs/paired-native-perrun0-4-10scene-20260724-r01/run-details.csv",
+      "sha256": "a68efe7a39295007ad26e799345a4d9b243e7f58d12d1754a2692ca58771eb5c"
+    },
+    "experiment_contract": {
+      "path": "outputs/paired-native-perrun0-4-10scene-20260724-r01/experiment-contract.json",
+      "sha256": "809e2cf99a6c1422022fd9da72f1dfc132d747f0e81fcbd96766f56f0333a550"
+    },
+    "progress": {
+      "path": "outputs/paired-native-perrun0-4-10scene-20260724-r01/progress.json",
+      "sha256": "880f9c53a16d4aadcbf2e38f2970ae21cf8c077eb6b7f43ae7d5d3badad9789c"
+    },
+    "analysis_summary": {
+      "path": "outputs/paired-native-perrun0-4-10scene-20260724-r01/analysis-summary.json",
+      "sha256": "c4c940b33a7367833ae2261b46e54f418c477043812cbbfb36ed8a2b03c789b3"
+    }
+  },
+  "analysis": {
+    "script": {
+      "path": "scripts/analyze_native_paired_ablation.py",
+      "sha256": "9db5880ae97dc302d21e75db467a9c2e93935cbfa46b45d55537737a827a40b7"
+    },
+    "python": "3.13.12",
+    "packages": {
+      "pandas": "3.0.2",
+      "numpy": "2.4.4",
+      "scipy": "1.17.1",
+      "matplotlib": "3.10.8"
+    },
+    "primary_metric": "profitRatio (higher is better)",
+    "primary_unit": "ten paired scene means; each mean uses five paired native perRun values",
+    "planned_contrasts": [
+      "hybrid-410000 vs hybrid-290002",
+      "hybrid-410000 vs parent-4",
+      "hybrid-410000 vs parent-1"
+    ],
+    "test": "two-sided exact Wilcoxon signed-rank",
+    "correction": "Holm across three planned contrasts",
+    "effect_size": "matched-pairs rank-biserial correlation",
+    "bootstrap": {
+      "unit": "scene",
+      "resamples": 100000,
+      "interval": "percentile 95% CI"
+    }
+  },
+  "artifacts": {
+    "data": {
+      "path": "vault/Results/Evidence/paired-native-perrun0-4-10scene-20260724-r01/data.csv",
+      "sha256": "3b0c135a8eacff324c21ae94abb30e084dde45a9290507e43013aa1ac46bbab4",
+      "rows": 200,
+      "headers": [
+        "scene_id",
+        "scene_name",
+        "distribution",
+        "per_run",
+        "effective_index",
+        "effective_seed",
+        "config_key",
+        "entrypoint",
+        "config",
+        "profit_ratio",
+        "elapsed_seconds"
+      ]
+    },
+    "figures": [
+      {
+        "path": "vault/Results/Evidence/paired-native-perrun0-4-10scene-20260724-r01/figures/figure-01-scene-profit-means.png",
+        "sha256": "8d887959e4a890e8cf047833c1abcc9f433a66e89c4ec4f85582c5e26586dbe0"
+      },
+      {
+        "path": "vault/Results/Evidence/paired-native-perrun0-4-10scene-20260724-r01/figures/figure-01-scene-profit-means.svg",
+        "sha256": "943fd70874fe4948ebb4373481313176861947f1870beb7a918afda00c0986b3"
+      },
+      {
+        "path": "vault/Results/Evidence/paired-native-perrun0-4-10scene-20260724-r01/figures/figure-02-paired-deltas.png",
+        "sha256": "9591c16fdefd02d6b7c3fd605030663ad7d51d0d2209804a97377cf1b142896b"
+      },
+      {
+        "path": "vault/Results/Evidence/paired-native-perrun0-4-10scene-20260724-r01/figures/figure-02-paired-deltas.svg",
+        "sha256": "c8ca4a52fd0406e03a5a9779cdedd0a30756c5235ebadbd31a42939d448953b9"
+      }
+    ]
+  },
+  "provenance_notes": [
+    "The earlier wrong-seed batch and its derived analysis artifacts were deleted before this run.",
+    "Deletion ACL checkpoint retained at outputs/deletion-checkpoints/20260724-184000-wrong-seed-batch-acl.json.",
+    "No old wrong-seed result is included in this Evidence package."
+  ],
+  "evidence_directory": "vault/Results/Evidence/paired-native-perrun0-4-10scene-20260724-r01"
+}

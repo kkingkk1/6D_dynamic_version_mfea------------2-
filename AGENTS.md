@@ -1,6 +1,6 @@
 # 6D pure-semantic dynamic version 全局地图
 
-> 最后更新：2026-07-24
+> 最后更新：2026-07-25
 
 ## 项目概述
 
@@ -30,21 +30,23 @@
 - 不要给每个普通子目录都创建 `AGENTS.md`。只有子目录有长期稳定的独立职责、重复协作入口或特殊禁忌时，才新增局部 `AGENTS.md`。
 - 模块级 `AGENTS.md` 只记录模块职责、关键类、public 入口、跨模块依赖和重要禁忌。
 - 不把实验流水账、JFR 长记录、一次性性能对比、长参数表或临时计划写进模块级 `AGENTS.md`。
-- 历史证据和详细实验结果放入 `vault/Knowledge/` 或 `vault/Results/Reports/`，模块级 `AGENTS.md` 只保留一条短结论和链接。
+- 历史证据、可复核实验材料和详细结果放入 `vault/Knowledge/` 或 `vault/Results/Evidence/`；模块级 `AGENTS.md` 只保留一条短结论和链接。
 
 ## 计划文档工作流
 
-- `vault/01-Plan.md` 只放项目级目标、当前任务、关键决策和阶段结论；阶段结论压成 1-2 行，并链接到详细报告或原始产物。
-- `vault/Results/Reports/` 放完整实验表格、参数统计、性能对比和结论解释。
+- `vault/01-Plan.md` 只放项目级目标、当前任务、关键决策和阶段结论；阶段结论压成 1-2 行，并链接到人读报告或证据包。
+- `vault/Results/Evidence/<experiment-id>/` 是 agent、审计和复分析入口。默认只建 `evidence.md`、`data.csv` 和 `manifest.json`；有图才建 `figures/`。`evidence.md` 记录问题、方法、完整结论、统计边界和文件说明；`data.csv` 是本次分析实际使用的 canonical 结果表；`manifest.json` 记录 Git HEAD、参数、seed、命令、来源路径和 SHA256。
+- 不预建 `source/`、`derived/`、`stats-appendix.md` 或图表目录。只有数据确有多表、或论文/审稿需要完整统计附录时，才增加对应文件。
+- `vault/Results/Reports/` 是给人读的简练报告。只写研究问题、3-5 条发现、限制、决策和下一步，并链接同名 `Evidence` 包；不重复长统计合同、逐次运行审计、命令和 artifact 清单。
 - `vault/Plan/` 放新的 MFEA 测试方案、搜索方案、分支实验计划，以及计划模式、CCG、Claude 计划模式生成的 plan 文档。
-- `outputs/` 放原始日志、CSV、stdout、JFR 和中间结果。
+- `outputs/<experiment-id>/` 是本地运行现场，保存日志、命令、stdout/stderr、JFR、PID、进度和恢复文件，继续忽略提交。分析所需的 canonical 结果表默认复制为 `Evidence/data.csv`；表过大时不复制，在 `manifest.json` 记录其 `outputs/` 路径和 SHA256。
 - `vault/00-Hub.md` 只在方向性里程碑、项目索引或顶层入口变化时同步。
-- 消融完成后，把完整结果写入对应 report；如果结果改变项目主线，再把压缩结论同步到 `vault/01-Plan.md` 的“关键设计决策”或“阶段结论索引”。
+- 消融完成后，按 `outputs → Evidence → Reports → vault/01-Plan.md` 生成和链接产物。若结果改变项目主线，再把压缩结论同步到 `vault/01-Plan.md` 的“关键设计决策”或“阶段结论索引”。
 - 已删除、废弃或防回退机制统一写入 `vault/Knowledge/Removed-Mechanisms.md`，包含删除对象、当前行为、证据入口和恢复条件；`vault/01-Plan.md` 只保留项目级影响和该文档链接，不展开删除细节。
 - `vault/Plan/` 中任一计划完成、废弃、阻塞或转 deferred 时，必须在同一轮同步相关文档：
   1. 更新该 plan 文件的 `status`、结果和决策；
   2. 更新 `vault/01-Plan.md` 的 Plan 状态总表、当前任务勾选和必要的阶段结论入口；
-  3. 若有实验结果，确认对应 `vault/Results/Reports/` 已有完整报告；
+  3. 若有实验结果，确认对应 `vault/Results/Evidence/` 已有轻量证据包，并在 `vault/Results/Reports/` 有链接该证据包的人读报告；
   4. 若改变稳定机制、默认参数、删除边界或恢复条件，同步 `vault/Knowledge/` 相关 canonical note；
   5. 只有方向性里程碑、顶层入口或项目索引变化时才同步 `vault/00-Hub.md`。
 - 不要只在聊天里宣布 plan 完成；完成状态必须落到可检索文档里。
@@ -57,9 +59,16 @@
 - 去 AI 味不得改变实验事实、数值、引用、算法名、变量名、表号、图号和证据边界。
 - 公式密集、表格密集、纯参数说明段只做最小措辞调整，优先保持可核查性。
 
+## 论文 PDF 构建产物
+
+- 从 `vault/Writing/*.md` 构建论文 PDF 时，最终 PDF 仅保存在对应 Markdown 同目录，命名为 `<basename>.pdf`。
+- `.tex`、`.aux`、`.bbl`、`.blg`、`.log`、`.out`、`.toc`、`.synctex.gz`、转换文件、页面渲染图、字体与检查报告等中间产物必须放在独立的 `outputs/<build-id>/`，不得写入 `vault/Writing/`。
+- 先在 `outputs/<build-id>/` 的隔离工作区完成编译、日志和视觉检查；通过后才复制最终 PDF 到 `vault/Writing/`。
+
 ## 长跑续跑安全
 
 - 长跑续跑遵循用户级“长跑任务续跑安全”规则；本项目重点检查 `java.exe`、候选参数、worktree 路径和 `.log` 文件。
+- 多 seed 或跨配置配对长跑启动前，必须先完成 seed preflight：用一个场景核对首轮和末轮的实际 `[RunSeed]`、`perRun` 到 effective index 的映射、`evaluation.runSeedBase` / `evaluation.runIndexBase` 是否符合预期，并确认同轮各配置使用相同 seed。至少将一次手动启动结果与批处理命令记录对照；任一 seed 不一致时禁止启动完整批次。
 
 三层架构：
 - **外层全局 MFEA 自动设计层**：搜索 6 维混合算法配置染色体，自动设计父算法组合、update policy、执行顺序和生存策略
@@ -73,7 +82,7 @@
 ├── pom.xml / tuning.properties
 ├── vault/
 │   ├── Plan/          ← MFEA 搜索计划和测试方案
-│   ├── Results/       ← 完整实验报告和结果表
+│   ├── Results/       ← Evidence（agent/审计）与 Reports（人读）
 │   ├── Knowledge/     ← 架构、来源清单和防回退知识
 │   └── Writing/       ← 论文草稿和写作材料
 ├── src/main/java/

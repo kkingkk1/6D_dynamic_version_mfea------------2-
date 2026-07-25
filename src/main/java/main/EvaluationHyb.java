@@ -328,7 +328,7 @@ public class EvaluationHyb {
         java.util.List<Future<PerRunResult>> futures = new ArrayList<>();
 
         for (int perRun = 0; perRun < nRun; perRun++) {
-            final int runIndex = perRun;
+            final int runIndex = perRun+4;
             Callable<PerRunResult> task = () -> {
                 long runStartNanos = System.nanoTime();
                 try {

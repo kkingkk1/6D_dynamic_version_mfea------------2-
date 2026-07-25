@@ -1,8 +1,9 @@
 ---
-status: completed
+status: superseded
 created: 2026-07-24
-updated: 2026-07-24
+updated: 2026-07-25
 experiment_id: paired-current-1d-parent-10scene-5perrun-20260724
+superseded_by: paired-native-perrun0-4-10scene-20260724-r01
 ---
 
 # 当前 1D Parent 与 Hybrid 全场景配对运行
@@ -41,9 +42,9 @@ experiment_id: paired-current-1d-parent-10scene-5perrun-20260724
 
 ## 状态
 
-全部 200 条正式运行已完成：10 个场景各 20 条，每个配置各 50 条，`runKey` 唯一且完整，失败 attempt、缺失、额外、重复和配对 seed 不一致均为 0。runner 和 Java 子进程均已退出。
+本计划的旧批次在四配置内部保持配对，但注入的 seed base 不属于用户要求的原生 `perRun+0..+4` 序列。用户拒绝该口径后，旧输出、报告和派生数据已删除，本计划及其数值不再作为 canonical 证据。
 
-场景宏平均收益率为 `hybrid-290002=77.0542%`、`hybrid-410000=76.5742%`、`parent-4=75.5166%`、`parent-1=74.4338%`。两项预先定义场景级比较均为 6 胜、4 平、0 负；原始 Wilcoxon `p=0.03125`，两项 Holm 校正后均为 `p=0.0625`。因此候选方向一致但未通过校正后显著性门槛。完整报告见 [[Results/Reports/2026-07-24--current-1d-parent--r01--paired-summary|当前 1D Parent 配对总结]]。
+替代实验 `paired-native-perrun0-4-10scene-20260724-r01` 已按原生 seed 序列完成 200/200 条运行并重新分析。Canonical 入口见 [[Results/Evidence/paired-native-perrun0-4-10scene-20260724-r01/evidence|原生 perRun 五轮配对消融证据]]；后续只引用替代实验。
 
 ## 错误记录
 

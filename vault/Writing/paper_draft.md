@@ -6,7 +6,7 @@
 
 **Corresponding authors**—Lei He and Yingwu Chen.
 
-**Abstract**—The large-scale agile earth observation satellite task scheduling problem (LS-AEOSTSP) has received increasing attention because it directly affects the utilization of growing satellite constellations in time-sensitive earth observation missions. The problem is difficult due to its NP-hard nature and large  scale nature. This paper proposes a Random-Key Hybrid Metaheuristic Algorithm (RK-HMA) with dynamic task reassignment for solving LS-AEOSTSP. RK-HMA employs a random-key continuous encoding scheme to transform the discrete scheduling problem into a continuous optimization problem, and adopts a sequential hybrid strategy combining Differential Evolution (DE/rand/1) and Particle Swarm Optimization (PSO) to co-evolve a unified population. For multi-satellite coordination, a dynamic task reassignment layer with four complementary migration strategies—standard migration, replacement move, swap move, and bundle move—iteratively adjusts task-satellite assignments. Experiments on ten benchmark instances ranging from 500 to 10,000 tasks with 5 to 100 satellites demonstrate that RK-HMA achieves the best or tied-best profit rate across all scenarios, improving profit rate by up to 24.10% over the compared baselines.
+**Abstract**—The large-scale agile earth observation satellite task scheduling problem (LS-AEOSTSP) directly affects the use of growing satellite constellations in time-sensitive earth observation missions. Its joint task-allocation and sequencing decisions form an NP-hard search problem whose scale increases rapidly with the number of tasks and satellites. This paper proposes a Random-Key Hybrid Metaheuristic Algorithm (RK-HMA) with dynamic task reassignment for LS-AEOSTSP. RK-HMA uses random-key continuous encoding to transform discrete task sequencing into continuous optimization and applies Differential Evolution (DE/rand/1) followed by Particle Swarm Optimization (PSO) to a shared population. A multi-satellite reassignment layer combines standard migration, replacement, swap, and bundle moves to revise task-satellite assignments from scheduling feedback. On ten benchmark instances with 500–10,000 tasks and 5–100 satellites, RK-HMA obtains the best or tied-best reported profit rate in every scenario, with a maximum gap of 24.18 percentage points over the compared baselines. Across five paired runs, RK-HMA also raises the ten-scenario macro-average profit rate by 1.05 and 2.11 percentage points over DE/rand/1 and PSO alone, respectively.
 
 *Index Terms*—Multi-satellite scheduling, hybrid metaheuristic algorithm, dynamic task reassignment, random-key encoding, differential evolution, particle swarm optimization.
 
@@ -42,7 +42,7 @@ The main contributions of this paper are summarized as follows:
 
 2) We design a dynamic task reassignment mechanism with four complementary migration strategies: standard migration, replacement move, swap move, and bundle move. During reassignment, candidate target satellites are filtered by a bounded top-k screening rule: all eligible satellites are scored once by a low-cost heuristic, and only the retained top-k candidates are passed to downstream migration trials. These strategies are attempted progressively from simple to complex, balancing success rate and computational overhead.
 
-3) We conduct extensive experiments on ten benchmark instances with scales ranging from 500 to 10,000 tasks and 5 to 100 satellites. Results demonstrate that RK-HMA significantly outperforms R-ALNS, A-ALNS, and DRL-PASA, especially on large-scale scenarios with regional task distribution. Ablation studies validate the contribution of each component.
+3) We evaluate RK-HMA on ten benchmark instances with 500–10,000 tasks and 5–100 satellites. RK-HMA obtains the highest or tied-highest reported profit rate on all ten instances, with the largest gaps on regional-distribution scenarios. Five-run paired ablations show that the full hybrid improves the ten-scenario macro average by 1.05 percentage points over DE/rand/1 and 2.11 percentage points over PSO alone.
 
 The remaining sections are organized as follows. Section II presents a mathematical model for the LS-AEOSTSP. Section III introduces the proposed RK-HMA in detail. Section IV presents experimental results. Finally, Section V concludes this paper.
 
@@ -412,14 +412,14 @@ $$
 &= \gamma_p \cdot \frac{r_i}{r_{\max}}
 + \gamma_c \cdot \frac{|C_i|}{|C|_{\max}}
 + \gamma_{\Omega} \cdot \frac{|\Omega_i|}{|\Omega|_{\max}}
-+ \gamma_{\xi} \cdot \xi_i.
++ \gamma_k \cdot k_i.
 \end{aligned}
 \tag{19}
 $$
 
-where $r_i / r_{\max}$ is the normalized profit, $|C_i| / |C|_{\max}$ is the normalized number of candidate satellites, $|\Omega_i| / |\Omega|_{\max}$ is the normalized total number of VTWs, and $\xi_i$ is sampled from a uniform distribution between 0 and 1 using a fixed seeded random stream. The coefficients $\gamma_p$, $\gamma_c$, $\gamma_{\Omega}$, and $\gamma_{\xi}$ are the normalized collected weights reported in Table III.
+where $r_i / r_{\max}$ is the normalized task priority (profit), $|C_i| / |C|_{\max}$ is the normalized number of candidate satellites, $|\Omega_i| / |\Omega|_{\max}$ is the normalized total number of VTWs, and $k_i \in [0,1]$ is the persistent global task key. The key is initialized once from task priority, reassignment feasibility, and a seeded random component. Failed attempts can subsequently trigger the configured key perturbation. The coefficients $\gamma_p$, $\gamma_c$, $\gamma_{\Omega}$, and $\gamma_k$ are relative ranking weights reported in Table III. Because a common positive scale does not change the task order, $\gamma_{\Omega}=1$ is fixed as the reference coefficient.
 
-This score is designed as a pre-migration priority rule rather than an absolute objective value. The profit term estimates the direct benefit of successfully repairing a task. The candidate-satellite and VTW terms estimate reassignment flexibility: a task with more compatible satellites or more visible windows has more chances to be inserted by the downstream migration strategies. The random term is kept small and is used to break ties among tasks with similar deterministic features. All deterministic components are normalized before weighting so that raw profit, candidate count, and window count do not dominate the ranking only because of scale differences. This design focuses the limited reassignment budget on tasks that are both valuable and likely to be repaired by cross-satellite migration.
+This score is a pre-migration priority rule rather than an objective value. The priority term estimates the direct benefit of repairing a task, while the candidate-satellite and VTW terms estimate its reassignment flexibility. The persistent task key carries seeded diversity and failure-triggered perturbations without introducing a new random draw in each ranking call. The three explicit task attributes are normalized before weighting so that their raw scales do not determine the order.
 
 ### D.3 Lightweight Fixed-TopK Target-Satellite Screening
 
@@ -429,38 +429,27 @@ All eligible candidate satellites are scored once by a lightweight heuristic. Fo
 
 $$
 S^{\ell}_{ij}
-= \lambda^{\ell}_{p} P^{\ell}_{ij}
-+ \lambda^{\ell}_{s} B^{\ell}_{j}
-$$
-
-The pair term $P^{\ell}_{ij}$ estimates the compatibility between task $\tau_i$ and candidate satellite $s_j$ before an expensive schedule reconstruction is attempted:
-
-$$
-P^{\ell}_{ij}
 = \rho_{\mathrm{cnt}} \bar{w}^{\mathrm{cnt}}_{ij}
 + \rho_{\mathrm{len}} \bar{w}^{\mathrm{len}}_{ij}
-+ \rho_{e} \bar{e}_{ij}
-+ \rho_{\xi} \xi_{ij}
-+ \delta^{\mathrm{fb}}_{ij},
++ \rho_e \bar{e}_{ij}
++ \rho_k k^{\mathrm{eff}}_{ij}.
 $$
 
-The terms $\bar{w}^{\mathrm{cnt}}_{ij}$ and $\bar{w}^{\mathrm{len}}_{ij}$ measure the normalized candidate-window count and total candidate-window length, respectively, indicating how many insertion opportunities the pair provides. The term $\bar{e}_{ij}$ is the earliest-start score and favors targets that can absorb the task earlier in the planning horizon. The random term $\xi_{ij}$ breaks ties among otherwise similar candidates, and the feedback term $\delta^{\mathrm{fb}}_{ij}$ records whether previous reassignment attempts for this task-satellite pair were useful. Acceptance rewards and rejection penalties for the feedback term are given in Table III.
-
-The satellite term $B^{\ell}_{j}$ estimates whether the target satellite has enough remaining capacity:
+The terms $\bar{w}^{\mathrm{cnt}}_{ij}$ and $\bar{w}^{\mathrm{len}}_{ij}$ are the candidate-window count and total candidate-window length normalized across the eligible satellites for task $\tau_i$. The earliest-start score $\bar{e}_{ij}$ favors satellites that can absorb the task earlier in the planning horizon. The effective task-satellite key is
 
 $$
-B^{\ell}_{j}
-= \mu_{l} \bar{l}_{j}
-+ \mu_{b} \bar{b}_{j}
-+ \mu_{s} \bar{s}_{j}
-+ \mu_{f} \bar{f}_{j},
+k^{\mathrm{eff}}_{ij}
+= \operatorname{clip}_{[0,1]}
+\left(k^{\mathrm{base}}_{ij}+\delta^{\mathrm{fb}}_{ij}\right),
 $$
 
-Here, $\bar{l}_{j}$, $\bar{b}_{j}$, $\bar{s}_{j}$, and $\bar{f}_{j}$ denote normalized load, backlog, historical-acceptance, and free-window-mass scores, respectively. They favor satellites with lower current pressure, fewer unresolved tasks, better recent reassignment success, and more usable time-window mass. When no target-selection attempt has been recorded for $s_j$, the historical-acceptance score uses the prior value reported in Table III. All four values are clipped to $[0,1]$ in implementation. The weighting coefficients are shared by all tasks and are reported in Table III.
+where $k^{\mathrm{base}}_{ij}$ is initialized once as a seeded task-satellite affinity score. The feedback state $\delta^{\mathrm{fb}}_{ij}$ increases by $\Delta^{+}_{\mathrm{fb}}$ after a successful move and decreases by $\Delta^{-}_{\mathrm{fb}}$ after a failed move. The clipping operation keeps the effective key in $[0,1]$.
+
+The four screening coefficients are normalized by their sum before scoring. Their default raw values sum to one, giving the effective weights $0.346$, $0.274$, $0.18$, and $0.20$. The task-satellite-key coefficient $\rho_k=0.20$ is fixed as the reference, leaving only the first three coefficients as independent raw hyperparameters. The former separate satellite-capacity score is therefore not part of the current screening rule.
 
 A task is treated as prioritized when it belongs to the top $K_{\mathrm{rank}}^{\mathrm{task}}$ unscheduled tasks under Eq. (19) in the current reassignment round. After all eligible satellites are ranked by the screening score, only the top $K_{\mathrm{ordinary}}^{\mathrm{sat}}$ candidates are retained for ordinary tasks, and only the top $K_{\mathrm{priority}}^{\mathrm{sat}}$ candidates are retained for prioritized tasks. This top-k rule is used because scoring all eligible satellites is cheap, whereas downstream trial moves require schedule reconstruction. The screening stage therefore keeps the full-candidate ranking cost at $O(m)$ while restricting expensive migration trials to a small set of high-scoring target satellites.
 
-After target screening, retained candidates are evaluated by a fast refine procedure. The current task order of the target satellite is used as an anchor: existing scheduled tasks keep their relative order, and only the newly added or temporarily affected tasks are inserted into a limited set of representative candidate positions $\mathcal{P}_{\mathrm{ref}}$. For each candidate order, the satellite schedule is reconstructed by the greedy insertion decoder. A local adjacent-swap pass is then applied around the inserted tasks to repair nearby ordering conflicts. This design keeps the reassignment trial local and cheap while still checking several distinct insertion regions in the sequence. The delta fitness is computed from the reconstructed schedule, and a trial move is accepted only when this local delta is positive.
+After target screening, retained candidates are evaluated by a fast refine procedure. The current task order of the target satellite is used as an anchor: existing scheduled tasks keep their relative order, and only newly added or temporarily affected tasks are tested at a small set of boundary, midpoint, and uniformly spaced insertion positions. The default base-position limit is $L_{\mathrm{ref}}=4$; for instances with at least 4,000 tasks, it is reduced to three after the first five reassignment rounds. Replacement and swap moves additionally sample positions near the original removal anchors. For each candidate order, the satellite schedule is reconstructed by the greedy insertion decoder. A local adjacent-swap pass then repairs nearby ordering conflicts. The delta fitness is computed from the reconstructed schedule, and a trial move is accepted only when this local delta is positive.
 
 ### D.4 Reassignment Procedure
 
@@ -594,7 +583,7 @@ $$
 
 where $F(P_S)$ is the total profit of scheduled tasks and $F(P_A)$ is the total profit of all tasks.
 
-Tab. IV reports the instance-wise profit-rate comparison following the protocol of [4]. For Tab. V, the baseline times are cited from [4], while the RK-HMA times are averaged over five independent runs in our Java implementation. Because the compared methods use different implementations and hardware environments, Tab. V is used only as an auxiliary wall-clock reference.
+Tab. IV reports the instance-wise profit-rate comparison following the scenario protocol of [4]. The R-ALNS, A-ALNS, and DRL-PASA values are cited from [4], while the RK-HMA column uses the fifth native run (`perRun=4`) for every scenario. For Tab. V, the baseline times are also cited from [4], whereas the RK-HMA times are averaged over all five native runs in our Java implementation. Because the methods use different implementations and hardware environments, Tab. V is only an auxiliary wall-clock reference. The internal RK-HMA, DE/rand/1, and PSO ablations in Tab. VI use five seed-paired runs per scenario.
 
 The parameter values for RK-HMA are shown in Tab. III.
 
@@ -618,16 +607,13 @@ Max evaluations & $maxFes$ & $N_{pop} \times 100$ \\
 Maximum reassignment rounds & $R_{\max}$ & 25 \\
 Stagnation threshold & $N_{\text{stag}}$ & 1 \\
 Random-key search interval & $[-u,u]$ & $u=750$ \\
-Initial-allocation composite weights & \makecell[l]{$w_{\lambda},\, w_{\Omega},$\\$w_b,\, w_f,\, \beta$} & \makecell[l]{0.35, 0.20,\\0.20, 0.25, 0.5} \\
-Unscheduled-task ranking weights & \makecell[l]{$\gamma_p,\, \gamma_c,$\\$\gamma_{\Omega},\, \gamma_{\xi}$} & 0.61, 0.22, 0.13, 0.04 \\
-Pair-score weights & \makecell[l]{$\rho_{\mathrm{cnt}},\, \rho_{\mathrm{len}},$\\$\rho_e,\, \rho_{\xi}$} & 0.43, 0.33, 0.22, 0.02 \\
-Satellite-score weights & $\mu_l,\, \mu_b,\, \mu_s,\, \mu_f$ & 0.45, 0.20, 0.10, 0.25 \\
-Pair/satellite screening weights & $\lambda^{\ell}_{p},\, \lambda^{\ell}_{s}$ & 0.66, 0.34 \\
-Feedback reward and penalty & \makecell[l]{$\Delta^{+}_{\mathrm{fb}},$\\$\Delta^{-}_{\mathrm{fb}}$} & 0.016, 0.002 \\
-Historical-acceptance prior & $s_0$ & 0.5 \\
+Initial-allocation composite weights & \makecell[l]{$w_{\lambda},\, w_{\Omega},$\\$w_b,\, w_f,\, \beta$} & \makecell[l]{0.37, 0.20,\\0.25, 0.25, 0.5} \\
+Unscheduled-task relative weights & \makecell[l]{$\gamma_p,\, \gamma_c,$\\$\gamma_{\Omega},\, \gamma_k$} & 5, 2, 1, 3 \\
+Target-satellite screening weights & \makecell[l]{$\rho_{\mathrm{cnt}},\, \rho_{\mathrm{len}},$\\$\rho_e,\, \rho_k$} & \makecell[l]{0.346, 0.274,\\0.18, 0.20} \\
+Feedback reward and penalty & \makecell[l]{$\Delta^{+}_{\mathrm{fb}},$\\$\Delta^{-}_{\mathrm{fb}}$} & 0.08, 0.01 \\
 Prioritized-task ranking quota & $K_{\mathrm{rank}}^{\mathrm{task}}$ & 5 \\
 Retained target satellites & \makecell[l]{$K_{\mathrm{ordinary}}^{\mathrm{sat}},$\\$K_{\mathrm{priority}}^{\mathrm{sat}}$} & 2, 4 \\
-Fast-refine insertion positions & $\mathcal{P}_{\mathrm{ref}}$ & $\{0,n/3,n/2,2n/3,n\}$ \\
+Base fast-refine position limit & $L_{\mathrm{ref}}$ & 4 \\
 Max bundle size & $K_B$ & 3 \\
 Bundle time-neighbor threshold & $\theta_B$ & 120 s \\
 Max bundle trials per round & $N_B$ & 5 \\
@@ -641,7 +627,7 @@ PSO learning factors & $c_1,\, c_2$ & 2.0, 0.5 \\
 \end{table}
 ```
 
-Here, $n_j$ denotes the number of tasks assigned to a satellite. The DE scaling factor follows a sigmoid adaptive schedule from 0.1 to 0.01. These values are smaller than the typical range $[0.4, 1.0]$ used in standard DE on unbounded continuous problems because the random-key vector is decoded only by sorting. Large perturbations can reorder many tasks at once, while smaller late-stage perturbations favor local changes in the induced task sequence. Boundary handling keeps DE and PSO positions inside the configured key interval.
+Here, $n_j$ denotes the number of tasks assigned to a satellite. Ranking-only score groups use a fixed reference coefficient to remove a redundant common-scale degree of freedom: $w_f=0.25$ in initial allocation, $\gamma_{\Omega}=1$ in unscheduled-task ranking, and $\rho_k=0.20$ in target-satellite screening. The same reduction fixes the global-task-key coefficient at $1.00$ for intra-satellite ordering and the conflict coefficient at $2.0$ for fast-refine repair ranking; these reference values are implementation constants rather than independent hyperparameters. The baseline-key microscale is likewise fixed at $10^{-6}$ and is omitted from the tuning table. The DE scaling factor follows a sigmoid adaptive schedule from 0.1 to 0.01. These values are smaller than the typical range $[0.4, 1.0]$ used in standard DE on unbounded continuous problems because the random-key vector is decoded only by sorting. Large perturbations can reorder many tasks at once, while smaller late-stage perturbations favor local changes in the induced task sequence. Boundary handling keeps DE and PSO positions inside the configured key interval.
 
 ## C. Experimental Results
 
@@ -662,44 +648,44 @@ In this section, the performance of RK-HMA, R-ALNS, A-ALNS, and DRL-PASA are eva
 \toprule
 ID & Distribution & $n, m$ & R-ALNS & A-ALNS & DRL-PASA & RK-HMA \\
 \midrule
-1 & Regional & 500, 5 & \makecell[c]{99.05\%\\(+0.55)} & \makecell[c]{98.95\%\\(+0.65)} & \makecell[c]{99.60\%\\(0)} & \makecell[c]{\textbf{99.60\%}\\(0)} \\
-2 & Global & 500, 5 & \makecell[c]{99.75\%\\(+0.14)} & \makecell[c]{99.89\%\\(0)} & \makecell[c]{99.89\%\\(0)} & \makecell[c]{\textbf{99.89\%}\\(0)} \\
-3 & Regional & 1000, 10 & \makecell[c]{39.60\%\\(+7.20)} & \makecell[c]{40.20\%\\(+6.60)} & \makecell[c]{44.35\%\\(+2.45)} & \makecell[c]{\textbf{46.80\%}\\(0)} \\
-4 & Global & 1000, 10 & \makecell[c]{92.57\%\\(+0.02)} & \makecell[c]{92.51\%\\(+0.08)} & \makecell[c]{92.59\%\\(0)} & \makecell[c]{\textbf{92.59\%}\\(0)} \\
-5 & Regional & 1000, 20 & \makecell[c]{56.31\%\\(+21.62)} & \makecell[c]{70.21\%\\(+7.72)} & \makecell[c]{76.35\%\\(+1.58)} & \makecell[c]{\textbf{77.93\%}\\(0)} \\
+1 & Regional & 500, 5 & \makecell[c]{99.05\%\\(+0.59)} & \makecell[c]{98.95\%\\(+0.69)} & \makecell[c]{99.60\%\\(+0.04)} & \makecell[c]{\textbf{99.64\%}\\(0)} \\
+2 & Global & 500, 5 & \makecell[c]{99.75\%\\(+0.14)} & \makecell[c]{\textbf{99.89\%}\\(0)} & \makecell[c]{\textbf{99.89\%}\\(0)} & \makecell[c]{\textbf{99.89\%}\\(0)} \\
+3 & Regional & 1000, 10 & \makecell[c]{39.60\%\\(+7.97)} & \makecell[c]{40.20\%\\(+7.37)} & \makecell[c]{44.35\%\\(+3.22)} & \makecell[c]{\textbf{47.57\%}\\(0)} \\
+4 & Global & 1000, 10 & \makecell[c]{92.57\%\\(+0.02)} & \makecell[c]{92.51\%\\(+0.08)} & \makecell[c]{\textbf{92.59\%}\\(0)} & \makecell[c]{\textbf{92.59\%}\\(0)} \\
+5 & Regional & 1000, 20 & \makecell[c]{56.31\%\\(+21.89)} & \makecell[c]{70.21\%\\(+7.99)} & \makecell[c]{76.35\%\\(+1.85)} & \makecell[c]{\textbf{78.20\%}\\(0)} \\
 6 & Global & 2000, 20 & \makecell[c]{98.27\%\\(+0.17)} & \makecell[c]{98.37\%\\(+0.07)} & \makecell[c]{98.40\%\\(+0.04)} & \makecell[c]{\textbf{98.44\%}\\(0)} \\
-7 & Regional & 4000, 40 & \makecell[c]{57.54\%\\(+6.55)} & \makecell[c]{62.44\%\\(+1.65)} & \makecell[c]{62.58\%\\(+1.51)} & \makecell[c]{\textbf{64.09\%}\\(0)} \\
+7 & Regional & 4000, 40 & \makecell[c]{57.54\%\\(+7.07)} & \makecell[c]{62.44\%\\(+2.17)} & \makecell[c]{62.58\%\\(+2.03)} & \makecell[c]{\textbf{64.61\%}\\(0)} \\
 8 & Global & 6000, 60 & \makecell[c]{99.93\%\\(+0.07)} & \makecell[c]{99.96\%\\(+0.04)} & \makecell[c]{99.98\%\\(+0.02)} & \makecell[c]{\textbf{100.00\%}\\(0)} \\
-9 & Regional & 8000, 80 & \makecell[c]{27.12\%\\(+24.10)} & \makecell[c]{34.26\%\\(+16.96)} & \makecell[c]{37.18\%\\(+14.04)} & \makecell[c]{\textbf{51.22\%}\\(0)} \\
-10 & Regional & 10000, 100 & \makecell[c]{20.38\%\\(+13.72)} & \makecell[c]{29.25\%\\(+4.85)} & \makecell[c]{33.95\%\\(+0.15)} & \makecell[c]{\textbf{34.10\%}\\(0)} \\
+9 & Regional & 8000, 80 & \makecell[c]{27.12\%\\(+24.18)} & \makecell[c]{34.26\%\\(+17.04)} & \makecell[c]{37.18\%\\(+14.12)} & \makecell[c]{\textbf{51.30\%}\\(0)} \\
+10 & Regional & 10000, 100 & \makecell[c]{20.38\%\\(+13.83)} & \makecell[c]{29.25\%\\(+4.96)} & \makecell[c]{33.95\%\\(+0.26)} & \makecell[c]{\textbf{34.21\%}\\(0)} \\
 \bottomrule
 \end{tabular}
 \end{table}
 ```
 
-*Bold indicates the best result for each scenario. The value in parentheses indicates the gap to the best result.*
+*Bold indicates the best or tied-best result for each scenario. The value in parentheses is the gap to the best result. The RK-HMA column reports the fifth native run for every scenario.*
 
-As shown in Tab. IV, RK-HMA achieves the best or tied-best profit rate across all 10 scenarios. The advantage is most visible on regional-distribution instances, where tasks are geographically concentrated and scheduling conflicts are stronger. On global-distribution instances, all methods already obtain high profit rates, and RK-HMA mainly preserves a small but consistent advantage.
+As shown in Tab. IV, RK-HMA obtains the best or tied-best profit rate on all ten scenarios. The difference is concentrated on regional-distribution instances, where scheduling conflicts leave more room for task-allocation and sequencing improvements. On the four global-distribution instances, the reported profit rates are already near saturation and differ by at most 0.17 percentage points.
 
 **Analysis by task distribution.** Fig. 6 compares the profit rates of all algorithms on regional and global distribution scenarios.
 
 ```{=latex}
 \begin{center}
 ```
-![](../Results/analysis-output/figures/fig6_7_distribution_grouped_bar_side_by_side.png){width=96%}
+![](images/fig6_profit_rate_by_distribution.png){width=96%}
 
-**Fig. 6.** Profit rate comparison by task distribution. Panel (a) reports regional distribution scenarios, and panel (b) reports global distribution scenarios.
+**Fig. 6.** Profit-rate comparison by task distribution. Panel (a) reports regional-distribution scenarios, and panel (b) reports global-distribution scenarios. RK-HMA uses the fifth native run; the three baseline series are cited from [4]. Both panels use the same 0–105% vertical scale.
 ```{=latex}
 \end{center}
 ```
 
-On regional-distribution scenarios, the performance gap between algorithms is most pronounced. RK-HMA shows clear advantages on the larger regional instances, with the largest gap over DRL-PASA reaching 14.04% in scenario 9. The average gap between RK-HMA and R-ALNS on regional scenarios reaches 12.29%, while the average gap over DRL-PASA is 3.29%. These results indicate that the complete RK-HMA workflow is well suited to high-conflict and complex instances, where task allocation and per-satellite sequencing must be improved jointly.
+On regional-distribution scenarios, the gap is most pronounced on the larger instances. The largest RK-HMA gap over DRL-PASA is 14.12 percentage points on scenario 9. Averaged over the six regional scenarios, the gaps over R-ALNS and DRL-PASA are 12.59 and 3.59 percentage points, respectively. The complete RK-HMA workflow is therefore most useful when task allocation and per-satellite sequencing remain strongly constrained.
 
-On global-distribution scenarios, where tasks are more evenly spread across the observation area and the conflict degree is relatively low, all algorithms achieve high-quality solutions. The maximum gap between RK-HMA and DRL-PASA on global scenarios is only 0.04% in scenario 6, and the average gap is 0.01%. This pattern suggests that these instances leave little room for further improvement because the compared methods already reach near-saturated schedules. Nevertheless, RK-HMA consistently matches or slightly exceeds the best competitor on every global scenario.
+On global-distribution scenarios, all four algorithms obtain high profit rates. The maximum RK-HMA gap over DRL-PASA is 0.04 percentage points on scenario 6, and the four-scenario average is 0.015 percentage points. These near-ties indicate that the global instances provide little capacity to distinguish the methods once their schedules approach saturation.
 
-Compared with the three baselines, RK-HMA obtains higher fitness because it addresses their task-allocation and sequence-optimization limitations in a more integrated way. R-ALNS uses random task allocation, so many conflicting tasks may be assigned to unsuitable satellites before ALNS optimizes the single-satellite sequences. A-ALNS improves this step with adaptive allocation, but the allocation is still separated from the following single-satellite search. DRL-PASA further strengthens allocation with a learned policy, but its performance depends on how well the policy generalizes to the current test instance. In contrast, RK-HMA requires no offline training and directly optimizes the given instance: dynamic task reassignment revises task subsets across satellites after observing scheduling outcomes, while the DE/rand/1 and PSO hybrid search provides a better balance between exploration and exploitation when refining the random-key task order. This explains why RK-HMA achieves average gaps of 7.41%, 3.86%, and 1.98% over R-ALNS, A-ALNS, and DRL-PASA, respectively.
+RK-HMA intervenes at both decision levels represented in these instances. Dynamic reassignment revises task subsets after observing scheduling outcomes, and the DE/rand/1–PSO hybrid refines the random-key ordering within each satellite. Across all ten scenarios, the reported profit-rate gaps over R-ALNS, A-ALNS, and DRL-PASA average 7.59, 4.04, and 2.16 percentage points, respectively. Because the external values are cited from [4] rather than rerun under the paired protocol, these comparisons are descriptive rather than inferential.
 
-**Computational time comparison.** Tab. V reports the computational time of all algorithms as an auxiliary reference. The baseline times are cited from [4], and the RK-HMA times are averaged over five independent runs in our Java environment.
+**Computational time comparison.** Tab. V reports computational time as an auxiliary reference. The baseline times are cited from [4], and the RK-HMA times are averaged over the five native runs in our Java environment.
 
 ```{=latex}
 \Needspace{0.22\textheight}
@@ -716,16 +702,16 @@ Compared with the three baselines, RK-HMA obtains higher fitness because it addr
 \toprule
 ID & Distribution & $n, m$ & R-ALNS & A-ALNS & DRL-PASA & RK-HMA \\
 \midrule
-1 & Regional & 500, 5 & 42.67s & 39.61s & 32.80s & \textbf{27.16s} \\
-2 & Global & 500, 5 & 7.32s & 6.64s & 2.80s & \textbf{1.52s} \\
-3 & Regional & 1000, 10 & 35.93s & 34.44s & 18.70s & \textbf{14.71s} \\
-4 & Global & 1000, 10 & 4.15s & 4.10s & 4.00s & \textbf{1.48s} \\
-5 & Regional & 1000, 20 & 37.71s & 37.14s & 27.60s & \textbf{11.62s} \\
-6 & Global & 2000, 20 & 59.37s & 47.09s & 42.70s & \textbf{3.50s} \\
-7 & Regional & 4000, 40 & 370.48s & 351.17s & 320.40s & \textbf{45.60s} \\
-8 & Global & 6000, 60 & 75.42s & 59.69s & 58.20s & \textbf{2.40s} \\
-9 & Regional & 8000, 80 & 236.81s & 222.68s & 215.50s & 410.74s \\
-10 & Regional & 10000, 100 & 898.14s & 754.58s & 718.10s & \textbf{448.19s} \\
+1 & Regional & 500, 5 & 42.67s & 39.61s & 32.80s & \textbf{7.91s} \\
+2 & Global & 500, 5 & 7.32s & 6.64s & 2.80s & \textbf{1.24s} \\
+3 & Regional & 1000, 10 & 35.93s & 34.44s & 18.70s & \textbf{5.16s} \\
+4 & Global & 1000, 10 & 4.15s & 4.10s & 4.00s & \textbf{1.22s} \\
+5 & Regional & 1000, 20 & 37.71s & 37.14s & 27.60s & \textbf{4.32s} \\
+6 & Global & 2000, 20 & 59.37s & 47.09s & 42.70s & \textbf{2.44s} \\
+7 & Regional & 4000, 40 & 370.48s & 351.17s & 320.40s & \textbf{16.05s} \\
+8 & Global & 6000, 60 & 75.42s & 59.69s & 58.20s & \textbf{1.86s} \\
+9 & Regional & 8000, 80 & 236.81s & 222.68s & 215.50s & \textbf{73.69s} \\
+10 & Regional & 10000, 100 & 898.14s & 754.58s & 718.10s & \textbf{133.86s} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -733,9 +719,9 @@ ID & Distribution & $n, m$ & R-ALNS & A-ALNS & DRL-PASA & RK-HMA \\
 
 *Bold indicates the fastest time for each scenario.*
 
-The wall-clock times in Tab. V are reported only as an auxiliary runtime reference. The baseline methods and RK-HMA use different programming languages and hardware environments, so these values cannot support a strict direct efficiency comparison. They only suggest that RK-HMA runs in a comparable practical time range on most benchmark instances.
+The wall-clock times in Tab. V remain an auxiliary reference. The baseline methods and RK-HMA use different programming languages and hardware environments, so the table cannot support a controlled efficiency comparison. Under the current Java implementation, the five-run RK-HMA means range from 1.22s to 133.86s as the instance scale increases.
 
-On scenario 9 ($n=8000$, $m=80$), RK-HMA takes 410.74s, which is longer than DRL-PASA (215.50s). This longer runtime coincides with extensive dynamic reassignment on a challenging regional-distribution scenario. RK-HMA obtains a profit rate of 51.22%, compared with 37.18% for DRL-PASA, so this case reflects a quality-time trade-off rather than a speed advantage.
+Although the RK-HMA values are lower than the cited baseline times in every row, this difference may reflect the runtime, implementation, and hardware setup rather than the algorithm alone. Controlled runtime claims are therefore restricted to the paired internal ablations, where RK-HMA is evaluated in the same codebase as DE/rand/1 and PSO.
 
 ## D. Ablation Study
 
@@ -748,7 +734,7 @@ We analyze the dynamic task reassignment mechanism from two angles: profit impro
 ```{=latex}
 \begin{center}
 ```
-![](../Results/analysis-output/figures/ablation_gain_overview_no_bg.png){width=72%}
+![](images/ablation_gain_overview_no_bg.png){width=72%}
 
 **Fig. 7.** Profit improvement of dynamic reassignment across all scenarios.
 ```{=latex}
@@ -770,7 +756,7 @@ The next heatmap further breaks down the accepted moves and average gain of each
 ```{=latex}
 \begin{center}
 ```
-![](../Results/analysis-output/figures/reassignment_strategy_cumulative_5runs_heatmaps_no_bg_bold_2dp.png){width=92%}
+![](images/reassignment_strategy_cumulative_5runs_heatmaps_no_bg_bold_2dp.png){width=92%}
 
 **Fig. 8.** Five-run cumulative accepted moves and average gain of each migration strategy on reassignment-active scenarios.
 ```{=latex}
@@ -781,7 +767,7 @@ The strategy-level results show complementary roles among the migration operator
 
 ### D.2 Effect of Hybrid Optimization
 
-To isolate the contribution of the hybrid single-satellite optimizer, we compare the full Hybrid configuration with two single-algorithm variants: DE/rand/1-only and PSO-only. All three variants use the same random-key representation, initial task allocation, and dynamic reassignment layer; only the single-satellite optimizer is changed. Each variant is evaluated over five independent runs on the ten benchmark scenarios. Tab. VI reports the maximum, average, and minimum profit rates, and Fig. 9 shows the corresponding run-level distributions on the regional scenarios where the three variants exhibit visible performance differences.
+To isolate the contribution of the hybrid single-satellite optimizer, we compare RK-HMA with DE/rand/1-only and PSO-only variants. All three variants use the same random-key representation, initial task allocation, dynamic reassignment layer, and final seed for each (scenario, run) pair; only the single-satellite optimizer changes. Each variant is evaluated over five paired runs on the ten benchmark scenarios. Tab. VI reports the maximum, average, and minimum profit rates, and Fig. 9 shows the run-level distributions on the six regional scenarios where the variants differ.
 
 ```{=latex}
 \Needspace{0.34\textheight}
@@ -793,23 +779,23 @@ To isolate the contribution of the hybrid single-satellite optimizer, we compare
 \small
 \renewcommand{\arraystretch}{1.08}
 \setlength{\tabcolsep}{3.6pt}
-\caption*{\textbf{TABLE VI: PROFIT RATE OF HYBRID, DE/RAND/1, AND PSO ON EACH SCENARIO.}}
+\caption*{\textbf{TABLE VI: PROFIT RATE OF RK-HMA, DE/RAND/1, AND PSO ON EACH SCENARIO.}}
 \begin{tabular}{@{}ccccccccccc@{}}
 \toprule
-ID & $n, m$ & \multicolumn{3}{c}{Hybrid} & \multicolumn{3}{c}{DE/rand/1} & \multicolumn{3}{c}{PSO} \\
+ID & $n, m$ & \multicolumn{3}{c}{RK-HMA} & \multicolumn{3}{c}{DE/rand/1} & \multicolumn{3}{c}{PSO} \\
 \cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}
  &  & Max & Ave & Min & Max & Ave & Min & Max & Ave & Min \\
 \midrule
-1 & 500, 5 & 99.60\% & \textbf{99.40\%} & 99.09\% & 98.22\% & 97.78\% & 97.42\% & 98.36\% & 97.59\% & 96.69\% \\
+1 & 500, 5 & 99.64\% & \textbf{99.46\%} & 99.38\% & 97.96\% & 97.57\% & 96.87\% & 98.15\% & 97.64\% & 97.09\% \\
 2 & 500, 5 & 99.89\% & \textbf{99.89\%} & 99.89\% & 99.89\% & \textbf{99.89\%} & 99.89\% & 99.89\% & \textbf{99.89\%} & 99.89\% \\
-3 & 1000, 10 & 47.41\% & \textbf{47.09\%} & 46.60\% & 46.29\% & 45.92\% & 45.38\% & 44.18\% & 43.61\% & 43.26\% \\
+3 & 1000, 10 & 47.57\% & \textbf{47.38\%} & 46.87\% & 46.45\% & 46.13\% & 45.88\% & 45.25\% & 44.50\% & 43.69\% \\
 4 & 1000, 10 & 92.59\% & \textbf{92.59\%} & 92.59\% & 92.59\% & \textbf{92.59\%} & 92.59\% & 92.59\% & \textbf{92.59\%} & 92.59\% \\
-5 & 1000, 20 & 78.27\% & \textbf{78.04\%} & 77.85\% & 78.26\% & 77.65\% & 76.90\% & 75.94\% & 75.11\% & 74.06\% \\
+5 & 1000, 20 & 78.83\% & \textbf{78.31\%} & 77.99\% & 78.65\% & 78.00\% & 77.20\% & 76.29\% & 75.89\% & 75.01\% \\
 6 & 2000, 20 & 98.44\% & \textbf{98.44\%} & 98.44\% & 98.44\% & \textbf{98.44\%} & 98.44\% & 98.44\% & \textbf{98.44\%} & 98.44\% \\
-7 & 4000, 40 & 64.27\% & \textbf{64.05\%} & 63.73\% & 61.73\% & 61.62\% & 61.43\% & 60.04\% & 59.71\% & 59.50\% \\
+7 & 4000, 40 & 64.99\% & \textbf{64.17\%} & 63.17\% & 61.93\% & 61.71\% & 61.37\% & 59.44\% & 59.30\% & 59.23\% \\
 8 & 6000, 60 & 100.00\% & \textbf{100.00\%} & 100.00\% & 100.00\% & \textbf{100.00\%} & 100.00\% & 100.00\% & \textbf{100.00\%} & 100.00\% \\
-9 & 8000, 80 & 51.34\% & \textbf{51.17\%} & 51.04\% & 48.78\% & 48.68\% & 48.62\% & 45.88\% & 45.77\% & 45.62\% \\
-10 & 10000, 100 & 34.15\% & \textbf{34.08\%} & 33.96\% & 32.23\% & 32.21\% & 32.18\% & 30.38\% & 30.32\% & 30.19\% \\
+9 & 8000, 80 & 51.33\% & \textbf{51.22\%} & 51.05\% & 48.67\% & 48.58\% & 48.49\% & 46.00\% & 45.90\% & 45.78\% \\
+10 & 10000, 100 & 34.26\% & \textbf{34.14\%} & 34.03\% & 32.23\% & 32.17\% & 32.01\% & 30.50\% & 30.38\% & 30.29\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -820,16 +806,16 @@ ID & $n, m$ & \multicolumn{3}{c}{Hybrid} & \multicolumn{3}{c}{DE/rand/1} & \mult
 ```{=latex}
 \begin{center}
 ```
-![](images/ablation_profit_boxplots_white_large.png){width=82%}
+![](images/fig9_hybrid_parent_profit_distributions.png){width=82%}
 
-**Fig. 9.** Profit rate distributions of Hybrid, DE/rand/1, and PSO on the regional scenarios over five independent runs. Boxes summarize each five-run distribution, markers show individual runs, and each panel uses a local y-axis range to show within-scenario variation.
+**Fig. 9.** Profit-rate distributions of RK-HMA, DE/rand/1, and PSO on the six regional scenarios over five seed-paired runs. Boxes summarize each five-run distribution, markers show individual runs, and each panel uses a local vertical range to show within-scenario variation.
 ```{=latex}
 \end{center}
 ```
 
-The hybrid optimizer achieves the best average profit rate on the six non-saturated scenarios (IDs 1, 3, 5, 7, 9, and 10), while all three variants tie on the four near-saturated global scenarios (IDs 2, 4, 6, and 8). Across all ten scenarios, Hybrid improves the average profit rate by 1.00 percentage points over DE/rand/1 and 2.17 percentage points over PSO. When only the six non-saturated scenarios are considered, the gaps increase to 1.66 and 3.62 percentage points, respectively. The largest gain appears on scenario 9 ($n=8000$, $m=80$), where Hybrid reaches 51.17% average profit rate, compared with 48.68% for DE/rand/1 and 45.77% for PSO.
+RK-HMA has the highest average profit rate on all six non-saturated scenarios (IDs 1, 3, 5, 7, 9, and 10), while all three variants tie on the four near-saturated global scenarios (IDs 2, 4, 6, and 8). Across all ten scenarios, RK-HMA exceeds DE/rand/1 and PSO by 1.05 and 2.11 percentage points on average. On the six non-saturated scenarios, the corresponding gaps increase to 1.75 and 3.51 percentage points. The largest gains occur on scenario 9 ($n=8000$, $m=80$), where RK-HMA reaches 51.22%, compared with 48.58% for DE/rand/1 and 45.90% for PSO.
 
-These results support the design choice of combining DE/rand/1 and PSO instead of relying on either component alone. DE/rand/1 consistently outperforms PSO on the non-saturated scenarios, indicating that difference-based mutation is more effective than pure particle-swarm updates for maintaining search diversity under the random-key representation. However, the full Hybrid variant remains stronger than DE/rand/1 alone, suggesting that the subsequent PSO phase can still refine the DE-improved population when the scenario contains enough scheduling conflict. On near-saturated global scenarios, all methods reach the same profit rate, so the hybridization benefit is naturally limited by the instance capacity and conflict structure rather than by optimizer weakness.
+The six non-zero scene differences favor RK-HMA over each standalone parent, while the four saturated scenes are ties. For both parent comparisons, the exact Wilcoxon signed-rank test gives raw $p=0.03125$; after Holm correction over the three planned internal contrasts, $p=0.09375$. The ablation therefore supports a consistent numerical benefit from hybridization but not a family-wise significance claim at $\alpha=0.05$. DE/rand/1 exceeds PSO on five of the six non-saturated scenarios, while PSO is 0.07 percentage points higher on scenario 1. RK-HMA remains above both parents on all six. This result is compatible with complementary search behavior, but it does not identify either stage as the sole source of the gain.
 
 # V. CONCLUSION
 
@@ -837,7 +823,7 @@ This paper studied the LS-AEOSTSP, where a large set of observation tasks must b
 
 This paper proposed RK-HMA, a random-key hybrid metaheuristic with dynamic task reassignment for the LS-AEOSTSP. The random-key representation transforms per-satellite task sequencing into a continuous-domain search problem, which allows different metaheuristic operators to work on a unified solution representation. In the reported implementation, DE/rand/1 and PSO are combined sequentially: DE/rand/1 provides stronger exploratory perturbations, while PSO further refines the population around promising regions. This hybrid design improves the balance between exploration and exploitation compared with using a single search mechanism.
 
-RK-HMA also includes a dynamic task reassignment layer for multi-satellite coordination. Standard migration, replacement move, swap move, and bundle move progressively adjust task subsets across satellites, while bounded top-k screening and fast refine reduce unnecessary reassignment evaluations. On ten benchmark instances with 500 to 10,000 tasks and 5 to 100 satellites, RK-HMA achieves the best or tied-best profit rate on all scenarios. The average profit-rate gaps over R-ALNS, A-ALNS, and DRL-PASA are 7.41%, 3.86%, and 1.98%, respectively. These results show that the combination of hybrid single-satellite optimization and dynamic cross-satellite reassignment is effective for large-scale multi-satellite scheduling.
+RK-HMA also includes a dynamic task reassignment layer for multi-satellite coordination. Standard migration, replacement, swap, and bundle moves adjust task subsets across satellites, while bounded top-k screening and fast refine limit reassignment evaluations. On ten benchmark instances with 500–10,000 tasks and 5–100 satellites, RK-HMA obtains the best or tied-best reported profit rate on every scenario. Its average descriptive gaps over R-ALNS, A-ALNS, and DRL-PASA are 7.59, 4.04, and 2.16 percentage points, respectively. In the paired internal ablation, RK-HMA exceeds DE/rand/1 and PSO by 1.05 and 2.11 percentage points on the ten-scenario macro average; all six non-saturated scenes favor RK-HMA, although the three-contrast Holm-adjusted value is $p=0.09375$. The evidence supports the proposed hybrid and reassignment mechanisms on the tested instances. Broader statistical generalization requires more independent non-saturated scenarios.
 
 Future work will focus on extending RK-HMA from a fixed hybrid algorithm into a more modular algorithm-design framework. First, more metaheuristic components, such as additional DE variants, swarm-based optimizers, local search operators, and problem-specific repair operators, can be implemented as reusable modules. Second, different combination patterns can be explored, including sequential hybridization, parallel cooperation, adaptive operator selection, and stage-wise switching between global and local search. Third, these modules and combination rules can support automatic algorithm design, where the system searches for suitable algorithm structures and parameter settings for different satellite scheduling scenarios. This direction may provide a practical path from manually designed hybrid metaheuristics toward reusable and automatically configurable scheduling optimizers.
 
