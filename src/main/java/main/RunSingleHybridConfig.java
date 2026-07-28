@@ -56,25 +56,7 @@ public class RunSingleHybridConfig {
     private static final int SMALL_TASK_ASSIGNMENT_STRATEGY = 7;
     private static final int LARGE_TASK_ASSIGNMENT_STRATEGY = 8;
     private static final String DEFAULT_DATA_DIR =
-        "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-0-0-24";
-    //private static final String DEFAULT_DATA_DIR =
-    //    "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-1-0-24";
-    //private static final String DEFAULT_DATA_DIR =
-    //    "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\1000-10-0-0-12";
-    //private static final String DEFAULT_DATA_DIR =
-    //    "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\1000-10-1-12-24";
-        //private static final String DEFAULT_DATA_DIR =
-        //"E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\1000-20-0-0-12";
-        //private static final String DEFAULT_DATA_DIR =
-        //"E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\2000-20-1-12-24";
-        //private static final String DEFAULT_DATA_DIR =
-        //"E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\4000-40-0-0-6";
-        //private static final String DEFAULT_DATA_DIR =
-        //"E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\6000-60-1-12-18"; 
-        //private static final String DEFAULT_DATA_DIR =
-        //"E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\8000-80-0-0-12";    
-        //private static final String DEFAULT_DATA_DIR =
-        //"E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\10000-100-0-6-12";   
+        ScenePathResolver.defaultSceneDir("500-5-0-0-24");
         
     private static final String LOCAL_REFINE_HOT_START_BUDGET_PROPERTY = "taskcoord.localRefineHotStartBudget.enabled";
     private static final String DELTA_FAST_REFINE_ENABLED_PROPERTY = "taskcoord.deltaFastRefine.enabled";

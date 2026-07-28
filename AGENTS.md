@@ -1,6 +1,6 @@
 # 6D pure-semantic dynamic version 全局地图
 
-> 最后更新：2026-07-25
+> 最后更新：2026-07-26
 
 ## 项目概述
 
@@ -34,6 +34,7 @@
 
 ## 计划文档工作流
 
+- 不生成 `vault/Daily/` 或按日期堆积的工作日志。实验现场放在 `outputs/<experiment-id>/`；可复核结论放入 `vault/Results/Evidence/` 和 `vault/Results/Reports/`；项目级决策更新到 `vault/01-Plan.md`，机制与删除边界更新到 `vault/Knowledge/`。
 - `vault/01-Plan.md` 只放项目级目标、当前任务、关键决策和阶段结论；阶段结论压成 1-2 行，并链接到人读报告或证据包。
 - `vault/Results/Evidence/<experiment-id>/` 是 agent、审计和复分析入口。默认只建 `evidence.md`、`data.csv` 和 `manifest.json`；有图才建 `figures/`。`evidence.md` 记录问题、方法、完整结论、统计边界和文件说明；`data.csv` 是本次分析实际使用的 canonical 结果表；`manifest.json` 记录 Git HEAD、参数、seed、命令、来源路径和 SHA256。
 - 不预建 `source/`、`derived/`、`stats-appendix.md` 或图表目录。只有数据确有多表、或论文/审稿需要完整统计附录时，才增加对应文件。
@@ -112,7 +113,8 @@ main → core / strategy / algorithm → operator → common → model/utils
 ## 核心数据流
 
 ```text
-DataLoader → Initialize（任务-卫星分配）
+ScenePathResolver（`autohyb.sceneRoot` → `AUTOHYB_SCENE_ROOT` → 当前/相邻 `Scene`）
+  → DataLoader → Initialize（任务-卫星分配）
   → 自动设计路径：MainMFEAMOPHOA（外层 MFEA，int[nPop][6]）
     → HybridInitial（优先读取 EliteConfigArchive 实例归档，缺失/损坏时回退到默认 4 组精英种子）
  → EvaluationHyb（只接收当前 6D 配置，默认 `GREEDY` 插入策略与 `de.fSchedule=SIGMOID,de.fMax=0.10,de.fMin=0.01,de.crossoverRate=0.3,de.boundaryPolicy=RANDOM_REINIT`；可通过 `-Dhybcec.insertionMode=...` 和 `de.*` 覆盖运行时插入 / DE 参数；`evaluation.runSeedBase` 可显式固定跨配置配对 seed base，实际 seed 为 `runSeedBase + effectiveRunIndex`，`evaluation.runSeedLog=true` 输出运行时证据；MFEA fitness 直接使用优化后调度收益，不再用 baseline 兜底；`PlanUtils` 里可对选定任务开启窗口偏好路径；`ParallelPolicy` 在外层评估活跃时禁用 `PlanUtils` 的 common-pool 向量并行）

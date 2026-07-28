@@ -39,6 +39,6 @@ updated: 2026-07-25
 
 ## 状态
 
-原生 seed 批次、结果分析和论文映射均已完成。Canonical Evidence 见 [[Results/Evidence/paired-native-perrun0-4-10scene-20260724-r01/evidence|原生 perRun 五轮配对消融证据]]，人读简报见 [[Results/Reports/2026-07-25--native-paired-ablation--r01--results-summary|Native Paired Ablation 总结]]。
+原生 seed 批次、结果分析和论文映射均已完成。Canonical Evidence 见 [[Results/Evidence/paired-native-perrun0-4-10scene-20260724-r01/evidence|原生 perRun 五轮配对消融证据]]，人读简报见 [[Results/Reports/paired-native-perrun0-4-10scene-20260724-r01|Native Paired Ablation 总结]]。
 
 `vault/Writing/paper_draft.md` 已更新 Fig. 6、Fig. 9、Tab. IV、Tab. V、Tab. VI、摘要、贡献、结果解释和结论。三张表均从 canonical `data.csv` 逐行回算通过；9 个图片链接有效；新图为 400 DPI PNG+SVG；Markdown/LaTeX 结构、旧结果残留和 `git diff --check` 均通过。

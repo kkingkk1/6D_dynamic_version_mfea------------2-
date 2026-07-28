@@ -62,19 +62,6 @@ result/
 scripts/parse_lshade_*.ps1
 scripts/run_lshade_*.ps1
 scripts/run_pso_*.ps1
-vault/Daily/2026-05-04.md
-vault/Daily/2026-05-10.md
-vault/Daily/2026-05-13.md
-vault/Daily/2026-05-15.md
-vault/Daily/2026-05-16.md
-vault/Daily/2026-05-17.md
-vault/Daily/2026-05-18.md
-vault/Daily/2026-05-19.md
-vault/Daily/2026-05-20.md
-vault/Daily/2026-05-21.md
-vault/Daily/2026-05-22.md
-vault/Daily/2026-05-23.md
-vault/Daily/2026-05-25.md
 vault/Plan/2026-05-19-*
 vault/Plan/2026-05-22-alns-hyperparam-speed-plan.md
 vault/Plan/algorithm-optimization-analysis.md
@@ -86,4 +73,9 @@ vault/Results/Reports/2026-05-17-*
 vault/Results/Reports/2026-05-18-*
 vault/Results/Reports/2026-05-19-*
 vault/Results/Reports/2026-05-22-alns-hyperparam-speed-id135.md
-vault/Results/Reports/figures/
+# Local historical tuning Evidence preserved outside fresh MFEA history
+vault/Results/Evidence/2026-05-18-ga-parameter-impact-id1/
+vault/Results/Evidence/2026-05-19-abc-711-full-budget-default-vs-fixed/
+vault/Results/Evidence/2026-05-19-abc-711-fullbudget-nrun5-cross-scene/
+vault/Results/Evidence/2026-05-19-abc-711-numnoimp-defaultphi-budget60/
+vault/Results/Evidence/2026-05-19-abc-711-numnoimp50-defaultphi-fullbudget/

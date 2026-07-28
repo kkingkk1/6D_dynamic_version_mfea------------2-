@@ -72,7 +72,7 @@ if ($commandText -notmatch '^(.*?)\s+-Dtuning\.config\.path=.*?\s+-Dautohyb\.det
 $javaExe = $Matches[1].Trim()
 $classPath = $Matches[2].Trim()
 
-$sceneRoot = "E:\OneDrive\project\paper_reproduction\AutoHyb\Code4mfea_mophoa_2\Code4mfea_mophoa_java_satellite_scheduling\Scene"
+$sceneRoot = & (Join-Path $PSScriptRoot "Resolve-SceneRoot.ps1")
 $scenes = @(
   @{ Id = "ID1";  Name = "500-5-0-0-24";       Tasks = 500;   Sats = 5 },
   @{ Id = "ID2";  Name = "500-5-1-0-24";       Tasks = 500;   Sats = 5 },

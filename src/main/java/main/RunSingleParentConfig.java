@@ -45,7 +45,7 @@ public class RunSingleParentConfig {
     2
   };
   private static final String DEFAULT_DATA_DIR =
-    "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-0-0-24";
+    ScenePathResolver.defaultSceneDir("500-5-0-0-24");
   private static final String LOCAL_REFINE_HOT_START_BUDGET_PROPERTY =
     "taskcoord.localRefineHotStartBudget.enabled";
   private static final String DELTA_FAST_REFINE_ENABLED_PROPERTY =

@@ -31,9 +31,7 @@ public class MainMFEAMultiScene {
   private static final long POPULATION_EVALUATION_TIMEOUT_MINUTES =
       Long.getLong("autohyb.outer.evalTimeoutMinutes", 60);
 
-  private static final String SCENE_BASE_DIR =
-      "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2"
-      + "\\Code4mfea_mophoa_java_satellite_scheduling\\Scene";
+  private static final String SCENE_BASE_DIR = ScenePathResolver.defaultSceneRoot();
 
   static class SceneConfig {
     final String sceneDir;

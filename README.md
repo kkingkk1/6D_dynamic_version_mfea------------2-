@@ -20,7 +20,9 @@ mvn -q test
 
 ```powershell
 mvn -q -DskipTests compile
-java "-Dtuning.config.path=tuning.properties" -cp "target/classes;$env:USERPROFILE\.m2\repository\org\apache\commons\commons-math3\3.6.1\commons-math3-3.6.1.jar" main.RunSingleHybridConfig true true "E:\OneDrive\project\paper_reproduction\AutoHyb\Code4mfea_mophoa_2\Code4mfea_mophoa_java_satellite_scheduling\Scene\500-5-0-0-24" 500 5 "4,1,0,0,0,0" 3 270 27000
+$SceneRoot = if ($env:AUTOHYB_SCENE_ROOT) { $env:AUTOHYB_SCENE_ROOT } else { (Resolve-Path "..\Scene").Path }
+$SceneDir = Join-Path $SceneRoot "500-5-0-0-24"
+java "-Dtuning.config.path=tuning.properties" "-Dautohyb.sceneRoot=$SceneRoot" -cp "target/classes;$env:USERPROFILE\.m2\repository\org\apache\commons\commons-math3\3.6.1\commons-math3-3.6.1.jar" main.RunSingleHybridConfig true true $SceneDir 500 5 "4,1,0,0,0,0" 3 270 27000
 ```
 
 自动设计搜索入口：

@@ -259,7 +259,7 @@ foreach ($classPathEntry in ($classPath -split ';')) {
   }
 }
 
-$sceneRoot = "E:\OneDrive\project\paper_reproduction\AutoHyb\Code4mfea_mophoa_2\Code4mfea_mophoa_java_satellite_scheduling\Scene"
+$sceneRoot = & (Join-Path $PSScriptRoot "Resolve-SceneRoot.ps1")
 $scenes = @(
   [ordered]@{ Id = "ID1"; Name = "500-5-0-0-24"; Tasks = 500; Sats = 5 },
   [ordered]@{ Id = "ID2"; Name = "500-5-1-0-24"; Tasks = 500; Sats = 5 },

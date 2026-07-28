@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "experiment_id": "paired-current-1d-parent-10scene-5perrun-20260724",
+  "status": "superseded",
+  "superseded_by": "paired-native-perrun0-4-10scene-20260724-r01",
+  "migrated_at": "2026-07-25",
+  "git_head_at_migration": "9acc87954bee7bbeb1994a050fa1b7f5acaba277",
+  "source_plan": "vault/Plan/2026-07-24-current-1d-parent-all-scenes-perrun0-4.md",
+  "source_runtime_available": false,
+  "data.csv": {
+    "original_path": "vault/Results/data/2026-07-24-current-1d-parent-paired-comparisons.csv",
+    "sha256": "663A3E2D8F3E0E3E0151F14CC26FD8ED7D3A1AA8CA4900DCB2C3A8C2EB7CCE6A",
+    "role": "residual derived comparison table; noncanonical"
+  }
+}

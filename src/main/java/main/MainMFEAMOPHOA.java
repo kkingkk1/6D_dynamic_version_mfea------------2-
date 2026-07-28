@@ -400,7 +400,7 @@ public class MainMFEAMOPHOA {
       }
     }
     String dataDir = positional.size() > 0 ? positional.get(0)
-    : "E:\\OneDrive\\project\\paper_reproduction\\AutoHyb\\Code4mfea_mophoa_2\\Code4mfea_mophoa_java_satellite_scheduling\\Scene\\500-5-0-0-24";
+        : ScenePathResolver.defaultSceneDir("500-5-0-0-24");
     int numTasks = positional.size() > 1 ? Integer.parseInt(positional.get(1)) : 200;
     int numSatellites = positional.size() > 2 ? Integer.parseInt(positional.get(2)) : 3;
     boolean useEliteConfigs = positional.size() > 3 ? Boolean.parseBoolean(positional.get(3)) : false;

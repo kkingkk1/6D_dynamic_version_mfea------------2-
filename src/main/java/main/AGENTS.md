@@ -10,6 +10,7 @@
 |------|------|------|
 | MainMFEAMOPHOA.java | `MainMFEAMOPHOA` | 外层 Global MFEA 自动设计入口；构造 6D 纯语义全局配置种群，调用 `EvaluationHyb` 并行评估候选混合配置，输出全局最优自动设计结果；外层配对、交叉点、重复父算法修复和变异点使用固定 seed 的 run-owned `Random`；逐代日志打印当前全局最优 `bestConfig`；支持 outer fitness cache 与 progressive racing opt-in，默认保持旧评估路径 |
 | MainMFEAMultiScene.java | `MainMFEAMultiScene` | 多场景 6D MFEA 自动设计入口；在多个场景上用归一化收益率总和作为 fitness 搜索单个通用配置；搜索阶段单星 HybCec 预算固定使用 `populationFactor=2.5`、`iterationCoefficient=100` 与 `fesBudgetRatio`，入口只输出最优通用配置和综合 fitness，不做最后分场景复评；外层搜索随机源固定，逐代日志打印当前全局最优 `bestConfig` |
+| ScenePathResolver.java | `ScenePathResolver` | 统一解析场景根目录；优先读取 JVM 属性 `autohyb.sceneRoot`，其次读取环境变量 `AUTOHYB_SCENE_ROOT`，最后检查当前目录和相邻目录中的 `Scene` |
 | ParallelPolicy.java | `ParallelPolicy` | 并行层级策略；集中解析 `autohyb.parallel.level=run|satellite|vector|auto`，在外层评估活跃时阻止 `PlanUtils` 使用 common-pool 向量并行 |
 | EvaluationHyb.java | `EvaluationHyb` | 6D 混合配置评估器；将单个全局配置解码为 HybCec 参数、运行时插入模式与单一 fixed DE scale，按多次独立运行评估配置质量，并向 `TaskAllocationCoordinator` 传递 run seed、配置与历史最优结果；MFEA fitness 直接使用优化后调度收益，不再用 baseline 兜底；默认 run seed 使用 `stableSeed + effectiveRunIndex + 8`，`evaluation.runSeedBase` 可显式覆盖 seed base 以保证跨配置配对，`evaluation.runSeedLog=true` 输出实际 seed |
 | RunSingleHybridConfig.java | `RunSingleHybridConfig` | 单配置复现实验入口；加载数据、初始化任务分配、使用固定 6D 配置运行评估链路、输出调度结果；命令行只接收 6D 配置；DE 运行时统一为固定缩放因子；支持两种开关控制方式：1）直接在源码顶部修改 `DEFAULT_ENABLE_DELTA_FAST_REFINE` / `DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET` 两个布尔常量，便于 VSCode 直接运行时手动切换；2）通过前两个命令行参数显式覆盖，分别控制 delta fast refine 与局部重算热启动预算；源码顶部 `DEFAULT_RANDOM_SEED_ID` 用于切换单次复现实验的 1-based seed id，填 `1/2/3` 分别复现多次运行中的第 1/2/3 次 seed，未显式设置 `-Devaluation.runIndexBase` 时映射到 `evaluation.runIndexBase`；批量配对实验可显式设置 `evaluation.runSeedBase`；可通过 `-Dhybcec.insertionMode=<InsertionMode>` 对单配置消融运行覆盖插入策略，默认 `GREEDY`；默认开启 `-Dautohyb.deterministic=true` 复现实验模式，入口会重置 `RandomProvider` 全局随机源和线程计数；程序内部会将这些开关映射到协调器对应系统属性；默认 stdout 只打印当前混合配置、收益比例和总耗时；支持 `--record-baseline` / `--baseline-file` 将当前默认场景与配置的效用指标固化到基线文件，并仅在记录基线时打印基线对比；支持 `--quiet` 压制 warmup 状态日志，最终紧凑结果仍打印；`--log-interval=N` 继续控制显式开启的逐代曲线日志间隔 |
@@ -36,6 +37,8 @@
 ```java
 public static void main(String[] args)
 ```
+
+场景路径约定：`MainMFEAMOPHOA`、`MainMFEAMultiScene`、`RunSingleHybridConfig` 和 `RunSingleParentConfig` 共用 `ScenePathResolver`。解析顺序为 `-Dautohyb.sceneRoot=<path>`、`AUTOHYB_SCENE_ROOT`、当前目录或相邻目录下的 `Scene`。
 
 ### EvaluationHyb
 
