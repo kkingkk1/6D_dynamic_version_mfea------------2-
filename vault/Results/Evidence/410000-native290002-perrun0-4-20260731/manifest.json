@@ -1,0 +1,69 @@
+{
+  "experiment_id": "410000-native290002-perrun0-4-20260731",
+  "git_head": "5856ffbacf0dfe2ebcd4d3b2718e67441788e9d6",
+  "git_status_at_analysis": [
+    " M AGENTS.md",
+    " M README.md",
+    " M scripts/run_best_config_10scene_5seed.ps1",
+    " M scripts/run_paired_configs_10scene_5perrun.ps1",
+    " M scripts/start_best_config_10scene_5seed.ps1",
+    " M src/main/java/main/AGENTS.md",
+    " M src/main/java/main/EvaluationHyb.java",
+    " M src/main/java/main/MainMFEAMOPHOA.java",
+    " M src/main/java/main/MainMFEAMultiScene.java",
+    " M src/main/java/main/RunSingleHybridConfig.java",
+    " M src/test/java/main/RunSingleHybridConfigTest.java",
+    " M src/test/java/main/RunSingleParentConfigTest.java",
+    " M vault/Writing/paper_draft.md",
+    "?? scene-seeds-native290002.properties",
+    "?? src/main/java/main/SceneSeedTable.java",
+    "?? src/test/java/main/SceneSeedTableTest.java",
+    "?? vault/Results/Evidence/410000-native290002-perrun0-4-20260731/"
+  ],
+  "inputs": {
+    "target_output": "E:\\OneDrive\\project\\static_deterministic_large_scale scenarios\\6D_dynamic_version_mfea - 副本\\outputs\\410000-native290002-perrun0-4-20260731",
+    "native_run_details": "E:\\OneDrive\\project\\static_deterministic_large_scale scenarios\\6D_dynamic_version_mfea\\outputs\\best-config-10scene-5seed10-14-20260617\\run-details.csv",
+    "seed_table": "E:\\OneDrive\\project\\static_deterministic_large_scale scenarios\\6D_dynamic_version_mfea - 副本\\scene-seeds-native290002.properties"
+  },
+  "protocol": {
+    "scenes": 10,
+    "per_run": "0..4",
+    "seed_ids": "10..14",
+    "primary_unit": "scene-level five-run mean",
+    "metric": "profit_ratio, higher is better"
+  },
+  "integrity": {
+    "native_rows": 50,
+    "target_rows": 50,
+    "target_failures": 0,
+    "seed_mismatches": 0,
+    "pairing_mismatches": 0
+  },
+  "stats": {
+    "n_scenes": 10,
+    "mean_delta_pp": -0.48000000000000015,
+    "median_delta_pp": -0.08999999999999914,
+    "bootstrap_ci95_low_pp": -1.0974000000000006,
+    "bootstrap_ci95_high_pp": -0.07019999999999924,
+    "wins_410000": 0,
+    "ties": 4,
+    "losses_410000": 6,
+    "wilcoxon_statistic": 0.0,
+    "wilcoxon_p": 0.03125,
+    "rank_biserial": -1.0
+  },
+  "artifacts_sha256": {
+    "analysis-report.md": "d20249e25a9b5ba53b054d97694183f8bc413afc581e62e4dd6c5275cdd28692",
+    "analysis-summary.json": "da19bd6cb745b674d551bc358ccde598277e40798c2dc7bb7cff995a96704b31",
+    "data.csv": "2f978997aa3deb0626ad206fcbb3e055c654aba39f2c7bb39b6a91f1a1f09a3e",
+    "evidence.md": "b39b558a37bc98b58a843149c6805e77c0a94627e3b9cf79b1cc3f3022d1c83b",
+    "figure-catalog.md": "fb2fa4669a31f714845285718ef65ae3c1cb547dfe260d46efe1d97c42b6c54e",
+    "figures/figure-01-native-seed-scene-means.png": "7afe5376723f78410b518544c81f45d453e57a749b195be665edaf21fb33a3e6",
+    "figures/figure-01-native-seed-scene-means.svg": "b8c366bbef1b83f3bd9317f67b7ee4eeacbf9fdafbb5cd460107a346478bed0c",
+    "figures/figure-02-native-seed-paired-deltas.png": "6bf555e77635c2706f3ee4b8a18b1ed0c217bfa57130353b51eecee28eb503f6",
+    "figures/figure-02-native-seed-paired-deltas.svg": "2f8fbe7c952c3c75f4edd8c88ab71defe7101ece324b5c7eca4df45a7ea0472a",
+    "paired-deltas.csv": "c795cdbac20d137cddfdc59dd19d00350fc47d2a67e0396965aa319da468c374",
+    "scene-summary.csv": "e37aaadfc822c0499356f5416da70bf7d40bea883ab4de227d78a2b86287c27d",
+    "stats-appendix.md": "0a1a24f2b62605ae3af0e2d4356cbb1aff2b04f30ecb9ae4f86f2c788c8beb5f"
+  }
+}

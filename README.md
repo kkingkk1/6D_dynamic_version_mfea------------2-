@@ -25,6 +25,8 @@ $SceneDir = Join-Path $SceneRoot "500-5-0-0-24"
 java "-Dtuning.config.path=tuning.properties" "-Dautohyb.sceneRoot=$SceneRoot" -cp "target/classes;$env:USERPROFILE\.m2\repository\org\apache\commons\commons-math3\3.6.1\commons-math3-3.6.1.jar" main.RunSingleHybridConfig true true $SceneDir 500 5 "4,1,0,0,0,0" 3 270 27000
 ```
 
+Hybrid 的随机种子按 `$SceneDir` 的场景目录名读取根目录 seed 表。默认 source `native290002` 使用 `scene-seeds-native290002.properties`；可用 `-Devaluation.seedTable.source=native270342`、`native200042` 或 `native410000` 切换到对应表。`perRun=0..4` 对应逻辑 seed ID `10..14`；`native270342` 的前五个位置依次复用 `native290002` 的 seed ID `12,17,18,19,14`，`native200042` 的前五个位置依次复用原始 seed ID `13,17,21,24,25`。两种五种子 profile 的其余表项循环复用前五项。单独选择表项时设置 `-Devaluation.perRunStart=N`，也可用 `-Devaluation.seedTable.path=<path>` 指定完整表。直接用 VSCode 运行 `RunSingleHybridConfig` 时，可编辑 `src/main/java/main/RunSingleHybridConfig.java` 顶部的 `MANUAL_PER_RUN_START` 和 `MANUAL_SEED_TABLE_SOURCE`；显式 JVM 参数优先。直跑默认打印 `[RunSeed]` 的 source、表文件名、场景、`perRun`、seed ID 和实际 seed；可用 `-Devaluation.runSeedLog=false` 关闭。旧的 `evaluation.runIndexBase` 和 `evaluation.runSeedBase` 不参与 Hybrid seed 计算。
+
 自动设计搜索入口：
 
 ```powershell

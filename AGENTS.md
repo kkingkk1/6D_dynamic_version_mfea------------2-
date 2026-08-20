@@ -1,6 +1,6 @@
 # 6D pure-semantic dynamic version 全局地图
 
-> 最后更新：2026-07-26
+> 最后更新：2026-08-19
 
 ## 项目概述
 
@@ -62,6 +62,7 @@
 
 ## 论文 PDF 构建产物
 
+- 从项目中的 PDF 导出批注时，默认生成独立 UTF-8 Markdown 文件，命名为 `<PDF basename>_annotations.md`，并放在源 PDF 同目录；`outputs/` 只用于提取过程中的临时文件或验证产物，除非用户明确指定其他位置。
 - 从 `vault/Writing/*.md` 构建论文 PDF 时，最终 PDF 仅保存在对应 Markdown 同目录，命名为 `<basename>.pdf`。
 - `.tex`、`.aux`、`.bbl`、`.blg`、`.log`、`.out`、`.toc`、`.synctex.gz`、转换文件、页面渲染图、字体与检查报告等中间产物必须放在独立的 `outputs/<build-id>/`，不得写入 `vault/Writing/`。
 - 先在 `outputs/<build-id>/` 的隔离工作区完成编译、日志和视觉检查；通过后才复制最终 PDF 到 `vault/Writing/`。
@@ -69,7 +70,7 @@
 ## 长跑续跑安全
 
 - 长跑续跑遵循用户级“长跑任务续跑安全”规则；本项目重点检查 `java.exe`、候选参数、worktree 路径和 `.log` 文件。
-- 多 seed 或跨配置配对长跑启动前，必须先完成 seed preflight：用一个场景核对首轮和末轮的实际 `[RunSeed]`、`perRun` 到 effective index 的映射、`evaluation.runSeedBase` / `evaluation.runIndexBase` 是否符合预期，并确认同轮各配置使用相同 seed。至少将一次手动启动结果与批处理命令记录对照；任一 seed 不一致时禁止启动完整批次。
+- 多 seed 或跨配置配对长跑启动前，必须先完成 seed preflight：Hybrid 用一个场景核对首轮和末轮的实际 `[RunSeed] source/table/scene/perRun/seedId/seed`、场景 basename 到固定表行的映射以及 `perRunStart+nRun<=20`，并确认同轮各配置使用相同 seed；Parent 入口另行核对 `evaluation.runIndexBase/runSeedBase` 合同。至少将一次手动启动结果与批处理命令记录对照；任一 seed 不一致时禁止启动完整批次。
 
 三层架构：
 - **外层全局 MFEA 自动设计层**：搜索 6 维混合算法配置染色体，自动设计父算法组合、update policy、执行顺序和生存策略
@@ -117,7 +118,7 @@ ScenePathResolver（`autohyb.sceneRoot` → `AUTOHYB_SCENE_ROOT` → 当前/相�
   → DataLoader → Initialize（任务-卫星分配）
   → 自动设计路径：MainMFEAMOPHOA（外层 MFEA，int[nPop][6]）
     → HybridInitial（优先读取 EliteConfigArchive 实例归档，缺失/损坏时回退到默认 4 组精英种子）
- → EvaluationHyb（只接收当前 6D 配置，默认 `GREEDY` 插入策略与 `de.fSchedule=SIGMOID,de.fMax=0.10,de.fMin=0.01,de.crossoverRate=0.3,de.boundaryPolicy=RANDOM_REINIT`；可通过 `-Dhybcec.insertionMode=...` 和 `de.*` 覆盖运行时插入 / DE 参数；`evaluation.runSeedBase` 可显式固定跨配置配对 seed base，实际 seed 为 `runSeedBase + effectiveRunIndex`，`evaluation.runSeedLog=true` 输出运行时证据；MFEA fitness 直接使用优化后调度收益，不再用 baseline 兜底；`PlanUtils` 里可对选定任务开启窗口偏好路径；`ParallelPolicy` 在外层评估活跃时禁用 `PlanUtils` 的 common-pool 向量并行）
+ → EvaluationHyb（只接收当前 6D 配置，默认 `GREEDY` 插入策略与 `de.fSchedule=SIGMOID,de.fMax=0.10,de.fMin=0.01,de.crossoverRate=0.3,de.boundaryPolicy=RANDOM_REINIT`；可通过 `-Dhybcec.insertionMode=...` 和 `de.*` 覆盖运行时插入 / DE 参数；Hybrid seed 按 `sceneDir` basename 读取根目录 seed 表，默认 source `native290002` → `scene-seeds-native290002.properties`，可用 `-Devaluation.seedTable.source=native270342|native200042|native410000` 切换到对应内置表，也可用 `-Devaluation.seedTable.path=...` 指定完整表；`native200042` 的前五个表项固定映射原始 native290002 seed ID `13,17,21,24,25`；`perRun=0..19` 对应 seed ID `10..29`，与配置、预算及 `evaluation.runIndexBase/runSeedBase` 无关，`evaluation.perRunStart` 选择表索引；当前 MFEA 选定的四个 `-train` basename 已有显式 `native290002` 行；`RunSingleHybridConfig` 直跑默认开启 `evaluation.runSeedLog`，输出 source、表文件名、场景、`perRun`、seed ID 和实际 seed，可用 `-Devaluation.runSeedLog=false` 关闭；MFEA fitness 直接使用优化后调度收益，不再用 baseline 兜底；`PlanUtils` 里可对选定任务开启窗口偏好路径；`ParallelPolicy` 在外层评估活跃时禁用 `PlanUtils` 的 common-pool 向量并行）
       → TaskAllocationCoordinator.scheduleWithReassignment()（刷新 best 后，小规模任务立即完整校准；大规模中间校准按 `CALIBRATION_INTERVAL` 与最后一轮触发；末尾 final calibration 保留；`autohyb.deterministic=true` 时多卫星快照仍并行评估，但读取固定 `SatelliteState` 快照并按 satellite id 固定顺序提交结果）
         → reassignUnscheduledTasks()（由 ReassignmentOrchestrator 编排优先级迁移循环与任务束后处理；由 AssignmentDeltaEvaluator 处理试探移动和增量评估；由 ReassignmentMoveEvaluator 外观类转发替换、交换、任务束移动到对应子评估器；delta fast refine 的 limited insertion 默认对齐 8D，使用基础候选位置，以及 replacement/swap 原任务位置附近的锚点候选）
         → buildPopulationWithInheritance()（重分配阶段可注入跨卫星共享任务排序模板）
@@ -128,10 +129,10 @@ ScenePathResolver（`autohyb.sceneRoot` → `AUTOHYB_SCENE_ROOT` → 当前/相�
           → PlanUtils.decode() → evaluatePlan()
       → 收集未调度任务 → 停滞时重分配 → 返回历史最优
     → EliteConfigArchive.saveBestConfig()（按 dataDir + numTasks + numSatellites + populationFactor + maxFes + insertionMode 的实例签名回写最优 6D 配置）
-  → 单配置复现实验路径：RunSingleHybridConfig（直接评估固定 6D 配置；命令行只接收 6D 配置，DE 参数从 `tuning.properties` 或 JVM `de.*` 属性读取；默认 `autohyb.deterministic=true`，可设为 `false` 恢复并行快跑；批量配对实验通过 `evaluation.runSeedBase` 让不同配置共享完全相同的 seed）
+  → 单配置复现实验路径：RunSingleHybridConfig（直接评估固定 6D 配置；命令行只接收 6D 配置，DE 参数从 `tuning.properties` 或 JVM `de.*` 属性读取；默认 `autohyb.deterministic=true`，可设为 `false` 恢复并行快跑；Hybrid seed 默认使用 `native290002`，直跑可编辑 `MANUAL_SEED_TABLE_SOURCE` 切换，显式 `-Devaluation.seedTable.source=native270342|native200042|native410000` 优先；批量配对实验通过同一场景的 `evaluation.perRunStart` 让不同配置共享完全相同的 fixed-table seed）
     → EvaluationHyb → TaskAllocationCoordinator.scheduleWithReassignment()
     → 可选 EliteConfigArchive.saveCandidateConfig()（仅在显式开启 --record-elite-archive 时，将固定配置追加到同实例域热启动归档）
-  → 单算法复现实验路径：RunSingleParentConfig（只接收 1D `{algorithmIndex}`；DE 参数从 `de.*` 读取；动态重分配层直接调用 `SingleAlgorithmOptimizer.optimize()`，每轮由单个 parent strategy 生成候选并做逐候选 greedy replacement；与 Hybrid 共用 `evaluation.runSeedBase` 配对 seed 合约；可选 `--convergence-file` 输出正式卫星调度阶段的 per-run / per-satellite 单算法 best-fitness 曲线）
+  → 单算法复现实验路径：RunSingleParentConfig（只接收 1D `{algorithmIndex}`；DE 参数从 `de.*` 读取；动态重分配层直接调用 `SingleAlgorithmOptimizer.optimize()`，每轮由单个 parent strategy 生成候选并做逐候选 greedy replacement；保留独立的 `evaluation.runIndexBase/runSeedBase` seed 合约；可选 `--convergence-file` 输出正式卫星调度阶段的 per-run / per-satellite 单算法 best-fitness 曲线）
 ```
 
 ## 关键入口

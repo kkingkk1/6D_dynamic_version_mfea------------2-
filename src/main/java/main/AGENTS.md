@@ -9,12 +9,13 @@
 | 文件 | 类名 | 职责 |
 |------|------|------|
 | MainMFEAMOPHOA.java | `MainMFEAMOPHOA` | 外层 Global MFEA 自动设计入口；构造 6D 纯语义全局配置种群，调用 `EvaluationHyb` 并行评估候选混合配置，输出全局最优自动设计结果；外层配对、交叉点、重复父算法修复和变异点使用固定 seed 的 run-owned `Random`；逐代日志打印当前全局最优 `bestConfig`；支持 outer fitness cache 与 progressive racing opt-in，默认保持旧评估路径 |
-| MainMFEAMultiScene.java | `MainMFEAMultiScene` | 多场景 6D MFEA 自动设计入口；在多个场景上用归一化收益率总和作为 fitness 搜索单个通用配置；搜索阶段单星 HybCec 预算固定使用 `populationFactor=2.5`、`iterationCoefficient=100` 与 `fesBudgetRatio`，入口只输出最优通用配置和综合 fitness，不做最后分场景复评；外层搜索随机源固定，逐代日志打印当前全局最优 `bestConfig` |
+| MainMFEAMultiScene.java | `MainMFEAMultiScene` | 多场景 6D MFEA 自动设计入口；在四个 `-train` 场景上用归一化收益率总和作为 fitness 搜索单个通用配置；搜索阶段单星 HybCec 预算固定使用 `populationFactor=2.5`、`iterationCoefficient=100` 与 `fesBudgetRatio`，每个场景的归一化分母从实际 task priority 总和计算；入口只输出最优通用配置和综合 fitness，不做最后分场景复评；外层搜索随机源默认使用 `42`，可由 `-Dautohyb.outer.seed=<long>` 覆盖，并在启动日志打印实际 seed；变异点从全部 6 个基因位置中抽取非空随机子集；逐代日志打印当前全局最优 `bestConfig`；可由 `-Dautohyb.outer.stopConfig=p1,p2,u1,u2,order,survivor` 指定全局最优命中即停的目标配置；支持按最少代数、`patience` 和 `minDelta` 的 `-Dautohyb.outer.earlyStop.*` 早停并打印停止摘要 |
 | ScenePathResolver.java | `ScenePathResolver` | 统一解析场景根目录；优先读取 JVM 属性 `autohyb.sceneRoot`，其次读取环境变量 `AUTOHYB_SCENE_ROOT`，最后检查当前目录和相邻目录中的 `Scene` |
+| SceneSeedTable.java | `SceneSeedTable` | 包内固定 native seed 表读取器；按场景目录 basename 定位内置 `native290002` / `native270342` / `native200042` / `native410000` seed 表，将 `perRun=0..19` 映射为 seed ID `10..29` 和对应实际 seed；默认 source 为 `native290002`。`native270342` 与 `native200042` 都是五个选定 native290002 seed 的循环 profile，正式批次使用 `perRun=0..4`；当前四个 MFEA `-train` basename 已有显式 native290002 行，其中 `1000-20-0-0-12-train` 使用同规模 `1000-20-0-0-12` native 行；可由 `evaluation.seedTable.source` 选择，表路径可由 `evaluation.seedTable.path` 覆盖 |
 | ParallelPolicy.java | `ParallelPolicy` | 并行层级策略；集中解析 `autohyb.parallel.level=run|satellite|vector|auto`，在外层评估活跃时阻止 `PlanUtils` 使用 common-pool 向量并行 |
-| EvaluationHyb.java | `EvaluationHyb` | 6D 混合配置评估器；将单个全局配置解码为 HybCec 参数、运行时插入模式与单一 fixed DE scale，按多次独立运行评估配置质量，并向 `TaskAllocationCoordinator` 传递 run seed、配置与历史最优结果；MFEA fitness 直接使用优化后调度收益，不再用 baseline 兜底；默认 run seed 使用 `stableSeed + effectiveRunIndex + 8`，`evaluation.runSeedBase` 可显式覆盖 seed base 以保证跨配置配对，`evaluation.runSeedLog=true` 输出实际 seed |
-| RunSingleHybridConfig.java | `RunSingleHybridConfig` | 单配置复现实验入口；加载数据、初始化任务分配、使用固定 6D 配置运行评估链路、输出调度结果；命令行只接收 6D 配置；DE 运行时统一为固定缩放因子；支持两种开关控制方式：1）直接在源码顶部修改 `DEFAULT_ENABLE_DELTA_FAST_REFINE` / `DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET` 两个布尔常量，便于 VSCode 直接运行时手动切换；2）通过前两个命令行参数显式覆盖，分别控制 delta fast refine 与局部重算热启动预算；源码顶部 `DEFAULT_RANDOM_SEED_ID` 用于切换单次复现实验的 1-based seed id，填 `1/2/3` 分别复现多次运行中的第 1/2/3 次 seed，未显式设置 `-Devaluation.runIndexBase` 时映射到 `evaluation.runIndexBase`；批量配对实验可显式设置 `evaluation.runSeedBase`；可通过 `-Dhybcec.insertionMode=<InsertionMode>` 对单配置消融运行覆盖插入策略，默认 `GREEDY`；默认开启 `-Dautohyb.deterministic=true` 复现实验模式，入口会重置 `RandomProvider` 全局随机源和线程计数；程序内部会将这些开关映射到协调器对应系统属性；默认 stdout 只打印当前混合配置、收益比例和总耗时；支持 `--record-baseline` / `--baseline-file` 将当前默认场景与配置的效用指标固化到基线文件，并仅在记录基线时打印基线对比；支持 `--quiet` 压制 warmup 状态日志，最终紧凑结果仍打印；`--log-interval=N` 继续控制显式开启的逐代曲线日志间隔 |
-| RunSingleParentConfig.java | `RunSingleParentConfig` | 单算法复现实验入口；只接收 1D `{algorithmIndex}`，保留动态重分配层，并通过 `singleAlgorithmMode=true` 路由到独立单算法优化器；支持 `--run-index-base` 做 seed 分段诊断，未提供该参数时读取共享的 `evaluation.runIndexBase`；支持 `--run-seed` 直接接收 Hybrid 已计算的最终 seed，后续 run 按 `runOffset` 递增；未显式传入时使用与 Hybrid 相同的 `stableSeed + effectiveRunIndex + 8` 默认合同，并复用 `evaluation.runSeedBase` 跨配置；支持 `--generation-log` 与 `--log-interval=N` 打印独立优化器逐代最优适应度；支持 `--convergence-file` 输出每个 run / 卫星的单算法 best-fitness 曲线 |
+| EvaluationHyb.java | `EvaluationHyb` | 6D 混合配置评估器；将单个全局配置解码为 HybCec 参数、运行时插入模式与单一 fixed DE scale，按多次独立运行评估配置质量，并向 `TaskAllocationCoordinator` 传递 run seed、配置与历史最优结果；MFEA fitness 直接使用优化后调度收益，不再用 baseline 兜底；run seed 按场景固定表和 `perRun` 读取，与 6D 配置、预算及 `evaluation.runIndexBase/runSeedBase` 无关 |
+| RunSingleHybridConfig.java | `RunSingleHybridConfig` | 单配置复现实验入口；加载数据、初始化任务分配、使用固定 6D 配置运行评估链路、输出调度结果；命令行只接收 6D 配置；DE 运行时统一为固定缩放因子；支持两种开关控制方式：1）直接在源码顶部修改 `DEFAULT_ENABLE_DELTA_FAST_REFINE` / `DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET` / `MANUAL_PER_RUN_START` / `MANUAL_SEED_TABLE_SOURCE`，便于 VSCode 直接运行时手动切换；2）通过前两个命令行参数显式覆盖，分别控制 delta fast refine 与局部重算热启动预算；`-Devaluation.perRunStart=0..19` 选择当前场景固定表中的 seed ID `10..29`，默认使用 `MANUAL_PER_RUN_START`，显式 JVM 属性优先；`MANUAL_SEED_TABLE_SOURCE` 默认选择 `native290002`，显式 `-Devaluation.seedTable.source` 优先；批量配对实验在同一场景上使用同一 `perRunStart`；可通过 `-Dhybcec.insertionMode=<InsertionMode>` 对单配置消融运行覆盖插入策略，默认 `GREEDY`；默认开启 `-Dautohyb.deterministic=true` 复现实验模式，入口会重置 `RandomProvider` 全局随机源和线程计数；程序内部会将这些开关映射到协调器对应系统属性；默认 stdout 打印 `[RunSeed]` 固定 seed 元数据，以及当前混合配置、收益比例和总耗时；支持 `--record-baseline` / `--baseline-file` 将当前默认场景与配置的效用指标固化到基线文件，并仅在记录基线时打印基线对比；支持 `--quiet` 压制 warmup 状态日志，最终紧凑结果仍打印；`--log-interval=N` 继续控制显式开启的逐代曲线日志间隔 |
+| RunSingleParentConfig.java | `RunSingleParentConfig` | 单算法复现实验入口；只接收 1D `{algorithmIndex}`，保留动态重分配层，并通过 `singleAlgorithmMode=true` 路由到独立单算法优化器；继续使用独立的 `evaluation.runIndexBase/runSeedBase` seed 合约；支持 `--run-index-base` 做 seed 分段诊断；支持 `--run-seed` 直接接收 Hybrid 已计算的最终 seed，后续 run 按 `runOffset` 递增；支持 `--generation-log` 与 `--log-interval=N` 打印独立优化器逐代最优适应度；支持 `--convergence-file` 输出每个 run / 卫星的单算法 best-fitness 曲线 |
 | SingleAlgorithmOptimizer.java | `SingleAlgorithmOptimizer` | 包内私有单算法优化器；复用 16 个 parent strategy 和运行时算法参数，维护单算法状态、评估预算、历史最优与收敛记录，每轮对选中个体生成候选并做一对一 greedy replacement；不进入 6D 混合组件编码 |
 | TargetSatelliteRanker.java | `TargetSatelliteRanker` | 目标星排序器；抽象候选目标星的任务侧与任务-卫星配对特征，只执行低成本排序，并按固定 Top-K 返回候选目标星；普通任务默认 Top-2，prioritized 任务默认 Top-4；卫星侧 `B_j` 通路已删除 |
 | TargetSatelliteSelector.java | `TargetSatelliteSelector` | 包内私有候选目标星选择辅助类；从协调器状态构造 `TargetSatelliteRanker.RankRequest`，封装候选星上下文、任务侧优先级/约束紧度/未调度压力特征、任务-卫星窗口特征与 Top-K 结果转换 |
@@ -40,18 +41,31 @@ public static void main(String[] args)
 
 场景路径约定：`MainMFEAMOPHOA`、`MainMFEAMultiScene`、`RunSingleHybridConfig` 和 `RunSingleParentConfig` 共用 `ScenePathResolver`。解析顺序为 `-Dautohyb.sceneRoot=<path>`、`AUTOHYB_SCENE_ROOT`、当前目录或相邻目录下的 `Scene`。
 
+### MainMFEAMultiScene
+
+```java
+public static void main(String[] args)
+```
+
+`-Dautohyb.outer.seed=<long>` 控制外层 MFEA 的初始种群与交叉/变异随机源，未设置时使用 `AlgorithmConstants.FIXED_RANDOM_SEED_LONG=42`；入口启动日志打印 `[SEED] outerSearchSeed=...`。该开关不改变 `native290002` 场景固定 seed 表，后者仍由 `sceneDir` 与 `perRun` 决定。
+
+当前四场景为 `500-5-0-0-24-train`、`1000-10-0-0-12-train`、`1000-20-0-0-12-train` 和 `4000-40-0-0-6-train`。`-Dautohyb.outer.stopConfig=2,9,0,0,0,2` 会在当前全局最优配置精确命中 `native290002` 的 6D 配置时停止；不设置时运行完整 `gMax`。
+
+早停开关为 `-Dautohyb.outer.earlyStop.enabled=true|false`，默认开启；`-Dautohyb.outer.earlyStop.minGenerations=<int>` 默认 `10`，`-Dautohyb.outer.earlyStop.patience=<int>` 默认 `10`，`-Dautohyb.outer.earlyStop.minDelta=<double>` 默认 `0.001`。每代仍保留真实历史最优；只有超过 `minDelta` 的提升才重置 patience。早停不改变内层 seed 或 fitness，只减少外层后续代数。
+
 ### EvaluationHyb
 
 ```java
 public static EvaluationResult evaluationHyb(
     int[] x, int d, int nPop, int maxFes, int nRun,
     List<Satellite> allSatellites, List<Task> allTasks,
+    String sceneDir,
     ExecutorService executor) throws Exception
 ```
 
 `x` 必须传入 6D 配置。
 
-Seed 约定：默认使用 `stableSeed + effectiveRunIndex + 8`。其中 `effectiveRunIndex = evaluation.runIndexBase + runIndex`；显式设置 `evaluation.runSeedBase` 时，实际 seed 改为 `runSeedBase + effectiveRunIndex`，Hybrid 与 Parent 共用该合约。`evaluation.runSeedLog=true` 时 Hybrid 输出 `[RunSeed]`，Parent 固定输出 `[Run] index=... seed=...`。`{4,1,0,0,0,0}` 在 ID1 基准预算下仍复用旧 8D `{4,1,0,0,0,0,1,0}` 的 stable seed。
+Seed 约定：Hybrid 默认使用 `native290002` 对应的 `scene-seeds-native290002.properties`，也可用 `-Devaluation.seedTable.source=native270342|native200042|native410000` 选择对应内置表；`perRun=0..19` 对应 seed ID `10..29`，实际 seed 不读取 6D 配置、`nPop/maxFes`、`evaluation.runIndexBase` 或 `evaluation.runSeedBase`。`native200042` 的 `perRun=0..4` 依次取原始 `native290002` 的 seed ID `13,17,21,24,25`，其余 15 项循环这五项。`-Devaluation.perRunStart=N` 选择本次运行的表索引，并要求 `perRunStart+nRun<=20`。显式 `-Devaluation.seedTable.path=<path>` 优先于 source 选择。`RunSingleHybridConfig` 直跑默认使用源码中的 `MANUAL_SEED_TABLE_SOURCE` 并开启 `evaluation.runSeedLog`，输出 source、表文件名、场景、`perRun`、seed ID 和实际 seed；显式 `-Devaluation.seedTable.source` 和 `-Devaluation.runSeedLog=false` 优先。Parent 保留独立的 `stableSeed + effectiveRunIndex + 8` / `evaluation.runSeedBase` 合同。
 
 评估约定：MFEA 搜索阶段只把优化后调度收益写入 run profit 和 best run，不再把初始化 assignment 的 baseline 方案作为兜底 fitness。
 
@@ -66,7 +80,12 @@ public static void main(String[] args)
 - `--baseline-file <path>`：覆盖默认基线路径
 - `-Dhybcec.insertionMode=<InsertionMode>`：覆盖本次评估链路使用的插入策略；默认 `GREEDY`
 - 默认配置：`{2,9,0,0,0,2}`，即 EDA + L-SHADE、FULL/FULL、SEQUENTIAL、PAIRWISE_GREEDY
-- `DEFAULT_RANDOM_SEED_ID`：源码顶部 1-based 单次 seed id；默认 `10`，改成 `11/12/...` 可模拟 seed ID 11/12/...；若 JVM 显式传入 `-Devaluation.runIndexBase=<long>`，则以 JVM 参数为准
+- `MANUAL_PER_RUN_START`：直接运行 `RunSingleHybridConfig` 时的源码手动 seed 行选择，范围 `0..19`；显式 `-Devaluation.perRunStart=N` 优先
+- `MANUAL_SEED_TABLE_SOURCE`：直接运行 `RunSingleHybridConfig` 时的源码手动 seed 表选择，填 `native290002`、`native270342`、`native200042` 或 `native410000`；显式 `-Devaluation.seedTable.source=...` 优先
+- `MANUAL_RUN_SEED_LOG`：直接运行 `RunSingleHybridConfig` 时是否默认打印 fixed seed 元数据；显式 `-Devaluation.runSeedLog=true|false` 优先
+- `-Devaluation.perRunStart=N`：选择当前场景固定表中的 seed；`0` 对应 seed ID `10`，`19` 对应 seed ID `29`，且 `perRunStart+nRun<=20`
+- `-Devaluation.seedTable.source=native290002|native270342|native200042|native410000`：选择内置固定 native seed 表，默认 `native290002`
+- `scene-seeds-native290002.properties` / `scene-seeds-native270342.properties` / `scene-seeds-native200042.properties` / `scene-seeds-native410000.properties`：四套固定 native seed 表；可用 `-Devaluation.seedTable.path=<path>` 指定另一份完整表
 - `-Dautohyb.deterministic=true|false`：控制单配置复现实验模式；默认 `true`，会重置 `RandomProvider`，多卫星快照评估仍并行执行，但读取固定状态快照并按 satellite id 固定顺序提交结果；设为 `false` 可恢复旧并行路径
 - `--quiet`：隐藏 warmup 状态日志；最终混合配置、收益比例和耗时仍打印
 - `--log-interval=N`：控制逐代日志间隔，默认 1，保持旧输出频率
@@ -77,13 +96,14 @@ public static void main(String[] args)
 - `-Dautohyb.outer.cache.enabled=true|false`：控制外层 6D 配置 fitness cache；默认 `false`
 - `-Dautohyb.outer.racing.enabled=true|false`：控制外层 MFEA progressive racing；默认 `false`，只影响 `MainMFEAMOPHOA`
 - `-Dautohyb.outer.nPopHyb=<int>` / `-Dautohyb.outer.gMax=<int>` / `-Dautohyb.outer.nRun=<int>` / `-Dautohyb.outer.maxFes=<int>`：外层短测预算覆盖；未设置时保持旧默认预算
+- `-Dautohyb.outer.earlyStop.enabled=true|false` / `-Dautohyb.outer.earlyStop.minGenerations=<int>` / `-Dautohyb.outer.earlyStop.patience=<int>` / `-Dautohyb.outer.earlyStop.minDelta=<double>`：控制 `MainMFEAMultiScene` 的外层实用早停，默认值为 `true/10/10/0.001`
 - `-Dautohyb.satState.pool=true|false`：控制 `SatelliteState` 对象复用；默认 `false`
 - `-Dautohyb.init.knnCache=true|false`：控制初始化与目标星排序共享任务-卫星窗口特征缓存；默认 `false`
 - `-Dautohyb.coord.adaptiveEnsemble=true|false`：控制低负载卫星初始 ensemble racing；默认 `false`
 - `-Dautohyb.coord.calibrationRacing=true|false`：控制刷新 best 后先做 cheap inherited-vector 校准筛查；默认 `false`
-- `RunSingleHybridConfig` 默认 stdout 只打印 `Hybrid config`、`Optimized profit ratio` 和 `Elapsed` 三行
+- `RunSingleHybridConfig` 默认 stdout 打印 `[RunSeed]` 固定 seed 元数据，以及 `Hybrid config`、`Optimized profit ratio` 和 `Elapsed`
 - 使用 `--record-baseline` 时，若基线文件存在且上下文（场景、任务规模、配置、`nRun`、`nPop`、`maxFes`）一致，会打印效用与耗时相对基线的增减，并写回当前基线
-- 当前基线：`{4,1,0,0,0,0}`；ID1 基准预算 `nPop=270,maxFes=27000` 下使用 `runIndex+8` seed 序列；无参 `nRun=1` 默认命中旧 8D `{4,1,0,0,0,0,1,0}` 单轮复现实验 seed
+- 当前基线：`{2,9,0,0,0,2}`；无参 `nRun=1` 默认读取当前场景固定表的 `perRun=0` seed
 
 ### RunSingleParentConfig
 

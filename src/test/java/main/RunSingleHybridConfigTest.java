@@ -23,12 +23,12 @@ class RunSingleHybridConfigTest {
 
     assertArrayEquals(
       new int[] {
-        AlgorithmConstants.ALGORITHM_INDEX_EDA,
-        AlgorithmConstants.ALGORITHM_INDEX_LSHADE,
+        AlgorithmConstants.ALGORITHM_INDEX_DE_RAND_1,
+        AlgorithmConstants.ALGORITHM_INDEX_PSO,
         AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
         AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
         AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL,
-        AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_PAIRWISE_GREEDY
+        AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_ELITIST_BEST_N
       },
       (int[]) defaultConfig.get(null)
     );
@@ -42,27 +42,68 @@ class RunSingleHybridConfigTest {
   }
 
   @Test
-  void defaultRandomSeedIdIsOneBasedAndMapsToRunIndexBase() throws Exception {
-    String previous = System.getProperty("evaluation.runIndexBase");
-    System.clearProperty("evaluation.runIndexBase");
+  void manualPerRunStartOnlyFillsAnUnsetSystemProperty() throws Exception {
+    Field manualPerRunStart = RunSingleHybridConfig.class.getDeclaredField("MANUAL_PER_RUN_START");
+    manualPerRunStart.setAccessible(true);
+    String expected = Integer.toString(manualPerRunStart.getInt(null));
+    String previous = System.getProperty(EvaluationHyb.PER_RUN_START_PROPERTY);
     try {
-      Field defaultSeedId = RunSingleHybridConfig.class.getDeclaredField("DEFAULT_RANDOM_SEED_ID");
-      defaultSeedId.setAccessible(true);
-      long seedId = (long) defaultSeedId.get(null);
+      System.clearProperty(EvaluationHyb.PER_RUN_START_PROPERTY);
+      RunSingleHybridConfig.applyManualPerRunStartIfUnset();
+      assertEquals(expected, System.getProperty(EvaluationHyb.PER_RUN_START_PROPERTY));
 
-      Method applySeedId = RunSingleHybridConfig.class.getDeclaredMethod("applyDefaultRandomSeedIdIfUnset");
-      applySeedId.setAccessible(true);
-      applySeedId.invoke(null);
-
-      assertEquals(
-        Long.toString(Math.max(1L, seedId) - 1L),
-        System.getProperty("evaluation.runIndexBase")
-      );
+      System.setProperty(EvaluationHyb.PER_RUN_START_PROPERTY, "4");
+      RunSingleHybridConfig.applyManualPerRunStartIfUnset();
+      assertEquals("4", System.getProperty(EvaluationHyb.PER_RUN_START_PROPERTY));
     } finally {
       if (previous == null) {
-        System.clearProperty("evaluation.runIndexBase");
+        System.clearProperty(EvaluationHyb.PER_RUN_START_PROPERTY);
       } else {
-        System.setProperty("evaluation.runIndexBase", previous);
+        System.setProperty(EvaluationHyb.PER_RUN_START_PROPERTY, previous);
+      }
+    }
+  }
+
+  @Test
+  void manualSeedTableSourceOnlyFillsAnUnsetSystemProperty() throws Exception {
+    Field manualSource = RunSingleHybridConfig.class.getDeclaredField("MANUAL_SEED_TABLE_SOURCE");
+    manualSource.setAccessible(true);
+    String expected = (String) manualSource.get(null);
+    String previous = System.getProperty(SceneSeedTable.TABLE_SOURCE_PROPERTY);
+    try {
+      System.clearProperty(SceneSeedTable.TABLE_SOURCE_PROPERTY);
+      RunSingleHybridConfig.applyManualSeedTableSourceIfUnset();
+      assertEquals(expected, System.getProperty(SceneSeedTable.TABLE_SOURCE_PROPERTY));
+
+      System.setProperty(SceneSeedTable.TABLE_SOURCE_PROPERTY, SceneSeedTable.NATIVE_410000_SOURCE);
+      RunSingleHybridConfig.applyManualSeedTableSourceIfUnset();
+      assertEquals(SceneSeedTable.NATIVE_410000_SOURCE,
+        System.getProperty(SceneSeedTable.TABLE_SOURCE_PROPERTY));
+    } finally {
+      if (previous == null) {
+        System.clearProperty(SceneSeedTable.TABLE_SOURCE_PROPERTY);
+      } else {
+        System.setProperty(SceneSeedTable.TABLE_SOURCE_PROPERTY, previous);
+      }
+    }
+  }
+
+  @Test
+  void manualRunSeedLogOnlyFillsAnUnsetSystemProperty() {
+    String previous = System.getProperty(EvaluationHyb.RUN_SEED_LOG_PROPERTY);
+    try {
+      System.clearProperty(EvaluationHyb.RUN_SEED_LOG_PROPERTY);
+      RunSingleHybridConfig.applyManualRunSeedLogIfUnset();
+      assertEquals("true", System.getProperty(EvaluationHyb.RUN_SEED_LOG_PROPERTY));
+
+      System.setProperty(EvaluationHyb.RUN_SEED_LOG_PROPERTY, "false");
+      RunSingleHybridConfig.applyManualRunSeedLogIfUnset();
+      assertEquals("false", System.getProperty(EvaluationHyb.RUN_SEED_LOG_PROPERTY));
+    } finally {
+      if (previous == null) {
+        System.clearProperty(EvaluationHyb.RUN_SEED_LOG_PROPERTY);
+      } else {
+        System.setProperty(EvaluationHyb.RUN_SEED_LOG_PROPERTY, previous);
       }
     }
   }
@@ -120,66 +161,6 @@ class RunSingleHybridConfigTest {
     );
 
     assertTrue(exception.getCause() instanceof IllegalArgumentException);
-  }
-
-  @Test
-  void defaultConfigUsesBenchmarkSeedAnchor() throws Exception {
-    Method stableSeed = EvaluationHyb.class.getDeclaredMethod(
-      "stableSeed",
-      int[].class,
-      int.class,
-      int.class,
-      int.class
-    );
-    stableSeed.setAccessible(true);
-
-    long actualSeed = (long) stableSeed.invoke(
-      null,
-      new int[] {4, 1, 0, 0, 0, 0},
-      AlgorithmConstants.HYBRID_CONFIG_DIMENSION,
-      270,
-      27000
-    );
-
-    assertEquals(1103879922877097636L, actualSeed);
-  }
-
-  @Test
-  void explicitRunSeedBasePairsDifferentHybridConfigs() {
-    String previousSeedBase = System.getProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY);
-    String previousRunIndexBase = System.getProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
-    System.setProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, "42");
-    System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, "0");
-    try {
-      long baselineSeed = EvaluationHyb.resolveRunSeed(
-        new int[] {4, 1, 0, 0, 0, 0},
-        AlgorithmConstants.HYBRID_CONFIG_DIMENSION,
-        270,
-        27000,
-        4
-      );
-      long autoDesignedSeed = EvaluationHyb.resolveRunSeed(
-        new int[] {2, 9, 0, 0, 0, 2},
-        AlgorithmConstants.HYBRID_CONFIG_DIMENSION,
-        270,
-        27000,
-        4
-      );
-
-      assertEquals(46L, baselineSeed);
-      assertEquals(baselineSeed, autoDesignedSeed);
-    } finally {
-      restoreProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, previousSeedBase);
-      restoreProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, previousRunIndexBase);
-    }
-  }
-
-  private static void restoreProperty(String name, String value) {
-    if (value == null) {
-      System.clearProperty(name);
-    } else {
-      System.setProperty(name, value);
-    }
   }
 
   @Test

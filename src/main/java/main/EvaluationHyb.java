@@ -13,7 +13,6 @@ import utils.DataLoader;
 import utils.Initialize;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
@@ -22,9 +21,11 @@ import java.util.concurrent.*;
 
 public class EvaluationHyb {
 
+    private static final String SCENE_DIR_PROPERTY = "evaluation.sceneDir";
     static final String RUN_INDEX_BASE_PROPERTY = "evaluation.runIndexBase";
     static final String RUN_SEED_BASE_PROPERTY = "evaluation.runSeedBase";
     static final String RUN_SEED_LOG_PROPERTY = "evaluation.runSeedLog";
+    static final String PER_RUN_START_PROPERTY = "evaluation.perRunStart";
     static final long RUN_SEED_OFFSET = 8L;
 
     /**
@@ -39,49 +40,38 @@ public class EvaluationHyb {
     private static final int DEFAULT_MAX_REASSIGN_ITERATIONS = TuningConfig.getInt("eval.maxReassignIterations", TuningDefaults.EVAL_MAX_REASSIGN_ITERATIONS);
     private static final int DEFAULT_KEY_PERTURB_THRESHOLD = TuningConfig.getInt("eval.keyPerturbThreshold", TuningDefaults.EVAL_KEY_PERTURB_THRESHOLD);
     private static final double DEFAULT_KEY_PERTURB_STRENGTH = TuningConfig.getDouble("eval.keyPerturbStrength", TuningDefaults.EVAL_KEY_PERTURB_STRENGTH);
-    private static final int[] BASELINE_CONFIG = {4, 1, 0, 0, 0, 0};
-    private static final int BASELINE_BENCHMARK_NPOP = 270;
-    private static final int BASELINE_BENCHMARK_MAX_FES = 27000;
-    private static final long BASELINE_BENCHMARK_SEED = 1103879922877097636L;
 
     private static void printRunStage(String message) {
         // Silent: suppress intermediate logs in tuning mode
     }
 
-    private static long stableSeed(int[] x, int d, int nPop, int maxFes) {
-        if (isDefaultBaselineBenchmark(x, nPop, maxFes)) {
-            return BASELINE_BENCHMARK_SEED;
-        }
-        long seed = AlgorithmConstants.FIXED_RANDOM_SEED_LONG;
-        seed = 31L * seed + d;
-        seed = 31L * seed + nPop;
-        seed = 31L * seed + maxFes;
-        if (x != null) {
-            for (int v : x) {
-                seed = 31L * seed + v;
-            }
-        }
-        return seed;
-    }
-
-    private static boolean isDefaultBaselineBenchmark(int[] x, int nPop, int maxFes) {
-        return nPop == BASELINE_BENCHMARK_NPOP
-            && maxFes == BASELINE_BENCHMARK_MAX_FES
-            && Arrays.equals(BASELINE_CONFIG, x);
-    }
-
-    static long resolveRunSeed(int[] config, int configDimension, int nPop, int maxFes, int runIndex) {
-        long runIndexBase = Long.getLong(RUN_INDEX_BASE_PROPERTY, 0L);
-        long effectiveRunIndex = Math.addExact(runIndexBase, runIndex);
-        long defaultSeedBase = Math.addExact(
-            stableSeed(config, configDimension, nPop, maxFes),
-            RUN_SEED_OFFSET
-        );
-        long runSeed = resolveConfiguredRunSeed(defaultSeedBase, effectiveRunIndex);
+    private static long resolveRunSeed(String sceneDir, int perRun) {
+        long runSeed = SceneSeedTable.resolve(sceneDir, perRun);
         if (Boolean.getBoolean(RUN_SEED_LOG_PROPERTY)) {
-            System.out.printf("[RunSeed] index=%d seed=%d%n", effectiveRunIndex, runSeed);
+            System.out.printf(
+                "[RunSeed] source=%s table=%s scene=%s perRun=%d seedId=%d seed=%d%n",
+                SceneSeedTable.selectedSource(),
+                SceneSeedTable.selectedTableName(),
+                SceneSeedTable.normalizeSceneKey(sceneDir),
+                perRun,
+                SceneSeedTable.seedIdForPerRun(perRun),
+                runSeed
+            );
         }
         return runSeed;
+    }
+
+    private static int resolvePerRunStart() {
+        String raw = System.getProperty(PER_RUN_START_PROPERTY, "0").trim();
+        try {
+            return Integer.parseInt(raw);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(
+                PER_RUN_START_PROPERTY + " must be an integer in [0,"
+                    + (SceneSeedTable.SEED_COUNT - 1) + "], got: " + raw,
+                e
+            );
+        }
     }
 
     static long resolveConfiguredRunSeed(long defaultSeedBase, long runIndex) {
@@ -221,10 +211,15 @@ public class EvaluationHyb {
      * @param nRun Number of independent runs
      * @param allSatellites All satellites participating in the global evaluation
      * @param allTasks List of all tasks to be scheduled
+     * @deprecated The scene is required by the fixed seed contract. Use the
+     *             overload that includes {@code sceneDir}, or set
+     *             {@code -Devaluation.sceneDir=<scene-directory>} for legacy
+     *             callers.
      * @param executor Thread pool executor for parallel execution
      * @return Global evaluation result containing run profits and the best multi-satellite plans
      * @throws Exception if any run fails or executor issues occur
      */
+    @Deprecated
     public static EvaluationResult evaluationHyb(
         int[] x,
         int d,
@@ -234,6 +229,13 @@ public class EvaluationHyb {
         List<Satellite> allSatellites,
         List<Task> allTasks,
         ExecutorService executor) throws Exception {
+        String sceneDir = System.getProperty(SCENE_DIR_PROPERTY);
+        if (sceneDir == null || sceneDir.isBlank()) {
+            throw new IllegalArgumentException(
+                "sceneDir is required; use the evaluationHyb overload with sceneDir "
+                    + "or set -D" + SCENE_DIR_PROPERTY + "=<scene-directory>"
+            );
+        }
         return evaluationHybInternal(
             x,
             d,
@@ -242,6 +244,30 @@ public class EvaluationHyb {
             nRun,
             allSatellites,
             allTasks,
+            sceneDir,
+            executor
+        );
+    }
+
+    public static EvaluationResult evaluationHyb(
+        int[] x,
+        int d,
+        int nPop,
+        int maxFes,
+        int nRun,
+        List<Satellite> allSatellites,
+        List<Task> allTasks,
+        String sceneDir,
+        ExecutorService executor) throws Exception {
+        return evaluationHybInternal(
+            x,
+            d,
+            nPop,
+            maxFes,
+            nRun,
+            allSatellites,
+            allTasks,
+            sceneDir,
             executor
         );
     }
@@ -275,6 +301,7 @@ public class EvaluationHyb {
             warmupRuns,
             satellites,
             tasks,
+            dataDir,
             executor
         );
     }
@@ -287,7 +314,26 @@ public class EvaluationHyb {
         int nRun,
         List<Satellite> allSatellites,
         List<Task> allTasks,
+        String sceneDir,
         ExecutorService executor) throws Exception {
+        if (sceneDir == null || sceneDir.isBlank()) {
+            throw new IllegalArgumentException(
+                "sceneDir is required for fixed scene/perRun seed resolution"
+            );
+        }
+        int perRunStart = resolvePerRunStart();
+        if (perRunStart < 0 || perRunStart >= SceneSeedTable.SEED_COUNT) {
+            throw new IllegalArgumentException(
+                PER_RUN_START_PROPERTY + " must be in [0," + (SceneSeedTable.SEED_COUNT - 1)
+                    + "], got: " + perRunStart
+            );
+        }
+        if (nRun <= 0 || nRun > SceneSeedTable.SEED_COUNT - perRunStart) {
+            throw new IllegalArgumentException(
+                "nRun must be in [1," + (SceneSeedTable.SEED_COUNT - perRunStart)
+                    + "] for perRunStart=" + perRunStart + ", got: " + nRun
+            );
+        }
         final int[] config = AlgorithmConstants.normalizeHybridConfig(x);
         double randOL = AlgorithmConstants.HYBCEC_RAND_OL;
         int maxGen = Math.max(1, maxFes - nPop);
@@ -327,12 +373,13 @@ public class EvaluationHyb {
 
         java.util.List<Future<PerRunResult>> futures = new ArrayList<>();
 
-        for (int perRun = 0; perRun < nRun; perRun++) {
-            final int runIndex = perRun+4;
+        for (int runOffset = 0; runOffset < nRun; runOffset++) {
+            final int perRun = perRunStart + runOffset;
+            final int runIndex = perRun;
             Callable<PerRunResult> task = () -> {
                 long runStartNanos = System.nanoTime();
                 try {
-                    long runSeed = resolveRunSeed(config, configDimension, nPop, maxFes, runIndex);
+                    long runSeed = resolveRunSeed(sceneDir, perRun);
                     Random rand = RandomProvider.newWithSeed(runSeed);
                     int oLRand = (rand.nextDouble() < randOL) ? oL[0] : oL[1];
 

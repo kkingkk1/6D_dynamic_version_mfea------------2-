@@ -2,6 +2,8 @@ param(
   [string]$SearchOutDir = "outputs\mfea-multiscene-full-20260616",
   [string]$OutputDir = "outputs\paired-native-perrun0-4-10scene-20260724-r01",
   [long]$ReferenceSeedIdStart = 10,
+  [ValidateSet("native290002", "native410000")]
+  [string]$SeedSource = "native290002",
   [int]$PerRunStart = 0,
   [int]$PerRuns = 5,
   [string]$ExperimentId = "paired-native-perrun0-4-10scene-20260724-r01",
@@ -201,8 +203,8 @@ function Write-Progress(
 if ($PerRunStart -lt 0) {
   throw "PerRunStart must be non-negative, got: $PerRunStart"
 }
-if ($ReferenceSeedIdStart -lt 1) {
-  throw "ReferenceSeedIdStart must be positive, got: $ReferenceSeedIdStart"
+if ($ReferenceSeedIdStart -ne 10) {
+  throw "ReferenceSeedIdStart must be 10 for the selected scene seed table, got: $ReferenceSeedIdStart"
 }
 if ($PerRuns -le 0) {
   throw "PerRuns must be positive, got: $PerRuns"
@@ -306,6 +308,9 @@ $sceneManifestPath = Join-Path $outPath "scene-manifest.csv"
 $sourceHashPaths = @(
   "src\main\java\main\EvaluationHyb.java",
   "src\main\java\main\RunSingleHybridConfig.java",
+  "src\main\java\main\SceneSeedTable.java",
+  "scene-seeds-native290002.properties",
+  "scene-seeds-native410000.properties",
   "tuning.properties",
   "pom.xml",
   "scripts\run_paired_configs_10scene_5perrun.ps1"
@@ -319,7 +324,8 @@ if ($IncludeParents) {
 $sourceHashes = Get-SourceHashes $repoRoot $sourceHashPaths
 $runtimeClassPaths = @(
   "main\EvaluationHyb.class",
-  "main\RunSingleHybridConfig.class"
+  "main\RunSingleHybridConfig.class",
+  "main\SceneSeedTable.class"
 )
 if ($IncludeParents) {
   $runtimeClassPaths += @(
@@ -344,6 +350,7 @@ if ($ValidateOnly) {
   Write-Host "Validation passed."
   Write-Host "Expected runs: $expectedRunCount"
   Write-Host "Configs: $($configs.Key -join ', ')"
+  Write-Host "Seed source: $SeedSource"
   Write-Host "perRun: $PerRunStart..$perRunEnd"
   Write-Host "Reference seed IDs: $($ReferenceSeedIdStart + $PerRunStart)..$($ReferenceSeedIdStart + $perRunEnd)"
   Write-Host "Seed reference probes: skipped in ValidateOnly mode"
@@ -362,9 +369,10 @@ $probeContext = [ordered]@{
   referenceConfigKey = $referenceConfig.Key
   referenceConfig = $referenceConfig.Config
   referenceSeedIdStart = $ReferenceSeedIdStart
+  seedSource = $SeedSource
   perRunStart = $PerRunStart
   perRunEnd = $perRunEnd
-  seedMode = "native-source-anchor"
+  seedMode = "scene-fixed-table"
 }
 $probeContextHash = Get-TextSha256 ($probeContext | ConvertTo-Json -Depth 8 -Compress)
 $seedReferencePath = Join-Path $outPath "seed-reference.csv"
@@ -377,7 +385,12 @@ if ($ReuseOutputDir) {
     throw "Reuse experiment contract not found: $reuseContractPath"
   }
   $reuseContract = Get-Content -Raw -LiteralPath $reuseContractPath | ConvertFrom-Json
-  if ($reuseContract.sceneManifestSha256 -ne $sceneManifestHash -or $reuseContract.referenceConfigKey -ne $referenceConfig.Key -or $reuseContract.referenceConfig -ne $referenceConfig.Config -or ([long]$reuseContract.referenceSeedIdStart) -ne $ReferenceSeedIdStart -or ([int]$reuseContract.perRunStart) -ne $PerRunStart) {
+  $reuseSeedSource = if ($reuseContract.PSObject.Properties.Name -contains "seedSource") {
+    [string]$reuseContract.seedSource
+  } else {
+    ""
+  }
+  if ($reuseContract.sceneManifestSha256 -ne $sceneManifestHash -or $reuseContract.referenceConfigKey -ne $referenceConfig.Key -or $reuseContract.referenceConfig -ne $referenceConfig.Config -or ([long]$reuseContract.referenceSeedIdStart) -ne $ReferenceSeedIdStart -or ([int]$reuseContract.perRunStart) -ne $PerRunStart -or $reuseSeedSource -ne $SeedSource) {
     throw "Reuse experiment scene or seed contract does not match: $reuseContractPath"
   }
   foreach ($relativePath in ($sourceHashPaths | Where-Object { $_ -ne "scripts\run_paired_configs_10scene_5perrun.ps1" })) {
@@ -418,7 +431,7 @@ if (Test-Path -LiteralPath $seedReferencePath) {
   }
 }
 
-$nativeSeedStartIndex = [long]($ReferenceSeedIdStart - 1L)
+$nativeSeedStartIndex = 0L
 $nativeAnchorIndex = [long]($nativeSeedStartIndex + $perRunEnd)
 $nativeAnchorSeedId = [long]($ReferenceSeedIdStart + $perRunEnd)
 $probeLogsDir = Join-Path $outPath "seed-probes\logs"
@@ -446,6 +459,8 @@ foreach ($scene in $scenes) {
     "-Dtuning.config.path=tuning.properties",
     "-Dautohyb.deterministic=true",
     "-Dautohyb.experimentId=$ExperimentId-seed-probe",
+    "-Devaluation.seedTable.source=$SeedSource",
+    "-Devaluation.perRunStart=$perRunEnd",
     "-Devaluation.runSeedLog=true",
     "-cp", $classPath,
     $referenceConfig.Entrypoint,
@@ -466,7 +481,7 @@ foreach ($scene in $scenes) {
     arguments = $argsList
     referenceSeedId = $nativeAnchorSeedId
     expectedRunIndex = $nativeAnchorIndex
-    seedMode = "source-default-native-anchor"
+    seedMode = "scene-fixed-table"
     priority = "Normal"
     logicalProcessors = $logicalProcessors
     started = Get-Date -Format o
@@ -480,7 +495,7 @@ foreach ($scene in $scenes) {
   $exitCode = $processResult.ExitCode
   $actualPriority = $processResult.Priority
   $logText = if (Test-Path -LiteralPath $logPath) { Get-Content -LiteralPath $logPath -Raw } else { "" }
-  $seedMatch = Get-LastRegexMatch $logText '^\[RunSeed\] index=(\d+) seed=(-?\d+)\r?$'
+  $seedMatch = Get-LastRegexMatch $logText '^\[RunSeed\] scene=([^\s]+) perRun=(\d+) seedId=(\d+) seed=(-?\d+)\r?$'
   $ratioMatch = Get-LastRegexMatch $logText '^Optimized profit ratio:\s*([0-9.]+)%\r?$'
   $elapsedMatch = Get-LastRegexMatch $logText '^Elapsed:\s*([0-9.]+)\s*s\r?$'
   if ($exitCode -ne 0) {
@@ -489,14 +504,16 @@ foreach ($scene in $scenes) {
   if ($null -eq $seedMatch -or $null -eq $ratioMatch -or $null -eq $elapsedMatch) {
     throw "Seed probe output parse failed: $probeKey, log=$logPath"
   }
-  $actualIndex = [long]$seedMatch.Groups[1].Value
-  $actualSeed = [long]$seedMatch.Groups[2].Value
-  if ($actualIndex -ne $nativeAnchorIndex) {
-    throw "Native seed preflight mismatch: $probeKey, expected index=$nativeAnchorIndex for perRun+$perRunEnd, actual=$actualIndex. Check EvaluationHyb runIndex and RunSingleHybridConfig DEFAULT_RANDOM_SEED_ID before running the batch."
+  $actualScene = $seedMatch.Groups[1].Value
+  $actualPerRun = [int]$seedMatch.Groups[2].Value
+  $actualSeedId = [long]$seedMatch.Groups[3].Value
+  $actualSeed = [long]$seedMatch.Groups[4].Value
+  if ($actualScene -ne $scene.Name -or $actualPerRun -ne $perRunEnd -or $actualSeedId -ne $nativeAnchorSeedId) {
+    throw "Scene seed preflight mismatch: $probeKey, expected scene=$($scene.Name), perRun=$perRunEnd, seedId=$nativeAnchorSeedId; actual scene=$actualScene, perRun=$actualPerRun, seedId=$actualSeedId."
   }
-  $sceneRunSeedBaseDecimal = [decimal]$actualSeed - [decimal]$actualIndex
+  $sceneRunSeedBaseDecimal = [decimal]$actualSeed - [decimal]$perRunEnd
   if ($sceneRunSeedBaseDecimal -lt [long]::MinValue -or $sceneRunSeedBaseDecimal -gt [long]::MaxValue) {
-    throw "Native scene run seed base exceeds Int64: scene=$($scene.Id), actualSeed=$actualSeed, index=$actualIndex"
+    throw "Scene seed base exceeds Int64: scene=$($scene.Id), actualSeed=$actualSeed, perRun=$perRunEnd"
   }
   $sceneRunSeedBase = [long]$sceneRunSeedBaseDecimal
   $seedReferenceRow = [pscustomobject]@{
@@ -505,9 +522,9 @@ foreach ($scene in $scenes) {
     referenceConfigKey = $referenceConfig.Key
     referenceConfig = $referenceConfig.Config
     referenceSeedId = $nativeAnchorSeedId
-    referenceRunIndex = $nativeAnchorIndex
+    referencePerRun = $perRunEnd
     anchorPerRun = $perRunEnd
-    seedMode = "source-default-native-anchor"
+    seedMode = "scene-fixed-table"
     actualSeed = $actualSeed
     runSeedBase = $sceneRunSeedBase
     profitRatio = [double]$ratioMatch.Groups[1].Value
@@ -542,8 +559,8 @@ $nativeRunIndexOffset = [long]($nativeAnchorIndex - $nativeSeedStartIndex)
 $expectedRuns = foreach ($scene in $scenes) {
   $sceneRunSeedBase = [long]$sceneRunSeedBases[$scene.Id]
   for ($perRun = $PerRunStart; $perRun -le $perRunEnd; $perRun++) {
-    $effectiveRunIndex = [long]($nativeSeedStartIndex + $perRun)
-    $runIndexBase = [long]($effectiveRunIndex - $nativeRunIndexOffset)
+    $effectiveRunIndex = [long]$perRun
+    $runIndexBase = $effectiveRunIndex
     $effectiveSeedDecimal = [decimal]$sceneRunSeedBase + [decimal]$effectiveRunIndex
     if ($effectiveSeedDecimal -lt [long]::MinValue -or $effectiveSeedDecimal -gt [long]::MaxValue) {
       throw "Effective seed exceeds Int64: scene=$($scene.Id), seedBase=$sceneRunSeedBase, effectiveIndex=$effectiveRunIndex"
@@ -566,7 +583,7 @@ $expectedRuns = foreach ($scene in $scenes) {
         kind = $config.Kind
         entrypoint = $config.Entrypoint
         config = $config.Config
-        seedMode = if ($config.Key -eq $referenceConfig.Key) { "source-native" } else { "paired-native-reference" }
+        seedMode = if ($config.Kind -eq "hybrid") { "scene-fixed-table" } else { "paired-native-reference" }
       }
     }
   }
@@ -584,6 +601,7 @@ $contract = [ordered]@{
   sceneRoot = $sceneRoot
   sceneManifestSha256 = $sceneManifestHash
   runSeedMode = "source-native-perrun-0-4"
+  seedSource = $SeedSource
   referenceConfigKey = $referenceConfig.Key
   referenceConfig = $referenceConfig.Config
   referenceSeedIdStart = $ReferenceSeedIdStart
@@ -699,14 +717,12 @@ foreach ($run in $runsToExecute) {
   $argsList = @(
     "-Dtuning.config.path=tuning.properties",
     "-Dautohyb.deterministic=true",
-    "-Dautohyb.experimentId=$ExperimentId"
+    "-Dautohyb.experimentId=$ExperimentId",
+    "-Devaluation.seedTable.source=$SeedSource"
   )
   if ($run.kind -eq "hybrid") {
-    if ($run.configKey -ne $referenceConfig.Key) {
-      $argsList += "-Devaluation.runSeedBase=$($run.runSeedBase)"
-    }
+    $argsList += "-Devaluation.perRunStart=$($run.perRun)"
     $argsList += "-Devaluation.runSeedLog=true"
-    $argsList += "-Devaluation.runIndexBase=$($run.runIndexBase)"
   } else {
     $argsList += "-Devaluation.runSeedLog=true"
   }
@@ -757,7 +773,7 @@ foreach ($run in $runsToExecute) {
 
   $logText = if (Test-Path -LiteralPath $logPath) { Get-Content -LiteralPath $logPath -Raw } else { "" }
   $seedPattern = if ($run.kind -eq "hybrid") {
-    '^\[RunSeed\] index=(\d+) seed=(-?\d+)\r?$'
+    '^\[RunSeed\] scene=([^\s]+) perRun=(\d+) seedId=(\d+) seed=(-?\d+)\r?$'
   } else {
     '^\[Run\] index=(\d+) seed=(-?\d+) profit=([-+0-9.eE]+) elapsed=([0-9.]+) s\r?$'
   }
@@ -772,13 +788,23 @@ foreach ($run in $runsToExecute) {
   } elseif ($null -eq $seedMatch -or $null -eq $ratioMatch -or $null -eq $elapsedMatch) {
     $parseStatus = "parse"
   } else {
-    $actualIndex = [int]$seedMatch.Groups[1].Value
-    $actualSeed = [long]$seedMatch.Groups[2].Value
-    if ($run.kind -eq "parent") {
-      $optimizedProfit = [double]$seedMatch.Groups[3].Value
-    }
-    if ($actualIndex -ne [int]$run.effectiveRunIndex -or $actualSeed -ne [long]$run.effectiveSeed) {
-      $parseStatus = "seed-mismatch"
+    if ($run.kind -eq "hybrid") {
+      $actualScene = $seedMatch.Groups[1].Value
+      $actualIndex = [int]$seedMatch.Groups[2].Value
+      $actualSeedId = [long]$seedMatch.Groups[3].Value
+      $actualSeed = [long]$seedMatch.Groups[4].Value
+      if ($actualScene -ne $run.sceneName -or $actualIndex -ne [int]$run.perRun -or $actualSeedId -ne [long]$run.referenceSeedId -or $actualSeed -ne [long]$run.effectiveSeed) {
+        $parseStatus = "seed-mismatch"
+      }
+    } else {
+      $actualIndex = [int]$seedMatch.Groups[1].Value
+      $actualSeed = [long]$seedMatch.Groups[2].Value
+      if ($run.kind -eq "parent") {
+        $optimizedProfit = [double]$seedMatch.Groups[3].Value
+      }
+      if ($actualIndex -ne [int]$run.effectiveRunIndex -or $actualSeed -ne [long]$run.effectiveSeed) {
+        $parseStatus = "seed-mismatch"
+      }
     }
   }
 

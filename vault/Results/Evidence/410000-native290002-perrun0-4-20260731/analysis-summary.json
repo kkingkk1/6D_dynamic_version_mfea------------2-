@@ -1,0 +1,28 @@
+{
+  "experiment_id": "410000-native290002-perrun0-4-20260731",
+  "target_config": "4,1,0,0,0,0",
+  "baseline_config": "2,9,0,0,0,2",
+  "seed_contract": "native 290002 scene-seeds-native290002.properties, seed IDs 10..14",
+  "stats": {
+    "n_scenes": 10,
+    "mean_delta_pp": -0.48000000000000015,
+    "median_delta_pp": -0.08999999999999914,
+    "bootstrap_ci95_low_pp": -1.0974000000000006,
+    "bootstrap_ci95_high_pp": -0.07019999999999924,
+    "wins_410000": 0,
+    "ties": 4,
+    "losses_410000": 6,
+    "wilcoxon_statistic": 0.0,
+    "wilcoxon_p": 0.03125,
+    "rank_biserial": -1.0
+  },
+  "integrity": {
+    "native_rows": 50,
+    "target_rows": 50,
+    "target_failures": 0,
+    "seed_mismatches": 0,
+    "pairing_mismatches": 0
+  },
+  "macro_mean_290002": 77.05420000000001,
+  "macro_mean_410000": 76.5742
+}

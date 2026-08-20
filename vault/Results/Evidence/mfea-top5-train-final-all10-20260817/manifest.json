@@ -1,0 +1,128 @@
+{
+  "experiment_id": "mfea-top5-train-final-all10-20260817",
+  "created_at_utc": "2026-08-17T13:58:42.9919455Z",
+  "repository": {
+    "root": "E:\\OneDrive\\project\\static_deterministic_large_scale scenarios\\6D_dynamic_version_mfea - 副本 - 副本 (2)",
+    "git_head": "5856ffbacf0dfe2ebcd4d3b2718e67441788e9d6",
+    "git_worktree_clean_at_archive": false,
+    "git_status_at_archive": [
+      " M AGENTS.md",
+      " M README.md",
+      " M scripts/run_best_config_10scene_5seed.ps1",
+      " M scripts/run_paired_configs_10scene_5perrun.ps1",
+      " M scripts/start_best_config_10scene_5seed.ps1",
+      " M scripts/start_paired_configs_10scene_5perrun.ps1",
+      " M src/main/java/main/AGENTS.md",
+      " M src/main/java/main/EvaluationHyb.java",
+      " M src/main/java/main/MainMFEAMOPHOA.java",
+      " M src/main/java/main/MainMFEAMultiScene.java",
+      " M src/main/java/main/RunSingleHybridConfig.java",
+      " M src/test/java/main/EvaluationHybTest.java",
+      " M src/test/java/main/RunSingleHybridConfigTest.java",
+      " M src/test/java/main/RunSingleParentConfigTest.java",
+      " M vault/01-Plan.md",
+      " M vault/Writing/paper_draft.md",
+      " D vault/Writing/paper_draft.pdf",
+      "?? scene-seeds-native270342.properties",
+      "?? scene-seeds-native290002.properties",
+      "?? scene-seeds-native410000.properties",
+      "?? scripts/run_hybrid_candidates_5seed.ps1",
+      "?? scripts/run_native270342_config_6scene_5seed.ps1",
+      "?? scripts/select_mfea_generation_top3.ps1",
+      "?? src/main/java/main/SceneSeedTable.java",
+      "?? src/test/java/main/MainMFEAMultiSceneTest.java",
+      "?? src/test/java/main/SceneSeedTableTest.java",
+      "?? vault/Results/Evidence/410000-native290002-perrun0-4-20260731/",
+      "?? vault/Results/Evidence/mfea-top5-train-final-all10-20260817/",
+      "?? vault/Results/Reports/mfea-top5-train-final-all10-20260817.md",
+      "?? vault/Writing/A Random-Key Hybrid Metaheuristic Algorithm with Dynamic Task Reassignment for Large-Scale Multi-Satellite.md",
+      "?? vault/Writing/A Random-Key Hybrid Metaheuristic Algorithm with Dynamic Task Reassignment for Large-Scale Multi-Satellite.pdf"
+    ]
+  },
+  "selection_pipeline": {
+    "outer_mfea_batch": {
+      "path": "outputs\\mfea-native290002-training-20260806-5seeds-2026080501-2026080505-earlystop20-5-javaw",
+      "outer_seed_ids": [
+        2026080501,
+        2026080502,
+        2026080503,
+        2026080504,
+        2026080505
+      ],
+      "top5_candidates": "outputs\\mfea-native290002-training-20260806-5seeds-2026080501-2026080505-earlystop20-5-javaw\\candidate-selection-top5\\top5-candidates.csv"
+    },
+    "training_screen": {
+      "path": "outputs\\mfea-native290002-training-20260817-top5-train-5seed",
+      "candidate_count": 5,
+      "scene_count": 4,
+      "runs": 100,
+      "seed_source": "native290002",
+      "per_run": "0..4",
+      "seed_ids": "10..14",
+      "selection_rule": "highest macro mean of per-scene mean optimized profit ratios; ties use lower across-scene sample standard deviation",
+      "winner": "[2,0,0,0,4,2]",
+      "winner_train_macro_mean_profit_ratio": 73.318,
+      "runner_up_gap_pp": 0.0375
+    }
+  },
+  "final_replay": {
+    "path": "outputs\\mfea-native290002-final-all10-20260817-winner-2-0-0-0-4-2-5seed",
+    "entry_point": "main.RunSingleHybridConfig",
+    "selected_config": "[2,0,0,0,4,2]",
+    "scene_set": "ID1-ID10",
+    "scene_count": 10,
+    "runs": 50,
+    "seed_source": "native290002",
+    "seed_table": "scene-seeds-native290002.properties",
+    "per_run": "0..4",
+    "seed_ids": "10..14",
+    "seed_contract": "scene-fixed table perRun=0..4 seedId=10..14",
+    "deterministic": true,
+    "java_priority": "Normal",
+    "started": "2026-08-17T21:13:46.6830376+08:00",
+    "finished": "2026-08-17T21:37:53.7283073+08:00",
+    "command": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -NoProfile -ExecutionPolicy Bypass -File scripts\\run_hybrid_candidates_5seed.ps1 -CandidateCsv outputs\\mfea-native290002-training-20260817-top5-train-5seed\\winner.csv -OutputDir outputs\\mfea-native290002-final-all10-20260817-winner-2-0-0-0-4-2-5seed -SceneSet all10 -SeedSource native290002 -SeedCount 5"
+  },
+  "integrity": {
+    "run_complete": "status=completed",
+    "completed_rows": 50,
+    "failed_rows": 0,
+    "seed_mismatches": 0,
+    "missing_log_pairs": 0,
+    "nonempty_error_logs": 0,
+    "canonical_data_rows": 50,
+    "canonical_data_missing_source_rows": 0,
+    "canonical_data_unexpected_rows": 0
+  },
+  "summary": {
+    "metric": "profitRatio, higher is better",
+    "primary_unit": "scene-level five-run mean",
+    "macro_mean_profit_ratio": 77.0034,
+    "macro_std_across_scene_means": 25.1587,
+    "inferential_status": "Not applicable: one selected configuration only, without a contemporaneous baseline or predeclared contrast."
+  },
+  "inputs_sha256": {
+    "outer_top5_candidates_csv": "EDC37E3DE1F763FCC8CEA7B2D8CE533054EBD84F580BCD9DFA614DC6237BCAF0",
+    "training_candidate_summary_csv": "1E65C228C57903CE561C108448E68016C3ACBC89A7990AF82DB3CAE8E54E6BA9",
+    "training_winner_csv": "AFE99E4F9668D5A0160D400A72C5B8C20693CA5A0F6F4C885311CC7176E18ACD",
+    "seed_table": "3CBBDD92CDEB2646CA7FA52A6D51E0BA472FCD74576E4F1416B23D7CF559D1D6",
+    "runner_script": "3824E83D31B9A4EB95EF203BFDCEF2969FBD8CE33CD749FEC141CE62C6D1024C"
+  },
+  "artifacts_sha256": {
+    "final_run_details_csv": "1E549D0E5331065E36A786B3AE1878E535B27EDADD4CD5D9ED77B85AE82863EC",
+    "final_candidate_summary_csv": "739F22AB33D80EE2389706673A939E1BD21AF9AF4EB090190AD9A72B355F670D",
+    "final_winner_csv": "739F22AB33D80EE2389706673A939E1BD21AF9AF4EB090190AD9A72B355F670D",
+    "final_scene_summary_csv": "9D8563469AA79FBA998950170FBF48370D03A6110AC993C2D4D45506C4E4EC29",
+    "final_metadata_txt": "1F749AEEAED2B4B9DA2D9AEFA5D8C181B3562D6127B9EFD9218DD0ABEC71A062",
+    "final_planned_runs_csv": "9902FA3FB91A2544BC76A17FB028BD66F79472726C2DF8C1C49A5CB931C266CB",
+    "final_runner_command_txt": "E62AEDEDE7F5EA92CFB3DD3B8F843A521C284A2221ED7B8C0320ED79F896B5F0",
+    "final_run_complete_txt": "D3AC66BC96C2CDA43D458002108ECC780947A92DF4C704A0A83EBE333308FC18",
+    "analysis_summary_json": "A3AAE116A84EAE56EC5DEC99F0324CB8B6ED08CAA01F604FE51C6A0D400E83C9",
+    "analysis_report_md": "F4F68ADBB1D6D1D0BE36F34C503DFE81918D2FEB7EB341ADC826C2B135717396",
+    "stats_appendix_md": "039A31FB15AF44B24E498D152AE58D0F16C80117351B7A8CEA4546352BD94E2E",
+    "evidence_data_csv": "343BCCB8E136122BD523209039CD9EEEC149E3031E4CC5F1AB765CE1B387AAC7",
+    "evidence_md": "C373E9BBF98A4516DA6C6501497114CE1A9639863559E4D999F2F70EEFAB12D1",
+    "report_md": "C78343FC2FA227C8F70651985E1FD79E8A05351427E8F234EBC99EF849DFF102",
+    "plan_md": "7C422E39DA7905FC7D3088D683371297B93DEB28ADE05892A8221E2D7B6E10D7"
+  }
+}

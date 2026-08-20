@@ -43,16 +43,21 @@ public class RunSingleHybridConfig {
     private static final int DEFAULT_NUM_TASKS = 500;
     private static final int DEFAULT_NUM_SATELLITES = 5;
     private static final int DEFAULT_N_RUN = 1;
-    /** 1-based seed id: 1, 2, 3... match the corresponding run in a multi-run experiment. */
-    private static final long DEFAULT_RANDOM_SEED_ID = 10L;
     private static final Path DEFAULT_BASELINE_FILE =
         Paths.get("outputs", "run-single-baseline.properties");
     private static final int SMALL_TASK_THRESHOLD = 500;
     private static final boolean DEFAULT_ENABLE_DELTA_FAST_REFINE = true;
     private static final boolean DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET = true;
+    /** Manual direct-run seed-table row for VSCode runs; valid values are 0..19. */
+    private static final int MANUAL_PER_RUN_START = 10;
+    /** Manual direct-run seed-table source for VSCode runs. */
+    //private static final String MANUAL_SEED_TABLE_SOURCE = "native290002";
+    private static final String MANUAL_SEED_TABLE_SOURCE = "native290002";
+    /** Print fixed seed metadata for direct VSCode runs unless explicitly disabled. */
+    private static final boolean MANUAL_RUN_SEED_LOG = true;
     private static final double DEBUG_POPULATION_FACTOR = 2.5;
     /** Current 6D baseline vector; the latest ID1 benchmark anchor has best ratio 99.600145%. */
-    private static final int[] DEFAULT_CONFIG = {4, 1, 0, 0, 0, 0};
+    private static final int[] DEFAULT_CONFIG = {2, 0, 0, 0, 4, 2};
     private static final int SMALL_TASK_ASSIGNMENT_STRATEGY = 7;
     private static final int LARGE_TASK_ASSIGNMENT_STRATEGY = 8;
     private static final String DEFAULT_DATA_DIR =
@@ -337,7 +342,11 @@ public class RunSingleHybridConfig {
         System.out.println("  --quiet  Suppress warmup status logs; compact final metrics remain printed");
         System.out.println("  --log-interval=N  Print generation logs every N generations (default: 1)");
         System.out.println("  --warmup-runs=N  Run N short warmup evaluations before measured timing (default: 0)");
-        System.out.println("VSCode direct run: edit DEFAULT_ENABLE_DELTA_FAST_REFINE / DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET in source, then run without args.");
+        System.out.println("  -Devaluation.perRunStart=N  Select fixed scene seed table index N (default: 0; valid: 0..19)");
+        System.out.println("  -Devaluation.seedTable.source=native290002|native270342|native200042|native410000  Select built-in scene seed table (default: native290002)");
+        System.out.println("  -Devaluation.seedTable.path=<path>  Override the selected scene seed table path");
+        System.out.println("  -Devaluation.runSeedLog=true|false  Print fixed seed source/table and run metadata (default: true for direct runs)");
+        System.out.println("VSCode direct run: edit DEFAULT_ENABLE_DELTA_FAST_REFINE / DEFAULT_ENABLE_LOCAL_REFINE_HOT_START_BUDGET / MANUAL_PER_RUN_START / MANUAL_SEED_TABLE_SOURCE / MANUAL_RUN_SEED_LOG in source, then run without args.");
         System.out.println("Example: java -cp target/classes main.RunSingleHybridConfig --config params.properties true true \"" + DEFAULT_DATA_DIR + "\" 200 3 \"0,1,0,1,0,0\" 1 8 40");
         System.out.println("Example record baseline: java -cp target/classes main.RunSingleHybridConfig --record-baseline");
         System.out.println("Example record elite archive: java -cp target/classes main.RunSingleHybridConfig --record-elite-archive");
@@ -769,7 +778,9 @@ public class RunSingleHybridConfig {
         try {
             RunArguments arguments = parseArgs(args);
             enableDeterministicReplayIfUnset();
-            applyDefaultRandomSeedIdIfUnset();
+            applyManualPerRunStartIfUnset();
+            applyManualSeedTableSourceIfUnset();
+            applyManualRunSeedLogIfUnset();
             System.setProperty(
                 DELTA_FAST_REFINE_ENABLED_PROPERTY,
                 Boolean.toString(arguments.enableDeltaFastRefine)
@@ -829,6 +840,7 @@ public class RunSingleHybridConfig {
                 arguments.nRun,
                 allSatellites,
                 allTasks,
+                arguments.dataDir,
                 evaluationExecutor
             );
             EliteConfigArchive.ArchiveContext archiveContext = new EliteConfigArchive.ArchiveContext(
@@ -890,10 +902,31 @@ public class RunSingleHybridConfig {
         }
     }
 
-    private static void applyDefaultRandomSeedIdIfUnset() {
-        if (System.getProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY) == null) {
-            long runIndexBase = Math.max(1L, DEFAULT_RANDOM_SEED_ID) - 1L;
-            System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, Long.toString(runIndexBase));
+    static void applyManualPerRunStartIfUnset() {
+        if (System.getProperty(EvaluationHyb.PER_RUN_START_PROPERTY) == null) {
+            System.setProperty(
+                EvaluationHyb.PER_RUN_START_PROPERTY,
+                Integer.toString(MANUAL_PER_RUN_START)
+            );
         }
     }
+
+    static void applyManualSeedTableSourceIfUnset() {
+        if (System.getProperty(SceneSeedTable.TABLE_SOURCE_PROPERTY) == null) {
+            System.setProperty(
+                SceneSeedTable.TABLE_SOURCE_PROPERTY,
+                MANUAL_SEED_TABLE_SOURCE
+            );
+        }
+    }
+
+    static void applyManualRunSeedLogIfUnset() {
+        if (System.getProperty(EvaluationHyb.RUN_SEED_LOG_PROPERTY) == null) {
+            System.setProperty(
+                EvaluationHyb.RUN_SEED_LOG_PROPERTY,
+                Boolean.toString(MANUAL_RUN_SEED_LOG)
+            );
+        }
+    }
+
 }

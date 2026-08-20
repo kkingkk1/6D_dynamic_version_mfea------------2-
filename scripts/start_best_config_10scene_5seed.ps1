@@ -1,8 +1,10 @@
 param(
   [string]$SearchOutDir = "outputs\mfea-multiscene-full-20260616",
   [string]$OutputDir = "outputs\best-config-10scene-5seed-20260617",
-  [int]$SeedStart = 1,
-  [int]$Seeds = 5
+  [int]$SeedStart = 10,
+  [int]$Seeds = 5,
+  [ValidateSet("native290002", "native410000")]
+  [string]$SeedSource = "native290002"
 )
 
 $ErrorActionPreference = "Stop"
@@ -45,7 +47,9 @@ $argList = @(
   "-SeedStart",
   "$SeedStart",
   "-Seeds",
-  "$Seeds"
+  "$Seeds",
+  "-SeedSource",
+  "$SeedSource"
 )
 
 ("powershell.exe " + ($argList -join " ")) |

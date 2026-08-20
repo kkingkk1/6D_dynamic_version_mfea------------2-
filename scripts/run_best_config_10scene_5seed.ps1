@@ -1,8 +1,10 @@
 param(
   [string]$SearchOutDir = "outputs\mfea-multiscene-full-20260616",
   [string]$OutputDir = "outputs\best-config-10scene-5seed-20260617",
-  [int]$SeedStart = 1,
-  [int]$Seeds = 5
+  [int]$SeedStart = 10,
+  [int]$Seeds = 5,
+  [ValidateSet("native290002", "native410000")]
+  [string]$SeedSource = "native290002"
 )
 
 $ErrorActionPreference = "Stop"
@@ -57,6 +59,10 @@ if (-not (Test-Path -LiteralPath $searchLog)) {
 }
 
 $bestConfig = Parse-BestConfig $searchLog
+$seedEnd = $SeedStart + $Seeds - 1
+if ($SeedStart -lt 10 -or $seedEnd -gt 14) {
+  throw "Native seed IDs must be in 10..14; got $SeedStart..$seedEnd"
+}
 $outPath = Join-Path $repoRoot $OutputDir
 $logsDir = Join-Path $outPath "logs"
 New-Item -ItemType Directory -Force -Path $logsDir | Out-Null
@@ -65,7 +71,7 @@ $commandFile = Join-Path $repoRoot (Join-Path $SearchOutDir "mfea_multiscene_ful
 if (-not (Test-Path -LiteralPath $commandFile)) {
   throw "Command file not found: $commandFile"
 }
-$commandText = Get-Content -LiteralPath $commandFile -Raw
+$commandText = Get-Content -LiteralPath $commandFile -Raw -Encoding UTF8
 if ($commandText -notmatch '^(.*?)\s+-Dtuning\.config\.path=.*?\s+-Dautohyb\.deterministic=true\s+.*?-cp\s+(.+?)\s+main\.MainMFEAMultiScene\s*$') {
   throw "Failed to parse Java executable/classpath from $commandFile"
 }
@@ -101,8 +107,10 @@ $metaPath = Join-Path $outPath "metadata.txt"
 @(
   "bestConfig=$bestConfig",
   "seedStart=$SeedStart",
-  "seedEnd=$($SeedStart + $Seeds - 1)",
+  "seedEnd=$seedEnd",
   "seeds=$Seeds",
+  "seedSource=$SeedSource",
+  "seedContract=seedId 10..14 maps to perRun 0..4 via the selected native scene seed table",
   "javaExe=$javaExe",
   "classPath=$classPath",
   "searchLog=$searchLog",
@@ -120,12 +128,15 @@ foreach ($scene in $scenes) {
 
   for ($seedOffset = 0; $seedOffset -lt $Seeds; $seedOffset++) {
     $seedId = $SeedStart + $seedOffset
+    $perRun = $seedId - 10
     $logPath = Join-Path $logsDir ("{0}_seed{1}.log" -f $scene.Id, $seedId)
     $errPath = Join-Path $logsDir ("{0}_seed{1}.err.log" -f $scene.Id, $seedId)
     $argsList = @(
       "-Dtuning.config.path=tuning.properties",
       "-Dautohyb.deterministic=true",
-      "-Devaluation.runIndexBase=$($seedId - 1)",
+      "-Devaluation.seedTable.source=$SeedSource",
+      "-Devaluation.perRunStart=$perRun",
+      "-Devaluation.runSeedLog=true",
       "-cp", $classPath,
       "main.RunSingleHybridConfig",
       "--quiet",

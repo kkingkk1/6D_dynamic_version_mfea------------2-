@@ -163,41 +163,13 @@ class RunSingleParentConfigTest {
   }
 
   @Test
-  void explicitRunSeedBasePairsParentWithHybridAcrossFiveRuns() {
-    String previousSeedBase = System.getProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY);
-    String previousRunIndexBase = System.getProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
-    System.setProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, "42");
-    System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, "0");
-    try {
-      for (int runIndex = 0; runIndex < 5; runIndex++) {
-        long hybridSeed = EvaluationHyb.resolveRunSeed(
-          new int[] {2, 9, 0, 0, 0, 2},
-          AlgorithmConstants.HYBRID_CONFIG_DIMENSION,
-          270,
-          27000,
-          runIndex
-        );
-        long parentSeed = RunSingleParentConfig.resolveRunSeed(
-          new int[] {4},
-          270,
-          27000,
-          runIndex
-        );
-
-        assertEquals(42L + runIndex, hybridSeed);
-        assertEquals(hybridSeed, parentSeed);
-      }
-    } finally {
-      if (previousSeedBase == null) {
-        System.clearProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY);
-      } else {
-        System.setProperty(EvaluationHyb.RUN_SEED_BASE_PROPERTY, previousSeedBase);
-      }
-      if (previousRunIndexBase == null) {
-        System.clearProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY);
-      } else {
-        System.setProperty(EvaluationHyb.RUN_INDEX_BASE_PROPERTY, previousRunIndexBase);
-      }
+  void parentExplicitRunSeedCanReuseSceneSeedTableRowAcrossFiveRuns() {
+    long firstSceneSeed = SceneSeedTable.resolve("500-5-0-0-24", 0);
+    for (int perRun = 0; perRun < SceneSeedTable.SEED_COUNT; perRun++) {
+      assertEquals(
+        SceneSeedTable.resolve("500-5-0-0-24", perRun),
+        RunSingleParentConfig.resolveExplicitRunSeed(firstSceneSeed, perRun)
+      );
     }
   }
 

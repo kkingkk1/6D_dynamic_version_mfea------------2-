@@ -2,6 +2,8 @@ param(
   [string]$SearchOutDir = "outputs\mfea-multiscene-full-20260616",
   [string]$OutputDir = "outputs\paired-hybrid-10scene-5perrun-seedid10-14-20260724",
   [long]$ReferenceSeedIdStart = 10,
+  [ValidateSet("native290002", "native410000")]
+  [string]$SeedSource = "native290002",
   [int]$PerRunStart = 0,
   [int]$PerRuns = 5,
   [string]$ExperimentId = "paired-hybrid-10scene-5perrun-seedid10-14-20260724",
@@ -65,6 +67,8 @@ $argList = @(
   "`"$OutputDir`"",
   "-ReferenceSeedIdStart",
   "$ReferenceSeedIdStart",
+  "-SeedSource",
+  "$SeedSource",
   "-PerRunStart",
   "$PerRunStart",
   "-PerRuns",

@@ -3,7 +3,7 @@ type: project
 title: 计划 - 卫星调度混合元启发式项目
 project: 6d-dynamic-version-mfea
 status: active
-updated: 2026-07-25
+updated: 2026-08-17
 ---
 
 # 计划
@@ -29,7 +29,7 @@ updated: 2026-07-25
 - [ ] 自动设计最优配置产出后，只对最终候选补做一次重分配 / delta fast refine 复核。
 - [x] 测试自动设计配置在 500/5 到 10000/100 的 10 个任务-卫星体系下的可扩展性和跨场景稳定性。
 - [x] 在 ID1-ID10、原生 `perRun=0..4` 下完成当前 1D Parent 与 Hybrid 的四配置 full-budget 配对运行、seed 验收和 Evidence 分析；每个 `(scene, perRun)` 使用同一实际 seed。旧非原生 seed 批次和 OA1-only parent 对照均不作为当前证据。
-- [ ] 后续 MFEA 搜索方案写入 `vault/Plan/`，完整 MFEA 实验结果写入 `vault/Results/Reports/`，本文件只同步会改变项目主线的压缩结论。
+- [x] 完成五个外层 MFEA seed 的 Top-5 候选训练筛选，并将胜者 `[2,0,0,0,4,2]` 在 ID1-ID10、原生 `perRun=0..4` 下做全场景五 seed 复现；比较性结论仍待同批基线或候选对照。
 
 ## Plan 状态总表
 
@@ -42,6 +42,7 @@ updated: 2026-07-25
 | [当前 1D Parent 与 Hybrid 全场景配对运行](Plan/2026-07-24-current-1d-parent-all-scenes-perrun0-4.md) | superseded | ID1-ID10；非原生 seed | 旧输出和报告已删除，不再作为 canonical 证据 |
 | [原生 perRun 结果更新论文](Plan/2026-07-24-update-paper-with-current-410000-ablation.md) | done | ID1-ID10；原生 perRun0-4 | 200/200、零失败；Evidence、结果简报和论文 Fig. 6/9、Tab. IV–VI 已同步 |
 | [Information Sciences 模板 PDF 构建](Plan/2026-07-25-information-sciences-pdf-build.md) | done | 官方 CAS 构建与视觉检查 | `cas-sc.cls` 2.4 成功编译为 25 页 A4 PDF；最终文件仅位于 `vault/Writing/paper_draft.pdf`，中间产物保留在 `outputs/` |
+| MFEA 五 seed Top-5 筛选与全场景复现 | done | 5 outer seed；训练 100 次；ID1-ID10 50 次 | `[2,0,0,0,4,2]` 完成 50/50 原生 seed 复现；仅确认候选可复现，未作基线优越性结论 |
 
 ### Plan 详情
 
@@ -111,3 +112,4 @@ updated: 2026-07-25
 - 该配置在 seed ID 10-14 的 10 场景 full-budget replay 中，相比最新 8D Hybrid 平均收益全场景提升 `+0.58` 个百分点，6 个非饱和场景提升 `+0.97` 个百分点；最佳单种子为 seed ID 13，总和 `770.95`，均值 `77.09`。
 - 2026-07-24 的 seed42-46 四配置配对实验再次验证 `[2,9,0,0,0,2]`：相对 `{4,1,0,0,0,0}` 为 6 胜、4 平、0 负，场景宏平均提高 `0.4458` 个百分点。完整数据见 [[Results/Reports/2026-07-24-paired-config-all-scenes-perrun0-4|四配置全场景五轮配对实验报告]]。
 - 2026-07-25 原生 `perRun=0..4` 四配置实验重建了当前 1D Parent 消融证据：`410000` 比 Parent 4 高 `1.0526` pp、比 Parent 1 高 `2.1078` pp，均为 6 胜、4 平、0 负；`410000` 比 `290002` 低 `0.4272` pp，为 0 胜、4 平、6 负。三个 exact Wilcoxon raw `p=0.03125`，Holm 校正后均为 `p=0.09375`，只支持方向一致和实际效应，不支持校正后显著性措辞。结果已同步到论文 Fig. 6/9、Tab. IV–VI、摘要和结论；详见 [[Results/Reports/paired-native-perrun0-4-10scene-20260724-r01|Native Paired Ablation 总结]]。
+- 2026-08-17 五个 outer seed 的 Top-5 训练筛选后，`[2,0,0,0,4,2]` 在 ID1-ID10、原生 seed ID `10..14` 下完成 50/50 复现，十场景宏平均 `77.0034%`。训练第一、二名仅差 `0.0375 pp`，且最终无同批基线，因此该结果只确认候选可复现，不升级为默认或基线优越性结论；详见 [[Results/Reports/mfea-top5-train-final-all10-20260817|MFEA Top-5 训练筛选与全场景复现]]。

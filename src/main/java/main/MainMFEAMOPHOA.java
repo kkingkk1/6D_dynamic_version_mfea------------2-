@@ -325,13 +325,15 @@ public class MainMFEAMOPHOA {
 
   private static final class EvaluationCache {
     private final boolean enabled;
+    private final String sceneDir;
     private final ConcurrentHashMap<CacheKey, EvaluationHyb.EvaluationResult> entries =
       new ConcurrentHashMap<>();
     private final AtomicInteger hits = new AtomicInteger();
     private final AtomicInteger misses = new AtomicInteger();
 
-    private EvaluationCache(boolean enabled) {
+    private EvaluationCache(boolean enabled, String sceneDir) {
       this.enabled = enabled;
+      this.sceneDir = sceneDir;
     }
 
     private EvaluationHyb.EvaluationResult evaluate(
@@ -345,7 +347,7 @@ public class MainMFEAMOPHOA {
       ExecutorService hybExecutor) throws Exception {
       if (!enabled) {
         return EvaluationHyb.evaluationHyb(
-          config, d, nPop, maxFes, nRun, allSatellites, allTasks, hybExecutor);
+          config, d, nPop, maxFes, nRun, allSatellites, allTasks, sceneDir, hybExecutor);
       }
       CacheKey key = new CacheKey(
         config,
@@ -361,7 +363,7 @@ public class MainMFEAMOPHOA {
       }
       misses.incrementAndGet();
       EvaluationHyb.EvaluationResult result = EvaluationHyb.evaluationHyb(
-        config, d, nPop, maxFes, nRun, allSatellites, allTasks, hybExecutor);
+        config, d, nPop, maxFes, nRun, allSatellites, allTasks, sceneDir, hybExecutor);
       EvaluationHyb.EvaluationResult previous = entries.putIfAbsent(key, result);
       return previous != null ? previous : result;
     }
@@ -602,6 +604,7 @@ public class MainMFEAMOPHOA {
   }
 
   private static GlobalOptimizationResult runGlobalMFEA(
+    String sceneDir,
     int numSatellites,
     List<Satellite> allSatellites,
     List<Task> allTasks,
@@ -643,7 +646,7 @@ public class MainMFEAMOPHOA {
     );
     int[][] pop = popIni;
     EvaluationCache evaluationCache = new EvaluationCache(
-      Boolean.getBoolean(OUTER_CACHE_ENABLED_PROPERTY));
+      Boolean.getBoolean(OUTER_CACHE_ENABLED_PROPERTY), sceneDir);
 
     System.out.println("[PARALLEL] Evaluating initial global configuration population (" + nPopHyb + " individuals)");
     double[] popFit = evaluatePopulationParallel(
@@ -896,6 +899,7 @@ public class MainMFEAMOPHOA {
       validateParameters(numTasks, numSatellites, nPopHyb, gMax, nRun, crossRate);
 
       GlobalOptimizationResult result = runGlobalMFEA(
+        dataDir,
         numSatellites,
         allSatellites,
         allTasks,
