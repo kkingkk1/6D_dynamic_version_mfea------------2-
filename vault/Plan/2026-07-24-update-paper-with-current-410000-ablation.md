@@ -28,7 +28,7 @@ updated: 2026-07-25
 - 旧批次虽然在四套配置间保持了相同 seed，但使用了非原生 `evaluation.runSeedBase`，不作为本轮论文证据。
 - 原生序列以 `410000` 为锚：每场景先无显式 seed 属性运行当前源码的第五次，核对其 `[RunSeed]` 后推导五个有效 index；其余三套使用同一最终 seed。
 - Tab. IV 采用每场景第五次（`perRun+4`）的 `410000` 结果；Tab. VI 使用当前 1D Parent 路径五次的 Max/Ave/Min。
-- 外部 R-ALNS、A-ALNS、DRL-PASA 数值仍来自论文已有引用，只更新 RK-HMA 列及由该列导出的差值和文字。
+- 外部 R-ALNS、A-ALNS 数值仍来自论文已有引用，只更新 RK-HMA 列及由该列导出的差值和文字。
 - 当前稿件缺失的静态图片从用户指定的 `8D_dynamic_version/vault/` 源目录按原文件复制；Fig. 6 和 Fig. 9 不复用旧结果图，而是由 `scripts/plot_paper_native_perrun_results.py` 从本次 Evidence 数据重新生成。
 
 ## 错误记录

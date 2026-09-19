@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import csv
+import statistics
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -7,50 +9,96 @@ import numpy as np
 
 
 ROOT = Path(__file__).resolve().parents[1]
+DATA_PATH = ROOT / "vault" / "Results" / "Evidence" / "mfea-native200042-final-all10-20260831" / "data.csv"
 OUT_DIR = ROOT / "vault" / "Writing" / "figures"
 PNG_PATH = OUT_DIR / "auto_hybrid_distribution_comparison.png"
 SVG_PATH = OUT_DIR / "auto_hybrid_distribution_comparison.svg"
+REGIONAL_SCENES = ["ID1", "ID3", "ID5", "ID7", "ID9", "ID10"]
+GLOBAL_SCENES = ["ID2", "ID4", "ID6", "ID8"]
+METHOD_ORDER = ["R-ALNS", "A-ALNS", "RK-HMA", "Auto-Hybrid"]
+METHOD_COLORS = ["#999999", "#E69F00", "#0072B2", "#D55E00"]
 
-METHODS = ["R-ALNS", "A-ALNS", "DRL-PASA", "RK-HMA", "Auto-Hybrid"]
-COLORS = ["#0072B2", "#009E73", "#E69F00", "#CC79A7", "#D55E00"]
-
-SCENARIOS = [
-    {"id": "ID1", "distribution": "Regional", "values": [99.05, 98.95, 99.60, 99.40, 99.62]},
-    {"id": "ID2", "distribution": "Global", "values": [99.75, 99.89, 99.89, 99.89, 99.89]},
-    {"id": "ID3", "distribution": "Regional", "values": [39.60, 40.20, 44.35, 47.09, 48.29]},
-    {"id": "ID4", "distribution": "Global", "values": [92.57, 92.51, 92.59, 92.59, 92.59]},
-    {"id": "ID5", "distribution": "Regional", "values": [56.31, 70.21, 76.35, 78.04, 79.03]},
-    {"id": "ID6", "distribution": "Global", "values": [98.27, 98.37, 98.40, 98.44, 98.44]},
-    {"id": "ID7", "distribution": "Regional", "values": [57.54, 62.44, 62.58, 64.05, 66.99]},
-    {"id": "ID8", "distribution": "Global", "values": [99.93, 99.96, 99.98, 100.00, 100.00]},
-    {"id": "ID9", "distribution": "Regional", "values": [27.12, 34.26, 37.18, 51.17, 51.46]},
-    {"id": "ID10", "distribution": "Regional", "values": [20.38, 29.25, 33.95, 34.08, 34.24]},
-]
-
-
-def grouped_values(distribution: str) -> tuple[list[str], np.ndarray]:
-    rows = [row for row in SCENARIOS if row["distribution"] == distribution]
-    return [row["id"] for row in rows], np.array([row["values"] for row in rows], dtype=float)
+# R-ALNS and A-ALNS values synchronized with the source RK-HMA paper [25],
+# Table 4; RK-HMA values remain the reported comparison values.
+REPORTED_PROFIT_RATES = {
+    "ID1": [96.52, 96.29, 99.60],
+    "ID2": [99.89, 99.89, 99.89],
+    "ID3": [38.79, 39.91, 47.50],
+    "ID4": [92.47, 92.58, 92.59],
+    "ID5": [66.81, 71.69, 78.51],
+    "ID6": [98.17, 98.43, 98.44],
+    "ID7": [56.59, 62.71, 63.95],
+    "ID8": [99.35, 99.92, 100.00],
+    "ID9": [42.45, 43.41, 51.22],
+    "ID10": [28.44, 29.61, 34.08],
+}
 
 
-def draw_grouped_bars(ax, labels: list[str], values: np.ndarray, ylim: tuple[float, float]) -> None:
-    x = np.arange(len(labels), dtype=float)
-    width = 0.15
-    offsets = (np.arange(len(METHODS)) - (len(METHODS) - 1) / 2) * width
+def trim_svg_whitespace(svg_path: Path) -> None:
+    text = svg_path.read_text(encoding="utf-8")
+    svg_path.write_text("\n".join(line.rstrip() for line in text.splitlines()) + "\n", encoding="utf-8")
 
-    for method_index, (method, color) in enumerate(zip(METHODS, COLORS)):
-        ax.bar(
-            x + offsets[method_index],
-            values[:, method_index],
-            width=width,
-            label=method,
-            color=color,
-            edgecolor="#000000",
-            linewidth=0.35,
-        )
 
+def display_scenario_label(scene_id: str) -> str:
+    return f"Scenario\n{scene_id[2:]}"
+
+
+def load_statistics() -> dict[str, float]:
+    with DATA_PATH.open("r", encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    if len(rows) != 50:
+        raise ValueError(f"Expected 50 replay rows, found {len(rows)}")
+    grouped: dict[str, list[float]] = {}
+    for row in rows:
+        grouped.setdefault(row["scene_id"], []).append(float(row["profit_ratio"]))
+    if set(grouped) != set(REGIONAL_SCENES + GLOBAL_SCENES) or any(len(values) != 5 for values in grouped.values()):
+        raise ValueError("Unexpected scene set or replicate count")
+    result: dict[str, float] = {}
+    for scene_id, values in grouped.items():
+        mean = statistics.mean(values)
+        result[scene_id] = mean
+    return result
+
+
+def draw_panel(
+    ax: plt.Axes,
+    scene_ids: list[str],
+    stats: dict[str, float],
+    title: str,
+    ylim: tuple[float, float],
+) -> None:
+    x = np.arange(len(scene_ids), dtype=float)
+    bar_width = 0.82 / len(METHOD_ORDER)
+    offsets = (np.arange(len(METHOD_ORDER)) - (len(METHOD_ORDER) - 1) / 2) * bar_width
+    for method_index, method in enumerate(METHOD_ORDER):
+        positions = x + offsets[method_index]
+        if method == "Auto-Hybrid":
+            means = np.asarray([stats[scene_id] for scene_id in scene_ids])
+            ax.bar(
+                positions,
+                means,
+                width=bar_width * 0.92,
+                color=METHOD_COLORS[method_index],
+                edgecolor="#333333",
+                linewidth=0.45,
+                label=method,
+            )
+        else:
+            values = np.asarray(
+                [REPORTED_PROFIT_RATES[scene_id][method_index] for scene_id in scene_ids]
+            )
+            ax.bar(
+                positions,
+                values,
+                width=bar_width * 0.92,
+                color=METHOD_COLORS[method_index],
+                edgecolor="#333333",
+                linewidth=0.45,
+                label=method,
+            )
     ax.set_xticks(x)
-    ax.set_xticklabels(labels)
+    ax.set_xticklabels([display_scenario_label(scene_id) for scene_id in scene_ids], fontsize=6.3)
+    ax.set_title(title)
     ax.set_ylim(*ylim)
     ax.grid(True, axis="y", color="#d5d5d5", linestyle="--", linewidth=0.55, alpha=0.85)
     ax.set_axisbelow(True)
@@ -59,6 +107,7 @@ def draw_grouped_bars(ax, labels: list[str], values: np.ndarray, ylim: tuple[flo
 
 
 def main() -> None:
+    stats = load_statistics()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update(
         {
@@ -68,41 +117,23 @@ def main() -> None:
             "axes.labelsize": 8,
             "xtick.labelsize": 8,
             "ytick.labelsize": 7.4,
-            "legend.fontsize": 7.2,
             "axes.linewidth": 0.8,
             "svg.fonttype": "none",
         }
     )
-
-    regional_labels, regional_values = grouped_values("Regional")
-    global_labels, global_values = grouped_values("Global")
-
-    fig, axes = plt.subplots(1, 2, figsize=(6.9, 2.75))
-
-    draw_grouped_bars(axes[0], regional_labels, regional_values, (0, 100))
-    axes[0].set_title("Regional distribution")
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.15))
+    draw_panel(axes[0], REGIONAL_SCENES, stats, "Regional distribution", (0, 100))
     axes[0].set_ylabel("Profit rate (%)")
     axes[0].set_yticks([0, 20, 40, 60, 80, 100])
-
-    draw_grouped_bars(axes[1], global_labels, global_values, (92, 100.6))
-    axes[1].set_title("Global distribution")
+    draw_panel(axes[1], GLOBAL_SCENES, stats, "Global distribution", (92, 100.2))
+    axes[1].set_ylabel("")
     axes[1].set_yticks(np.arange(92, 101, 1))
-
     handles, labels = axes[0].get_legend_handles_labels()
-    fig.subplots_adjust(left=0.08, right=0.99, top=0.84, bottom=0.25, wspace=0.18)
-    fig.legend(
-        handles,
-        labels,
-        loc="lower center",
-        ncol=len(METHODS),
-        frameon=False,
-        bbox_to_anchor=(0.5, 0.015),
-        columnspacing=0.95,
-        handlelength=1.2,
-    )
-
+    fig.legend(handles, labels, loc="upper center", ncol=4, frameon=False, bbox_to_anchor=(0.5, 0.995), fontsize=7.0)
+    fig.subplots_adjust(left=0.08, right=0.99, top=0.78, bottom=0.11, wspace=0.18)
     fig.savefig(PNG_PATH, dpi=450)
     fig.savefig(SVG_PATH)
+    trim_svg_whitespace(SVG_PATH)
     plt.close(fig)
     print(PNG_PATH)
     print(SVG_PATH)

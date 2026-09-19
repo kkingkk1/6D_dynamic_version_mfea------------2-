@@ -1,6 +1,6 @@
 # 6D pure-semantic dynamic version 全局地图
 
-> 最后更新：2026-08-19
+> 最后更新：2026-09-19
 
 ## 项目概述
 

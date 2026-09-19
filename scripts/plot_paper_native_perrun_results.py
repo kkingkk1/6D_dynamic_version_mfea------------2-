@@ -41,21 +41,21 @@ ALGORITHM_COLORS = {
     "parent-4": "#009E73",
     "parent-1": "#D55E00",
 }
-BASELINE_ORDER = ["R-ALNS", "A-ALNS", "DRL-PASA", "RK-HMA"]
-BASELINE_COLORS = ["#999999", "#E69F00", "#CC79A7", "#0072B2"]
+BASELINE_ORDER = ["R-ALNS", "A-ALNS", "RK-HMA"]
+BASELINE_COLORS = ["#999999", "#E69F00", "#0072B2"]
 PAPER_THEME = replace(pf.themes.get_theme("nature"), font_family=["DejaVu Sans"])
 PAPER_SPEC = pf.FigureSpec(name="rk-hma", font_family="DejaVu Sans")
 EXTERNAL_PROFIT_RATES = {
-    "ID1": [99.05, 98.95, 99.60],
-    "ID2": [99.75, 99.89, 99.89],
-    "ID3": [39.60, 40.20, 44.35],
-    "ID4": [92.57, 92.51, 92.59],
-    "ID5": [56.31, 70.21, 76.35],
-    "ID6": [98.27, 98.37, 98.40],
-    "ID7": [57.54, 62.44, 62.58],
-    "ID8": [99.93, 99.96, 99.98],
-    "ID9": [27.12, 34.26, 37.18],
-    "ID10": [20.38, 29.25, 33.95],
+    "ID1": [96.52, 96.29],
+    "ID2": [99.89, 99.89],
+    "ID3": [38.79, 39.91],
+    "ID4": [92.47, 92.58],
+    "ID5": [66.81, 71.69],
+    "ID6": [98.17, 98.43],
+    "ID7": [56.59, 62.71],
+    "ID8": [99.35, 99.92],
+    "ID9": [42.45, 43.41],
+    "ID10": [28.44, 29.61],
 }
 
 
@@ -155,7 +155,7 @@ def draw_figure_6(rows: list[dict[str, str]]) -> None:
         handles,
         BASELINE_ORDER,
         loc="upper center",
-        ncol=4,
+        ncol=3,
         frameon=False,
         bbox_to_anchor=(0.5, 1.03),
         fontsize=8.3,
