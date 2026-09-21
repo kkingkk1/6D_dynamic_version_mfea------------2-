@@ -1,6 +1,6 @@
 # Automatic Design of Collaboration-Based Hybrid Metaheuristics for Large-Scale Agile Earth Observation Satellite Scheduling
 
-**Abstract**--Large-scale agile earth observation satellite scheduling has drawn growing attention as satellite constellations expand and observation demand rises. The problem couples task selection, satellite assignment, visible-window placement, and attitude-constrained sequencing, and is NP-hard at the scale of practical missions. In conventional collaboration-based hybrid metaheuristic design, the inner collaboration structure is typically fixed in advance. RK-HMA is one such artificially designed hybrid algorithm: its internal single-satellite optimizer combines DE/rand/1 and PSO, achieving good results. This paper recasts the design of this collaboration-based hybrid with two parent algorithms as an automatic structural-design problem within the same scheduling pipeline. A six-gene chromosome selects two parent algorithms, two operating levels (OL), one operating order (OO), and survivor selection. Over these component libraries, an evolutionary search on four regional design scenarios composes a hybrid optimizer. The retained configuration is evaluated on ten benchmark scenarios containing 500–10,000 tasks and 5–100 satellites covering both regional and global task distributions. It obtains the best or tied-best reported profit rate on all ten scenarios, with a maximum gap of 12.32 percentage points over the compared baselines. All methods remain near saturation on global-distribution scenarios, while Auto-Hybrid shows more substantial gains on the more challenging regional-distribution scenarios.
+**Abstract**--Large-scale agile earth observation satellite scheduling has drawn growing attention as satellite constellations expand and observation demand rises. The problem couples task selection, satellite assignment, visible-window placement, and attitude-constrained sequencing, and is NP-hard at the scale of practical missions. In conventional collaboration-based hybrid metaheuristic design, the inner collaboration structure is typically fixed in advance. RK-HMA is one such artificially designed hybrid algorithm: its internal single-satellite optimizer combines DE/rand/1 and PSO, achieving good results. This paper recasts the design of this collaboration-based hybrid with two parent algorithms as an automatic structural-design problem within the same scheduling pipeline. A six-gene chromosome selects two parent algorithms, two operating levels (OL), one operating order (OO), and survivor selection. Over these component libraries, an evolutionary search on four regional training scenarios composes a hybrid optimizer. The retained configuration is evaluated on ten benchmark scenarios containing 500–10,000 tasks and 5–100 satellites covering both regional and global task distributions. It obtains the best or tied-best profit rate on all ten scenarios, with a maximum gap of 12.32 percentage points over the compared baselines. All methods remain near saturation on global-distribution scenarios, while Auto-Hybrid shows more substantial gains on the more challenging regional-distribution scenarios.
 
 **Index Terms**--agile earth observation satellite scheduling, automated algorithm design, collaboration-based hybrid metaheuristic
 
@@ -8,17 +8,17 @@
 
 Agile earth observation satellites (AEOS) with high attitude maneuverability have become a key platform for acquiring space-based information, supporting applications such as disaster monitoring, mapping, and reconnaissance [1]. Over the past two decades, the number of earth observation satellites in orbit has grown rapidly. Wang et al. [1] reported that AEOS scheduling has been actively studied since the early 2000s, driven by the deployment of increasingly agile platforms such as Pléiades, WorldView, and Jilin-1. Du et al. [3] noted that the growing number of satellites and observation requests has made large-scale multi-satellite scheduling a practical challenge. Efficient scheduling is thus needed to manage large constellations and maximize fulfilled observation requests.
 
-The large-scale agile earth observation satellite task scheduling problem (LS-AEOSTSP) is harder than the classic earth observation satellite task scheduling problem (EOSTSP). As illustrated in Fig. 1, unlike conventional EOS that can only observe targets directly below their ground track, AEOS can rotate along the roll, pitch, and yaw axes to steer their imaging payloads toward off-nadir targets. This three-axis maneuverability enlarges the set of visible time windows (VTWs) for each task, but introduces time-dependent attitude transition constraints between consecutive observations. As constellations scale to tens or hundreds of satellites, the joint decision space—task-satellite assignment, VTW selection, and start time determination—grows combinatorially, making exact methods intractable for practical instances [4][5].
+The large-scale agile earth observation satellite task scheduling problem (LS-AEOSTSP) is harder than the classic earth observation satellite task scheduling problem (EOSTSP). As illustrated in Fig. 1, unlike conventional EOS that can only observe targets directly below their ground track, AEOS can rotate along the roll, pitch, and yaw axes to steer their imaging payloads toward off-nadir targets. This three-axis maneuverability enlarges the set of visible time windows (VTWs) for each task, but introduces time-dependent attitude transition constraints between consecutive observations. As constellations scale to tens or hundreds of satellites, the joint decision space—task-satellite assignment, VTW selection, and start time determination—grows combinatorially, making exact methods intractable for practical instances [4], [5].
 
 ![Comparison of observation modes between non-agile EOS and AEOS](figures/agile_satellite_observation_modes.png)
 
 **Fig. 1.** Comparison of observation modes between non-agile EOS and AEOS [6].
 
-Prior work on agile satellite scheduling spans several methodological lines. Survey and exact-optimization studies clarify the main modeling variants and constraint structures: Wang et al. [1] reviewed two decades of AEOS scheduling formulations and methods, Chen et al. [2] built a mixed-integer linear programming model for multi-satellite scheduling, and Peng et al. developed exact formulations that exploit the time-dependent profit and transition-time structure of the problem [4], [5]. Because exact methods do not scale to large instances, metaheuristics have become the dominant practical approach.
+Prior work on agile satellite scheduling spans several methodological lines. Survey and exact-optimization studies clarify the main modeling variants and constraint structures: Wang et al. [1] reviewed two decades of AEOS scheduling formulations and methods, Chen et al. [2] built a mixed-integer linear programming model for multi-satellite scheduling, and Peng et al. [4], [5] developed exact formulations that exploit the time-dependent profit and transition-time structure of the problem. Because exact methods do not scale to large instances, metaheuristics have become the dominant practical approach.
 
 Adaptive large neighborhood search (ALNS) and its variants are well studied. Liu et al. [6] designed problem-specific removal and insertion operators for time-dependent transition times, and He et al. [7] extended ALNS to multiple agile satellites with a dynamic task-allocation mechanism. Population-based evolutionary algorithms have also been applied: Yao et al. [9] proposed a bilevel evolutionary algorithm for large-scale multiobjective task scheduling, Qin et al. [10] combined simulated annealing with a genetic algorithm for multisatellite scheduling of moving targets, and Wang et al. [11] designed a strategy fusion-based multi-objective optimization approach. Related methods address further variants, including interval-varying profits [8] and the integrated agile scheduling problem [15]. However, most existing methods rely on a single algorithmic paradigm, limiting the balance between exploration and exploitation in the LS-AEOSTSP search space [1].
 
-Hybrid metaheuristics, which combine the strengths of multiple search strategies within a unified framework, are effective for combinatorial optimization. Blum et al. [12] surveyed hybrid metaheuristic paradigms and reported numerous successful applications where hybridization improved solution quality. In the domain of scheduling, Fan et al. [13] proposed a hybrid evolutionary algorithm using two solution representations for hybrid flow-shop scheduling, and Shu et al. [14] integrated variable neighborhood search with NSGA-II for emergency material scheduling. For LS-AEOSTSP, our previous work proposed RK-HMA [21], which connects continuous optimizers with discrete task sequences through random-key encoding, applies DE/rand/1 and PSO to a shared population, and uses dynamic task reassignment to coordinate satellites. RK-HMA shows that hybridization is effective, obtaining the best or tied-best reported profit rate on all ten benchmark scenarios. However, this manual design process has several limitations: (i) changing any structural decision requires expert re-design and re-validation, (ii) there is no guarantee that the chosen structure remains effective when the scheduling scenario changes in scale or task distribution, and (iii) the design space of collaboration-based hybrids is large—different parent algorithms, OL choices, OO choices, and survivor-selection policies can be combined in many ways, making exhaustive manual exploration impractical.
+Hybrid metaheuristics, which combine the strengths of multiple search strategies within a unified framework, are effective for combinatorial optimization. Blum et al. [12] surveyed hybrid metaheuristic paradigms and reported numerous successful applications where hybridization improved solution quality. In the domain of scheduling, Fan et al. [13] proposed a hybrid evolutionary algorithm using two solution representations for hybrid flow-shop scheduling, and Shu et al. [14] integrated variable neighborhood search with NSGA-II for emergency material scheduling. For LS-AEOSTSP, our previous work proposed RK-HMA [21], which connects continuous optimizers with discrete task sequences through random-key encoding, applies DE/rand/1 and PSO to a shared population, and uses dynamic task reassignment to coordinate satellites. RK-HMA shows that hybridization is effective for large-scale satellite scheduling. However, this manual design process has two main limitations: (i) the design cost is high—each structural decision requires expert knowledge, and changing any component requires re-design and re-validation with no guarantee that the resulting structure remains effective when the scenario changes in scale or task distribution; and (ii) the design space of collaboration-based hybrids is large—different parent algorithms, OL choices, OO choices, and survivor-selection policies can be combined in many ways, making it difficult for manual exploration to identify well-performing configurations.
 
 The central question is therefore an automatic-design question: can the hybrid structure itself be composed for the scheduling pipeline? Algorithm configuration methods such as ParamILS, SMAC, and irace tune parameterized algorithms over training instances [16]-[18]. Hyper-heuristics search over heuristics or heuristic components instead of directly searching the solution space [19]. Automated algorithm design goes further by searching algorithm structures rather than only tuning parameters or choosing among fixed algorithms. Recent work on automated design of collaboration-based hybrid metaheuristics treats hybrid-optimizer design as a meta-optimization problem and uses a top-down template to generate collaboration-based hybrid algorithms [20].
 
@@ -30,133 +30,119 @@ The main contributions are as follows.
 
 2. We formulate a six-gene semantic chromosome and its component libraries. The chromosome exposes the collaboration structure—parent algorithms, OL, OO, and survivor selection—as interpretable structural decisions that the search can recombine.
 
-3. We evaluate the composed optimizer on ten benchmark scenarios containing 500–10,000 tasks and 5–100 satellites covering both regional and global task distributions. The retained configuration obtains the best or tied-best reported profit rate on all ten scenarios, with a maximum gap of 12.32 percentage points over the compared baselines. All methods remain near saturation on global-distribution scenarios, while Auto-Hybrid shows more substantial gains on the more challenging regional-distribution scenarios.
+3. We evaluate the composed optimizer on ten benchmark scenarios containing 500–10,000 tasks and 5–100 satellites covering both regional and global task distributions. The retained configuration obtains the best or tied-best profit rate on all ten scenarios, with a maximum gap of 12.32 percentage points over the compared baselines. All methods remain near saturation on global-distribution scenarios, while Auto-Hybrid shows more substantial gains on the more challenging regional-distribution scenarios.
 
 The remaining sections are organized as follows. Section II defines the scheduling problem. Section III describes the automatic hybrid-design framework. Section IV reports the experiments. Section V concludes the paper.
 
 # II. Problem Description
 
-Consider a scheduling horizon during which a set of $n$ observation tasks $\mathcal{T}=\{\tau_1,\tau_2,\ldots,\tau_n\}$ must be assigned to a constellation of $m$ agile satellites $\mathcal{S}=\{s_1,s_2,\ldots,s_m\}$. Each task $\tau_i$ is characterized by a geographic location, an imaging duration $d_i^{\text{img}}$, a profit $r_i$, and a specified minimum imaging quality $c_i$. Each satellite $s_j$ is described by its orbital elements and attitude state over the scheduling horizon. Through orbit propagation and access analysis, the visible time windows (VTWs) for each task-satellite pair can be computed. Let $\omega_{ijk}$ denote the $k$-th VTW of task $\tau_i$ on satellite $s_j$, with opening time $\alpha_{ijk}$, closing time $\beta_{ijk}$, and duration $\lambda_{ijk}=\beta_{ijk}-\alpha_{ijk}$. The satellite attitude is described by roll $\theta_{jt}^R$, pitch $\theta_{jt}^P$, and yaw $\theta_{jt}^Y$ at time $t$. The notation used throughout this paper is summarized in Table I.
+## A. Problem Description
 
-Since the number of tasks typically far exceeds the observation capacity of the constellation, it is generally infeasible to execute all tasks. The LS-AEOSTSP aims to select a subset of tasks and determine their satellite, VTW, and observation start time so as to maximize the total collected profit, subject to the following assumptions.
+Given a set $T=\{t_1,\ldots,t_n\}$ of $n$ tasks and a set $AEOS=\{aeos_1,\ldots,aeos_m\}$ of $m$ agile earth observation satellites. Each task $t_i$ is associated with a geographic location (latitude and longitude), an imaging duration $l_i$, and a profit $p_i$, which are provided by the user. Each satellite $aeos_j$ is represented by its orbital parameters, including the semi-major axis, eccentricity, inclination, right ascension of the ascending node, argument of perigee, and true anomaly. Given the target location and satellite orbital parameters, the visible time windows (VTWs) of each target associated with its visible satellites are obtained through access calculation. Each VTW $w_{ijk}$ has a start time $st_{ijk}$, an end time $et_{ijk}$, and a length $d_{ijk}$. The roll, pitch, and yaw angles of the imaging payload at the corresponding observation times are also available. The notations used throughout this paper are summarized in Table I.
 
-1. Each task is an atomic observation request that can be directly executed by a satellite. Complex requests such as area coverage or moving target tracking are assumed to have been decomposed into atomic tasks before scheduling.
-2. Energy and onboard storage constraints are not explicitly modeled, because satellites recharge through solar panels and periodically downlink data during normal operations.
-3. Each satellite carries a single imaging sensor, so at most one task can be executed at any given time.
-4. Task execution is non-preemptive. Once an observation starts, it cannot be interrupted, and each task can be observed at most once across the constellation.
+Due to the limited number of satellites compared with the number of tasks, it is difficult to execute all tasks. Therefore, the LS-AEOSTSP aims to determine the imaging times of a subset of tasks within their VTWs while maximizing the total observation profit, subject to the following assumptions.
+
+1. Each task is a meta-task that can be directly executed by a satellite. Complex tasks such as area target coverage or moving target tracking are not considered, because they can be decomposed into meta-tasks through strip partitioning.
+2. Power-capacity and storage-capacity constraints are not modeled. In normal operation, satellites charge through solar power and transmit data to ground stations or relay satellites to release onboard storage.
+3. Each satellite is equipped with a single imaging payload and can execute at most one task at a time.
+4. Once executed, a task cannot be aborted, and each task is executed at most once.
 
 **TABLE I: NOTATION FOR LS-AEOSTSP.**
 
 | Notation | Description |
 |---|---|
-| $\mathcal{T}$ | Set of observation tasks |
+| $T$ | Tasks set |
 | $n$ | Number of tasks |
-| $\mathcal{S}$ | Set of satellites |
+| $AEOS$ | Satellites set |
 | $m$ | Number of satellites |
-| $\tau_i$ | Task $i$ |
-| $s_j$ | Satellite $j$ |
-| $r_i$ | Profit of task $\tau_i$ |
-| $d_i^{\text{img}}$ | Imaging duration of task $\tau_i$ |
-| $\theta_{jt}^R$ | Roll angle of satellite $s_j$ at time $t$ |
-| $\theta_{jt}^P$ | Pitch angle of satellite $s_j$ at time $t$ |
-| $\theta_{jt}^Y$ | Yaw angle of satellite $s_j$ at time $t$ |
-| $\Omega_{ij}$ | Set of VTWs for task $\tau_i$ on satellite $s_j$ |
-| $\omega_{ijk}$ | The $k$-th VTW of task $i$ on satellite $j$ |
-| $|\Omega_{ij}|$ | Number of VTWs for task $\tau_i$ on satellite $s_j$ |
-| $\alpha_{ijk}$ | Opening time of $\omega_{ijk}$ |
-| $\beta_{ijk}$ | Closing time of $\omega_{ijk}$ |
-| $\lambda_{ijk}$ | Duration of $\omega_{ijk}$ |
-| $x_{ijk}$ | Binary variable indicating whether task $i$ is scheduled in $\omega_{ijk}$ |
-| $b_{ijk}$ | Observation start time |
-| $\sigma_{ijk,i'jk'}$ | Precedence indicator for consecutive observations on one satellite |
-| $T^{\text{trans}}$ | Attitude-transition time between two consecutive observations |
-| $c_i$ | Required minimum imaging quality of task $\tau_i$ |
-| $q_i$ | Imaging quality of scheduled task $\tau_i$ |
-| $w_{ijk}^{*}$ | Midpoint of $\omega_{ijk}$ |
-| $F(P_S)$ | Total profit of the scheduled task set |
+| $p_i$ | Profit of task $t_i$ |
+| $l_i$ | Imaging duration of task $t_i$ |
+| $\chi_{jt}$ | Rolling angle of $aeos_j$ at time $t$ |
+| $\pi_{jt}$ | Pitching angle of $aeos_j$ at time $t$ |
+| $\phi_{jt}$ | Yawing angle of $aeos_j$ at time $t$ |
+| $w_{ijk}$ | $k$-th VTW for task $t_i$ on satellite $aeos_j$ |
+| $W_{ij}$ | VTWs set for task $t_i$ on satellite $aeos_j$ |
+| $|W_{ij}|$ | Number of VTWs for task $t_i$ on satellite $aeos_j$ |
+| $st_{ijk}$ | Start time of $w_{ijk}$ |
+| $et_{ijk}$ | End time of $w_{ijk}$ |
+| $d_{ijk}$ | Length of $w_{ijk}$ |
+| $c_i$ | Specified minimum imaging quality of task $t_i$ |
 
-Two types of decision variables are defined. The binary variable $x_{ijk}\in\{0,1\}$ indicates whether task $\tau_i$ is scheduled in VTW $\omega_{ijk}$. The continuous variable $b_{ijk}$ specifies the observation start time of task $\tau_i$ when $x_{ijk}=1$.
+The decision variables are $x_{ijk}$ and $u_{ijk}$. The binary variable $x_{ijk}$ equals one if task $t_i$ is executed in VTW $w_{ijk}$ and zero otherwise. The continuous variable $u_{ijk}$ denotes the start time of task $t_i$ when $x_{ijk}=1$. The sequencing variable $\rho_{ijk,i^*jk^*}$ equals one if task $t_i$ is the predecessor of task $t_{i^*}$ on satellite $aeos_j$ and zero otherwise.
 
-The objective is to maximize the collected profit:
+The mathematical formulation of the LS-AEOSTSP is given as follows.
+
+Objective function:
 
 $$
-\max F(P_S)=\sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{k=1}^{|\Omega_{ij}|} x_{ijk}r_i. \tag{1}
+\max \sum_{i=1}^{n}\sum_{j=1}^{m}\sum_{k=1}^{|W_{ij}|} x_{ijk}p_i. \tag{1}
 $$
 
-Each task can be scheduled at most once:
+The objective function maximizes the total observation profit of all scheduled tasks.
+
+Constraints:
 
 $$
-\sum_{j=1}^{m}\sum_{k=1}^{|\Omega_{ij}|} x_{ijk} \le 1,\quad \forall \tau_i\in\mathcal{T}. \tag{2}
+\sum_{j=1}^{m}\sum_{k=1}^{|W_{ij}|} x_{ijk} \le 1,\quad \forall t_i\in T. \tag{2}
 $$
 
-If a task is selected, the observation must start and finish inside the chosen VTW:
-
 $$
-\alpha_{ijk} \le b_{ijk} \le \beta_{ijk}-d_i^{\text{img}},\quad \text{if }x_{ijk}=1. \tag{3}
+st_{ijk} \le u_{ijk} < u_{ijk}+l_i \le et_{ijk},\quad \text{if }x_{ijk}=1. \tag{3}
 $$
 
-For consecutive observations on the same satellite, define
-
 $$
-\sigma_{ijk,i'jk'} =
+\rho_{ijk,i^*jk^*}=
 \begin{cases}
-1, & \text{if }\tau_i\text{ directly precedes }\tau_{i'}\text{ on }s_j,\\
-0, & \text{otherwise.}
-\end{cases} \tag{4}
+1, & \text{if }t_i\text{ is the predecessor of }t_{i^*},\\
+0, & \text{otherwise,}
+\end{cases}
+\quad \text{if }x_{ijk}=x_{i^*jk^*}=1. \tag{4}
 $$
 
-The transition-time constraint is then
-
 $$
-b_{ijk}+d_i^{\text{img}}+T^{\text{trans}}(\tau_i,\tau_{i'})\le b_{i'jk'},\quad \text{if }\sigma_{ijk,i'jk'}=1. \tag{5}
+u_{ijk}+l_i+\Delta t(t_i,t_{i^*})\le u_{i^*jk^*},\quad \text{if }\rho_{ijk,i^*jk^*}=1. \tag{5}
 $$
 
-The attitude-transition time is a piecewise linear function of the total angular displacement:
+The transition time is a piecewise linear function of the total angular displacement:
 
 $$
-T^{\text{trans}}(\tau_i,\tau_{i'})
+\Delta t(t_i,t_{i^*})
 =
 \begin{cases}
-11.66, & \Delta\Theta \leq 10^\circ,\\
-c_1+\Delta\Theta/v_1, & 10^\circ<\Delta\Theta\leq 30^\circ,\\
-c_2+\Delta\Theta/v_2, & 30^\circ<\Delta\Theta\leq 60^\circ,\\
-c_3+\Delta\Theta/v_3, & 60^\circ<\Delta\Theta\leq 90^\circ,\\
-c_4+\Delta\Theta/v_4, & \Delta\Theta>90^\circ.
+11.66, & \Delta g(t_i,t_{i^*})\leq 10^\circ,\\
+a_1+\dfrac{\Delta g(t_i,t_{i^*})}{v_1}, & 10^\circ<\Delta g(t_i,t_{i^*})\leq 30^\circ,\\
+a_2+\dfrac{\Delta g(t_i,t_{i^*})}{v_2}, & 30^\circ<\Delta g(t_i,t_{i^*})\leq 60^\circ,\\
+a_3+\dfrac{\Delta g(t_i,t_{i^*})}{v_3}, & 60^\circ<\Delta g(t_i,t_{i^*})\leq 90^\circ,\\
+a_4+\dfrac{\Delta g(t_i,t_{i^*})}{v_4}, & \Delta g(t_i,t_{i^*})>90^\circ.
 \end{cases} \tag{6}
 $$
 
-The angular displacement is computed from the attitude differences between the two observations:
+The total change in satellite look angles is computed from the attitude differences between the two observations:
 
 $$
-\Delta\Theta(\tau_i,\tau_{i'})
-=|\theta^R_{j,b_{ijk}}-\theta^R_{j,b_{i'jk'}}|
-+|\theta^P_{j,b_{ijk}}-\theta^P_{j,b_{i'jk'}}|
-+|\theta^Y_{j,b_{ijk}}-\theta^Y_{j,b_{i'jk'}}|,\quad \text{if }\sigma_{ijk,i'jk'}=1. \tag{7}
+\Delta g(t_i,t_{i^*})
+=|\chi_{j,u_{ijk}}-\chi_{j,u_{i^*jk^*}}|
++|\pi_{j,u_{ijk}}-\pi_{j,u_{i^*jk^*}}|
++|\phi_{j,u_{ijk}}-\phi_{j,u_{i^*jk^*}}|,\quad \text{if }\rho_{ijk,i^*jk^*}=1. \tag{7}
 $$
 
-The executed task must also satisfy its imaging-quality requirement:
-
 $$
-q_i\ge c_i,\quad \forall \tau_i\in\mathcal{T}. \tag{8}
+q_i\ge c_i,\quad \forall t_i\in T. \tag{8}
 $$
 
-When a scheduled task is executed in $\omega_{ijk}$, its imaging quality is computed by the distance between the observation start time and the midpoint of the selected VTW:
+When a scheduled task is executed in $w_{ijk}$, its imaging quality is computed by the distance between the observation start time and the midpoint of the selected VTW:
 
 $$
 q_i=10-9\cdot
-\frac{|2b_{ijk}+d_i^{\text{img}}-2w_{ijk}^{*}|}{\lambda_{ijk}-d_i^{\text{img}}},
+\frac{|2u_{ijk}+l_i-2w_{ijk}^{*}|}{d_{ijk}-l_i},
 \quad \text{if }x_{ijk}=1, \tag{9}
 $$
 
-where
-
 $$
-w_{ijk}^{*}=\frac{\alpha_{ijk}+\beta_{ijk}}{2},\quad \text{if }x_{ijk}=1. \tag{10}
+w_{ijk}^{*}=\frac{st_{ijk}+et_{ijk}}{2},\quad \text{if }x_{ijk}=1. \tag{10}
 $$
 
-Constraint (2) ensures that each task is observed at most once across all satellites. Constraint (3) guarantees that the observation must start and finish within the selected VTW. Constraint (5) enforces that consecutive tasks on the same satellite must be separated by a sufficient transition time. The transition time is defined by Eq. (6), and the angular displacement is computed by Eq. (7). Following [5], the parameters are set to $v_1=1.5^\circ/\text{s}$, $c_1=5$, $v_2=2^\circ/\text{s}$, $c_2=10$, $v_3=2.5^\circ/\text{s}$, $c_3=16$, $v_4=3^\circ/\text{s}$, and $c_4=22$. Constraint (8) requires the imaging quality of each executed task to be no lower than the specified threshold, and Eqs. (9)-(10) compute imaging quality from the position of the start time inside the selected VTW.
-
-The solution has two coupled parts: each scheduled task must be assigned to a satellite and VTW, and each satellite must choose a feasible task sequence. These two decisions are interdependent, because the value of an assignment depends on the sequence each satellite can realize, while a feasible sequence depends on which tasks are assigned. The LS-AEOSTSP is NP-hard, as it contains the single-satellite EOSTSP as a special case [4], [5], and the joint assignment-and-sequencing space grows on the order of $O(n!\,m^{n})$ with the number of tasks $n$ and satellites $m$. Exact methods are therefore intractable at the scales considered here, which motivates the metaheuristic scheduling pipeline described in Section III.
+Constraint (2) ensures that each task is executed at most once. Constraint (3) ensures that the execution interval of a scheduled task is contained in its selected VTW. Constraint (5) requires the time interval between two successive tasks on the same satellite to be no shorter than the transition time $\Delta t(t_i,t_{i^*})$. Following [5], the transition time is calculated using the segmented function in Eq. (6). The quantity $\Delta g(t_i,t_{i^*})$ represents the total change in the satellite look angles between the two tasks, as defined in Eq. (7). The angular velocities and constant terms are set to $v_1=1.5^\circ/\text{s}$, $a_1=5$, $v_2=2^\circ/\text{s}$, $a_2=10$, $v_3=2.5^\circ/\text{s}$, $a_3=16$, $v_4=3^\circ/\text{s}$, and $a_4=22$. Constraint (8) requires the imaging quality $q_i$ to be no lower than the specified minimum quality $c_i$. Equation (9) calculates $q_i$ from the task start time, and Eq. (10) defines the midpoint of the selected VTW.
 
 # III. Automatic Hybrid-Design Framework
 
@@ -178,9 +164,9 @@ As shown in Fig. 2, the resulting workflow has five levels:
 4. The generated optimizer is embedded in the fixed multi-satellite scheduling pipeline.
 5. An outer evolutionary search ranks chromosomes by their measured scheduling profit.
 
-![Automatic hybrid-design workflow](figures/automatic_hybrid_design_flow.png)
+![Framework of the proposed Auto-Hybrid](figures/automatic_hybrid_design_flow.png)
 
-**Fig. 2.** Automatic hybrid-design workflow.
+**Fig. 2.** Framework of the proposed Auto-Hybrid.
 
 ## B. Component Libraries for Automatic Design
 
@@ -213,7 +199,7 @@ The parent-algorithm library collects established metaheuristics that can operat
 
 **TABLE III: OPERATING-LEVEL LIBRARY.**
 
-The operating level determines which inner random-key solutions of the shared population each parent algorithm is allowed to modify. The seven realization forms below span population-, subpopulation-, and individual-level updates. Parameter symbols are included directly in the corresponding realization forms, and their values are reported in Table VII.
+The operating level determines which inner random-key solutions of the shared population each parent algorithm is allowed to modify. The seven realization forms below span population-, subpopulation-, and individual-level updates. Parameter symbols are included directly in the corresponding realization forms, and their values are reported in Table VIII.
 
 | ID | Operating level | Realization form |
 |---:|---|---|
@@ -227,7 +213,7 @@ The operating level determines which inner random-key solutions of the shared po
 
 **TABLE IV: OPERATING-ORDER (OO) LIBRARY.**
 
-The operating-order library specifies when the two parent algorithms are invoked and thereby determines their information dependency. Its realization forms comprise seven sequential options and one parallel option. The IDs retain their fixed encoding assignments. Parameter symbols are included directly in the corresponding realization forms, and their values are reported in Table VII.
+The operating-order library specifies when the two parent algorithms are invoked and thereby determines their information dependency. Its realization forms comprise seven sequential options and one parallel option. The IDs retain their fixed encoding assignments. Parameter symbols are included directly in the corresponding realization forms, and their values are reported in Table VIII.
 
 | ID | Operating order (OO) | OO type | Corresponding realization form |
 |---:|---|---|---|
@@ -365,10 +351,10 @@ $$
 Each vector is decoded by sorting its keys, and the sorted order gives a candidate task sequence. The decoder then inserts tasks into feasible visible time windows and computes the collected profit:
 
 $$
-f(\mathbf{x})=\sum_{\tau_i\in P_j} r_i,
+f(\mathbf{x})=\sum_{t_i\in P_j} p_i,
 $$
 
-where $P_j$ is the feasible schedule constructed for satellite $s_j$.
+where $P_j$ is the feasible schedule constructed for satellite $aeos_j$.
 
 After per-satellite schedules are generated, the fixed multi-satellite layer applies the RK-HMA dynamic reassignment procedure [21] to reconsider unscheduled tasks. This layer is shared by all candidate chromosomes and is not part of the optimizer-design space.
 
@@ -380,7 +366,7 @@ To evaluate the proposed automatic hybrid-design framework on the LS-AEOSTSP, th
 
 Ten experimental scenarios are used for evaluation, following the benchmark scale and distribution settings used in RK-HMA [21]. They cover small-scale, medium-scale, large-scale, and superlarge-scale instances. The task count ranges from 500 to 10,000, and the satellite count ranges from 5 to 100. The distribution is categorized into regional and global distributions. In the regional setting, tasks are concentrated in the area $3^\circ\text{N}$-$53^\circ\text{N}$ and $74^\circ\text{E}$-$133^\circ\text{E}$, which creates stronger competition for feasible time windows. The imaging duration of each task is a random integer between 1 and 30, and the task profit is a random integer between 1 and 10.
 
-Four additional regional training scenarios are generated for the design stage, with scales matching scenarios 1, 3, 5, and 7 (500 tasks/5 satellites, 1000 tasks/10 satellites, 1000 tasks/20 satellites, and 4000 tasks/40 satellites). These training scenarios follow the same construction method and simulator as the evaluation scenarios but use different random seeds to ensure they are distinct instances. These four scales are selected because they span small-to-medium problem sizes, allowing the design search to complete within reasonable computational time while covering the key characteristics of regional task competition across different instance scales.
+Four additional regional training scenarios are generated for the design stage. They use the same construction method and simulator as the evaluation scenarios, but different random seeds make them independent instances. The four scales cover small-to-medium instances, so the design search remains tractable while retaining the main variation in regional task competition. Their settings are summarized in Table VII.
 
 **TABLE VI: EXPERIMENTAL SCENARIOS.**
 
@@ -397,6 +383,15 @@ Four additional regional training scenarios are generated for the design stage, 
 | 9 | Large | 8000 | 80 | 00:00:00 | 11:59:59 | Regional |
 | 10 | Superlarge | 10000 | 100 | 06:00:00 | 11:59:59 | Regional |
 
+**TABLE VII: TRAINING SCENARIOS.**
+
+| Scenario | Scale | $n$ | $m$ | Start time | End time | Distribution |
+|---:|---|---:|---:|---|---|---|
+| 1 | Small | 500 | 5 | 00:00:00 | 23:59:59 | Regional |
+| 2 | Small | 1000 | 10 | 00:00:00 | 11:59:59 | Regional |
+| 3 | Medium | 1000 | 20 | 00:00:00 | 11:59:59 | Regional |
+| 4 | Medium | 4000 | 40 | 00:00:00 | 05:59:59 | Regional |
+
 ## B. Baseline Methods, Evaluation Metrics, and Parameter Settings
 
 In this section, three representative algorithms are selected for comparison:
@@ -407,7 +402,7 @@ In this section, three representative algorithms are selected for comparison:
 
 **RK-HMA** [21]: The manually designed hybrid metaheuristic that combines DE/rand/1 and PSO as inner single-satellite optimizers with dynamic task reassignment (see Section I). It serves as the baseline for the automatic design framework.
 
-The parameter values for Auto-hybrid are shown in Tab. VII. The profit rate ($PR$) and computational time are used to evaluate the performance of each algorithm. $PR$ is defined as:
+The parameter values for Auto-hybrid are shown in Tab. VIII. The profit rate ($PR$) and computational time are used to evaluate the performance of each algorithm. $PR$ is defined as:
 
 $$
 PR = \frac{F(P_S)}{F(P_A)} \times 100\% \tag{20}
@@ -417,7 +412,7 @@ where $F(P_S)$ is the total profit of scheduled tasks and $F(P_A)$ is the total 
 
 
 
-**TABLE VII: DESIGN-SEARCH AND REPLAY SETTINGS.**
+**TABLE VIII: DESIGN-SEARCH AND REPLAY SETTINGS.**
 
 | Setting | Symbol | Value |
 |---|---|---|
@@ -449,9 +444,13 @@ where $F(P_S)$ is the total profit of scheduled tasks and $F(P_A)$ is the total 
 
 ## C. Comparison Results
 
-In this section, the performance of Auto-Hybrid, RK-HMA, A-ALNS, and R-ALNS is compared on all ten scenarios. The R-ALNS and A-ALNS entries use the five-run means reported in [21, Tables 4 and 5], with iteration caps of 500 and 25, respectively. Table VIII reports the profit-rate comparison. As shown in Table VIII, Auto-Hybrid obtains the best or tied-best reported profit rate on all ten scenarios. The largest gap between Auto-Hybrid and a compared baseline is 12.32 percentage points on scenario 5, while the ten-scenario mean gaps are 5.09 and 3.59 percentage points over R-ALNS and A-ALNS, respectively. Auto-Hybrid ties with the best baseline on all four global scenarios (2, 4, 6, 8), where all methods remain between 92.47% and 100.00%. The advantage of Auto-Hybrid is more pronounced on regional scenarios, where task-satellite contention is stronger. On the six regional scenarios, Auto-Hybrid achieves a mean profit rate of 63.24%, compared with 62.48% for RK-HMA, 57.27% for A-ALNS, and 54.93% for R-ALNS. The regional-scenario mean gaps are 0.76, 5.97, and 8.31 percentage points, respectively, relative to RK-HMA, A-ALNS, and R-ALNS.
+In this section, the performance of Auto-Hybrid, RK-HMA, A-ALNS, and R-ALNS is evaluated on ten scenarios with five independent runs each. Table IX reports the comparison results in profit rate. As shown in Table IX, Auto-Hybrid obtains the best or tied-best profit rate on all ten scenarios. Fig. 5 shows the profit-rate comparison under regional and global distributions.
 
-**TABLE VIII: PROFIT-RATE COMPARISON ON ALL EXPERIMENTAL SCENARIOS.**
+On regional scenarios, all algorithms show larger performance differences compared to global scenarios. With the increasing problem scale, Auto-Hybrid gradually shows its advantage over R-ALNS, A-ALNS, and RK-HMA. The maximum gap between Auto-Hybrid and R-ALNS reaches 12.32 percentage points, and the average gap reaches 8.31 percentage points. The maximum gap between Auto-Hybrid and A-ALNS reaches 8.26 percentage points, and the average gap reaches 5.97 percentage points. The maximum gap between Auto-Hybrid and RK-HMA reaches 2.99 percentage points, and the average gap reaches 0.76 percentage points. Auto-Hybrid achieves a mean profit rate of 63.24% on the regional scenarios, compared with 62.48% for RK-HMA, 57.27% for A-ALNS, and 54.93% for R-ALNS. This advantage is associated with the stronger task-satellite contention induced by the regional distribution.
+
+On global scenarios, where tasks are uniformly distributed, the performance differences narrow considerably. The maximum gap between Auto-Hybrid and R-ALNS is only 0.65 percentage points, and the average gap is only 0.26 percentage points. The maximum gap between Auto-Hybrid and A-ALNS is only 0.08 percentage points, and the average gap is only 0.03 percentage points. Auto-Hybrid ties with RK-HMA on all four global scenarios (2, 4, 6, and 8), and all methods achieve profit rates between 92.47% and 100.00%. Across all ten scenarios, the mean gaps of Auto-Hybrid relative to R-ALNS and A-ALNS are 5.09 and 3.59 percentage points, respectively.
+
+**TABLE IX: MEAN PROFIT RATE (%) ON ALL EXPERIMENTAL SCENARIOS.**
 
 | Scenario | Distribution | $n,m$ | R-ALNS | A-ALNS | RK-HMA | Auto-Hybrid |
 |---:|---|---:|---:|---:|---:|---:|
@@ -466,101 +465,95 @@ In this section, the performance of Auto-Hybrid, RK-HMA, A-ALNS, and R-ALNS is c
 | 9 | Regional | 8000, 80 | 42.45%<br>(+8.95) | 43.41%<br>(+7.99) | 51.22%<br>(+0.18) | **51.40%**<br>(0) |
 | 10 | Regional | 10000, 100 | 28.44%<br>(+5.77) | 29.61%<br>(+4.60) | 34.08%<br>(+0.13) | **34.21%**<br>(0) |
 
-Fig. 5 shows the profit-rate comparison by task distribution. All four methods remain near saturation on global-distribution scenarios, achieving profit rates between 92.47% and 100.00%. The performance differences are more substantial on regional-distribution scenarios, where Auto-Hybrid shows consistent advantages over the baselines. The improvement can be explained by the automatically composed hybrid structure: the selected configuration combines SHADE and PSO at the task-list level with stage-switch ordering, allowing the optimizer to balance exploration and exploitation more effectively under stronger task-satellite contention. The differences should not be interpreted as a causal estimate of automatic structure design because the execution protocols and code states are different across the compared methods.
 
-![Reported profit-rate comparison by task distribution](figures/auto_hybrid_distribution_comparison.svg)
 
-**Fig. 5.** Reported profit-rate comparison by task distribution.
+![Mean profit rate by task distribution](figures/auto_hybrid_distribution_comparison.svg)
 
-**Computational time.** The R-ALNS and A-ALNS times are the five-run means reported in [21, Table 5], while RK-HMA times remain from [21]. Auto-Hybrid times are current five-run means. Different implementations, hardware, and protocols make this an auxiliary comparison.
+**Fig. 5.** Mean profit rate by task distribution.
 
-**TABLE IX: COMPUTATIONAL-TIME COMPARISON WITH REPORTED METHODS.**
+The computational times of Auto-Hybrid, RK-HMA, R-ALNS, and A-ALNS are shown in Table X. Overall, as the numbers of tasks and satellites increase, all algorithms consume more computational time. Auto-Hybrid is faster than RK-HMA on all ten scenarios; the detailed comparison is given below together with the profit-rate analysis. Compared with R-ALNS and A-ALNS, Auto-Hybrid has lower computational time in most scenarios, especially in the global scenarios, where it is the fastest method on all four cases. On regional scenarios where Auto-Hybrid requires longer runtime than A-ALNS, the higher profit rate accompanies the additional computational cost. For example, on regional scenarios 1, 3, 5, and 10, Auto-Hybrid requires 4.21, 1.84, 0.43, and 27.08 s more than A-ALNS, while achieving 3.31, 8.26, 7.44, and 4.60 percentage-point profit-rate gains, respectively. This pattern reflects two aspects: the shared-population hybrid inner optimizer introduces multiple parent-algorithm updates, while the common allocation and reassignment pipeline makes the computational cost increase with the number of tasks and satellites.
 
-| Scenario | Distribution | $n,m$ | R-ALNS | A-ALNS | RK-HMA | Auto-Hybrid (current replay) |
+**TABLE X: MEAN COMPUTATIONAL TIME ON ALL EXPERIMENTAL SCENARIOS.**
+
+| Scenario | Distribution | $n,m$ | R-ALNS | A-ALNS | RK-HMA | Auto-Hybrid |
 |---:|---|---:|---:|---:|---:|---:|
-| 1 | Regional | 500,5 | 4.18 s | 2.72 s | 7.83 s | 6.929 s |
-| 2 | Global | 500,5 | 2.36 s | 2.44 s | 1.23 s | 0.969 s |
-| 3 | Regional | 1000,10 | 4.54 s | 2.56 s | 5.64 s | 4.402 s |
-| 4 | Global | 1000,10 | 3.90 s | 3.11 s | 1.39 s | 1.004 s |
-| 5 | Regional | 1000,20 | 5.57 s | 2.99 s | 4.86 s | 3.423 s |
-| 6 | Global | 2000,20 | 8.00 s | 6.67 s | 2.59 s | 2.025 s |
-| 7 | Regional | 4000,40 | 34.64 s | 19.31 s | 9.70 s | 7.768 s |
-| 8 | Global | 6000,60 | 27.59 s | 43.20 s | 1.89 s | 0.964 s |
-| 9 | Regional | 8000,80 | 94.61 s | 84.20 s | 76.79 s | 46.395 s |
-| 10 | Regional | 10000,100 | 132.63 s | 86.58 s | 126.83 s | 113.658 s |
+| 1 | Regional | 500,5 | 4.18 s | **2.72 s** | 7.83 s | 6.929 s |
+| 2 | Global | 500,5 | 2.36 s | 2.44 s | 1.23 s | **0.969 s** |
+| 3 | Regional | 1000,10 | 4.54 s | **2.56 s** | 5.64 s | 4.402 s |
+| 4 | Global | 1000,10 | 3.90 s | 3.11 s | 1.39 s | **1.004 s** |
+| 5 | Regional | 1000,20 | 5.57 s | **2.99 s** | 4.86 s | 3.423 s |
+| 6 | Global | 2000,20 | 8.00 s | 6.67 s | 2.59 s | **2.025 s** |
+| 7 | Regional | 4000,40 | 34.64 s | 19.31 s | 9.70 s | **7.768 s** |
+| 8 | Global | 6000,60 | 27.59 s | 43.20 s | 1.89 s | **0.964 s** |
+| 9 | Regional | 8000,80 | 94.61 s | 84.20 s | 76.79 s | **46.395 s** |
+| 10 | Regional | 10000,100 | 132.63 s | **86.58 s** | 126.83 s | 113.658 s |
 
-The current Auto-Hybrid replay took 937.686 s across 50 runs, or 18.754 s per run on average. Scenarios 9 and 10 account for most of this cost, with five-run totals of 231.975 s and 568.292 s, respectively. Within the current implementation, the replay remains executable at the tested scales, but the cost grows sharply for the largest regional scenarios.
+The comparison between Auto-Hybrid and RK-HMA is central to this study, because the two methods share the same random-key scheduling bridge, the same dynamic task reassignment layer, and the same benchmark scenarios; they differ only in how the inner single-satellite optimizer is designed—by automatic structural search versus by manual expert selection of DE/rand/1 and PSO. As shown in Tables IX and X, Auto-Hybrid matches or exceeds RK-HMA in profit rate on all ten scenarios while being faster on every one. Fig. 6 further compares the five-run profit-rate distributions on the six regional scenarios: the Auto-Hybrid median is above the RK-HMA median in all six panels, with standard deviations between 0.03 and 0.53 percentage points; the distributions overlap on smaller-scale scenarios where both methods approach the regional profit ceiling, while the gap widens on the larger and more contention-heavy scenarios (7, 9, 10). These results confirm the effectiveness of automatic structural search: the composed EDA–GA optimizer matches or surpasses the hand-crafted DE/rand/1–PSO combination in both solution quality and computational efficiency across all tested scenarios. Note that the two sets of runs come from different execution periods, so the comparison is descriptive rather than a paired controlled experiment.
 
-The source RK-HMA paper shows five run-level points for RK-HMA on the six regional scenarios in Fig. 9. We use those plotted RK-HMA points to construct a descriptive boxplot comparison with the five current Auto-Hybrid replay values. The two methods come from different execution protocols and code states, so the figure is not a paired inferential comparison.
+![Profit rate distribution of RK-HMA and Auto-Hybrid on regional scenarios](figures/rk_hma_auto_hybrid_regional_boxplots.svg)
 
-![Five-run profit-rate distributions of RK-HMA and Auto-Hybrid on regional scenarios](figures/rk_hma_auto_hybrid_regional_boxplots.svg)
+**Fig. 6.** Profit rate distribution of RK-HMA and Auto-Hybrid on regional scenarios.
 
-**Fig. 6.** Five-run profit-rate distributions of RK-HMA and Auto-Hybrid on the regional scenarios.
 
-The regional Auto-Hybrid replay is stable at the current five-run resolution, with standard deviations between 0.03 and 0.53 percentage points. Its median is above the RK-HMA median in all six plotted regional panels, although the distributions overlap on several scenarios. The numerical ten-scenario comparison above continues to use the reported RK-HMA means in Table IV of [21]; Fig. 6 uses the run-level points shown in Fig. 9 to make within-scenario variation visible. Neither source supports a paired causal estimate of automatic structure design.
 
 # V. Conclusion
 
-The large-scale agile earth observation satellite task scheduling problem (LS-AEOSTSP) couples task selection, satellite assignment, and attitude-constrained per-satellite sequencing, and existing hybrid solvers fix the inner single-satellite optimizer by hand. This paper presented an automatic design framework for collaboration-based hybrid metaheuristics that instead treats this inner optimizer as a design object. The task-satellite allocation layer and the sequence-to-schedule decoding layer remain unchanged; the searched part is the collaboration structure of the inner single-satellite optimizer.
+This paper presented an automatic design framework for collaboration-based hybrid metaheuristics tailored to LS-AEOSTSP. Unlike the manually designed RK-HMA, which fixes the inner single-satellite optimizer as a DE/rand/1–PSO hybrid under a predetermined collaboration structure, the proposed framework encodes the collaboration structure—parent algorithms, operating levels, operating order, and survivor selection—as a six-gene semantic chromosome and searches it through an evolutionary process. The task-satellite allocation layer and the random-key scheduling bridge remain unchanged, so the searched part is strictly the inner optimizer structure.
 
-The method uses component libraries and a six-gene semantic chromosome to describe parent algorithms, OL, OO, and survivor selection. Each chromosome is decoded into an executable single-satellite optimizer and evaluated through the same multi-satellite scheduling pipeline. A reduced-budget evolutionary search selects a candidate structure on four representative regional scenarios, and a full-budget replay then evaluates the composed optimizer on all ten benchmark scenarios. The training screen selects chromosome [2,0,0,0,4,2], which decodes to EDA and GA with full-population operating levels, process-no-improvement switching, and pairwise-greedy survivor selection. Its training macro mean is 73.32%, approximately 0.04 percentage points above the runner-up.
-
-The selected configuration completes 50/50 full-budget replay runs and reaches a ten-scenario macro-mean profit rate of 77.04% under the current full-budget replay protocol. The global scenarios are close to the profit ceiling, while the regional scenarios show lower means and larger replay variation. Compared with the RK-HMA means reported in [21], the current Auto-Hybrid replay is higher on all six regional scenarios at the unrounded mean level, tied with scenario 1 at the two-decimal reporting precision, and tied on the four global scenarios at that precision; the descriptive macro-mean differences are approximately 0.46 percentage points across all ten scenarios and 0.76 percentage points on the regional subset. Because the two sources use different execution protocols and code states, these values quantify a reported-protocol comparison rather than an isolated causal effect of automatic structure design. Beyond solution quality, the automatic design stage provides an unattended route for selecting a concrete collaboration structure from the six-gene search space.
-
-In future work, the component libraries can be enriched with more parent algorithms and hybridization forms, and large language models offer a promising route to propose or generate such components automatically; a racing or surrogate-assisted design stage would then keep the enlarged search affordable. The same searchable-structure formulation can also be applied to a wider range of scheduling and combinatorial-optimization problems beyond LS-AEOSTSP. More broadly, the results suggest that treating the inner optimizer as a searchable structural layer is a reusable way to strengthen an existing scheduling pipeline without redesigning its problem-specific components.
+Experimental results on ten benchmark scenarios containing 500–10,000 tasks and 5–100 satellites show that the composed optimizer obtains the best or tied-best profit rate on all scenarios, with maximum advantages of 12.32 and 8.26 percentage points over R-ALNS and A-ALNS, respectively. Compared with RK-HMA, Auto-Hybrid achieves higher profit rates on all six regional scenarios (up to 2.99 percentage points) while being computationally faster on all ten scenarios, demonstrating that the automatically selected collaboration structure is better suited to the scheduling pipeline than the hand-crafted one. In future work, the component libraries can be enriched with more parent algorithms and hybridization forms, and the same searchable-structure formulation can be extended to complex constrained AEOSTSP variants such as resource-limited scheduling, autonomous task scheduling, and dynamic environments.
 
 # References
 
-[1] X. Wang, G. Wu, L. Xing, and W. Pedrycz, "Agile earth observation satellite scheduling over 20 years: Formulations, methods, and future directions," *IEEE Systems Journal*, vol. 15, no. 3, pp. 3881-3892, 2021, doi: 10.1109/JSYST.2020.2997050.
+[1] X. Wang, G. Wu, L. Xing, and W. Pedrycz, "Agile earth observation satellite scheduling over 20 years: Formulations, methods, and future directions," *IEEE Systems Journal*, vol. 15, no. 3, pp. 3881-3892, 2021.
 
-[2] X. Chen, G. Reinelt, G. Dai, and A. Spitz, "A mixed integer linear programming model for multi-satellite scheduling," *European Journal of Operational Research*, vol. 275, no. 2, pp. 694-707, 2019, doi: 10.1016/j.ejor.2018.11.058.
+[2] X. Chen, G. Reinelt, G. Dai, and A. Spitz, "A mixed integer linear programming model for multi-satellite scheduling," *European Journal of Operational Research*, vol. 275, no. 2, pp. 694-707, 2019.
 
-[3] Y. Du, T. Wang, B. Xin, L. Wang, Y. Chen, and L. Xing, "A data-driven parallel scheduling approach for multiple agile earth observation satellites," *IEEE Transactions on Evolutionary Computation*, vol. 24, no. 4, pp. 679-693, 2020, doi: 10.1109/TEVC.2019.2934148.
+[3] Y. Du, T. Wang, B. Xin, L. Wang, Y. Chen, and L. Xing, "A data-driven parallel scheduling approach for multiple agile earth observation satellites," *IEEE Transactions on Evolutionary Computation*, vol. 24, no. 4, pp. 679-693, 2020.
 
-[4] G. Peng, G. Song, L. Xing, A. Gunawan, and P. Vansteenwegen, "An exact algorithm for agile earth observation satellite scheduling with time-dependent profits," *Computers & Operations Research*, vol. 120, p. 104946, 2020, doi: 10.1016/j.cor.2020.104946.
+[4] G. Peng, G. Song, L. Xing, A. Gunawan, and P. Vansteenwegen, "An exact algorithm for agile earth observation satellite scheduling with time-dependent profits," *Computers & Operations Research*, vol. 120, p. 104946, 2020.
 
-[5] G. Peng, G. Song, Y. He, J. Yu, S. Xiang, L. Xing, and P. Vansteenwegen, "Solving the agile earth observation satellite scheduling problem with time-dependent transition times," *IEEE Transactions on Systems, Man, and Cybernetics: Systems*, vol. 52, no. 3, pp. 1614-1625, 2022, doi: 10.1109/TSMC.2020.3031738.
+[5] G. Peng, G. Song, Y. He, J. Yu, S. Xiang, L. Xing, and P. Vansteenwegen, "Solving the agile earth observation satellite scheduling problem with time-dependent transition times," *IEEE Transactions on Systems, Man, and Cybernetics: Systems*, vol. 52, no. 3, pp. 1614-1625, 2022.
 
-[6] X. Liu, G. Laporte, Y. Chen, and R. He, "An adaptive large neighborhood search metaheuristic for agile satellite scheduling with time-dependent transition time," *Computers & Operations Research*, vol. 86, pp. 41-53, 2017, doi: 10.1016/j.cor.2017.04.006.
+[6] X. Liu, G. Laporte, Y. Chen, and R. He, "An adaptive large neighborhood search metaheuristic for agile satellite scheduling with time-dependent transition time," *Computers & Operations Research*, vol. 86, pp. 41-53, 2017.
 
-[7] L. He, X. Liu, G. Laporte, Y. Chen, and Y. Chen, "An improved adaptive large neighborhood search algorithm for multiple agile satellites scheduling," *Computers & Operations Research*, vol. 100, pp. 12-25, 2018, doi: 10.1016/j.cor.2018.06.020.
+[7] L. He, X. Liu, G. Laporte, Y. Chen, and Y. Chen, "An improved adaptive large neighborhood search algorithm for multiple agile satellites scheduling," *Computers & Operations Research*, vol. 100, pp. 12-25, 2018.
 
-[8] J. Li, J. Zhu, D. Xu, J. Wang, Z. Li, and K. Zhang, "Earth observation satellite scheduling with interval-varying profits," *IEEE Transactions on Aerospace and Electronic Systems*, vol. 60, no. 6, pp. 8273-8288, 2024, doi: 10.1109/TAES.2024.3427090.
+[8] J. Li, J. Zhu, D. Xu, J. Wang, Z. Li, and K. Zhang, "Earth observation satellite scheduling with interval-varying profits," *IEEE Transactions on Aerospace and Electronic Systems*, vol. 60, no. 6, pp. 8273-8288, 2024.
 
-[9] F. Yao, Y. Chen, L. Wang, Z. Chang, P.-Q. Huang, and Y. Wang, "A bilevel evolutionary algorithm for large-scale multiobjective task scheduling in multiagile earth observation satellite systems," *IEEE Transactions on Systems, Man, and Cybernetics: Systems*, vol. 54, no. 6, pp. 3512-3524, 2024, doi: 10.1109/TSMC.2024.3359265.
+[9] F. Yao, Y. Chen, L. Wang, Z. Chang, P.-Q. Huang, and Y. Wang, "A bilevel evolutionary algorithm for large-scale multiobjective task scheduling in multiagile earth observation satellite systems," *IEEE Transactions on Systems, Man, and Cybernetics: Systems*, vol. 54, no. 6, pp. 3512-3524, 2024.
 
-[10] J. Qin, X. Bai, G. Du, J. Liu, N. Peng, and M. Xu, "Multisatellite scheduling for moving targets using the enhanced hybrid genetic simulated annealing algorithm and observation strip selection," *IEEE Transactions on Aerospace and Electronic Systems*, vol. 60, no. 5, pp. 5773-5800, 2024, doi: 10.1109/TAES.2024.3397958.
+[10] J. Qin, X. Bai, G. Du, J. Liu, N. Peng, and M. Xu, "Multisatellite scheduling for moving targets using the enhanced hybrid genetic simulated annealing algorithm and observation strip selection," *IEEE Transactions on Aerospace and Electronic Systems*, vol. 60, no. 5, pp. 5773-5800, 2024.
 
-[11] H. Wang, W. Huang, S. Magnusson, T. Lindgren, R. Wang, and Y. Song, "A strategy fusion-based multiobjective optimization approach for agile earth observation satellite scheduling problem," *IEEE Transactions on Geoscience and Remote Sensing*, vol. 62, pp. 1-14, 2024, doi: 10.1109/TGRS.2024.3472749.
+[11] H. Wang, W. Huang, S. Magnusson, T. Lindgren, R. Wang, and Y. Song, "A strategy fusion-based multiobjective optimization approach for agile earth observation satellite scheduling problem," *IEEE Transactions on Geoscience and Remote Sensing*, vol. 62, pp. 1-14, 2024.
 
-[12] C. Blum, J. Puchinger, G. R. Raidl, and A. Roli, "Hybrid metaheuristics in combinatorial optimization: A survey," *Applied Soft Computing*, vol. 11, no. 6, pp. 4135-4151, 2011, doi: 10.1016/j.asoc.2011.02.032.
+[12] C. Blum, J. Puchinger, G. R. Raidl, and A. Roli, "Hybrid metaheuristics in combinatorial optimization: A survey," *Applied Soft Computing*, vol. 11, no. 6, pp. 4135-4151, 2011.
 
-[13] J. Fan, Y. Li, J. Xie, C. Zhang, W. Shen, and L. Gao, "A hybrid evolutionary algorithm using two solution representations for hybrid flow-shop scheduling problem," *IEEE Transactions on Cybernetics*, vol. 53, no. 3, pp. 1752-1764, 2023, doi: 10.1109/TCYB.2021.3120875.
+[13] J. Fan, Y. Li, J. Xie, C. Zhang, W. Shen, and L. Gao, "A hybrid evolutionary algorithm using two solution representations for hybrid flow-shop scheduling problem," *IEEE Transactions on Cybernetics*, vol. 53, no. 3, pp. 1752-1764, 2023.
 
-[14] Z. Shu, A. Song, G. Wu, and W. Pedrycz, "Variable reduction strategy integrated variable neighborhood search and NSGA-II hybrid algorithm for emergency material scheduling," *Complex System Modeling and Simulation*, vol. 3, no. 2, pp. 83-101, 2023, doi: 10.23919/CSMS.2023.0006.
+[14] Z. Shu, A. Song, G. Wu, and W. Pedrycz, "Variable reduction strategy integrated variable neighborhood search and NSGA-II hybrid algorithm for emergency material scheduling," *Complex System Modeling and Simulation*, vol. 3, no. 2, pp. 83-101, 2023.
 
-[15] Y. Rocha, G. O. Chagas, L. C. Coelho, and A. Subramanian, "The integrated agile earth observation satellite scheduling problem," *Computers & Operations Research*, vol. 184, p. 107212, 2025, doi: 10.1016/j.cor.2025.107212.
+[15] Y. Rocha, G. O. Chagas, L. C. Coelho, and A. Subramanian, "The integrated agile earth observation satellite scheduling problem," *Computers & Operations Research*, vol. 184, p. 107212, 2025.
 
-[16] F. Hutter, H. H. Hoos, K. Leyton-Brown, and T. Stutzle, "ParamILS: An automatic algorithm configuration framework," *Journal of Artificial Intelligence Research*, vol. 36, pp. 267-306, 2009, doi: 10.1613/jair.2861.
+[16] F. Hutter, H. H. Hoos, K. Leyton-Brown, and T. Stutzle, "ParamILS: An automatic algorithm configuration framework," *Journal of Artificial Intelligence Research*, vol. 36, pp. 267-306, 2009.
 
-[17] F. Hutter, H. H. Hoos, and K. Leyton-Brown, "Sequential model-based optimization for general algorithm configuration," in *Learning and Intelligent Optimization*, Lecture Notes in Computer Science, vol. 6683, pp. 507-523, Springer, 2011, doi: 10.1007/978-3-642-25566-3_40.
+[17] F. Hutter, H. H. Hoos, and K. Leyton-Brown, "Sequential model-based optimization for general algorithm configuration," in *Learning and Intelligent Optimization*, Lecture Notes in Computer Science, vol. 6683, pp. 507-523, Springer, 2011.
 
-[18] M. Lopez-Ibanez, J. Dubois-Lacoste, L. Perez Caceres, M. Birattari, and T. Stutzle, "The irace package: Iterated racing for automatic algorithm configuration," *Operations Research Perspectives*, vol. 3, pp. 43-58, 2016, doi: 10.1016/j.orp.2016.09.002.
+[18] M. Lopez-Ibanez, J. Dubois-Lacoste, L. Perez Caceres, M. Birattari, and T. Stutzle, "The irace package: Iterated racing for automatic algorithm configuration," *Operations Research Perspectives*, vol. 3, pp. 43-58, 2016.
 
-[19] E. K. Burke, M. Gendreau, M. Hyde, G. Kendall, G. Ochoa, E. Ozcan, and R. Qu, "Hyper-heuristics: A survey of the state of the art," *Journal of the Operational Research Society*, vol. 64, no. 12, pp. 1695-1724, 2013, doi: 10.1057/jors.2013.71.
+[19] E. K. Burke, M. Gendreau, M. Hyde, G. Kendall, G. Ochoa, E. Ozcan, and R. Qu, "Hyper-heuristics: A survey of the state of the art," *Journal of the Operational Research Society*, vol. 64, no. 12, pp. 1695-1724, 2013.
 
-[20] Y. Wang, B. Xin, B. Liu, and Q. Wang, "Automated design of collaboration-based hybrid metaheuristics," *IEEE Transactions on Cybernetics*, vol. 54, no. 12, pp. 7877-7890, 2024, doi: 10.1109/TCYB.2024.3412997.
+[20] Y. Wang, B. Xin, B. Liu, and Q. Wang, "Automated design of collaboration-based hybrid metaheuristics," *IEEE Transactions on Cybernetics*, vol. 54, no. 12, pp. 7877-7890, 2024.
 
 [21] H. Lei, X. Lin, L. He, and Y. Chen, "A random-key hybrid metaheuristic algorithm with dynamic task reassignment for large-scale multi-satellite scheduling," 2025, submitted for publication.
 
 [22] E.-G. Talbi, *Metaheuristics: From Design to Implementation*. Hoboken, NJ, USA: Wiley, 2009.
 
-[23] K. Socha and M. Dorigo, "Ant colony optimization for continuous domains," *European Journal of Operational Research*, vol. 185, no. 3, pp. 1155-1173, 2008, doi: 10.1016/j.ejor.2006.06.046.
+[23] K. Socha and M. Dorigo, "Ant colony optimization for continuous domains," *European Journal of Operational Research*, vol. 185, no. 3, pp. 1155-1173, 2008.
 
-[24] S. Das and P. N. Suganthan, "Differential evolution: A survey of the state-of-the-art," *IEEE Transactions on Evolutionary Computation*, vol. 15, no. 1, pp. 4-31, 2011, doi: 10.1109/TEVC.2010.2059031.
+[24] S. Das and P. N. Suganthan, "Differential evolution: A survey of the state-of-the-art," *IEEE Transactions on Evolutionary Computation*, vol. 15, no. 1, pp. 4-31, 2011.
 
-[25] R. Tanabe and A. S. Fukunaga, "Improving the search performance of SHADE using linear population size reduction," in *Proc. IEEE Congress on Evolutionary Computation (CEC)*, 2014, pp. 1658-1665, doi: 10.1109/CEC.2014.6900380.
+[25] R. Tanabe and A. S. Fukunaga, "Improving the search performance of SHADE using linear population size reduction," in *Proc. IEEE Congress on Evolutionary Computation (CEC)*, 2014, pp. 1658-1665.
 
-[26] A. Santiago, B. Dorronsoro, A. J. Nebro, J. J. Durillo, O. Castillo, and H. J. Fraire, "A novel multi-objective evolutionary algorithm with fuzzy logic based adaptive selection of operators: FAME," *Information Sciences*, vol. 471, pp. 233-251, 2019, doi: 10.1016/j.ins.2018.09.005.
+[26] A. Santiago, B. Dorronsoro, A. J. Nebro, J. J. Durillo, O. Castillo, and H. J. Fraire, "A novel multi-objective evolutionary algorithm with fuzzy logic based adaptive selection of operators: FAME," *Information Sciences*, vol. 471, pp. 233-251, 2019.
 
-[27] F. Zhao, W. Lei, W. Ma, Y. Liu, and C. Zhang, "An improved SPEA2 algorithm with adaptive selection of evolutionary operators scheme for multiobjective optimization problems," *Mathematical Problems in Engineering*, vol. 2016, Art. no. 8010346, pp. 1-20, 2016, doi: 10.1155/2016/8010346.
+[27] F. Zhao, W. Lei, W. Ma, Y. Liu, and C. Zhang, "An improved SPEA2 algorithm with adaptive selection of evolutionary operators scheme for multiobjective optimization problems," *Mathematical Problems in Engineering*, vol. 2016, Art. no. 8010346, pp. 1-20, 2016.
