@@ -1,6 +1,6 @@
 # 6D pure-semantic dynamic version 全局地图
 
-> 最后更新：2026-09-19
+> 最后更新：2026-10-09
 
 ## 项目概述
 
@@ -62,6 +62,9 @@
 
 ## 论文 PDF 构建产物
 
+- 每份 Markdown 在其目录中只保留一个最终编译 PDF：<basename>.pdf。不要留下 -final、-fixed、日期或其他版本后缀的同源编译 PDF。
+- 新 PDF 必须先在 outputs/<build-id>/ 完成编译、日志和视觉检查；检查通过后再替换 Markdown 同目录的最终 PDF。新稿验证通过前，不覆盖或删除现有最终 PDF。
+- 替换成功后，清理可确认由同一 Markdown 生成的旧版编译 PDF；保留参考论文、投稿模板及其他来源 PDF。
 - 从项目中的 PDF 导出批注时，默认生成独立 UTF-8 Markdown 文件，命名为 `<PDF basename>_annotations.md`，并放在源 PDF 同目录；`outputs/` 只用于提取过程中的临时文件或验证产物，除非用户明确指定其他位置。
 - 从 `vault/Writing/*.md` 构建论文 PDF 时，最终 PDF 仅保存在对应 Markdown 同目录，命名为 `<basename>.pdf`。
 - `.tex`、`.aux`、`.bbl`、`.blg`、`.log`、`.out`、`.toc`、`.synctex.gz`、转换文件、页面渲染图、字体与检查报告等中间产物必须放在独立的 `outputs/<build-id>/`，不得写入 `vault/Writing/`。
@@ -78,6 +81,8 @@
 - **动态重分配层 TaskAllocationCoordinator**：多卫星场景下跨卫星任务重分配与迭代再调度
 
 ## 根目录结构
+
+当前 Auto-Hybrid 共用调度路径使用两项等价加速：delta fast refine 邻接交换原地重放快照并回滚，GREEDY 仅在前缀调度逐项相同时跳过后缀；GREEDY 窗口扫描复用只读秒数缓存，先做时间间隔剪枝，再读取姿态记录。现有配置、seed 和接受条件不变。接口与独占缓冲约定见 `main/utils/model/operator` 模块地图。
 
 ```text
 6D_dynamic_version_mfea/
@@ -219,11 +224,3 @@ ScenePathResolver（`autohyb.sceneRoot` → `AUTOHYB_SCENE_ROOT` → 当前/相�
 - 不要在同一个 worktree 内并行运行 Maven 测试/编译与 Java 实验脚本。
 - 两者共享 `target/classes`；并行执行可能导致 `NoClassDefFoundError` 或 stale classpath。
 - 正确顺序是先跑 compile/test，再跑长实验脚本，最后重新跑 compile/test。
-
-## Java 本机运行资源
-
-- Codex 在本机启动或管理 Java 程序时，默认将目标 Java 进程优先级设为 `BelowNormal`，优先保证 Windows、Codex 和其他交互应用流畅。
-- 修改优先级前确认目标进程、主类和当前任务，避免修改无关 Java 进程。
-- 对 CPU 密集型并行 Java 任务，如果设置 `BelowNormal` 后仍造成卡顿，或整机 CPU 长时间超过 90%，再限制任务并发，至少保留 4–6 个逻辑处理器。
-- 用户明确要求测试算法速度、基准测试或满速运行时，使用 `Normal` 优先级并允许使用全部可用处理器。
-- 测试算法速度时记录线程数、优先级、CPU 占用和关键运行参数，避免把限速结果当作满速性能。

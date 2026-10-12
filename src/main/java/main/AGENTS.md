@@ -33,6 +33,11 @@
 
 ## 接口说明
 
+### DeltaFastRefiner 快照重放
+
+- 邻接交换使用 `PlanUtils.generateScheduleWithSnapshotRange()` 记录连续位置的前缀快照，并在独占列表中重放候选；finally 逆序回滚插入记录，接受的调度先复制。
+- 仅在 GREEDY 下，交换两任务后的调度与原快照逐项保持相同任务、卫星、窗口、起止记录时，跳过后续解码。其他模式继续完整后缀解码，保留原随机数消费。
+
 ### MainMFEAMOPHOA
 
 ```java
@@ -79,7 +84,7 @@ public static void main(String[] args)
 - `--record-baseline`：将当前运行结果写入默认基线文件 `outputs/run-single-baseline.properties`
 - `--baseline-file <path>`：覆盖默认基线路径
 - `-Dhybcec.insertionMode=<InsertionMode>`：覆盖本次评估链路使用的插入策略；默认 `GREEDY`
-- 默认配置：`{2,9,0,0,0,2}`，即 EDA + L-SHADE、FULL/FULL、SEQUENTIAL、PAIRWISE_GREEDY
+- 默认配置：`{2,0,0,0,4,2}`，即当前 Auto-Hybrid 的 EDA + GA、FULL/FULL、PROCESS_NO_IMPROVEMENT_SWITCH、PAIRWISE_GREEDY
 - `MANUAL_PER_RUN_START`：直接运行 `RunSingleHybridConfig` 时的源码手动 seed 行选择，范围 `0..19`；显式 `-Devaluation.perRunStart=N` 优先
 - `MANUAL_SEED_TABLE_SOURCE`：直接运行 `RunSingleHybridConfig` 时的源码手动 seed 表选择，填 `native290002`、`native270342`、`native200042` 或 `native410000`；显式 `-Devaluation.seedTable.source=...` 优先
 - `MANUAL_RUN_SEED_LOG`：直接运行 `RunSingleHybridConfig` 时是否默认打印 fixed seed 元数据；显式 `-Devaluation.runSeedLog=true|false` 优先

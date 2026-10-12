@@ -310,12 +310,21 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
       if (!window.canAccommodateTask(taskDuration)) continue;
 
       int maxStartIndex = window.getAttitudeRecordCount() - 1 - taskDuration;
+      double[] recordTimes = window.getAttitudeRecordTimesUnsafe();
       for (int i = 1; i <= maxStartIndex; i++) {
-        AttitudeRecord candidateStart = window.getAttitudeRecord(i);
-        AttitudeRecord candidateEnd = window.getAttitudeRecord(i + taskDuration);
-
-        double startTime = candidateStart.getTotalSeconds();
-        double endTime = candidateEnd.getTotalSeconds();
+        AttitudeRecord candidateStart = null;
+        AttitudeRecord candidateEnd = null;
+        double startTime;
+        double endTime;
+        if (recordTimes != null) {
+          startTime = recordTimes[i];
+          endTime = recordTimes[i + taskDuration];
+        } else {
+          candidateStart = window.getAttitudeRecord(i);
+          candidateEnd = window.getAttitudeRecord(i + taskDuration);
+          startTime = candidateStart.getTotalSeconds();
+          endTime = candidateEnd.getTotalSeconds();
+        }
 
         if (insertionIndex < 0 || startTime < previousStartTime) {
           insertionIndex = findInsertionIndex(currentSchedule, startTime);
@@ -365,20 +374,24 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
             strict = true;
           }
           int nextStartIndex = strict
-            ? findStartIndexAfter(window, i + 1, maxStartIndex, targetStartTime)
-            : findStartIndexAtOrAfter(window, i + 1, maxStartIndex, targetStartTime);
+            ? findStartIndexAfter(window, recordTimes, i + 1, maxStartIndex, targetStartTime)
+            : findStartIndexAtOrAfter(window, recordTimes, i + 1, maxStartIndex, targetStartTime);
           if (nextStartIndex < 0) break;
           i = nextStartIndex - 1;
           continue;
         }
         if (nextTask != null &&
           nextStartTime - endTime < TimeUtils.MIN_TRANSFORMATION_TIME_SECONDS) {
-          int nextStartIndex = findStartIndexAfter(window, i + 1, maxStartIndex, nextStartTime);
+          int nextStartIndex = findStartIndexAfter(window, recordTimes, i + 1, maxStartIndex, nextStartTime);
           if (nextStartIndex < 0) break;
           i = nextStartIndex - 1;
           continue;
         }
 
+        if (recordTimes != null) {
+          candidateStart = window.getAttitudeRecord(i);
+          candidateEnd = window.getAttitudeRecord(i + taskDuration);
+        }
         boolean transitionFromPrevOK = true;
         boolean transitionToNextOK = true;
 
@@ -449,12 +462,21 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
       if (!window.canAccommodateTask(taskDuration)) continue;
 
       int maxStartIndex = window.getAttitudeRecordCount() - 1 - taskDuration;
+      double[] recordTimes = window.getAttitudeRecordTimesUnsafe();
       for (int i = 1; i <= maxStartIndex; i++) {
-        AttitudeRecord candidateStart = window.getAttitudeRecord(i);
-        AttitudeRecord candidateEnd = window.getAttitudeRecord(i + taskDuration);
-
-        double startTime = candidateStart.getTotalSeconds();
-        double endTime = candidateEnd.getTotalSeconds();
+        AttitudeRecord candidateStart = null;
+        AttitudeRecord candidateEnd = null;
+        double startTime;
+        double endTime;
+        if (recordTimes != null) {
+          startTime = recordTimes[i];
+          endTime = recordTimes[i + taskDuration];
+        } else {
+          candidateStart = window.getAttitudeRecord(i);
+          candidateEnd = window.getAttitudeRecord(i + taskDuration);
+          startTime = candidateStart.getTotalSeconds();
+          endTime = candidateEnd.getTotalSeconds();
+        }
 
         if (insertionIndex < 0 || startTime < previousStartTime) {
           insertionIndex = findInsertionIndex(currentSchedule, startTime);
@@ -504,20 +526,24 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
             strict = true;
           }
           int nextStartIndex = strict
-            ? findStartIndexAfter(window, i + 1, maxStartIndex, targetStartTime)
-            : findStartIndexAtOrAfter(window, i + 1, maxStartIndex, targetStartTime);
+            ? findStartIndexAfter(window, recordTimes, i + 1, maxStartIndex, targetStartTime)
+            : findStartIndexAtOrAfter(window, recordTimes, i + 1, maxStartIndex, targetStartTime);
           if (nextStartIndex < 0) break;
           i = nextStartIndex - 1;
           continue;
         }
         if (nextTask != null &&
           nextStartTime - endTime < TimeUtils.MIN_TRANSFORMATION_TIME_SECONDS) {
-          int nextStartIndex = findStartIndexAfter(window, i + 1, maxStartIndex, nextStartTime);
+          int nextStartIndex = findStartIndexAfter(window, recordTimes, i + 1, maxStartIndex, nextStartTime);
           if (nextStartIndex < 0) break;
           i = nextStartIndex - 1;
           continue;
         }
 
+        if (recordTimes != null) {
+          candidateStart = window.getAttitudeRecord(i);
+          candidateEnd = window.getAttitudeRecord(i + taskDuration);
+        }
         boolean transitionFromPrevOK = true;
         boolean transitionToNextOK = true;
 
@@ -625,49 +651,56 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
     return newTask;
   }
 
+  private double recordTime(TimeWindow window, double[] recordTimes, int index) {
+    return recordTimes != null ? recordTimes[index] : window.getAttitudeRecordTimeSeconds(index);
+  }
+
   private int findStartIndexAtOrAfter(
     TimeWindow window,
+    double[] recordTimes,
     int low,
     int high,
     double targetTime
   ) {
-    int estimated = estimateStartIndex(window, low, high, targetTime);
+    int estimated = estimateStartIndex(window, recordTimes, low, high, targetTime);
     if (estimated >= 0) {
-      int corrected = findStartIndexAtOrAfterNear(window, low, high, targetTime, estimated);
+      int corrected = findStartIndexAtOrAfterNear(window, recordTimes, low, high, targetTime, estimated);
       if (corrected >= 0) {
         return corrected;
       }
     }
-    return findStartIndexAtOrAfterBinary(window, low, high, targetTime);
+    return findStartIndexAtOrAfterBinary(window, recordTimes, low, high, targetTime);
   }
 
   private int findStartIndexAfter(
     TimeWindow window,
+    double[] recordTimes,
     int low,
     int high,
     double targetTime
   ) {
-    int estimated = estimateStartIndex(window, low, high, targetTime);
+    int estimated = estimateStartIndex(window, recordTimes, low, high, targetTime);
     if (estimated >= 0) {
-      int corrected = findStartIndexAfterNear(window, low, high, targetTime, estimated);
+      int corrected = findStartIndexAfterNear(window, recordTimes, low, high, targetTime, estimated);
       if (corrected >= 0) {
         return corrected;
       }
     }
-    return findStartIndexAfterBinary(window, low, high, targetTime);
+    return findStartIndexAfterBinary(window, recordTimes, low, high, targetTime);
   }
 
   private int estimateStartIndex(
     TimeWindow window,
+    double[] recordTimes,
     int low,
     int high,
     double targetTime
   ) {
-    double lowTime = window.getAttitudeRecordTimeSeconds(low);
+    double lowTime = recordTime(window, recordTimes, low);
     if (targetTime <= lowTime) {
       return low;
     }
-    double highTime = window.getAttitudeRecordTimeSeconds(high);
+    double highTime = recordTime(window, recordTimes, high);
     if (targetTime > highTime) {
       return -1;
     }
@@ -682,20 +715,21 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
 
   private int findStartIndexAtOrAfterNear(
     TimeWindow window,
+    double[] recordTimes,
     int low,
     int high,
     double targetTime,
     int index
   ) {
     int steps = 0;
-    while (index > low && window.getAttitudeRecordTimeSeconds(index - 1) >= targetTime) {
+    while (index > low && recordTime(window, recordTimes, index - 1) >= targetTime) {
       index--;
       if (++steps > START_INDEX_ESTIMATE_SCAN_LIMIT) {
         return -1;
       }
     }
     steps = 0;
-    while (index <= high && window.getAttitudeRecordTimeSeconds(index) < targetTime) {
+    while (index <= high && recordTime(window, recordTimes, index) < targetTime) {
       index++;
       if (++steps > START_INDEX_ESTIMATE_SCAN_LIMIT) {
         return -1;
@@ -706,20 +740,21 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
 
   private int findStartIndexAfterNear(
     TimeWindow window,
+    double[] recordTimes,
     int low,
     int high,
     double targetTime,
     int index
   ) {
     int steps = 0;
-    while (index > low && window.getAttitudeRecordTimeSeconds(index - 1) > targetTime) {
+    while (index > low && recordTime(window, recordTimes, index - 1) > targetTime) {
       index--;
       if (++steps > START_INDEX_ESTIMATE_SCAN_LIMIT) {
         return -1;
       }
     }
     steps = 0;
-    while (index <= high && window.getAttitudeRecordTimeSeconds(index) <= targetTime) {
+    while (index <= high && recordTime(window, recordTimes, index) <= targetTime) {
       index++;
       if (++steps > START_INDEX_ESTIMATE_SCAN_LIMIT) {
         return -1;
@@ -730,6 +765,7 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
 
   private int findStartIndexAtOrAfterBinary(
     TimeWindow window,
+    double[] recordTimes,
     int low,
     int high,
     double targetTime
@@ -737,7 +773,7 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
     int result = -1;
     while (low <= high) {
       int mid = (low + high) >>> 1;
-      double midTime = window.getAttitudeRecordTimeSeconds(mid);
+      double midTime = recordTime(window, recordTimes, mid);
       if (midTime >= targetTime) {
         result = mid;
         high = mid - 1;
@@ -750,6 +786,7 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
 
   private int findStartIndexAfterBinary(
     TimeWindow window,
+    double[] recordTimes,
     int low,
     int high,
     double targetTime
@@ -757,7 +794,7 @@ public final class GreedyInsertion extends AbstractInsertionStrategy {
     int result = -1;
     while (low <= high) {
       int mid = (low + high) >>> 1;
-      double midTime = window.getAttitudeRecordTimeSeconds(mid);
+      double midTime = recordTime(window, recordTimes, mid);
       if (midTime > targetTime) {
         result = mid;
         high = mid - 1;

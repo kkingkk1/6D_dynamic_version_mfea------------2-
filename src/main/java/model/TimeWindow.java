@@ -22,6 +22,7 @@ public class TimeWindow {
   private int satelliteId;    // Satellite ID associated with this window
   private int taskId;         // Task ID associated with this window
   private List<AttitudeRecord> attitudeRecords;
+  private volatile double[] attitudeRecordTimes;
 
   /**
    * Constructor with raw data (12 columns)
@@ -119,6 +120,38 @@ public class TimeWindow {
   }
 
   /**
+   * 返回与记录顺序一致的秒数缓存。调用方只能读取，不能修改数组。
+   * 支持记录加载完成后的并行只读，不支持并发修改记录列表。
+   * 窗口子类、记录子类或 null 记录返回 null，保留原对象访问语义。
+   */
+  public double[] getAttitudeRecordTimesUnsafe() {
+    if (getClass() != TimeWindow.class) {
+      return null;
+    }
+    double[] times = attitudeRecordTimes;
+    return times != null ? times : buildAttitudeRecordTimes();
+  }
+
+  private synchronized double[] buildAttitudeRecordTimes() {
+    if (attitudeRecordTimes != null) {
+      return attitudeRecordTimes;
+    }
+    int size = attitudeRecords.size();
+    for (int i = 0; i < size; i++) {
+      AttitudeRecord record = attitudeRecords.get(i);
+      if (record == null || record.getClass() != AttitudeRecord.class) {
+        return null;
+      }
+    }
+    double[] times = new double[size];
+    for (int i = 0; i < size; i++) {
+      times[i] = attitudeRecords.get(i).getTotalSeconds();
+    }
+    attitudeRecordTimes = times;
+    return times;
+  }
+
+  /**
    * Check if attitude records are empty
    * 
    * @return true if there are no attitude records, false otherwise
@@ -185,6 +218,7 @@ public class TimeWindow {
    */
   public void setAttitudeRecords(List<AttitudeRecord> attitudeRecords) {
     this.attitudeRecords = attitudeRecords != null ? new ArrayList<>(attitudeRecords) : new ArrayList<>();
+    this.attitudeRecordTimes = null;
   }
 
   /**
@@ -198,6 +232,7 @@ public class TimeWindow {
       throw new IllegalArgumentException("Attitude record cannot be null");
     }
     this.attitudeRecords.add(record);
+    this.attitudeRecordTimes = null;
   }
 
   /**
@@ -208,6 +243,7 @@ public class TimeWindow {
   public void addAttitudeRecords(List<AttitudeRecord> records) {
     if (records != null) {
       this.attitudeRecords.addAll(records);
+      this.attitudeRecordTimes = null;
     }
   }
 
@@ -216,6 +252,7 @@ public class TimeWindow {
    */
   public void clearAttitudeRecords() {
     this.attitudeRecords.clear();
+    this.attitudeRecordTimes = null;
   }
 
   /**

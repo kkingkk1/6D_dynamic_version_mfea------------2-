@@ -799,6 +799,33 @@ public class PlanUtils {
     if (taskSequence == null || satellite == null) {
       return new ScheduleSnapshotResult(new ArrayList<>(), new HashMap<>(), new HashMap<>());
     }
+    int[] positions = snapshotPositions.stream().mapToInt(Integer::intValue).sorted().toArray();
+    return generateScheduleWithSnapshots(taskSequence, satellite, mode, positions, 0, -1);
+  }
+
+  /** Records snapshots for an inclusive range without allocating a boxed position set. */
+  public static ScheduleSnapshotResult generateScheduleWithSnapshotRange(
+    List<Task> taskSequence,
+    Satellite satellite,
+    InsertionMode mode,
+    int firstSnapshotPosition,
+    int lastSnapshotPosition
+  ) {
+    return generateScheduleWithSnapshots(
+      taskSequence, satellite, mode, null, firstSnapshotPosition, lastSnapshotPosition);
+  }
+
+  private static ScheduleSnapshotResult generateScheduleWithSnapshots(
+    List<Task> taskSequence,
+    Satellite satellite,
+    InsertionMode mode,
+    int[] snapshotPositions,
+    int firstSnapshotPosition,
+    int lastSnapshotPosition
+  ) {
+    if (taskSequence == null || satellite == null) {
+      return new ScheduleSnapshotResult(new ArrayList<>(), new HashMap<>(), new HashMap<>());
+    }
     if (mode == null) mode = InsertionMode.GREEDY;
     int satelliteId = satellite.getId();
     InsertionStrategy strategy = InsertionStrategyFactory.getStrategy(mode);
@@ -815,6 +842,12 @@ public class PlanUtils {
     int scheduledTaskIdCount = 0;
     Map<Integer, List<ScheduledTask>> scheduleSnapshots = new HashMap<>();
     Map<Integer, int[]> scheduledIdSnapshots = new HashMap<>();
+    int snapshotCursor = 0;
+    if (snapshotPositions != null) {
+      while (snapshotCursor < snapshotPositions.length && snapshotPositions[snapshotCursor] < 0) {
+        snapshotCursor++;
+      }
+    }
 
     for (int i = 0; i < taskSequence.size(); i++) {
       Task task = taskSequence.get(i);
@@ -842,9 +875,13 @@ public class PlanUtils {
           }
         }
       }
-      if (snapshotPositions.contains(i)) {
+      boolean captureSnapshot = snapshotPositions == null
+        ? i >= firstSnapshotPosition && i <= lastSnapshotPosition
+        : snapshotCursor < snapshotPositions.length && snapshotPositions[snapshotCursor] == i;
+      if (captureSnapshot) {
         scheduleSnapshots.put(i, new ArrayList<>(currentSchedule));
         scheduledIdSnapshots.put(i, Arrays.copyOf(scheduledTaskIdBuffer, scheduledTaskIdCount));
+        snapshotCursor++;
       }
     }
     return new ScheduleSnapshotResult(currentSchedule, scheduleSnapshots, scheduledIdSnapshots);
@@ -922,6 +959,108 @@ public class PlanUtils {
       }
     }
     return currentSchedule;
+  }
+
+  /**
+   * Replays [startIndex, endIndex) in the caller-owned prefix list. The caller must
+   * rollback in a finally block and copy any accepted schedule before rollback.
+   * Existing scheduled elements are read-only; only successful insertions are logged.
+   */
+  public static List<ScheduledTask> generateScheduleFromSnapshotInPlace(
+    List<Task> taskSequence,
+    Satellite satellite,
+    InsertionMode mode,
+    List<ScheduledTask> scheduleSnapshot,
+    int[] scheduledIdsSnapshot,
+    int startIndex,
+    int endIndex,
+    SnapshotReplayScratch replayScratch
+  ) {
+    replayScratch.prepare(taskSequence.size(), scheduledIdsSnapshot);
+    return replayScheduleRangeInPlace(
+      taskSequence, satellite, mode, scheduleSnapshot, startIndex, endIndex, replayScratch);
+  }
+
+  /** Continues a prepared replay, retaining its task-id marker and rollback log. */
+  public static List<ScheduledTask> continueScheduleFromSnapshotInPlace(
+    List<Task> taskSequence,
+    Satellite satellite,
+    InsertionMode mode,
+    List<ScheduledTask> scheduleSnapshot,
+    int startIndex,
+    SnapshotReplayScratch replayScratch
+  ) {
+    return replayScheduleRangeInPlace(
+      taskSequence, satellite, mode, scheduleSnapshot, startIndex, taskSequence.size(), replayScratch);
+  }
+
+  private static List<ScheduledTask> replayScheduleRangeInPlace(
+    List<Task> taskSequence,
+    Satellite satellite,
+    InsertionMode mode,
+    List<ScheduledTask> scheduleSnapshot,
+    int startIndex,
+    int endIndex,
+    SnapshotReplayScratch replayScratch
+  ) {
+    if (mode == null) mode = InsertionMode.GREEDY;
+    int satelliteId = satellite.getId();
+    InsertionStrategy strategy = InsertionStrategyFactory.getStrategy(mode);
+    GreedyInsertion greedyInsertion =
+      mode == InsertionMode.GREEDY && strategy instanceof GreedyInsertion
+        ? (GreedyInsertion) strategy
+        : null;
+    for (int i = startIndex; i < endIndex; i++) {
+      Task task = taskSequence.get(i);
+      if (task == null || replayScratch.scheduledTaskIds.contains(task.getId())) continue;
+      List<TimeWindow> windows = task.getTimeWindowsForSatellite(satelliteId);
+      if (windows == null || windows.isEmpty()) continue;
+      int insertIndex;
+      ScheduledTask insertedTask;
+      if (greedyInsertion != null) {
+        if (!greedyInsertion.findBestPositionInto(
+          task, satelliteId, scheduleSnapshot, replayScratch.greedyResult)) continue;
+        insertIndex = replayScratch.greedyResult.getInsertIndex();
+        insertedTask = replayScratch.greedyResult.getTask();
+      } else {
+        InsertionStrategy.InsertionResult result =
+          strategy.findBestPosition(task, satelliteId, scheduleSnapshot);
+        if (result == null) continue;
+        insertIndex = result.getInsertIndex();
+        insertedTask = result.getTask();
+      }
+      scheduleSnapshot.add(insertIndex, insertedTask);
+      replayScratch.insertedIndices[replayScratch.insertedCount++] = insertIndex;
+      replayScratch.scheduledTaskIds.add(task.getId());
+    }
+    return scheduleSnapshot;
+  }
+
+  /** Run-owned replay buffers; not shared between concurrent refiners. */
+  public static final class SnapshotReplayScratch {
+    private final TaskIdMarker scheduledTaskIds = new TaskIdMarker();
+    private final GreedyInsertion.ReusableInsertionResult greedyResult =
+      new GreedyInsertion.ReusableInsertionResult();
+    private int[] insertedIndices = new int[0];
+    private int insertedCount;
+
+    private void prepare(int sequenceSize, int[] scheduledIdsSnapshot) {
+      if (insertedCount != 0) {
+        throw new IllegalStateException("Previous snapshot replay must be rolled back first");
+      }
+      if (insertedIndices.length < sequenceSize) {
+        insertedIndices = new int[sequenceSize];
+      }
+      scheduledTaskIds.clear();
+      scheduledTaskIds.addAll(scheduledIdsSnapshot);
+    }
+
+    /** Removes replay insertions in reverse order, restoring the exact original prefix. */
+    public void rollback(List<ScheduledTask> scheduleSnapshot) {
+      while (insertedCount > 0) {
+        scheduleSnapshot.remove(insertedIndices[--insertedCount]);
+      }
+    }
   }
 
   /** Schedule generation result with snapshot recording */

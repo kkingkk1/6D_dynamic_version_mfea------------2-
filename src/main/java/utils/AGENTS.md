@@ -54,8 +54,12 @@
 - `applyEliteEvaluation(List<double[]>, List<Double>, Satellite, double) -> void` — 精英解重评估
 - `calculateProfit(List<ScheduledTask>) -> int` — 计算调度收益
 - `generateScheduleWithSnapshots(List<Task>, Satellite, InsertionMode, Set<Integer>) -> ScheduleSnapshotResult` — 带快照记录的完整调度生成，在指定位置记录前缀状态快照供增量评估复用
+- `generateScheduleWithSnapshotRange(List<Task>, Satellite, InsertionMode, int, int) -> ScheduleSnapshotResult` — 记录闭区间内的前缀快照，供连续邻接交换复用；与 Set 入口使用相同解码顺序
 - `generateScheduleFromSnapshot(List<Task>, Satellite, InsertionMode, List<ScheduledTask>, int[], int) -> List<ScheduledTask>` — 从快照位置开始的增量调度生成，只处理 startIndex 及之后的任务；已调度 id 快照使用 `int[]`，重建时进入 marker
 - `generateScheduleFromSnapshot(List<Task>, Satellite, InsertionMode, List<ScheduledTask>, int[], int, TaskIdMarker) -> List<ScheduledTask>` — 同上，但允许调用方传入 marker scratch，供 delta fast refine 邻接交换循环避免重复 marker 扩容
+- `generateScheduleFromSnapshotInPlace(List<Task>, Satellite, InsertionMode, List<ScheduledTask>, int[], int, int, SnapshotReplayScratch) -> List<ScheduledTask>` — 在调用方独占的前缀列表中重放 `[startIndex,endIndex)`，只插入新调度任务，保留已有元素
+- `continueScheduleFromSnapshotInPlace(List<Task>, Satellite, InsertionMode, List<ScheduledTask>, int, SnapshotReplayScratch) -> List<ScheduledTask>` — 保留已准备的任务 id marker 和回滚记录，继续重放后缀
+- 内部类: `SnapshotReplayScratch` — refiner 独占的 marker、插入结果 carrier 与逆序回滚记录；调用方必须在 finally 中调用 `rollback(List<ScheduledTask>)`，接受的调度必须先复制，不能跨并发调用共享
 - 内部类: `TaskIdMarker` — stamp 数组式任务 id marker，用于热路径去重，避免 `HashSet<Integer>` 装箱与 node 分配
 - 内部类: `ScheduleSnapshotResult` — 带快照记录的调度生成结果（finalSchedule + scheduleSnapshots + scheduledIdSnapshots，其中 scheduledIdSnapshots 为 `int[]`）
 

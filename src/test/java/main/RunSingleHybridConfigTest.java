@@ -23,12 +23,12 @@ class RunSingleHybridConfigTest {
 
     assertArrayEquals(
       new int[] {
-        AlgorithmConstants.ALGORITHM_INDEX_DE_RAND_1,
-        AlgorithmConstants.ALGORITHM_INDEX_PSO,
+        AlgorithmConstants.ALGORITHM_INDEX_EDA,
+        AlgorithmConstants.ALGORITHM_INDEX_GA,
         AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
         AlgorithmConstants.UPDATE_RATIO_CODE_FULL,
-        AlgorithmConstants.OPERATION_ORDER_SEQUENTIAL,
-        AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_ELITIST_BEST_N
+        AlgorithmConstants.OPERATION_ORDER_PROCESS_NO_IMPROVEMENT_SWITCH,
+        AlgorithmConstants.SURVIVOR_SELECT_STRATEGY_PAIRWISE_GREEDY
       },
       (int[]) defaultConfig.get(null)
     );

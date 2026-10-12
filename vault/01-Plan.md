@@ -3,7 +3,7 @@ type: project
 title: 计划 - 卫星调度混合元启发式项目
 project: 6d-dynamic-version-mfea
 status: active
-updated: 2026-08-17
+updated: 2026-10-09
 ---
 
 # 计划
@@ -21,6 +21,12 @@ updated: 2026-08-17
 
 ## 当前任务
 
+- [x] 将45条全速复测记录更新到论文560条数据、Table X/XI和计时说明，收益图保持原数值；隔离编译并验收PDF。见 [计划](Plan/2026-10-09-update-paper-fullspeed.md)。
+- [x] 全速复测目前均值慢于 RK-HMA 的 9 个 Auto-Hybrid 场景，保留原五 seed 和预算，Normal、28 线程、逐 JVM 串行。见 [计划](Plan/2026-10-09-autohybrid-slower-fullspeed.md)。
+- [x] 移植 Auto-Hybrid 快照重放/回滚和 GREEDY 秒数缓存；42 项相关测试、8 对实际运行签名及 57,600 次独立选择全部通过。见 [验收报告](Results/Reports/autohybrid-speed-merge-20261009.md)。
+- [x] 按参考项目最新基线数据更新自动设计论文，扩展至十区域、六全局、七算法共 560 条；区域/全局图表分列，21 页 PDF 验收完成。见 [更新计划](Plan/2026-10-08-update-paper-current16.md) 和 [报告](Results/Reports/paper-current16-update-20261008.md)。
+- [x] 补齐同一 MFEA 胜者在六全局的五 seed 结果；复用 20 条，新增十次，与十区域合成 80/80 条。见 [全局补测计划](Plan/2026-10-08-mfea-current-six-global.md) 和 [16 场景报告](Results/Reports/mfea-current-six-global-20261008.md)。
+- [x] 补齐 MFEA 胜者 `[2,0,0,0,4,2]` 在当前十区域的五 seed 结果；复用 25 条历史记录，新增 25 次，50/50 条齐全。见 [补测计划](Plan/2026-10-08-mfea-current-ten-regional.md) 和 [报告](Results/Reports/mfea-current-ten-regional-20261008.md)。
 - [x] 使用多场景 MFEA 在 11 个主动父算法的 6D 空间内完成自动设计搜索，记录最优配置、聚合适应度和搜索过程。
 - [x] 用 `RunSingleHybridConfig` 复现自动设计得到的最优配置，并在 10 个场景、seed ID 10-14 上做 full-budget replay。
 - [x] 建立自动设计结果表：场景、外部基线、8D Hybrid 对照、6D 自动设计均值 / 最优 / 最差、绝对提升、最优 6D 配置。
@@ -35,6 +41,11 @@ updated: 2026-08-17
 
 | Plan | 状态 | 测试 | 结果 |
 |---|---|---|---|
+| [全速复测结果更新论文](Plan/2026-10-09-update-paper-fullspeed.md) | done | 560条来源；112单元；21页PDF检查 | [报告](Results/Reports/paper-fullspeed-update-20261009.md)；九处耗时和正文已更新 |
+| [Auto-Hybrid 慢场景全速复测](Plan/2026-10-09-autohybrid-slower-fullspeed.md) | done | 9 场景、45 seed 单元 | 全速复测完成；[验收报告](Results/Reports/autohybrid-slower-than-rkhma-fullspeed-20261009.md) |
+| [十区域六全局论文更新](Plan/2026-10-08-update-paper-current16.md) | done | 来源哈希；112 单元独立复算；21 页 PDF 检查 | [报告](Results/Reports/paper-current16-update-20261008.md)；保留描述性比较边界 |
+| [MFEA 六全局补测与16场景汇总](Plan/2026-10-08-mfea-current-six-global.md) | done | 首末 seed；30/80 条覆盖；源码输入哈希；后置五项测试 | 复用 20 条、新增十次；[80 条合并报告](Results/Reports/mfea-current-six-global-20261008.md) |
+| [MFEA 当前十区域补测](Plan/2026-10-08-mfea-current-ten-regional.md) | done | 前后入口五项测试；首末 seed；50 条覆盖与哈希 | 复用 25 条、新增 25 次；[报告](Results/Reports/mfea-current-ten-regional-20261008.md) |
 | MFEA 初始化 | running | compile | fresh Git root |
 | [MFEA 激进搜索](Plan/2026-05-29-mfea-aggressive-search-plan.md) | planned | ID1/ID3/ID5 | nPopHyb=35, gMax=20, nRun=3, 60% maxFes |
 | 多场景 MFEA full 搜索与 seed10-14 replay | done | ID1/ID3/ID5/ID7 search; ID1-ID10 replay | best `[2,9,0,0,0,2]`, aggregated fitness `2.928452`, replay avg gain +0.58 over 8D Hybrid |
@@ -98,6 +109,11 @@ updated: 2026-08-17
 
 ## 阶段结论索引
 
+- 2026-10-09 全速复测结果已进入论文Table X/XI及21页PDF；最新论文560条复现入口见 [报告](Results/Reports/paper-fullspeed-update-20261009.md)，收益图保持，耗时比较保留混合批次边界。
+
+- 2026-10-09 Auto-Hybrid 慢场景45次全速复测完成，最新80条结果保留35条历史记录；后续结果更新使用 [本次报告](Results/Reports/autohybrid-slower-than-rkhma-fullspeed-20261009.md) 所链接的canonical表。
+- 2026-10-09 两项等价加速进入 Auto-Hybrid 默认路径；本次 500/5、1000/10 小样本耗时下降 23.92%/28.78%，8 对调度签名相同。结果不外推全场景，见 [报告](Results/Reports/autohybrid-speed-merge-20261009.md)。
+- 2026-10-08 论文更新至十区域、六全局；Auto-Hybrid/RK-HMA 区域宏均值 57.12%/56.19%，全局 97.00%/97.01%。来源 seed、运行批次和预算不一致，结论保持描述性；见 [报告](Results/Reports/paper-current16-update-20261008.md)。
 - 组件库边界已收口：`InsertionMode` 不进入 6D；G5 保留 4 类 survivor policy；11 个主动父算法进入自动设计搜索空间。
 - 单算法和整体框架加速计划已收口；新增性能开关保持 opt-in 或等价旧行为。`OM-3` surrogate prefilter deferred，若恢复需独立立项并用真实评估复测。
 - 6D 与 8D 的 `feedback/effective score` 标量语义一致；相关机制收口见 [[Knowledge/Removed-Mechanisms|已移除机制]]。
@@ -113,3 +129,5 @@ updated: 2026-08-17
 - 2026-07-24 的 seed42-46 四配置配对实验再次验证 `[2,9,0,0,0,2]`：相对 `{4,1,0,0,0,0}` 为 6 胜、4 平、0 负，场景宏平均提高 `0.4458` 个百分点。完整数据见 [[Results/Reports/2026-07-24-paired-config-all-scenes-perrun0-4|四配置全场景五轮配对实验报告]]。
 - 2026-07-25 原生 `perRun=0..4` 四配置实验重建了当前 1D Parent 消融证据：`410000` 比 Parent 4 高 `1.0526` pp、比 Parent 1 高 `2.1078` pp，均为 6 胜、4 平、0 负；`410000` 比 `290002` 低 `0.4272` pp，为 0 胜、4 平、6 负。三个 exact Wilcoxon raw `p=0.03125`，Holm 校正后均为 `p=0.09375`，只支持方向一致和实际效应，不支持校正后显著性措辞。结果已同步到论文 Fig. 6/9、Tab. IV–VI、摘要和结论；详见 [[Results/Reports/paired-native-perrun0-4-10scene-20260724-r01|Native Paired Ablation 总结]]。
 - 2026-08-17 五个 outer seed 的 Top-5 训练筛选后，`[2,0,0,0,4,2]` 在 ID1-ID10、原生 seed ID `10..14` 下完成 50/50 复现，十场景宏平均 `77.0034%`。训练第一、二名仅差 `0.0375 pp`，且最终无同批基线，因此该结果只确认候选可复现，不升级为默认或基线优越性结论；详见 [[Results/Reports/mfea-top5-train-final-all10-20260817|MFEA Top-5 训练筛选与全场景复现]]。
+- 2026-10-08 同配置补齐当前十区域（排除旧 1000/20、包含新 2000/20），复用 25 条、新增 25 次，50/50 条完成；宏平均 57.1246%，历史与新增来源分列。见 [报告](Results/Reports/mfea-current-ten-regional-20261008.md)。
+- 2026-10-08 同配置补齐六全局，复用 20 条、新增十次；新 3000/30、4000/40 均值 94.9940%、96.0717%。十区域加六全局共 80/80 条，见 [合并报告](Results/Reports/mfea-current-six-global-20261008.md)。

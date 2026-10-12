@@ -1,0 +1,368 @@
+{
+  "status": "complete",
+  "experimentId": "paper-current16-update-20261008",
+  "gitHead": "65c405cff614cbd914c227f2aa9b76e6c1a2802c",
+  "referenceGitHead": "a3c068ebb82880788992dbbc1734119b4858f900",
+  "canonicalData": {
+    "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\paper-current16-update-20261008\\data.csv",
+    "sha256": "4be38c5f25ecc4f9101df2e876edcc63f3e8de1ccaff94e58b1fa31795443863",
+    "rows": 560
+  },
+  "sources": [
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\vault\\Results\\Evidence\\six-algorithms-ten-regional-scenes-20261006\\data.csv",
+      "sha256": "ff5b8494cfe66d7a12694dc02d7cbb7e53f8d050fbed0f6aa343e17e68f92ed0",
+      "rows": 300
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\vault\\Results\\Evidence\\six-algorithms-six-global-scenes-20261006\\data.csv",
+      "sha256": "b420c85195d5691d2d84869e2c72eb94600c530c78b8834e769acb6d52d92da3",
+      "rows": 180
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\vault\\Results\\Evidence\\eight-algorithms-regional-2000-20-20261006\\data.csv",
+      "sha256": "594950a5c4467efeeb4d012340d729da716c03f242e0e6b46f4b793e891eb8c7",
+      "rows": 40
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\vault\\Results\\Evidence\\hcga-all-scenes-uniform95000-20261007\\data.csv",
+      "sha256": "9bd99ad6951b84edd8898dc725728fe45c36a6a058b7bfe872dbdb215ed2cdf7",
+      "rows": 80
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\mfea-current-six-global-20261008\\data.csv",
+      "sha256": "73a9c1b8bdfd702d8e757fb231231875bdb3d0af685afb79c1c57f2244df7730",
+      "rows": 80
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\vault\\Results\\Evidence\\aalns-global500-timing-20261008\\data.csv",
+      "sha256": "c8d0c9c57f7a38316ef747fbc427b23da0d2343135d3ea002466fa3c9d01b7ee",
+      "rows": 5
+    }
+  ],
+  "referenceAndBefore": [
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\paper_draft.md",
+      "sha256": "8202202bbda3d80738ba9199cd4b3a5fdab350b2f83c5f311a4622e5ca3a1e2c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\paper_draft.pdf",
+      "sha256": "7fd18cee452a2ed956dfa6edc742e2721d897cd4becde2b9a16e7e45fdf7c31b"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\vault\\Writing\\A Random-Key Hybrid Metaheuristic Algorithm with Dynamic Task Reassignment for Large-Scale Multi-Satellite.md",
+      "sha256": "33548a1c314c1533969bfe0cd08e516e1bea629b69dcfba16eaf9807ca24b884"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\vault\\Writing\\A Random-Key Hybrid Metaheuristic Algorithm with Dynamic Task Reassignment for Large-Scale Multi-Satellite.pdf",
+      "sha256": "16bec9eddf5469baedddc1d318ca445099c6d1b29d0bf0bf0c871da1a132e048"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\scripts\\plot_paper_native_perrun_results.py",
+      "sha256": "2cb24fa1a9ade092b455833e7462bffaeec13510291852dcf61483d5459774dd"
+    }
+  ],
+  "genotype": "2,0,0,0,4,2",
+  "runsPerCell": 5,
+  "sourceQA": {
+    "sources": [
+      {
+        "path": "vault/Results/Evidence/six-algorithms-ten-regional-scenes-20261006/data.csv",
+        "sha256": "ff5b8494cfe66d7a12694dc02d7cbb7e53f8d050fbed0f6aa343e17e68f92ed0",
+        "rows": 300
+      },
+      {
+        "path": "vault/Results/Evidence/six-algorithms-six-global-scenes-20261006/data.csv",
+        "sha256": "b420c85195d5691d2d84869e2c72eb94600c530c78b8834e769acb6d52d92da3",
+        "rows": 180
+      },
+      {
+        "path": "vault/Results/Evidence/eight-algorithms-regional-2000-20-20261006/data.csv",
+        "sha256": "594950a5c4467efeeb4d012340d729da716c03f242e0e6b46f4b793e891eb8c7",
+        "rows": 40
+      },
+      {
+        "path": "vault/Results/Evidence/hcga-all-scenes-uniform95000-20261007/data.csv",
+        "sha256": "9bd99ad6951b84edd8898dc725728fe45c36a6a058b7bfe872dbdb215ed2cdf7",
+        "rows": 80,
+        "replacesAlgorithm": "HCGA"
+      }
+    ],
+    "excludedScene": "1000-20-0-0-12",
+    "excludedRows": 30,
+    "includedRows": 480,
+    "scenarioCounts": {
+      "regional": 10,
+      "global": 6
+    },
+    "runsPerCell": 5,
+    "reportedRateOnlyRows": 29,
+    "means": []
+  },
+  "referenceTimingSupplement": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\vault\\Results\\Evidence\\aalns-global500-timing-20261008",
+  "limits": [
+    "Actual seeds differ between Auto-Hybrid and baselines.",
+    "Historical and current code snapshots and concurrent batches are mixed.",
+    "HCGA uses 95000 evaluations calibrated against prior runtime, not equal computational budgets.",
+    "Timing boundaries vary by method; no controlled speed ranking.",
+    "29 baseline rows have only rounded reported profit rates.",
+    "Auto-Hybrid rates retain tiny normalized slack reward; near-ceiling differences are not interpreted.",
+    "Reference regional_10 prose 78.86% disagrees with verified 34.0766% canonical mean."
+  ],
+  "completedAt": "2026-10-08T02:39:29.204515+00:00",
+  "verification": {
+    "status": "passed",
+    "sourceHashesChecked": 6,
+    "resultCellsIndependentlyChecked": 112,
+    "autoProfitRatesRecomputed": 80,
+    "unchangedMethodAndReferenceSections": true,
+    "figureNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "tableNumbers": [
+      "VI",
+      "VII",
+      "VIII",
+      "IX",
+      "X",
+      "XI"
+    ],
+    "pages": 21,
+    "experimentPages": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "originalScopePreserved": true,
+    "visualInspection": {
+      "overview": "all 21 pages",
+      "fullPageReview": [
+        1,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "findings": "Complete abstract; readable legends and 10 boxplot panels; bounded table captions and intact scenario groups.",
+      "retainedTemplateWarnings": "Three pre-existing CAS front-page overfull warnings; visually no clipping or overlap."
+    }
+  },
+  "rounding": "Decimal ROUND_HALF_UP, 2 decimals for displayed five-run means; figures retain full precision",
+  "commands": [
+    "python outputs/paper-current16-update-20261008/prepare.py",
+    "python scripts/plot_paper_current16_results.py",
+    "python outputs/paper-current16-update-20261008/update_manuscript.py",
+    "python outputs/paper-current16-update-20261008/refresh_tables.py",
+    "python outputs/paper-current16-update-20261008/build_pdf.py",
+    "python -X utf8 outputs/paper-current16-update-20261008/validate_and_render.py",
+    "python outputs/paper-current16-update-20261008/publish.py"
+  ],
+  "latexCommands": [
+    [
+      "pandoc",
+      "body_source.md",
+      "--from",
+      "markdown+raw_tex+tex_math_dollars",
+      "--to",
+      "latex",
+      "--output",
+      "paper_body.tex"
+    ],
+    [
+      "xelatex",
+      "--disable-installer",
+      "-interaction=nonstopmode",
+      "-halt-on-error",
+      "paper_wrapper.tex"
+    ],
+    [
+      "xelatex",
+      "--disable-installer",
+      "-interaction=nonstopmode",
+      "-halt-on-error",
+      "paper_wrapper.tex"
+    ]
+  ],
+  "figureContract": {
+    "reuse": "structural/style; reference mean bars and 5x2 seed distributions",
+    "fig5": "regional, 10 scenarios, 7 methods, 5-run means, zero-origin axis",
+    "fig6": "global, 6 scenarios, same methods and colors, zero-origin axis",
+    "fig7": "regional RK-HMA/Auto-Hybrid, 10 panels, independent y axes, IQR/1.5IQR with five dots",
+    "tables": "4-column method rows; separate regional/global; bold highest displayed profit only"
+  },
+  "writingAntiAI": "Changed prose reviewed locally; source numbers, method terms, equations and references preserved.",
+  "repairs": [
+    {
+      "command": "prepare.py",
+      "issue": "HCGA canonical schema lacks tasks/sourcePath/precision fields",
+      "resolution": "Derive task/satellite counts from validated scene basename; retain canonical HCGA origin.",
+      "verification": "Full 560-row coverage and task/satellite validation passed."
+    },
+    {
+      "command": "reference PDF extraction",
+      "issue": "GBK stdout cannot encode ligature",
+      "resolution": "Use python -X utf8 for PDF inspection.",
+      "verification": "Reference pages rendered successfully."
+    },
+    {
+      "command": "build_pdf.py first compilation",
+      "issue": "Pandoc LTcaptype=none incompatible with installed caption package",
+      "resolution": "Use table counter for four untitled library tables; reset experiment counter explicitly.",
+      "verification": "Final offline CAS compilation passed; Table VI–XI confirmed."
+    },
+    {
+      "command": "validate_and_render.py",
+      "issue": "Float summation changes two-decimal display at 10.995s boundary",
+      "resolution": "Decimal half-up display shared across tables and independent check.",
+      "verification": "112 profit/time cells passed independent recomputation."
+    },
+    {
+      "command": "PDF visual review",
+      "issue": "Longtable caption too wide; unescaped abstract percent truncates text",
+      "resolution": "Bound caption paragraph and escape abstract percent signs.",
+      "verification": "Full abstract ending verified in PDF; result pages visually checked without new overflow."
+    },
+    {
+      "command": "PDF abstract text check",
+      "issue": "Ligature prevents literal effect text match",
+      "resolution": "Normalize extracted Unicode with NFKC.",
+      "verification": "Complete ending and numerical abstract values confirmed."
+    }
+  ],
+  "referenceRechecked": [
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\vault\\Writing\\A Random-Key Hybrid Metaheuristic Algorithm with Dynamic Task Reassignment for Large-Scale Multi-Satellite.md",
+      "beforeSha256": "33548a1c314c1533969bfe0cd08e516e1bea629b69dcfba16eaf9807ca24b884",
+      "currentSha256": "a2cd3d552de2728120b58d858f5b4bcc0d0416dad209147d15825f20efb9a03b",
+      "changedExternally": true
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\vault\\Writing\\A Random-Key Hybrid Metaheuristic Algorithm with Dynamic Task Reassignment for Large-Scale Multi-Satellite.pdf",
+      "beforeSha256": "16bec9eddf5469baedddc1d318ca445099c6d1b29d0bf0bf0c871da1a132e048",
+      "currentSha256": "16bec9eddf5469baedddc1d318ca445099c6d1b29d0bf0bf0c871da1a132e048",
+      "changedExternally": false
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本\\scripts\\plot_paper_native_perrun_results.py",
+      "beforeSha256": "2cb24fa1a9ade092b455833e7462bffaeec13510291852dcf61483d5459774dd",
+      "currentSha256": "2cb24fa1a9ade092b455833e7462bffaeec13510291852dcf61483d5459774dd",
+      "changedExternally": false
+    }
+  ],
+  "referenceChangeNote": "Reference Markdown changed during this task; its result tables, figure structure and all six selected canonical sources were rechecked. Canonical source hashes remained unchanged; conflicting prose was not adopted.",
+  "artifacts": [
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\paper_draft.md",
+      "sha256": "1fc83d3c01b2b44b50cae7311a2c3a15cbfdf831f556ce6cc01fc1dbda758dd6",
+      "bytes": 64005
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\paper_draft.pdf",
+      "sha256": "cd19f46f48b6f6029e554360125daba064cdc08c020319a7b66b06833ca1c365",
+      "bytes": 3978080
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\scripts\\plot_paper_current16_results.py",
+      "sha256": "eb624df5d9ec22830d87879d61928fa07b03b9df09f45111604a512a4f31f4e2",
+      "bytes": 11666
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\01-Plan.md",
+      "sha256": "4209470b3816d955e393afa68a63ed11558bff009ae514affb3572f3788d69de",
+      "bytes": 15659
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Plan\\2026-10-08-update-paper-current16.md",
+      "sha256": "ab66cebb5cdfeced4a0e271193051d2c15b8e3d06256ec99b16735fda706ece0",
+      "bytes": 3216
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Reports\\paper-current16-update-20261008.md",
+      "sha256": "d1cd9ca3ec4f736c8f83fb2e7c5b408c33df2fc65c70f5a5467485599535726a",
+      "bytes": 1798
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\paper-current16-update-20261008\\evidence.md",
+      "sha256": "54913c91ab0dc2589637a9475a670197d8ad5bf8d6c6c10c2d96e6acb2697ae9",
+      "bytes": 5691
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\paper-current16-update-20261008\\data.csv",
+      "sha256": "4be38c5f25ecc4f9101df2e876edcc63f3e8de1ccaff94e58b1fa31795443863",
+      "bytes": 287931
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\auto_hybrid_current16_regional.png",
+      "sha256": "fe540606e54f733d36d76c88cac8f7331d60e3b373c47c45fb765527126be5ed",
+      "bytes": 97397
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\auto_hybrid_current16_regional.svg",
+      "sha256": "df4454eadf7e8efc7d1b4ee8c6f5804c29d6ff94d8addef98aadcffc3257c333",
+      "bytes": 32195
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\auto_hybrid_current16_global.png",
+      "sha256": "8da17a32f3a06571866c4075db83b4320aa62e6a8c70eb5515364c63ae4d75d2",
+      "bytes": 92980
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\auto_hybrid_current16_global.svg",
+      "sha256": "7eedcccee178948ee1a12b088b9b494d6e24e73d4313fc7433adcf24543c624a",
+      "bytes": 23027
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\rk_hma_auto_hybrid_current10_boxplots.png",
+      "sha256": "84b45df6022ff67c95c9d14755212464b6740dcdf9864b79c9c9b0a8d6084cee",
+      "bytes": 446987
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\rk_hma_auto_hybrid_current10_boxplots.svg",
+      "sha256": "24e7fd00fa6c058269fbca312399f9545e9cc8d81f6806f053d901c65e5b4a52",
+      "bytes": 89541
+    }
+  ],
+  "runtimeScripts": [
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-current16-update-20261008\\build_pdf.py",
+      "sha256": "58b713a8b65ea239bf9e97217ed02071b1713a181cfec419701ebf7c4f4ae133"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-current16-update-20261008\\prepare.py",
+      "sha256": "9385288db0dc541e0566d787e5aa6f2e4ab0a2150e777ae4458e25ba4f6c15b0"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-current16-update-20261008\\publish.py",
+      "sha256": "3569817024e61d103efd32691e453ad457afdb92944bfc76ee8b251d352c7e58"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-current16-update-20261008\\refresh_tables.py",
+      "sha256": "3a226d001bf5b4f5976021285b3a7ed1296ad913cc2d14a1326e6aefb5b7fc7f"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-current16-update-20261008\\update_manuscript.py",
+      "sha256": "9a4d8318d67972012dfafdabfa7deb537469eb2b9a24bfbccb0748fc8064539c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-current16-update-20261008\\validate_and_render.py",
+      "sha256": "994f9d1ac999435528dbbb50bfc5bbad7b31e311892782bfb5d86679db39fd45"
+    }
+  ]
+}

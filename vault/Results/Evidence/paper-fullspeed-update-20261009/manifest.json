@@ -1,0 +1,1052 @@
+{
+  "status": "complete",
+  "experimentId": "paper-fullspeed-update-20261009",
+  "gitHead": "65c405cff614cbd914c227f2aa9b76e6c1a2802c",
+  "canonicalData": {
+    "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\paper-fullspeed-update-20261009\\data.csv",
+    "sha256": "5ed433dd9d4ffdeebf6957a82216a61f2d119ccaa93cafe27dcf75b8a345c3d6",
+    "rows": 560
+  },
+  "sources": [
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\paper-current16-update-20261008\\data.csv",
+      "sha256": "4be38c5f25ecc4f9101df2e876edcc63f3e8de1ccaff94e58b1fa31795443863"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\paper-current16-update-20261008\\manifest.json",
+      "sha256": "00e7f1ade6b196c3ee7fd56d4a6394024469f4f4c6a990effbb3293f1f0c6444"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\autohybrid-slower-than-rkhma-fullspeed-20261009\\data.csv",
+      "sha256": "80744fe2972a6213709727e3f8edb9e4c2593038e4fdebf2555b4dbfadb9a2ec"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\autohybrid-slower-than-rkhma-fullspeed-20261009\\manifest.json",
+      "sha256": "bacbf86cfe459a9fdada588c32abdfd9c2de4fa749bd8c6b00089a416b63087c"
+    }
+  ],
+  "changedTimingRecords": [
+    {
+      "scene": "500-5-0-0-24",
+      "perRun": "0",
+      "old": "7.824",
+      "new": "6.4"
+    },
+    {
+      "scene": "500-5-0-0-24",
+      "perRun": "1",
+      "old": "6.345",
+      "new": "5.012"
+    },
+    {
+      "scene": "500-5-0-0-24",
+      "perRun": "2",
+      "old": "6.394",
+      "new": "5.25"
+    },
+    {
+      "scene": "500-5-0-0-24",
+      "perRun": "3",
+      "old": "6.749",
+      "new": "5.42"
+    },
+    {
+      "scene": "500-5-0-0-24",
+      "perRun": "4",
+      "old": "7.333",
+      "new": "5.78"
+    },
+    {
+      "scene": "2000-10-0-0-12",
+      "perRun": "0",
+      "old": "39.852",
+      "new": "15.665"
+    },
+    {
+      "scene": "2000-10-0-0-12",
+      "perRun": "1",
+      "old": "87.225",
+      "new": "16.169"
+    },
+    {
+      "scene": "2000-10-0-0-12",
+      "perRun": "2",
+      "old": "92.932",
+      "new": "18.123"
+    },
+    {
+      "scene": "2000-10-0-0-12",
+      "perRun": "3",
+      "old": "74.108",
+      "new": "13.044"
+    },
+    {
+      "scene": "2000-10-0-0-12",
+      "perRun": "4",
+      "old": "46.32",
+      "new": "17.742"
+    },
+    {
+      "scene": "2000-20-0-0-12",
+      "perRun": "0",
+      "old": "71.033",
+      "new": "15.374"
+    },
+    {
+      "scene": "2000-20-0-0-12",
+      "perRun": "1",
+      "old": "65.724",
+      "new": "12.547"
+    },
+    {
+      "scene": "2000-20-0-0-12",
+      "perRun": "2",
+      "old": "64.909",
+      "new": "14.082"
+    },
+    {
+      "scene": "2000-20-0-0-12",
+      "perRun": "3",
+      "old": "82.921",
+      "new": "16.82"
+    },
+    {
+      "scene": "2000-20-0-0-12",
+      "perRun": "4",
+      "old": "74.053",
+      "new": "15.653"
+    },
+    {
+      "scene": "3000-20-0-0-8",
+      "perRun": "0",
+      "old": "192.926",
+      "new": "27.253"
+    },
+    {
+      "scene": "3000-20-0-0-8",
+      "perRun": "1",
+      "old": "179.36",
+      "new": "28.468"
+    },
+    {
+      "scene": "3000-20-0-0-8",
+      "perRun": "2",
+      "old": "214.394",
+      "new": "35.524"
+    },
+    {
+      "scene": "3000-20-0-0-8",
+      "perRun": "3",
+      "old": "212.363",
+      "new": "37.16"
+    },
+    {
+      "scene": "3000-20-0-0-8",
+      "perRun": "4",
+      "old": "169.182",
+      "new": "36.347"
+    },
+    {
+      "scene": "5000-50-0-0-12",
+      "perRun": "0",
+      "old": "20.883",
+      "new": "8.757"
+    },
+    {
+      "scene": "5000-50-0-0-12",
+      "perRun": "1",
+      "old": "31.564",
+      "new": "10.367"
+    },
+    {
+      "scene": "5000-50-0-0-12",
+      "perRun": "2",
+      "old": "26.621",
+      "new": "8.295"
+    },
+    {
+      "scene": "5000-50-0-0-12",
+      "perRun": "3",
+      "old": "22.079",
+      "new": "11.391"
+    },
+    {
+      "scene": "5000-50-0-0-12",
+      "perRun": "4",
+      "old": "17.813",
+      "new": "9.053"
+    },
+    {
+      "scene": "6000-60-0-0-6",
+      "perRun": "0",
+      "old": "44.221",
+      "new": "10.323"
+    },
+    {
+      "scene": "6000-60-0-0-6",
+      "perRun": "1",
+      "old": "30.597",
+      "new": "12.531"
+    },
+    {
+      "scene": "6000-60-0-0-6",
+      "perRun": "2",
+      "old": "23.116",
+      "new": "10.354"
+    },
+    {
+      "scene": "6000-60-0-0-6",
+      "perRun": "3",
+      "old": "35.711",
+      "new": "10.393"
+    },
+    {
+      "scene": "6000-60-0-0-6",
+      "perRun": "4",
+      "old": "20.661",
+      "new": "9.837"
+    },
+    {
+      "scene": "10000-100-0-6-12",
+      "perRun": "0",
+      "old": "156.94",
+      "new": "115.436"
+    },
+    {
+      "scene": "10000-100-0-6-12",
+      "perRun": "1",
+      "old": "89.968",
+      "new": "74.064"
+    },
+    {
+      "scene": "10000-100-0-6-12",
+      "perRun": "2",
+      "old": "113.69",
+      "new": "90.874"
+    },
+    {
+      "scene": "10000-100-0-6-12",
+      "perRun": "3",
+      "old": "73.529",
+      "new": "64.79"
+    },
+    {
+      "scene": "10000-100-0-6-12",
+      "perRun": "4",
+      "old": "134.165",
+      "new": "90.504"
+    },
+    {
+      "scene": "3000-30-1-12-20",
+      "perRun": "0",
+      "old": "7.487",
+      "new": "4.484"
+    },
+    {
+      "scene": "3000-30-1-12-20",
+      "perRun": "1",
+      "old": "16.533",
+      "new": "3.982"
+    },
+    {
+      "scene": "3000-30-1-12-20",
+      "perRun": "2",
+      "old": "17.426",
+      "new": "3.993"
+    },
+    {
+      "scene": "3000-30-1-12-20",
+      "perRun": "3",
+      "old": "16.602",
+      "new": "3.86"
+    },
+    {
+      "scene": "3000-30-1-12-20",
+      "perRun": "4",
+      "old": "6.481",
+      "new": "3.923"
+    },
+    {
+      "scene": "4000-40-1-12-18",
+      "perRun": "0",
+      "old": "2.135",
+      "new": "1.138"
+    },
+    {
+      "scene": "4000-40-1-12-18",
+      "perRun": "1",
+      "old": "4.046",
+      "new": "1.187"
+    },
+    {
+      "scene": "4000-40-1-12-18",
+      "perRun": "2",
+      "old": "4.029",
+      "new": "1.363"
+    },
+    {
+      "scene": "4000-40-1-12-18",
+      "perRun": "3",
+      "old": "4.979",
+      "new": "1.047"
+    },
+    {
+      "scene": "4000-40-1-12-18",
+      "perRun": "4",
+      "old": "1.614",
+      "new": "1.07"
+    }
+  ],
+  "unchangedBaselineRows": 480,
+  "newFullspeedAutoRows": 45,
+  "retainedAutoRows": 35,
+  "unchangedProfitRecords": 560,
+  "unchangedFigures": [
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\auto_hybrid_current16_regional.png",
+      "sha256": "fe540606e54f733d36d76c88cac8f7331d60e3b373c47c45fb765527126be5ed"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\auto_hybrid_current16_regional.svg",
+      "sha256": "df4454eadf7e8efc7d1b4ee8c6f5804c29d6ff94d8addef98aadcffc3257c333"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\auto_hybrid_current16_global.png",
+      "sha256": "8da17a32f3a06571866c4075db83b4320aa62e6a8c70eb5515364c63ae4d75d2"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\auto_hybrid_current16_global.svg",
+      "sha256": "7eedcccee178948ee1a12b088b9b494d6e24e73d4313fc7433adcf24543c624a"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\rk_hma_auto_hybrid_current10_boxplots.png",
+      "sha256": "84b45df6022ff67c95c9d14755212464b6740dcdf9864b79c9c9b0a8d6084cee"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\figures\\rk_hma_auto_hybrid_current10_boxplots.svg",
+      "sha256": "24e7fd00fa6c058269fbca312399f9545e9cc8d81f6806f053d901c65e5b4a52"
+    }
+  ],
+  "rawTimingSources": [
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per0.pid.json",
+      "sha256": "550854c7c73b4fdb7ee3297b2f480395bd97861cbb5021c086607073b964c5d7"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per0.properties",
+      "sha256": "578a23232f63c17d8812ebe84585e2f614a8195aea97ce00be55d11a030ea058"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per0.stdout.log",
+      "sha256": "f6693233a9e42ddaa86b22ad231d2060f50972d8a4e34e5ce2e969513bf25d10"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per1.pid.json",
+      "sha256": "68b1c552905f66abb182cce3d9cbe267d3cf1e360d0390aca8c2ab0e3ea4f89d"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per1.properties",
+      "sha256": "85f7a85711ac7ee099d07ff2196c446aafee0c494f557ca4b96a8ca55d518cab"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per1.stdout.log",
+      "sha256": "e460b1b9ec10ac52da1941a4bae866ab290381cdd2ce62c3d67d9bf7d71cbb63"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per2.pid.json",
+      "sha256": "9b1b451f85e371b670df2663fa5a967c5ccf54786c3f8632c808120ff161fc4f"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per2.properties",
+      "sha256": "fa1cb14137640dc3d62a0140f93eb3378deea8da2942032d7c16de60bf69b98c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per2.stdout.log",
+      "sha256": "0e3bf18b6b2d2b32151a43919ee2a28b37185946bb1deaa3bfb51aabcfdaa295"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per3.pid.json",
+      "sha256": "2b12c540a447ff450033c0f5c6cacf8d08f4397bb06a9a515039760e4b6cf1d6"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per3.properties",
+      "sha256": "112028f8473bfc6454f933cb61b3826b0425e2348a7d273cb7d2b917c8404ab5"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per3.stdout.log",
+      "sha256": "41f587e23dd69e003254a2f10ee18f7d8118178a1cb2ad740d9241624bce506c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per4.pid.json",
+      "sha256": "c2c4e9cfd1684c4ac43debd8a68cbac1c4201e51028caf8c4d6978b2f7957086"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per4.properties",
+      "sha256": "7e74fe0b4c0e525e93bcd28e1d82df105b9c1f40fcb901f078b4aa5437067d45"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\500-5-0-0-24_per4.stdout.log",
+      "sha256": "a5a21c37ea30c46963d783cb0f2652e939110c11983477b106bc2d2c157859a9"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per0.pid.json",
+      "sha256": "b2f7b63ca2c06c3dc549bec46c95338c50b4c036287c034e19a64214aa4e2892"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per0.properties",
+      "sha256": "23b9bb733ab9049ca44cb3b6a29ed65b67e533280dac9f5ffd90b91b2895a8a8"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per0.stdout.log",
+      "sha256": "d6bc8f6cf1d3b76d0b401f88196513b5ced0435741dfe4d98fef1d2a8703a818"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per1.pid.json",
+      "sha256": "f8c17de1f04c27b2c457d584ddfc78930899208ec209ab1a7118e62de823df86"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per1.properties",
+      "sha256": "026310fb6af44431bbb61c144111412341b1116767e1acc45c35c168e73a50eb"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per1.stdout.log",
+      "sha256": "05f00d0f88f0db8f78d9e7b4dc629b33be4f925d25bb635a53b70432c08e5201"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per2.pid.json",
+      "sha256": "8da01e4ddc94a9690881c4e98acc601f49368f49c00842aed7e074426d5968dc"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per2.properties",
+      "sha256": "498a0e7839cdddb82d3db3041bfb28f15378413937a6f8285e723c61b2c7061d"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per2.stdout.log",
+      "sha256": "12d6310477c5cf2a318941ffa6438f06182001868542a8a1ae794ed5f2c1f70b"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per3.pid.json",
+      "sha256": "2e9d5d91375ddad89088dcba570fd8ca938be0f7fd0ebe94a84d2b0d09ebd8fa"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per3.properties",
+      "sha256": "c5db21d1c53a3974fab63c50537c0f500aab935679b4483565e6f512649d09a1"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per3.stdout.log",
+      "sha256": "9714e2a526a512b210c3b5f87de8550597a259400badcd540cc7ac7a370e45d9"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per4.pid.json",
+      "sha256": "97fb7d597c9bf808a8904263f5879f2acb1ad0d7334e286ec90b6a0d05ce1720"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per4.properties",
+      "sha256": "1e27bd0702effcc639b1ca10582c393ad312204145278f4c79a1e7dec18fb723"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-10-0-0-12_per4.stdout.log",
+      "sha256": "d155207fcc339ff6c46955fb4b7c1cb6f6c10828b9f386b4a84268bedee01462"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per0.pid.json",
+      "sha256": "b70d834b4ca837d7c0ea8a5b9cba2be39fbb88bccb67e911db69e10ec331ef31"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per0.properties",
+      "sha256": "335af1e9bc121b0b278c600f0aba3ff71c909912988bdc0cc607b37a8f08e641"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per0.stdout.log",
+      "sha256": "7ea0546eb6f73d07f1aa9c984458b7dc26ccd921ce704d54acb4d96362aea620"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per1.pid.json",
+      "sha256": "9cd1f494e2fdf9d7c9c8b6cff9a39501ffe7c12db19a6b4e9814257a79a349ae"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per1.properties",
+      "sha256": "26f8c97c01ed010eb5c18212a3faea619c04ee718d20053571c230e5f5e165f7"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per1.stdout.log",
+      "sha256": "ad59afa135886426165be9a24a4ad40f8b6efb8cefb4cd94ed410a2eedb6a46c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per2.pid.json",
+      "sha256": "06190f16719ba85e4c387492b5381f8c70982968f38f7b833ce043818fda72b5"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per2.properties",
+      "sha256": "a9cb328d5ac1f7b70a9bfb4be944b741075c7c01cf493160dfc6261d0ba604f3"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per2.stdout.log",
+      "sha256": "eec75e5d47d9f48cdf11daae7ef1f173614feecf07d619bcca9aa489d505244a"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per3.pid.json",
+      "sha256": "27bdf78c0dec7624d13ab0dc2626eb698fe8823e7fe41fafd29b805b229bc69d"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per3.properties",
+      "sha256": "8d92522c95e510c2127a772fa300d612dc8cd50b528b476069ed8b22d3de7fa0"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per3.stdout.log",
+      "sha256": "3de266f3dc772b45f362cf6e042ff0097903b53b41dbd305f50a85ea341dc491"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per4.pid.json",
+      "sha256": "931a24bde96119b8e4ef240831821930d6ac6a1d2f42951c6082bfdbeb98903d"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per4.properties",
+      "sha256": "caa55baa5a8ce9c201b4a397d56ef1ee4974f854a46bd856654e8410498efcbd"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\2000-20-0-0-12_per4.stdout.log",
+      "sha256": "db1db46c90a977f17a49212231bea8b1ef96786187a9dd2302f13f9ff98542cb"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per0.pid.json",
+      "sha256": "b6a7a0796379057197f91f09cde061b40d5758e1b1cfa6e9cd8d61bf5171c5be"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per0.properties",
+      "sha256": "e1b8fb5610d52e85ecf43524e8d05072966d41ab55d07e056be344cca2d09fd7"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per0.stdout.log",
+      "sha256": "ef37e4fe6ffd3180e65c573ff34a2f6c1f3d40222fc7c0eaf87b81f93e9a219e"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per1.pid.json",
+      "sha256": "4b77d7038509e8b67e4708ea43cd4786ac4d240eeb0eca301e88c51a0d5479cd"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per1.properties",
+      "sha256": "76711b81e814735606e0d673f23e3cb982f89edaea114acf3a646bf8bf5d80ca"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per1.stdout.log",
+      "sha256": "3044a3f29bf893a856b6e2d74c8aebb4a28df9dd10ee39da1b20f35f353fbd41"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per2.pid.json",
+      "sha256": "30f126e0eac06d32de32d79fa6169a6b25f901d449e96edf0022cc13992dd37c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per2.properties",
+      "sha256": "036ede72893a2bde27abcc9e0d296e4bf00dadfeb03a28fcb152f8d162126033"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per2.stdout.log",
+      "sha256": "2c24360d755acc4883c1dc2f51b31339bf2a7c1be138c8bb186e8f1b7b350aab"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per3.pid.json",
+      "sha256": "5501c44d193b272892b565897f42c82df6d8c01969505c6d7464a066b52d84c1"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per3.properties",
+      "sha256": "971e6420412cfca72120cfb15695e78befc8364085651d02d3a2c3f9e96a5459"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per3.stdout.log",
+      "sha256": "4bf299d3388fe192350afdce5ac2187203bf5cdd03ab0064cf0b0e87a86fa394"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per4.pid.json",
+      "sha256": "4e8ac32607a662e78a76fa4ed8c56e7834fe2488a6a9091fb43690fb29840fab"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per4.properties",
+      "sha256": "47a483e838989c50d910c781bc9f4338bd15b6f3724c810f64f9e2cb1ce16bd5"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-20-0-0-8_per4.stdout.log",
+      "sha256": "cc1e1254a9af6d2a48c24729206f0e55c4e8631d81dcc04eac854003a6456212"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per0.pid.json",
+      "sha256": "d5153ff28c21dccaddb9efcb8957aa796ad5f9f118b7073b24fdd944bac185a6"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per0.properties",
+      "sha256": "ae13bd11ecf21649801fc628b921719a895d370f1cafcb2fd70efc4f242b08d2"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per0.stdout.log",
+      "sha256": "700255e3f1c76cbe47705be3caf875b1b109a60c13a1ed2dbba703b17fbafbe0"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per1.pid.json",
+      "sha256": "a9a80f3b3d7014e692d60b1e96f62de8d76758de31f93fd87131a9603f34cf88"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per1.properties",
+      "sha256": "bf7f8f679032859d96be51cea3fa898857ac5d5f6819e205f529b2da0dcef4c3"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per1.stdout.log",
+      "sha256": "da364990e181bde7577f9534fae972fef9665c66d01e451a8ece31ea4fc198ea"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per2.pid.json",
+      "sha256": "92a174921111375218a5715aab06d5a67dd30899f76628695733b9d856b51f3d"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per2.properties",
+      "sha256": "fecf6b82a8cefc0dd12aa57f33d11c20bba34594a3360b913b874f7d0f4e0ad6"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per2.stdout.log",
+      "sha256": "aea4db205ec4edbdb2418180060543113f3c91691bfaeb2cae90bb4e5ae443d3"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per3.pid.json",
+      "sha256": "6a1bb74d4e1b9cb298fea10a074e0a62c0a3256d5ebb71fef5be3df5c037b42f"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per3.properties",
+      "sha256": "734dca7581486f5186ef5d477430ebe4b7f963aebe1cf5e601e21ef4d4ecbfe4"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per3.stdout.log",
+      "sha256": "028e282f28f23f276169d6e52fbf879973d5acaabaa18ecde2c93cce35afdd61"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per4.pid.json",
+      "sha256": "3b5d90ebdf7e3380cd781e48ae4e2efebcc75270ee77f53754cc3e0abb377327"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per4.properties",
+      "sha256": "9924b3ba9b6c50b03b4ec6e558691d21a92139ef84bab6848aed00dface2e7da"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\5000-50-0-0-12_per4.stdout.log",
+      "sha256": "fe8f2844b804a0ca03eeec60d54e85c72446a7dfa5f91ad506ccfa4dfe204787"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per0.pid.json",
+      "sha256": "65f86455d4f0982826616713b23d518b433a31c6c672db2d108ecdf2eef887d8"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per0.properties",
+      "sha256": "17e834a41012eb87cbb0b2d3ffca95dfaa8c4776053a6c1181d2bd0b0d4be7ac"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per0.stdout.log",
+      "sha256": "15603c767781255b05090d7abad1275269f017c91d326b427ee2eddb49c0250b"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per1.pid.json",
+      "sha256": "13efd143eab3987dd540b2a3df2f6262a84fb899eb4bdc7bdec0e2929cbe57f5"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per1.properties",
+      "sha256": "df345ba60bc6f98e8bb421f89d178d2ab6a69db1aa2137091b34e8f53d40b724"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per1.stdout.log",
+      "sha256": "91566d1caa48b491ef0597b77af05bd34e78d3474efa5c5a0c044e2285fde83d"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per2.pid.json",
+      "sha256": "40d4c7a158c2d3cbdec2c00c2d8fb07eb8bcb73ee605643e3879c38165ee5fc6"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per2.properties",
+      "sha256": "4e88793634385d7708e360ae20d38be61ed529c37b457162926907213d9ad085"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per2.stdout.log",
+      "sha256": "ddaf22c64aae5e8088793be554c30b33ea44634274058fbeacdf7d0bb42be9ea"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per3.pid.json",
+      "sha256": "5554d8a0f65ce1cf6ac1d6410bded411186fdbc5e788b465b683d6ec131ed44b"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per3.properties",
+      "sha256": "f5e37604395b824ec7b347e408f20565f2b7a74cc2eb37ce8f524bc8f485d6ba"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per3.stdout.log",
+      "sha256": "103262bddd82dcaff9c6428c38ce0b535203cfb7d272cbe5d0dc04642290e557"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per4.pid.json",
+      "sha256": "441bc0db1783751c6d862daebcac42953171a515208c0fd23e6e66fddbf4b639"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per4.properties",
+      "sha256": "2c5c1918c7a6459e0632b58d2381dcf71719a27695da22e997a4476e299a7b4b"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per4.stdout.log",
+      "sha256": "2345e5cd4b0dc1571701903c4b2821e7bf7ae968388ae538a127ce851c476faa"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per0.pid.json",
+      "sha256": "d1d4987c71dc0cefbac35c68fcd70bcaa5a066d2d62c027941842bfcfc5cec5e"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per0.properties",
+      "sha256": "cb0b11459ca66bd38ac4d22045df49d4dc3d736062ecea7b49220fb478991f87"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per0.stdout.log",
+      "sha256": "4dff1b4ed7ffec68cb142952f70a2d7ee5133a2ecbd2eb062ba8cf38fffc0f2d"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per1.pid.json",
+      "sha256": "da243ecb34ed2199d67078e45d43ae41532cb0f3ef43c23afccd5a1b9165fdae"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per1.properties",
+      "sha256": "4c917e494ca9b26918baae9abdab2bd7754c7c69f6076adfe72d616cadebcbbf"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per1.stdout.log",
+      "sha256": "13d4b6fddd0f49c72d7551abdd2920aefca93998967fd95016f5b89db7e06e7e"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per2.pid.json",
+      "sha256": "131a0d772e6c2ad27e75f0315a63899a9ea8b60c599c40f07303156332dcc75c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per2.properties",
+      "sha256": "222dc91eb3e1f68dd4ff0176a29c2902e3f7d2113cec0610b1e157d361cd691c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per2.stdout.log",
+      "sha256": "d600b01e18c310b72328e40585bbe7edbcf875f3805c20f04961fa488d6352a5"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per3.pid.json",
+      "sha256": "ef05050d8ddc858c79e769f9055fa634bdc277528393f7897da3a7a9f7154151"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per3.properties",
+      "sha256": "9296f86caad88ba3d8278813fd26d4fe885683070bc0dbcfda5f09c33217aed2"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per3.stdout.log",
+      "sha256": "89286acda95a5179d578657e0484df103b06a22bc8f52436ac802bf3ac32decb"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per4.pid.json",
+      "sha256": "13d9538585d5350e4cc13e15e39adb49947481c3d094d8f11b1b81f0027df386"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per4.properties",
+      "sha256": "afb3b4caaa83534c82e176c0d51980c19fa61712186d6e9595db8e458f53c6d8"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\10000-100-0-6-12_per4.stdout.log",
+      "sha256": "0d84fa186b1260fa0bb8426e0326ccdd8c69fd436644f1ed22bfb3738907404d"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per0.pid.json",
+      "sha256": "b9afca67cf513c31dce26a812768b67e9a0e3a6b6e9f66ee7d3b6c1b5f9c1550"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per0.properties",
+      "sha256": "d7cb04704ce7b5920dcf10647c689f8d8fbb13a5e037bd885df1c2ff8eea6405"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per0.stdout.log",
+      "sha256": "3545bc8abaaa3537cc033f1211c96567920cf96013567b6cc66c4a0af98de37c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per1.pid.json",
+      "sha256": "47683c1c4e3c0f7a02eac3556f17fb3f4c1551f0d91a378c62fe2f52d963695c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per1.properties",
+      "sha256": "c1341c0bc45482af54ec764e578bfab9ed1fdec76741d9c85126984c6f5f712d"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per1.stdout.log",
+      "sha256": "c40ecce17f1bccc9ce956da106de950f3d1f9c14eab68ec674999582f96761f9"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per2.pid.json",
+      "sha256": "18efd08754fab14ea0a2a794f2bad22c69ebb8eb30842d624f5aef32faadfc28"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per2.properties",
+      "sha256": "bf9182e9fcd672199e8fbe93f44cdd306545ca8b632aebd9aaab9727cda56e9b"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per2.stdout.log",
+      "sha256": "e2db4c997fba2f0bd280ef21388198e7361222f37120b224d53d247b68237abe"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per3.pid.json",
+      "sha256": "05ccd9b6c26ed874ad0a01274ced8cf93cbefeda64ba0e6838d1c6e24d583930"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per3.properties",
+      "sha256": "a30634ce57907997908647f2ea90cbbe5633c6bb0fe7f8804f29021e0adbfeda"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per3.stdout.log",
+      "sha256": "0690256f32c2668767abd1ae1a52688aac63d661041e5bc4fecbccf444956a8c"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per4.pid.json",
+      "sha256": "1fe87a7908d013b4f6838a51eb0474bdcca5030c057eecbcc3ea7bd000c24999"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per4.properties",
+      "sha256": "4af7f87b5059a04d358ff7a01ed94b85348b2c63a89d7efc397f34bcc6740bf5"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\3000-30-1-12-20_per4.stdout.log",
+      "sha256": "a699b41e946c945eef534b2207dd15a99eaa3dbdda8060ae373d009abfc2cce7"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per0.pid.json",
+      "sha256": "c2ea33d77fbff88aff872459c6e44f076a48fb4586be6d23769187fa882b4fb9"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per0.properties",
+      "sha256": "09a93e98c1ea2c50e96bbdb72747662370d9a31471e00c23473a684c2c583ed9"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per0.stdout.log",
+      "sha256": "ce817bf79f3a88c15a13b6f30dfbac02c7327ff9529671db0eb01ee508b8f0cc"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per1.pid.json",
+      "sha256": "345c3d39ae39342070f70ce5863351f96a9943c235f50b6a0c10d62a8256de91"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per1.properties",
+      "sha256": "e1db921524f4c4debe75b71bb63a536117c65c407a744c21d4ea8cbffc6a90ec"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per1.stdout.log",
+      "sha256": "1b0e50eb5f8357765cbb668f99de85a83a618817b589c2aaa97f72af6c2ea8f7"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per2.pid.json",
+      "sha256": "84cff7bff4c5ef3ec88819c413fda9b294bc8d0f8233412c89bb9aa6178294d6"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per2.properties",
+      "sha256": "5351894bed7ee3501a504781f030a235fda6a07b2bc6cc93ce75b5f0c9b6dd8a"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per2.stdout.log",
+      "sha256": "c69e4a3e2876651bfba45e07318c6648270cc38070c7b247aba321bd8762d9b3"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per3.pid.json",
+      "sha256": "fde317bb9c5ef3e020717ad9c88f8463f428a66df11674527f460957fa9f2527"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per3.properties",
+      "sha256": "f702896ac7d17716e909a7d94f8c3404554e3d5ad817309c87de3758c0364413"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per3.stdout.log",
+      "sha256": "f91a1426ec97def08836e1ca06cbb31f7526999c79c27fdb65df7163556954c8"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per4.pid.json",
+      "sha256": "2ff7e3377836ae7ec64a4c504e9c5dc6b2f7fb6b1dd4b0233d54a8c219b4769d"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per4.properties",
+      "sha256": "562d2df4b7b4a769dcc656491eae35658b4be77afd78d8385aa34337a96459fd"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\4000-40-1-12-18_per4.stdout.log",
+      "sha256": "9c38f74511b07463f19e60180713df014b2efda6cc48a31dcfb80613e3fae938"
+    }
+  ],
+  "scope": "descriptive means; mixed timing boundaries and batch conditions; no causal speed claim",
+  "runtime": "Normal, 28 threads, serial JVM, original config/seeds/budgets for the 45 new rows",
+  "before": [
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-fullspeed-update-20261009\\before\\paper_draft.md",
+      "sha256": "1fc83d3c01b2b44b50cae7311a2c3a15cbfdf831f556ce6cc01fc1dbda758dd6"
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-fullspeed-update-20261009\\before\\paper_draft.pdf",
+      "sha256": "cd19f46f48b6f6029e554360125daba064cdc08c020319a7b66b06833ca1c365"
+    }
+  ],
+  "completedAt": "2026-10-09T03:31:33.587749+00:00",
+  "verification": {
+    "status": "passed",
+    "sourceHashesChecked": 4,
+    "resultCellsIndependentlyChecked": 112,
+    "autoProfitRatesRecomputed": 80,
+    "unchangedMethodAndReferenceSections": true,
+    "figureNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "tableNumbers": [
+      "VI",
+      "VII",
+      "VIII",
+      "IX",
+      "X",
+      "XI"
+    ],
+    "pages": 21,
+    "experimentPages": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "originalScopePreserved": true,
+    "visualInspection": {
+      "overview": "21 pages",
+      "fullPageReview": [
+        1,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "findings": "No new clipping, overlap or broken scenario groups; updated values readable.",
+      "retainedTemplateWarnings": "Three existing CAS front-page overfull warnings; page 1 visually checked."
+    },
+    "unchangedFigureHashes": 6,
+    "rawTimingSourceHashesChecked": 135,
+    "pdfPages1Through12TextUnchanged": true
+  },
+  "writingAntiAI": "Four changed paragraphs reviewed locally; facts, numbers, method terms and evidence limits preserved.",
+  "commands": [
+    "python -X utf8 outputs/paper-fullspeed-update-20261009/update_data.py",
+    "python -X utf8 scripts/plot_paper_current16_results.py --tables-only",
+    "python -X utf8 outputs/paper-fullspeed-update-20261009/refresh_tables.py",
+    "python -X utf8 outputs/paper-fullspeed-update-20261009/build_pdf.py",
+    "python -X utf8 outputs/paper-fullspeed-update-20261009/validate_and_render.py",
+    "python -X utf8 outputs/paper-fullspeed-update-20261009/publish.py"
+  ],
+  "latexCommands": [
+    [
+      "pandoc",
+      "body_source.md",
+      "--from",
+      "markdown+raw_tex+tex_math_dollars",
+      "--to",
+      "latex",
+      "--output",
+      "paper_body.tex"
+    ],
+    [
+      "xelatex",
+      "--disable-installer",
+      "-interaction=nonstopmode",
+      "-halt-on-error",
+      "paper_wrapper.tex"
+    ],
+    [
+      "xelatex",
+      "--disable-installer",
+      "-interaction=nonstopmode",
+      "-halt-on-error",
+      "paper_wrapper.tex"
+    ]
+  ],
+  "artifacts": [
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\paper_draft.md",
+      "sha256": "35319e60fe10321ca3915ca360a38783a06067f2d8d83915b46c423148643730",
+      "bytes": 64835
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Writing\\paper_draft.pdf",
+      "sha256": "9a37f9081bd4bd0c1c44db4aa249f89f0d546b87f21a7c1b74fa6fe425c0f616",
+      "bytes": 3978698
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\scripts\\plot_paper_current16_results.py",
+      "sha256": "389e61f2dfce08e4d931faa8eb1935d5abd66f4431531845df9d5a46042d75ae",
+      "bytes": 12168
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Plan\\2026-10-09-update-paper-fullspeed.md",
+      "sha256": "fc238a4b4de9ad332eb2cd6d73b5eea4f00ad9f782a6dc7c51b938ee27a0b2e5",
+      "bytes": 2133
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\01-Plan.md",
+      "sha256": "0cd77399240eb42ba41a60113fd2f7a89643703dda49afb6611a2020c4047511",
+      "bytes": 17599
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\paper-fullspeed-update-20261009\\evidence.md",
+      "sha256": "52dfd14843f4a93a3e3ee6d21c1ebdb06e4f86431480c3d7c37856752c798a97",
+      "bytes": 4505
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\paper-fullspeed-update-20261009\\data.csv",
+      "sha256": "5ed433dd9d4ffdeebf6957a82216a61f2d119ccaa93cafe27dcf75b8a345c3d6",
+      "bytes": 289832
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Reports\\paper-fullspeed-update-20261009.md",
+      "sha256": "5adc5849456e76e221853969b8bdc3c501d22393a43fc8eb8b8705aa15cdb42c",
+      "bytes": 1425
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-fullspeed-update-20261009\\build_pdf.py",
+      "sha256": "58b713a8b65ea239bf9e97217ed02071b1713a181cfec419701ebf7c4f4ae133",
+      "bytes": 3487
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-fullspeed-update-20261009\\publish.py",
+      "sha256": "168b702ef08dc003dec72fd331cfb85114b548e3833ec228771990a6fed8373e",
+      "bytes": 4591
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-fullspeed-update-20261009\\refresh_tables.py",
+      "sha256": "3a226d001bf5b4f5976021285b3a7ed1296ad913cc2d14a1326e6aefb5b7fc7f",
+      "bytes": 672
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-fullspeed-update-20261009\\update_data.py",
+      "sha256": "6bb6a70ccad67a7943710e0fb30a61bd9b03913e7bb7b66fff834b2ee9a47c97",
+      "bytes": 4843
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-fullspeed-update-20261009\\validate_and_render.py",
+      "sha256": "e3700227914bad2bfff65938e2bbe5f25b7323d6f61a41e528913ec2b2d4111f",
+      "bytes": 5760
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-fullspeed-update-20261009\\regional_results.tex",
+      "sha256": "492ffb04ae06abd078cfcb96b278870adb63a36d76f886fc5d230715028433b9",
+      "bytes": 3352
+    },
+    {
+      "path": "E:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\paper-fullspeed-update-20261009\\global_results.tex",
+      "sha256": "23ae0663a4102f66d46ed1f2eee0b40af50dcc36b21aa7d64716e7c05438adc0",
+      "bytes": 2441
+    }
+  ]
+}

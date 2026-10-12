@@ -150,6 +150,7 @@ static SurvivorSelectResult survivorSelect(List<double[]> offspringPop, List<dou
 
 ### GREEDY 现状与优化判断
 
+- GREEDY 的普通与窗口偏好扫描使用 `TimeWindow.getAttitudeRecordTimesUnsafe()` 读取秒数缓存，先检查最小转换时间间隔，再获取姿态记录对象。缓存不适用时走原对象读取路径；候选顺序和首个可行点规则不变。
 - `GreedyInsertion` 默认是逐窗“第一个可行点”实现；窗口偏好路径会先做窗口排序，再逐窗尝试可行起点。
 - `PlanUtils.generateSchedule(..., true, ...)` 和 `buildPlanByLimitedInsertion(..., true, ...)` 可以把同一条窗口偏好路径只开给选定任务；`DeltaFastRefiner` 默认也会把这条路径接到有限候选插入上。
 - 如果继续优化 `GREEDY`，优先看 `findFirstFeasibleInsertion()` 的窗口内起点剪枝、边界过滤和 `ScheduledTask` 分配；`MAX_REMAINING_CAPACITY` 更偏窗口级选择，不适合作为主要优化方向。

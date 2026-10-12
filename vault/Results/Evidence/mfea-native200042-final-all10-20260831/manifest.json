@@ -1,0 +1,71 @@
+{
+  "experiment_id": "mfea-native200042-final-all10-20260831",
+  "created_at": "2026-08-31T23:44:40+08:00",
+  "repository": {
+    "root": "E:\\OneDrive\\project\\static_deterministic_large_scale scenarios\\6D_dynamic_version_mfea - 副本 - 副本 (2)",
+    "git_head": "978cf465d8ae4a4701f64955f639cf1a2530dede"
+  },
+  "selection_pipeline": {
+    "outer_mfea": "native290002 five outer seeds",
+    "training_screen": {
+      "seed_source": "native290002",
+      "per_run": "0..4",
+      "winner": "[2,0,0,0,4,2]",
+      "training_macro_mean_profit_ratio": 73.318,
+      "runner_up_gap_pp": 0.0375
+    }
+  },
+  "final_replay": {
+    "entry_point": "main.RunSingleHybridConfig",
+    "selected_config": "[2,0,0,0,4,2]",
+    "scene_set": "ID1-ID10",
+    "scene_count": 10,
+    "runs": 50,
+    "seed_source": "native200042",
+    "seed_table": "scene-seeds-native200042.properties",
+    "per_run": "0..4",
+    "logical_seed_ids": "10..14",
+    "source_native290002_seed_ids": [
+      13,
+      17,
+      21,
+      24,
+      25
+    ],
+    "deterministic": true,
+    "java_priority": "Normal",
+    "id1_output": "outputs/native200042-config-2-0-0-0-4-2-ID1-sourceIDs13-17-21-24-25-20260831",
+    "id2_id10_output": "outputs/native200042-config-2-0-0-0-4-2-ID2-10-sourceIDs13-17-21-24-25-20260818"
+  },
+  "integrity": {
+    "canonical_data_rows": 50,
+    "unique_scene_count": 10,
+    "runs_per_scene": 5,
+    "id1_status_rows": 5,
+    "id2_id10_status_rows": 45,
+    "failed_runs": 0,
+    "nonempty_error_logs": 0,
+    "seed_mismatches": 0
+  },
+  "summary": {
+    "metric": "profitRatio, higher is better",
+    "primary_unit": "scene-level five-run mean",
+    "macro_mean_profit_ratio": 77.03693862544553,
+    "regional_mean_profit_ratio": 63.24020955661623,
+    "global_mean_profit_ratio": 97.73203222868949,
+    "total_elapsed_seconds": 937.6859999999999,
+    "mean_elapsed_seconds_per_run": 18.753719999999998,
+    "inferential_status": "Descriptive replay only; no contemporaneous baseline or predeclared paired contrast."
+  },
+  "source_hashes": {
+    "native200042_seed_table": "653a55cd709d01e5cfe03ceeb425e95f64238c5260195fe7df86cef3b5468f49",
+    "native290002_seed_table": "3cbbdd92cdeb2646ca7fa52a6d51e0ba472fcd74576e4f1416b23d7cf559d1d6",
+    "id1_summary": "1bfa6e0d3fe943f706d9f53185382ad6e32a4f0f5ed4329f01d601e6d0b2e881",
+    "id2_id10_summary": "e15e1ec19fd61907dec83734307d2ffd3ebc0689802c0dc613c1a77758f72997"
+  },
+  "artifact_hashes": {
+    "data_csv": "be92525f4d0414d2b9ff5686468f935913a6e22c4acc4e1b0bead8949fb4281c",
+    "stats_appendix": "4594bcf4044983c71c32c796c114313bcd16b090f9e2a1636dbb77e85cbfee2b",
+    "evidence_md": "c4c0338775394382ff90d7aced6b37f33918b88fdabccc121381913aa365ac0a"
+  }
+}

@@ -26,9 +26,9 @@
   <text x="252.5" y="98" text-anchor="middle" class="gene">h1</text>
   <text x="252.5" y="120" text-anchor="middle" class="small">parent 2</text>
   <text x="402.5" y="98" text-anchor="middle" class="gene">h2</text>
-  <text x="402.5" y="120" text-anchor="middle" class="small">update 1</text>
+  <text x="402.5" y="120" text-anchor="middle" class="small">OL 1</text>
   <text x="552.5" y="98" text-anchor="middle" class="gene">h3</text>
-  <text x="552.5" y="120" text-anchor="middle" class="small">update 2</text>
+  <text x="552.5" y="120" text-anchor="middle" class="small">OL 2</text>
   <text x="702.5" y="98" text-anchor="middle" class="gene">h4</text>
   <text x="702.5" y="120" text-anchor="middle" class="small">OO</text>
   <text x="835" y="98" text-anchor="middle" class="gene">h5</text>
@@ -41,9 +41,9 @@
 
   <text x="177.5" y="184" text-anchor="middle" class="label">Parent Algorithms</text>
   <text x="177.5" y="205" text-anchor="middle" class="small">Table II, h0 != h1</text>
-  <text x="477.5" y="184" text-anchor="middle" class="label">Update Policies</text>
+  <text x="477.5" y="184" text-anchor="middle" class="label">Operating Levels (OL)</text>
   <text x="477.5" y="205" text-anchor="middle" class="small">Table III</text>
-  <text x="702.5" y="184" text-anchor="middle" class="label">OO Policy</text>
+  <text x="702.5" y="184" text-anchor="middle" class="label">Operating Order (OO)</text>
   <text x="702.5" y="205" text-anchor="middle" class="small">Table IV</text>
   <text x="835" y="184" text-anchor="middle" class="label">Survival</text>
   <text x="835" y="205" text-anchor="middle" class="small">Table V</text>

@@ -43,6 +43,7 @@ SchedulingPlan ───────→ Task, ScheduledTask
 - `int getSatelliteId() / getTaskId()` — 关联 ID
 - `List<AttitudeRecord> getAttitudeRecords()` — 获取姿态记录（不可变视图）
 - `double getAttitudeRecordTimeSeconds(int index)` — 直接读取指定姿态记录的秒数，供插入热路径避免重复对象链读取
+- `double[] getAttitudeRecordTimesUnsafe()` — 惰性构建并发布与记录顺序一致的只读秒数缓存；加载完成后支持并行只读，调用方不能修改数组。set/add/addAll/clear 记录时失效。窗口子类、记录子类或 null 记录返回 null，保留原对象访问语义；不支持并发修改记录列表
 - `void addAttitudeRecord(AttitudeRecord)` — 添加姿态记录
 - `boolean overlaps(TimeWindow)` — 判断时间窗口是否重叠
 - `boolean contains(double time)` — 判断时间点是否在窗口内

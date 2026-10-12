@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.DoubleAdder;
 
@@ -38,7 +36,8 @@ final class DeltaFastRefiner {
   private final Context context;
   private final PlanUtils.TaskIdMarker previousTaskIds = new PlanUtils.TaskIdMarker();
   private final PlanUtils.TaskIdMarker currentTaskIds = new PlanUtils.TaskIdMarker();
-  private final PlanUtils.TaskIdMarker scheduledTaskIdScratch = new PlanUtils.TaskIdMarker();
+  private final PlanUtils.SnapshotReplayScratch snapshotReplayScratch =
+    new PlanUtils.SnapshotReplayScratch();
 
   DeltaFastRefiner(List<Task> allTasks, Context context) {
     this.allTasks = allTasks;
@@ -152,60 +151,95 @@ final class DeltaFastRefiner {
     } else {
       swapEnd = n - 1;
     }
-    TreeSet<Integer> swapPositions = new TreeSet<>();
-    for (int pos = swapStart; pos < swapEnd; pos++) {
-      swapPositions.add(pos);
-    }
-    if (!FAST_REFINE_ADJACENT_SWAP_ENABLED || swapPositions.isEmpty()) {
+    int swapPositionCount = Math.max(0, swapEnd - swapStart);
+    if (!FAST_REFINE_ADJACENT_SWAP_ENABLED || swapPositionCount == 0) {
       context.materializePlanSchedule(baselinePlan, satellite, mode);
-      ADJACENT_SWAP_STATS.recordCall(swapPositions.size(), 0, 0.0, System.nanoTime() - startNanos);
+      ADJACENT_SWAP_STATS.recordCall(swapPositionCount, 0, 0.0, System.nanoTime() - startNanos);
       return baselinePlan;
     }
-    Set<Integer> snapshotPositions = new TreeSet<>();
-    for (int pos : swapPositions) {
-      if (pos > 0) {
-        snapshotPositions.add(pos - 1);
-      }
-    }
+    int snapshotStart = Math.max(0, swapStart - 1);
+    // Include the post-pair state for strict GREEDY prefix equivalence checks.
+    int snapshotEnd = swapEnd;
     PlanUtils.ScheduleSnapshotResult snapshotResult =
-      PlanUtils.generateScheduleWithSnapshots(seq, satellite, mode, snapshotPositions);
+      PlanUtils.generateScheduleWithSnapshotRange(seq, satellite, mode, snapshotStart, snapshotEnd);
     SchedulingPlan currentBest = new SchedulingPlan(seq);
     currentBest.setSchedule(snapshotResult.finalSchedule);
     currentBest.setFitness((double) PlanUtils.calculateProfit(snapshotResult.finalSchedule));
     double currentFitness = currentBest.getFitness();
     int acceptedSwaps = 0;
     double totalGain = 0.0;
-    for (int pos : swapPositions) {
+    List<ScheduledTask> emptyPrefixSchedule = new ArrayList<>();
+    for (int pos = swapStart; pos < swapEnd; pos++) {
       Collections.swap(seq, pos, pos + 1);
       int startIdx = pos;
       List<ScheduledTask> prefixSchedule;
       int[] prefixIds;
-      if (pos > 0 && snapshotResult.scheduleSnapshots.containsKey(pos - 1)) {
-        prefixSchedule = snapshotResult.scheduleSnapshots.get(pos - 1);
+      List<ScheduledTask> savedPrefix = pos > 0
+        ? snapshotResult.scheduleSnapshots.get(pos - 1)
+        : null;
+      if (savedPrefix != null) {
+        prefixSchedule = savedPrefix;
         prefixIds = snapshotResult.scheduledIdSnapshots.get(pos - 1);
       } else {
-        prefixSchedule = new ArrayList<>();
-        prefixIds = new int[0];
+        prefixSchedule = emptyPrefixSchedule;
+        prefixIds = null;
         startIdx = 0;
       }
-      List<ScheduledTask> schedule = PlanUtils.generateScheduleFromSnapshot(
-        seq, satellite, mode, prefixSchedule, prefixIds, startIdx, scheduledTaskIdScratch);
-      double swapFitness = (double) PlanUtils.calculateProfit(schedule);
-      if (swapFitness > currentFitness) {
-        double gain = swapFitness - currentFitness;
-        totalGain += gain;
-        acceptedSwaps++;
-        currentFitness = swapFitness;
-        currentBest = new SchedulingPlan(new ArrayList<>(seq));
-        currentBest.setSchedule(schedule);
-        currentBest.setFitness(swapFitness);
-        snapshotResult = PlanUtils.generateScheduleWithSnapshots(seq, satellite, mode, snapshotPositions);
-      } else {
-        Collections.swap(seq, pos, pos + 1);
+      boolean accepted = false;
+      try {
+        boolean comparePair = mode == InsertionMode.GREEDY && pos + 2 < n;
+        List<ScheduledTask> schedule = PlanUtils.generateScheduleFromSnapshotInPlace(
+          seq, satellite, mode, prefixSchedule, prefixIds, startIdx,
+          comparePair ? pos + 2 : n, snapshotReplayScratch);
+        if (comparePair) {
+          if (hasSameScheduleState(schedule, snapshotResult.scheduleSnapshots.get(pos + 1))) {
+            // Identical prefix and unchanged suffix imply identical profit: strict > rejects.
+            continue;
+          }
+          schedule = PlanUtils.continueScheduleFromSnapshotInPlace(
+            seq, satellite, mode, prefixSchedule, pos + 2, snapshotReplayScratch);
+        }
+        double swapFitness = (double) PlanUtils.calculateProfit(schedule);
+        if (swapFitness > currentFitness) {
+          double gain = swapFitness - currentFitness;
+          totalGain += gain;
+          acceptedSwaps++;
+          currentFitness = swapFitness;
+          currentBest = new SchedulingPlan(seq);
+          currentBest.setSchedule(schedule);
+          currentBest.setFitness(swapFitness);
+          accepted = true;
+        }
+      } finally {
+        snapshotReplayScratch.rollback(prefixSchedule);
+        if (!accepted) {
+          Collections.swap(seq, pos, pos + 1);
+        }
+      }
+      if (accepted) {
+        snapshotResult = PlanUtils.generateScheduleWithSnapshotRange(
+          seq, satellite, mode, snapshotStart, snapshotEnd);
       }
     }
-    ADJACENT_SWAP_STATS.recordCall(swapPositions.size(), acceptedSwaps, totalGain, System.nanoTime() - startNanos);
+    ADJACENT_SWAP_STATS.recordCall(swapPositionCount, acceptedSwaps, totalGain, System.nanoTime() - startNanos);
     return currentBest;
+  }
+
+  private static boolean hasSameScheduleState(List<ScheduledTask> left, List<ScheduledTask> right) {
+    if (right == null || left.size() != right.size()) {
+      return false;
+    }
+    for (int i = 0; i < left.size(); i++) {
+      ScheduledTask a = left.get(i);
+      ScheduledTask b = right.get(i);
+      // Input object identity proves equality of every decoder-visible field.
+      if (a.getTask() != b.getTask() || a.getSatelliteId() != b.getSatelliteId()
+        || a.getTimeWindow() != b.getTimeWindow() || a.getStartRecord() != b.getStartRecord()
+        || a.getEndRecord() != b.getEndRecord()) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private List<Task> buildFastRefineBaseSequence(SatelliteState state, TaskDelta taskDelta) {

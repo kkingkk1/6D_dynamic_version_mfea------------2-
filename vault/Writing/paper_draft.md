@@ -1,8 +1,8 @@
 # Automatic Design of Collaboration-Based Hybrid Metaheuristics for Large-Scale Agile Earth Observation Satellite Scheduling
 
-**Abstract**--Large-scale agile earth observation satellite scheduling has drawn growing attention as satellite constellations expand and observation demand rises. The problem couples task selection, satellite assignment, visible-window placement, and attitude-constrained sequencing, and is NP-hard at the scale of practical missions. In conventional collaboration-based hybrid metaheuristic design, the inner collaboration structure is typically fixed in advance. RK-HMA is one such artificially designed hybrid algorithm: its internal single-satellite optimizer combines DE/rand/1 and PSO, achieving good results. This paper recasts the design of this collaboration-based hybrid with two parent algorithms as an automatic structural-design problem within the same scheduling pipeline. A six-gene chromosome selects two parent algorithms, two operating levels (OL), one operating order (OO), and survivor selection. Over these component libraries, an evolutionary search on four regional training scenarios composes a hybrid optimizer. The retained configuration is evaluated on ten benchmark scenarios containing 500–10,000 tasks and 5–100 satellites covering both regional and global task distributions. It obtains the best or tied-best profit rate on all ten scenarios, with a maximum gap of 12.32 percentage points over the compared baselines. All methods remain near saturation on global-distribution scenarios, while Auto-Hybrid shows more substantial gains on the more challenging regional-distribution scenarios.
+**Abstract**--The large-scale agile earth observation satellite task scheduling problem (LS-AEOSTSP) critically impacts time-sensitive observation missions for growing satellite constellations. The problem couples task selection, satellite assignment, visible-window placement, and attitude-constrained sequencing, presenting an NP-hard combinatorial challenge at operational constellation scales. While collaboration-based hybrid metaheuristics can balance exploration and exploitation, existing approaches—such as the state-of-the-art RK-HMA combining differential evolution and particle swarm optimization—rely on manually crafted, fixed collaboration structures. Manual design faces a prohibitive combinatorial configuration space and struggles to generalize across diverse mission distributions. To address these limitations, this paper recasts the design of collaboration-based hybrid optimizers as an automated structural search problem within a unified scheduling pipeline. We formulate a six-gene semantic chromosome and modular component libraries that govern parent algorithm selection, population operating levels, operating orders, and survivor selection rules, while retaining the random-key scheduling bridge and multi-satellite task reassignment architecture. An evolutionary configuration-search procedure on multi-scenario training instances automatically composes an effective hybrid optimizer (Auto-Hybrid), which discovers an adaptive collaboration scheme combining estimation of distribution algorithms and genetic algorithms. Extensive comparative experiments across sixteen benchmark scenarios (500–10,000 tasks and 5–100 satellites) demonstrate that Auto-Hybrid consistently outperforms or matches RK-HMA and five classic metaheuristics. On the ten regional scenarios, Auto-Hybrid achieves higher mean profit rates across all instances with a macro mean increase of 0.93 percentage points over RK-HMA (up to 2.99 percentage points in dense instances), while maintaining competitive, near-optimal solution quality on global scenarios (97.00% versus 97.01%). These results demonstrate that automated structural search can effectively discover problem-tailored hybrid metaheuristics superior to manual expert designs for large-scale agile satellite scheduling.
 
-**Index Terms**--agile earth observation satellite scheduling, automated algorithm design, collaboration-based hybrid metaheuristic
+**Index Terms**--Agile earth observation satellites, multi-satellite scheduling, automated algorithm design, collaboration-based hybrid metaheuristics, evolutionary search
 
 # I. Introduction
 
@@ -18,7 +18,7 @@ Prior work on agile satellite scheduling spans several methodological lines. Sur
 
 Adaptive large neighborhood search (ALNS) and its variants are well studied. Liu et al. [6] designed problem-specific removal and insertion operators for time-dependent transition times, and He et al. [7] extended ALNS to multiple agile satellites with a dynamic task-allocation mechanism. Population-based evolutionary algorithms have also been applied: Yao et al. [9] proposed a bilevel evolutionary algorithm for large-scale multiobjective task scheduling, Qin et al. [10] combined simulated annealing with a genetic algorithm for multisatellite scheduling of moving targets, and Wang et al. [11] designed a strategy fusion-based multi-objective optimization approach. Related methods address further variants, including interval-varying profits [8] and the integrated agile scheduling problem [15]. However, most existing methods rely on a single algorithmic paradigm, limiting the balance between exploration and exploitation in the LS-AEOSTSP search space [1].
 
-Hybrid metaheuristics, which combine the strengths of multiple search strategies within a unified framework, are effective for combinatorial optimization. Blum et al. [12] surveyed hybrid metaheuristic paradigms and reported numerous successful applications where hybridization improved solution quality. In the domain of scheduling, Fan et al. [13] proposed a hybrid evolutionary algorithm using two solution representations for hybrid flow-shop scheduling, and Shu et al. [14] integrated variable neighborhood search with NSGA-II for emergency material scheduling. For LS-AEOSTSP, our previous work proposed RK-HMA [21], which connects continuous optimizers with discrete task sequences through random-key encoding, applies DE/rand/1 and PSO to a shared population, and uses dynamic task reassignment to coordinate satellites. RK-HMA shows that hybridization is effective for large-scale satellite scheduling. However, this manual design process has two main limitations: (i) the design cost is high—each structural decision requires expert knowledge, and changing any component requires re-design and re-validation with no guarantee that the resulting structure remains effective when the scenario changes in scale or task distribution; and (ii) the design space of collaboration-based hybrids is large—different parent algorithms, OL choices, OO choices, and survivor-selection policies can be combined in many ways, making it difficult for manual exploration to identify well-performing configurations.
+Hybrid metaheuristics, which combine the strengths of multiple search strategies within a unified framework, are effective for combinatorial optimization. Blum et al. [12] surveyed hybrid metaheuristic paradigms and reported numerous successful applications where hybridization improved solution quality. In the domain of scheduling, Fan et al. [13] proposed a hybrid evolutionary algorithm using two solution representations for hybrid flow-shop scheduling, and Shu et al. [14] integrated variable neighborhood search with NSGA-II for emergency material scheduling. For LS-AEOSTSP, our previous work proposed RK-HMA [21], which connects continuous optimizers with discrete task sequences through random-key encoding, applies DE/rand/1 and PSO sequentially to the full shared population with elitist-truncation survivor selection, and uses dynamic task reassignment to coordinate satellites. RK-HMA shows that hybridization is effective for large-scale satellite scheduling. However, this manual design process has two main limitations: (i) the design cost is high—each structural decision requires expert knowledge, and changing any component requires re-design and re-validation with no guarantee that the resulting structure remains effective when the scenario changes in scale or task distribution; and (ii) the design space of collaboration-based hybrids is large—different parent algorithms, OL choices, OO choices, and survivor-selection policies can be combined in many ways, making it difficult for manual exploration to identify well-performing configurations.
 
 The central question is therefore an automatic-design question: can the hybrid structure itself be composed for the scheduling pipeline? Algorithm configuration methods such as ParamILS, SMAC, and irace tune parameterized algorithms over training instances [16]-[18]. Hyper-heuristics search over heuristics or heuristic components instead of directly searching the solution space [19]. Automated algorithm design goes further by searching algorithm structures rather than only tuning parameters or choosing among fixed algorithms. Recent work on automated design of collaboration-based hybrid metaheuristics treats hybrid-optimizer design as a meta-optimization problem and uses a top-down template to generate collaboration-based hybrid algorithms [20].
 
@@ -30,7 +30,7 @@ The main contributions are as follows.
 
 2. We formulate a six-gene semantic chromosome and its component libraries. The chromosome exposes the collaboration structure—parent algorithms, OL, OO, and survivor selection—as interpretable structural decisions that the search can recombine.
 
-3. We evaluate the composed optimizer on ten benchmark scenarios containing 500–10,000 tasks and 5–100 satellites covering both regional and global task distributions. The retained configuration obtains the best or tied-best profit rate on all ten scenarios, with a maximum gap of 12.32 percentage points over the compared baselines. All methods remain near saturation on global-distribution scenarios, while Auto-Hybrid shows more substantial gains on the more challenging regional-distribution scenarios.
+3. We evaluate the composed optimizer on ten regional and six global benchmark scenarios with five runs per method. Auto-Hybrid has the highest displayed regional mean on all ten scenarios, including one tie, and a regional macro mean 0.93 percentage points above RK-HMA. The global comparison and the retained runtime records identify the limits of this descriptive evidence.
 
 The remaining sections are organized as follows. Section II defines the scheduling problem. Section III describes the automatic hybrid-design framework. Section IV reports the experiments. Section V concludes the paper.
 
@@ -40,33 +40,42 @@ The remaining sections are organized as follows. Section II defines the scheduli
 
 Given a set $T=\{t_1,\ldots,t_n\}$ of $n$ tasks and a set $AEOS=\{aeos_1,\ldots,aeos_m\}$ of $m$ agile earth observation satellites. Each task $t_i$ is associated with a geographic location (latitude and longitude), an imaging duration $l_i$, and a profit $p_i$, which are provided by the user. Each satellite $aeos_j$ is represented by its orbital parameters, including the semi-major axis, eccentricity, inclination, right ascension of the ascending node, argument of perigee, and true anomaly. Given the target location and satellite orbital parameters, the visible time windows (VTWs) of each target associated with its visible satellites are obtained through access calculation. Each VTW $w_{ijk}$ has a start time $st_{ijk}$, an end time $et_{ijk}$, and a length $d_{ijk}$. The roll, pitch, and yaw angles of the imaging payload at the corresponding observation times are also available. The notations used throughout this paper are summarized in Table I.
 
+\clearpage
+**Table I**
+
+Notation for LS-AEOSTSP.
+
+\begin{longtable}{@{}>{\centering\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.4000}} >{\centering\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.6000}}@{}}
+\toprule
+\textbf{Notation} & \textbf{Description} \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\(T\) & Tasks set \\
+\(n\) & Number of tasks \\
+\(\mathrm{AEOS}\) & Satellites set \\
+\(m\) & Number of satellites \\
+\(p_i\) & Profit of task \(t_i\) \\
+\(l_i\) & Imaging duration of task \(t_i\) \\
+\(\chi_{jt}\) & Rolling angle of \(\mathrm{aeos}_j\) at time \(t\) \\
+\(\pi_{jt}\) & Pitching angle of \(\mathrm{aeos}_j\) at time \(t\) \\
+\(\phi_{jt}\) & Yawing angle of \(\mathrm{aeos}_j\) at time \(t\) \\
+\(w_{ijk}\) & \(k\)-th VTW for task \(t_i\) on satellite \(\mathrm{aeos}_j\) \\
+\(W_{ij}\) & VTWs set for task \(t_i\) on satellite \(\mathrm{aeos}_j\) \\
+\(\lvert W_{ij}\rvert\) & Number of VTWs for task \(t_i\) on satellite \(\mathrm{aeos}_j\) \\
+\(st_{ijk}\) & Start time of \(w_{ijk}\) \\
+\(et_{ijk}\) & End time of \(w_{ijk}\) \\
+\(d_{ijk}\) & Length of \(w_{ijk}\) \\
+\(c_i\) & Specified minimum imaging quality of task \(t_i\) \\
+\end{longtable}
+
 Due to the limited number of satellites compared with the number of tasks, it is difficult to execute all tasks. Therefore, the LS-AEOSTSP aims to determine the imaging times of a subset of tasks within their VTWs while maximizing the total observation profit, subject to the following assumptions.
 
 1. Each task is a meta-task that can be directly executed by a satellite. Complex tasks such as area target coverage or moving target tracking are not considered, because they can be decomposed into meta-tasks through strip partitioning.
 2. Power-capacity and storage-capacity constraints are not modeled. In normal operation, satellites charge through solar power and transmit data to ground stations or relay satellites to release onboard storage.
 3. Each satellite is equipped with a single imaging payload and can execute at most one task at a time.
 4. Once executed, a task cannot be aborted, and each task is executed at most once.
-
-**TABLE I: NOTATION FOR LS-AEOSTSP.**
-
-| Notation | Description |
-|---|---|
-| $T$ | Tasks set |
-| $n$ | Number of tasks |
-| $AEOS$ | Satellites set |
-| $m$ | Number of satellites |
-| $p_i$ | Profit of task $t_i$ |
-| $l_i$ | Imaging duration of task $t_i$ |
-| $\chi_{jt}$ | Rolling angle of $aeos_j$ at time $t$ |
-| $\pi_{jt}$ | Pitching angle of $aeos_j$ at time $t$ |
-| $\phi_{jt}$ | Yawing angle of $aeos_j$ at time $t$ |
-| $w_{ijk}$ | $k$-th VTW for task $t_i$ on satellite $aeos_j$ |
-| $W_{ij}$ | VTWs set for task $t_i$ on satellite $aeos_j$ |
-| $|W_{ij}|$ | Number of VTWs for task $t_i$ on satellite $aeos_j$ |
-| $st_{ijk}$ | Start time of $w_{ijk}$ |
-| $et_{ijk}$ | End time of $w_{ijk}$ |
-| $d_{ijk}$ | Length of $w_{ijk}$ |
-| $c_i$ | Specified minimum imaging quality of task $t_i$ |
 
 The decision variables are $x_{ijk}$ and $u_{ijk}$. The binary variable $x_{ijk}$ equals one if task $t_i$ is executed in VTW $w_{ijk}$ and zero otherwise. The continuous variable $u_{ijk}$ denotes the start time of task $t_i$ when $x_{ijk}=1$. The sequencing variable $\rho_{ijk,i^*jk^*}$ equals one if task $t_i$ is the predecessor of task $t_{i^*}$ on satellite $aeos_j$ and zero otherwise.
 
@@ -148,13 +157,13 @@ Constraint (2) ensures that each task is executed at most once. Constraint (3) e
 
 ## A. Design Principle
 
-The proposed framework follows the top-down design idea of AutoHyb [20], where designing a collaboration-based hybrid optimizer is formulated as a meta-optimization problem. AutoHyb treats the optimizer structure as a searchable design object: each candidate design scheme specifies which parent algorithms to combine (e.g., DE, PSO, EDA) and how to hybridize them through a set of hybridization factors: the operating level (OL), which determines which subpopulation of the shared population each parent algorithm modifies; the operating order (OO), which determines the information dependency between the two parent algorithms; and survivor selection, which determines how newly generated and existing individuals compete for the next generation. AutoHyb was developed and validated on general numerical and combinatorial benchmarks, where each candidate optimizer can be evaluated with modest computational cost. We adapt this idea to the coupled, discrete LS-AEOSTSP, where every candidate solution must be evaluated through a full scheduling process that assigns tasks to satellites, selects visible time windows, determines observation timing, and computes attitude-dependent transition times—making each fitness evaluation far more expensive than on numerical benchmarks.
+The proposed framework follows the top-down design idea of AutoHyb [20], where designing a collaboration-based hybrid optimizer is formulated as a meta-optimization problem. AutoHyb treats the optimizer structure as a searchable design object: each candidate design scheme specifies which parent algorithms to combine (e.g., DE, PSO, EDA) and how to hybridize them through a set of hybridization factors: the operating level (OL), which determines which subpopulation of the shared population each parent algorithm modifies; the operating order (OO), which determines the information dependency between the two parent algorithms; and survivor selection, which determines how newly generated and existing individuals compete for the next generation. AutoHyb was developed and validated on general numerical and combinatorial benchmarks, where each candidate optimizer can be evaluated with modest computational cost. We adapt this idea to the coupled, discrete LS-AEOSTSP, where every candidate solution must be evaluated through a full scheduling process that assigns tasks to satellites, selects visible time windows, determines observation timing, and computes attitude-dependent transition times—making each fitness evaluation far more expensive and the design problem considerably harder than on numerical benchmarks.
 
 This paper instantiates that template for LS-AEOSTSP. The target scheduling pipeline is inherited from RK-HMA [21], which has two layers: an outer multi-satellite layer that handles task-to-satellite allocation and cross-satellite reassignment of unscheduled tasks, and an inner single-satellite optimizer that evolves the task sequence for each satellite independently using a random-key encoding—continuous keys define task priorities, and a greedy insertion decoder maps each random-key vector to a feasible schedule by sorting tasks and inserting them into visible time windows while respecting attitude-transition constraints.
 
-We fix the outer layer and the decoder unchanged from RK-HMA; the automatic-design layer searches only the collaboration structure of the inner single-satellite optimizer—parent algorithms, their OL choices, the OO choice, and survivor selection. We further restrict this design object to pairwise collaboration between exactly two parent algorithms. This restriction serves three purposes: (1) it keeps the design space tractable, and adding a third parent algorithm would expand this by another order of magnitude; (2) it ensures a well-defined collaboration structure—two parent algorithms form a single information-flow edge with explicit OO semantics and information dependency, whereas three or more parent algorithms would introduce multiple edges with potential cyclic dependencies or complex scheduling; (3) it supports a matched comparison with the manually designed RK-HMA baseline, which is itself a hybrid with two parent algorithms. This scoping keeps each candidate optimizer cheap enough to evaluate through the expensive scheduling pipeline.
+We fix the outer layer and the decoder unchanged from RK-HMA; the automatic-design layer searches only the collaboration structure of the inner single-satellite optimizer—parent algorithms, their OL choices, the OO choice, and survivor selection. We further restrict this design object to pairwise collaboration between exactly two parent algorithms. This restriction serves three purposes: (1) it keeps the design space tractable, and adding a third parent algorithm would expand this by another order of magnitude; (2) it ensures a well-defined collaboration structure—two parent algorithms form a single information-flow edge with explicit OO semantics and information dependency; hybridizing three or more parent algorithms could potentially offer greater search diversity, but would introduce multiple edges with cyclic dependencies or complex scheduling among components, requiring additional design dimensions that are beyond the scope of this work; (3) it supports a matched comparison with the manually designed RK-HMA baseline, which is itself a hybrid with two parent algorithms. This scoping keeps each candidate optimizer cheap enough to evaluate through the expensive scheduling pipeline.
 
-In our design, each offspring is generated by either crossover or mutation. The two operators are mutually exclusive alternatives with complementary probabilities p_c and p_m = 1 - p_c. This exclusive choice ensures that each offspring can be unambiguously attributed to a single operator, preserving a clean interpretation of their individual effects. The design stage searches over a training subset with a reduced inner budget. Chromosomes are ranked by a multi-scenario fitness that normalizes scheduling profit across scenarios, as defined in Section III-E.
+In our design, each offspring is generated by either crossover or mutation. The two operators are mutually exclusive alternatives with complementary probabilities $p_c$ and $p_m=1-p_c$. This exclusive choice ensures that each offspring can be unambiguously attributed to a single operator, preserving a clean interpretation of their individual effects. The design stage searches over a training subset with a reduced inner budget. Chromosomes are ranked by a multi-scenario fitness that normalizes scheduling profit across scenarios, as defined in Section III-E.
 
 As shown in Fig. 2, the resulting workflow has five levels:
 
@@ -170,21 +179,15 @@ As shown in Fig. 2, the resulting workflow has five levels:
 
 ## B. Component Libraries for Automatic Design
 
-The four component libraries instantiate the searchable design space.
-Tables II-V list the admissible realization forms for parent algorithms,
-OL, OO, and survivor selection. In this section, an inner individual
-denotes one random-key solution, whereas a design candidate denotes
-one six-gene chromosome. Only these structural choices are encoded;
-the numerical parameters of the library algorithms are held fixed
-during the design comparison. This separation keeps the search
-focused on collaboration structure.
+Based on the design principle above, the searchable collaboration structure is defined by four component libraries. Tables II–V list the admissible realization forms for parent algorithms, OL, OO, and survivor selection. In this section, an inner individual
+denotes one random-key solution, whereas a design candidate denotes one six-gene chromosome. Only these structural choices are encoded; the numerical parameters of the library algorithms are held fixed during the design comparison. This separation keeps the search focused on collaboration structure.
 
 The parent-algorithm library collects established metaheuristics that can operate on the shared random-key representation, chosen to span complementary search behaviors. It includes population-based evolutionary search through a genetic algorithm (GA) [22]; swarm intelligence through particle swarm optimization (PSO) [22]; probabilistic model building through an estimation-of-distribution algorithm (EDA) [22] and a continuous ant colony optimization (ACO) [23]; differential evolution in three mutation forms, DE/rand/1, DE/best/1, and DE/current-to-rand/1 [24]; a bee-colony algorithm (ABC) [22]; trajectory-based simulated annealing (SA) [22]; the success-history adaptive DE with linear population reduction (L-SHADE) [25]; and an adaptive large neighborhood search (ALNS) [6], [7] drawn from the scheduling literature. This mix lets the design stage combine exploratory, exploitative, model-based, and neighborhood-based dynamics. Table II summarizes the eleven parent algorithms.
 
 **TABLE II: PARENT-ALGORITHM LIBRARY.**
 
 | ID | Parent algorithm | Brief description |
-|---:|---|---|
+|--:|-----|------------|
 | 0 | GA | Evolutionary algorithm that generates offspring through selection, crossover, and mutation. |
 | 1 | PSO | Swarm-intelligence algorithm that updates particles using personal and global best experience. |
 | 2 | EDA | Probabilistic model-based algorithm that estimates promising distributions from selected solutions. |
@@ -199,10 +202,10 @@ The parent-algorithm library collects established metaheuristics that can operat
 
 **TABLE III: OPERATING-LEVEL LIBRARY.**
 
-The operating level determines which inner random-key solutions of the shared population each parent algorithm is allowed to modify. The seven realization forms below span population-, subpopulation-, and individual-level updates. Parameter symbols are included directly in the corresponding realization forms, and their values are reported in Table VIII.
+The operating level determines which inner random-key solutions of the shared population each parent algorithm is allowed to modify. The seven realization forms below span population-, subpopulation-, and individual-level updates. Parameter symbols are included directly in the corresponding realization forms, and their values are reported in Table IX.
 
 | ID | Operating level | Realization form |
-|---:|---|---|
+|--:|-----|------------|
 | 0 | Full population | The parent algorithm works on all inner random-key solutions in the current population. |
 | 1 | Top-subset selection | The parent algorithm works on a fixed high-fitness subpopulation of inner solutions with ratio $r_{\text{sub}}$. |
 | 2 | Mixed-subset selection | The parent algorithm works on a subpopulation mixing the top fraction $r_{\text{mix}}$ with random inner solutions. |
@@ -213,25 +216,25 @@ The operating level determines which inner random-key solutions of the shared po
 
 **TABLE IV: OPERATING-ORDER (OO) LIBRARY.**
 
-The operating-order library specifies when the two parent algorithms are invoked and thereby determines their information dependency. Its realization forms comprise seven sequential options and one parallel option. The IDs retain their fixed encoding assignments. Parameter symbols are included directly in the corresponding realization forms, and their values are reported in Table VIII.
+The operating-order library specifies when the two parent algorithms are invoked and thereby determines their information dependency. Its realization forms comprise seven sequential options and one parallel option. Parameter symbols are included directly in the corresponding realization forms, and their values are reported in Table IX.
 
 | ID | Operating order (OO) | OO type | Corresponding realization form |
-|---:|---|---|---|
-| 0 | Sequential | Sequential | Inner parent algorithm 1 is invoked before inner parent algorithm 2 in each enabled iteration. |
-| 1 | Periodic switching | Sequential | The active inner parent algorithm switches every $T_{\text{sw}}$ iterations. |
-| 2 | Stage-based switching | Sequential | Parent algorithm 1 is enabled through the stage boundary $\tau_{\text{stage}}$, and parent algorithm 2 is enabled afterward. |
-| 3 | Best-no-improvement switching | Sequential | The active parent algorithm switches after $T_{\text{best}}$ consecutive inner iterations without improvement in the historical global best. |
-| 4 | Process-no-improvement switching | Sequential | The active parent algorithm switches after $T_{\text{proc}}$ consecutive inner iterations without improvement in either the global best or the mean population fitness. |
-| 5 | Diversity-based switching | Sequential | Inner parent-algorithm routing depends on the population diversity state, checked every $T_{\text{div}}$ iterations against threshold $\theta_{\text{div}}$. |
-| 7 | Adaptive-credit routing | Sequential | At each inner iteration, parent algorithm 1 is selected with probability $p_1$ derived from recent improvement per evaluation cost, and parent algorithm 2 is selected with probability $p_2=1-p_1$. |
-| 6 | Parallel | Parallel | The two inner parent algorithms generate candidates separately and the candidates are merged. |
+|--:|------|----|------------|
+| 0 | Sequential | Sequential | Parent algorithm 1 runs before parent algorithm 2 in each iteration. |
+| 1 | Periodic switching | Sequential | The active parent algorithm switches every $T_{\text{sw}}$ iterations. |
+| 2 | Stage-based switching | Sequential | Parent algorithm 1 runs through stage boundary $\tau_{\text{stage}}$; parent algorithm 2 runs afterward. |
+| 3 | Best-no-improvement switching | Sequential | Switches after $T_{\text{best}}$ consecutive iterations without global-best improvement. |
+| 4 | Process-no-improvement switching | Sequential | Switches after $T_{\text{proc}}$ consecutive iterations without improvement in the global best or mean fitness. |
+| 5 | Diversity-based switching | Sequential | Routing depends on population diversity, checked every $T_{\text{div}}$ iterations against threshold $\theta_{\text{div}}$. |
+| 7 | Adaptive-credit routing | Sequential | Parent algorithm 1 is selected with probability $p_1$ derived from recent improvement per evaluation cost; parent algorithm 2 with $p_2=1-p_1$. |
+| 6 | Parallel | Parallel | Both parent algorithms generate candidates separately; candidates are merged. |
 
 **TABLE V: SURVIVOR-SELECTION LIBRARY.**
 
 The survivor-selection library determines how current and newly generated inner solutions compete to form the next population. Its four realization forms span deterministic truncation, pairwise-greedy replacement, stochastic tournament selection, and rank-weighted sampling, allowing the design search to vary the selection pressure applied to candidate solutions.
 
 | ID | Survivor policy | Corresponding realization form |
-|---:|---|---|
+|--:|-----|------------|
 | 0 | Elitist truncation | Truncation selection: current and offspring inner solutions are merged and the best $N$ survive. |
 | 1 | Tournament selection | Tournament selection: for each survivor slot, $k_{\mathrm{tour}}$ candidates are sampled from the merged set, and the fittest candidate is retained. |
 | 2 | Pairwise greedy | One-to-one comparison: each offspring inner solution competes with its paired current solution. |
@@ -247,12 +250,13 @@ $$
 $$
 as illustrated in Fig. 3.
 
-<p align="center">
-  <img src="figures/semantic_hybrid_scheme_encoding.png" alt="Semantic hybrid-scheme encoding" width="65%">
-</p>
-**Fig. 3.** Six-gene semantic hybrid-scheme encoding.
+\begin{center}
+\includegraphics[width=0.65\linewidth,keepaspectratio]{figures/semantic_hybrid_scheme_encoding.png}
+\end{center}
+\refstepcounter{figure}
+\textbf{Fig. 3.} Six-gene semantic hybrid-scheme encoding.
 
-Equivalently, the six positions are denoted by $\{\text{parent}_1,\text{parent}_2,\text{OL}_1,\text{OL}_2,\text{OO},\text{survivor}\}$. Together, these positions encode one structural collaboration scheme rather than a numerical parameter vector. This semantic layout makes the composed optimizer interpretable after search: each gene names a distinct algorithmic role.
+Together, the six positions encode one structural collaboration scheme rather than a numerical parameter vector. This semantic layout makes the composed optimizer interpretable after search: each gene names a distinct algorithmic role.
 
 After enforcing $h_0\ne h_1$, the valid search space is:
 $$
@@ -297,7 +301,7 @@ $$
 
 The survivor rule is selected from Table V. Applied in order, parent-algorithm activation, the two OL masks, the OO schedule, and survivor selection form one complete single-satellite optimizer iteration.
 
-The decoding step turns optimizer construction into part of the experiment. The inner search algorithm is generated from an evolvable semantic chromosome and evaluated inside the same scheduling pipeline.
+The decoding step turns optimizer construction into part of the experiment. The inner single-satellite optimizer is generated from an evolvable semantic chromosome and evaluated inside the same scheduling pipeline.
 
 ## E. Evolutionary Configuration-Search Procedure
 
@@ -305,34 +309,34 @@ The design procedure evolves a population of optimizer chromosomes. Fitness is a
 
 Algorithm 1 summarizes the design-search procedure.
 
-```text
-Algorithm 1: Evolutionary optimizer-design procedure
-Input: training scenarios D_train, component libraries A, U, O, S,
-       population size N_d, generations G_d, repeat count R,
-       crossover probability p_c, mutation probability p_m=1-p_c,
-       search budget ratio rho,
-       full inner budget B_full(s) for each s in D_train
-Output: composed optimizer chromosome h_star
-
-1:  For each s, set B_design(s) <- max{1, round(rho B_full(s))}
-2:  Initialize population P_0 of valid optimizer chromosomes
-3:  Evaluate every h in P_0 by designScore(h; {B_design(s)})
-4:  h_star <- best chromosome in P_0
-5:  for t = 1 to G_d do
-6:      Shuffle chromosome indices in P_{t-1}
-7:      for each selected chromosome pair do
-8:          with probability p_c, generate an offspring chromosome by one-point crossover;
-9:          otherwise, mutate a random nonempty subset of the six genes
-10:         repair duplicate parent-algorithm choices so that h_0 != h_1
-11:         add the offspring chromosome to Q_t
-12:     end for
-13:     Evaluate every offspring chromosome h in Q_t by designScore(h; {B_design(s)})
-14:     Merge P_{t-1} and Q_t
-15:     Select the top N_d chromosomes by design fitness
-16:     Update h_star if a better chromosome is found
-17: end for
-18: return h_star
-```
+\begin{algorithm}
+\caption{Evolutionary optimizer-design procedure}
+\begin{algorithmic}[1]
+\Statex \textbf{Input:} Training-scenario set $\mathcal{D}_{\mathrm{train}}$; component libraries $\mathcal{A}$, $\mathcal{U}$, $\mathcal{O}$, and $\mathcal{S}$; population size $N_d$; generation count $G_d$; repeat count $R$; crossover probability $p_c$; mutation probability $p_m=1-p_c$; search-budget ratio $\rho$; and full inner budget $B_{\mathrm{full}}(s)$ for each $s\in\mathcal{D}_{\mathrm{train}}$.
+\Statex \textbf{Output:} Selected optimizer chromosome $\mathbf{h}^{\star}$.
+\State For each $s\in\mathcal{D}_{\mathrm{train}}$, set $B_{\mathrm{design}}(s)\gets\max\{1,\operatorname{round}(\rho B_{\mathrm{full}}(s))\}$.
+\State Initialize population $P_0$ with $N_d$ valid optimizer chromosomes.
+\State Evaluate every $\mathbf{h}\in P_0$ using $\operatorname{designScore}(\mathbf{h};\{B_{\mathrm{design}}(s):s\in\mathcal{D}_{\mathrm{train}}\})$.
+\State Set $\mathbf{h}^{\star}$ to the best chromosome in $P_0$.
+\For{$t=1,\ldots,G_d$}
+    \State Shuffle the chromosome indices in $P_{t-1}$.
+    \For{each selected chromosome pair}
+        \If{a random draw is at most $p_c$}
+            \State Generate an offspring by one-point crossover.
+        \Else
+            \State Mutate a randomly selected nonempty subset of the six genes.
+        \EndIf
+        \State Repair duplicate parent-algorithm choices so that $h_0\ne h_1$.
+        \State Add the offspring to $Q_t$.
+    \EndFor
+    \State Evaluate every offspring $\mathbf{h}\in Q_t$ using $\operatorname{designScore}(\mathbf{h};\{B_{\mathrm{design}}(s):s\in\mathcal{D}_{\mathrm{train}}\})$.
+    \State Merge $P_{t-1}$ and $Q_t$.
+    \State Select the top $N_d$ chromosomes by design fitness to form $P_t$.
+    \State Update $\mathbf{h}^{\star}$ if a better chromosome is found.
+\EndFor
+\State \textbf{return} $\mathbf{h}^{\star}$.
+\end{algorithmic}
+\end{algorithm}
 
 ![One-point crossover and six-gene mutation of the 6D optimizer chromosome](figures/mfea_6d_crossover_mutation.png)
 
@@ -348,7 +352,7 @@ $$
 X=\{\mathbf{x}^{(1)},\mathbf{x}^{(2)},\ldots,\mathbf{x}^{(N)}\}.
 $$
 
-Each vector is decoded by sorting its keys, and the sorted order gives a candidate task sequence. The decoder then inserts tasks into feasible visible time windows and computes the collected profit:
+Each vector is decoded by sorting its keys, and the sorted order gives a candidate task sequence. A greedy insertion decoder then places tasks one by one into their earliest feasible observation time following this priority order and computes the collected profit:
 
 $$
 f(\mathbf{x})=\sum_{t_i\in P_j} p_i,
@@ -356,151 +360,393 @@ $$
 
 where $P_j$ is the feasible schedule constructed for satellite $aeos_j$.
 
-After per-satellite schedules are generated, the fixed multi-satellite layer applies the RK-HMA dynamic reassignment procedure [21] to reconsider unscheduled tasks. This layer is shared by all candidate chromosomes and is not part of the optimizer-design space.
+After per-satellite schedules are generated, the fixed multi-satellite layer applies the RK-HMA dynamic reassignment procedure [21] to reconsider unscheduled tasks. It attempts four migration strategies in increasing order of intervention: standard migration inserts unscheduled tasks directly; replacement move removes a low-profit scheduled task to make room; swap move exchanges a scheduled task between two satellites; and bundle move clusters remaining unscheduled tasks by time proximity and migrates each group jointly. This layer is shared by all candidate chromosomes and is not part of the optimizer-design space.
 
 # IV. Experimental Results
 
-To evaluate the proposed automatic hybrid-design framework on the LS-AEOSTSP, the simulator introduced in [7] is used to generate multiple experimental scenarios. The framework and the generated optimizer are implemented in Java and run on a PC with Intel Core i7-14700kf CPU @ 3.40 GHz and 64-GB memory.
+The simulator introduced in [7] generates the LS-AEOSTSP instances. The framework and its search-composed optimizer are implemented in Java. The recorded experiments use an Intel Core i7-14700KF CPU at 3.40 GHz and 64 GB of memory. The comparison combines retained runs and completed extension batches; the timing boundaries are specified below.
 
-## A. Experimental Scenario And Training Scenario
+```{=latex}
+\renewcommand{\thetable}{\Roman{table}}
+\setcounter{table}{5}
+```
 
-Ten experimental scenarios are used for evaluation, following the benchmark scale and distribution settings used in RK-HMA [21]. They cover small-scale, medium-scale, large-scale, and superlarge-scale instances. The task count ranges from 500 to 10,000, and the satellite count ranges from 5 to 100. The distribution is categorized into regional and global distributions. In the regional setting, tasks are concentrated in the area $3^\circ\text{N}$-$53^\circ\text{N}$ and $74^\circ\text{E}$-$133^\circ\text{E}$, which creates stronger competition for feasible time windows. The imaging duration of each task is a random integer between 1 and 30, and the task profit is a random integer between 1 and 10.
+## A. Evaluation and Training Scenarios
 
-Four additional regional training scenarios are generated for the design stage. They use the same construction method and simulator as the evaluation scenarios, but different random seeds make them independent instances. The four scales cover small-to-medium instances, so the design search remains tractable while retaining the main variation in regional task competition. Their settings are summarized in Table VII.
+The evaluation comprises ten regional and six global instances containing 500–10,000 tasks and 5–100 satellites. Tables VI and VII list the current scenario order, also used in the figures. The regional set excludes the earlier 1000-task/20-satellite evaluation instance and includes the 2000-task/20-satellite instance. It also includes the 2000/10, 3000/20, 5000/50, and 6000/60 regional instances. The global set adds the 3000/30 and 4000/40 instances. Regional targets lie within $3^\circ\text{N}$–$53^\circ\text{N}$ and $74^\circ\text{E}$–$133^\circ\text{E}$; global targets follow the global-distribution generator. Imaging duration is an integer from 1 to 30 seconds, and task profit is an integer from 1 to 10.
 
-**TABLE VI: EXPERIMENTAL SCENARIOS.**
+Four separately generated regional instances are used for structural search and candidate screening (Table VIII). They have distinct instance identities and generation seeds from the evaluation instances. Some training and evaluation instances share task and satellite counts; the split is defined by instance identity, rather than by scale. The retained 1000/20 training instance is not the excluded evaluation instance.
 
-| Scenario | Scale | $n$ | $m$ | Start time | End time | Distribution |
-|---:|---|---:|---:|---|---|---|
-| 1 | Small | 500 | 5 | 00:00:00 | 23:59:59 | Regional |
-| 2 | Small | 500 | 5 | 00:00:00 | 23:59:59 | Global |
-| 3 | Small | 1000 | 10 | 00:00:00 | 11:59:59 | Regional |
-| 4 | Small | 1000 | 10 | 12:00:00 | 23:59:59 | Global |
-| 5 | Medium | 1000 | 20 | 00:00:00 | 11:59:59 | Regional |
-| 6 | Medium | 2000 | 20 | 12:00:00 | 23:59:59 | Global |
-| 7 | Medium | 4000 | 40 | 00:00:00 | 05:59:59 | Regional |
-| 8 | Large | 6000 | 60 | 12:00:00 | 17:59:59 | Global |
-| 9 | Large | 8000 | 80 | 00:00:00 | 11:59:59 | Regional |
-| 10 | Superlarge | 10000 | 100 | 06:00:00 | 11:59:59 | Regional |
+```{=latex}
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.04}
+\setlength{\tabcolsep}{4pt}
+\caption{Regional experimental scenarios.}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrl@{}}
+\toprule
+Scenario & Tasks & Satellites & Planning interval \\
+\midrule
+R1 & 500 & 5 & 00:00:00--23:59:59 \\
+R2 & 1000 & 10 & 00:00:00--11:59:59 \\
+R3 & 2000 & 10 & 00:00:00--11:59:59 \\
+R4 & 2000 & 20 & 00:00:00--11:59:59 \\
+R5 & 3000 & 20 & 00:00:00--07:59:59 \\
+R6 & 4000 & 40 & 00:00:00--05:59:59 \\
+R7 & 5000 & 50 & 00:00:00--11:59:59 \\
+R8 & 6000 & 60 & 00:00:00--05:59:59 \\
+R9 & 8000 & 80 & 00:00:00--11:59:59 \\
+R10 & 10000 & 100 & 06:00:00--11:59:59 \\
+\bottomrule
+\end{tabular*}
+\end{table}
+```
 
-**TABLE VII: TRAINING SCENARIOS.**
+```{=latex}
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.04}
+\setlength{\tabcolsep}{4pt}
+\caption{Global experimental scenarios.}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrl@{}}
+\toprule
+Scenario & Tasks & Satellites & Planning interval \\
+\midrule
+G1 & 500 & 5 & 00:00:00--23:59:59 \\
+G2 & 1000 & 10 & 12:00:00--23:59:59 \\
+G3 & 2000 & 20 & 12:00:00--23:59:59 \\
+G4 & 3000 & 30 & 12:00:00--19:59:59 \\
+G5 & 4000 & 40 & 12:00:00--17:59:59 \\
+G6 & 6000 & 60 & 12:00:00--17:59:59 \\
+\bottomrule
+\end{tabular*}
+\end{table}
+```
 
-| Scenario | Scale | $n$ | $m$ | Start time | End time | Distribution |
-|---:|---|---:|---:|---|---|---|
-| 1 | Small | 500 | 5 | 00:00:00 | 23:59:59 | Regional |
-| 2 | Small | 1000 | 10 | 00:00:00 | 11:59:59 | Regional |
-| 3 | Medium | 1000 | 20 | 00:00:00 | 11:59:59 | Regional |
-| 4 | Medium | 4000 | 40 | 00:00:00 | 05:59:59 | Regional |
+```{=latex}
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.04}
+\setlength{\tabcolsep}{4pt}
+\caption{Regional training instances used for structural search.}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrl@{}}
+\toprule
+Training instance & Tasks & Satellites & Planning interval \\
+\midrule
+T1 & 500 & 5 & 00:00:00--23:59:59 \\
+T2 & 1000 & 10 & 00:00:00--11:59:59 \\
+T3 & 1000 & 20 & 00:00:00--11:59:59 \\
+T4 & 4000 & 40 & 00:00:00--05:59:59 \\
+\bottomrule
+\end{tabular*}
+\end{table}
+```
 
-## B. Baseline Methods, Evaluation Metrics, and Parameter Settings
+## B. Baselines, Metrics, and Parameter Settings
 
-In this section, three representative algorithms are selected for comparison:
+Six baselines are taken from the updated RK-HMA benchmark [21]: R-ALNS, A-ALNS, HCGA, HPSO, HeDEA, and RK-HMA. R-ALNS [6] combines single-satellite ALNS with random task allocation. A-ALNS [7] uses adaptive cross-satellite task allocation. The adapted HCGA combines cellular genetic search and local refinement; HPSO combines particle swarm search and local refinement; HeDEA uses hierarchical encoding and dual-phase evolutionary search. The latter three are the adapted implementations used in the reference benchmark. RK-HMA [21] uses DE/rand/1 and PSO with sequential operating order, full-population operating level, and elitist-truncation survivor selection.
 
-**R-ALNS** [6]: Random-allocation ALNS extends the adaptive large neighborhood search with a random task-allocation strategy for multi-satellite scenarios. This method applies ALNS single-satellite optimization within a random task-assignment framework.
+Auto-Hybrid is the retained configuration $[2,0,0,0,4,2]$: EDA and GA, full-population operating levels for both parents, process-no-improvement switching, and pairwise-greedy survivor selection. Table IX gives its search and replay settings. Each scenario-method cell contains five runs. The 80 Auto-Hybrid records comprise 45 full-speed reruns on nine scenarios and 35 retained runs on the other seven. The reruns preserve the original configuration, actual seeds, population sizes, and evaluation budgets; all 45 reported profits are unchanged. The baseline set contains 480 records. HCGA uses the latest common budget of 95,000 fitness evaluations in every scenario, population size 100, crossover probability 0.99, mutation probability 0.01, and generation and stagnation caps of 2000. Its budget was chosen by runtime calibration against historical RK-HMA results and is not an equal-budget control.
 
-**A-ALNS** [7]: Adaptive-allocation ALNS combines ALNS single-satellite optimization with an adaptive task-allocation mechanism under a divide-and-conquer framework. This method has been reported as a highly effective algorithm for multi-satellite task scheduling.
-
-**RK-HMA** [21]: The manually designed hybrid metaheuristic that combines DE/rand/1 and PSO as inner single-satellite optimizers with dynamic task reassignment (see Section I). It serves as the baseline for the automatic design framework.
-
-The parameter values for Auto-hybrid are shown in Tab. VIII. The profit rate ($PR$) and computational time are used to evaluate the performance of each algorithm. $PR$ is defined as:
+Profit rate is defined as
 
 $$
 PR = \frac{F(P_S)}{F(P_A)} \times 100\% \tag{20}
 $$
 
-where $F(P_S)$ is the total profit of scheduled tasks and $F(P_A)$ is the total profit of all tasks.
+where $F(P_S)$ is scheduled-task profit and $F(P_A)$ is total task profit. The Auto-Hybrid logs retain a small scheduling-slack reward in the reported numerator; this can produce a value slightly above 100% before rounding. Rates are displayed to two decimals, without interpreting such near-ceiling differences as quality gains. Twenty-nine baseline records are available only as rounded reported rates. Macro means weight scenarios equally.
 
+The baseline batches use their fixed-table seed history. Auto-Hybrid retains the actual seeds from its native200042 profile and documented seed-table extensions. Actual seeds differ between the two sets, so corresponding run indices do not form paired observations. The 45 reruns use the accelerated implementation, Normal process priority, and 28 threads, with one JVM active at a time and no warmup. The other 35 Auto-Hybrid records and the baselines retain their historical runtime conditions. The comparisons describe these available results and do not isolate the effects of structure, implementation changes, or resource settings.
 
-
-**TABLE VIII: DESIGN-SEARCH AND REPLAY SETTINGS.**
-
-| Setting | Symbol | Value |
-|---|---|---|
-| Design population | $N_d$ | 35 |
-| Outer generation cap | $G_{\max}$ | 25 |
-| Early-stop minimum generations | $G_{\min}$ | 20 |
-| Early-stop patience | $P$ | 5 |
-| Early-stop minimum improvement | $\Delta$ | 0.001 |
-| Outer evaluation repeats | $R_d$ | 2 |
-| Candidate-screen repeats per training scenario | $R_s$ | 5 |
-| Final replay runs per scenario | $R_f$ | 5 |
-| Search budget ratio | $\rho$ | 0.6 |
-| Design crossover probability | $p_c$ | 0.3 |
-| Design mutation probability | $p_m=1-p_c$ | 0.7 |
-| Population size | $N_{\mathrm{pop}}$ | $2.5 \times \max(n_j)$ |
-| Full inner budget | $B_{\mathrm{full}}$ | $100N_{\mathrm{pop}}$ |
-| Top-subset ratio | $r_{\mathrm{sub}}$ | 0.5 |
-| Mixed-subset top ratio | $r_{\mathrm{mix}}$ | 0.8 |
-| Random-decay start ratio | $r_{\mathrm{dec}}$ | $0.5 \rightarrow 0.2$ |
-| Stage-switch boundary ratio | $\tau_{\mathrm{stage}}$ | 0.5 |
-| Periodic-switch period | $T_{\mathrm{sw}}$ | $\max\{1,\lceil0.05B_{\mathrm{full}}\rceil\}$ |
-| Best-no-improvement patience | $T_{\mathrm{best}}$ | $\max\{1,\lceil0.05(B_{\mathrm{full}}-N_{\mathrm{pop}}+1)\rceil\}$ |
-| Process-no-improvement patience | $T_{\mathrm{proc}}$ | $\max\{1,\lceil0.05B_{\mathrm{full}}\rceil\}$ |
-| Diversity-switch check interval | $T_{\mathrm{div}}$ | $\max\{1,\lceil0.01B_{\mathrm{full}}\rceil\}$ |
-| Diversity-switch threshold | $\theta_{\mathrm{div}}$ | 0.02 |
-| Adaptive-credit window | $W_c$ | 8 |
-| Adaptive-credit default routing ratio | $\rho_c$ | 0.5 |
-| Tournament size | $k_{\mathrm{tour}}$ | 2 |
+```{=latex}
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.05}
+\setlength{\tabcolsep}{4pt}
+\caption{Design-search and replay settings.}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}>{\raggedright\arraybackslash}p{0.42\linewidth}>{\raggedright\arraybackslash}p{0.13\linewidth}>{\raggedright\arraybackslash}p{0.37\linewidth}@{}}
+\toprule
+Setting & Symbol & Value \\
+\midrule
+Design population & $N_d$ & 35 \\
+Outer generation cap & $G_{\max}$ & 25 \\
+Early-stop minimum generations & $G_{\min}$ & 20 \\
+Early-stop patience & $P$ & 5 \\
+Early-stop minimum improvement & $\Delta$ & 0.001 \\
+Outer evaluation repeats & $R_d$ & 2 \\
+Candidate-screen repeats per training scenario & $R_s$ & 5 \\
+Final replay runs per scenario & $R_f$ & 5 \\
+Search budget ratio & $\rho$ & 0.6 \\
+Design crossover probability & $p_c$ & 0.3 \\
+Design mutation probability & $p_m=1-p_c$ & 0.7 \\
+Population size & $N_{\mathrm{pop}}$ & $2.5 \times \max(n_j)$ \\
+Full inner budget & $B_{\mathrm{full}}$ & $100N_{\mathrm{pop}}$ \\
+Top-subset ratio & $r_{\mathrm{sub}}$ & 0.5 \\
+Mixed-subset top ratio & $r_{\mathrm{mix}}$ & 0.8 \\
+Random-decay start ratio & $r_{\mathrm{dec}}$ & $0.5 \rightarrow 0.2$ \\
+Stage-switch boundary ratio & $\tau_{\mathrm{stage}}$ & 0.5 \\
+Periodic-switch period & $T_{\mathrm{sw}}$ & $\max\{1,\lceil0.05B_{\mathrm{full}}\rceil\}$ \\
+Best-no-improvement patience & $T_{\mathrm{best}}$ & $\max\{1,\lceil0.05(B_{\mathrm{full}}-N_{\mathrm{pop}}+1)\rceil\}$ \\
+Process-no-improvement patience & $T_{\mathrm{proc}}$ & $\max\{1,\lceil0.05B_{\mathrm{full}}\rceil\}$ \\
+Diversity-switch check interval & $T_{\mathrm{div}}$ & $\max\{1,\lceil0.01B_{\mathrm{full}}\rceil\}$ \\
+Diversity-switch threshold & $\theta_{\mathrm{div}}$ & 0.02 \\
+Adaptive-credit window & $W_c$ & 8 \\
+Adaptive-credit default routing ratio & $\rho_c$ & 0.5 \\
+Tournament size & $k_{\mathrm{tour}}$ & 2 \\
+\bottomrule
+\end{tabular*}
+\end{table}
+```
 
 ## C. Comparison Results
 
-In this section, the performance of Auto-Hybrid, RK-HMA, A-ALNS, and R-ALNS is evaluated on ten scenarios with five independent runs each. Table IX reports the comparison results in profit rate. As shown in Table IX, Auto-Hybrid obtains the best or tied-best profit rate on all ten scenarios. Fig. 5 shows the profit-rate comparison under regional and global distributions.
+Tables X and XI report the five-run mean profit rates and elapsed times separately for regional and global scenarios. Bold profit rates mark the highest displayed mean within a scenario, including ties after rounding to two decimals. Figs. 5 and 6 use the same scenario order and method colors. The tables provide exact displayed values; the figures show differences across instances.
 
-On regional scenarios, all algorithms show larger performance differences compared to global scenarios. With the increasing problem scale, Auto-Hybrid gradually shows its advantage over R-ALNS, A-ALNS, and RK-HMA. The maximum gap between Auto-Hybrid and R-ALNS reaches 12.32 percentage points, and the average gap reaches 8.31 percentage points. The maximum gap between Auto-Hybrid and A-ALNS reaches 8.26 percentage points, and the average gap reaches 5.97 percentage points. The maximum gap between Auto-Hybrid and RK-HMA reaches 2.99 percentage points, and the average gap reaches 0.76 percentage points. Auto-Hybrid achieves a mean profit rate of 63.24% on the regional scenarios, compared with 62.48% for RK-HMA, 57.27% for A-ALNS, and 54.93% for R-ALNS. This advantage is associated with the stronger task-satellite contention induced by the regional distribution.
+On the ten regional instances, Auto-Hybrid has the highest displayed mean on nine instances and ties RK-HMA on R1 at 99.60%. Its regional macro mean is 57.12%, compared with 56.19% for RK-HMA, 50.12% for A-ALNS, 46.15% for R-ALNS, 44.52% for HPSO, 43.00% for HeDEA, and 42.03% for HCGA. The mean gap over RK-HMA is 0.93 percentage points, with a maximum of 2.99 points on R6 (4000 tasks, 40 satellites). The corresponding average gaps over A-ALNS and R-ALNS are 7.00 and 10.97 points, with maxima of 10.97 and 15.80 points on R7 (5000 tasks, 50 satellites).
 
-On global scenarios, where tasks are uniformly distributed, the performance differences narrow considerably. The maximum gap between Auto-Hybrid and R-ALNS is only 0.65 percentage points, and the average gap is only 0.26 percentage points. The maximum gap between Auto-Hybrid and A-ALNS is only 0.08 percentage points, and the average gap is only 0.03 percentage points. Auto-Hybrid ties with RK-HMA on all four global scenarios (2, 4, 6, and 8), and all methods achieve profit rates between 92.47% and 100.00%. Across all ten scenarios, the mean gaps of Auto-Hybrid relative to R-ALNS and A-ALNS are 5.09 and 3.59 percentage points, respectively.
+The newly included R4 instance (2000 tasks, 20 satellites) gives mean profit rates of 59.86% for Auto-Hybrid and 58.62% for RK-HMA. On R10 (10,000 tasks, 100 satellites), the two means are 34.21% and 34.08%. Regional profit rates vary with the individual instance and planning interval; the observed gaps do not increase monotonically with task count.
 
-**TABLE IX: MEAN PROFIT RATE (%) ON ALL EXPERIMENTAL SCENARIOS.**
+On the six global instances, the Auto-Hybrid macro mean is 97.00%, close to the RK-HMA mean of 97.01%. The two methods tie at the displayed precision on G1, G2, G3, and G6. On G4, Auto-Hybrid obtains 94.99% and RK-HMA 95.01%; on G5, their means are 96.07% and 96.12%. HeDEA also displays 96.07% on G5 and 100.00% on G6. Auto-Hybrid therefore does not have the highest mean on every global instance. All seven methods have higher global than regional macro means, although HPSO and HCGA remain below the best methods on several global instances.
 
-| Scenario | Distribution | $n,m$ | R-ALNS | A-ALNS | RK-HMA | Auto-Hybrid |
-|---:|---|---:|---:|---:|---:|---:|
-| 1 | Regional | 500, 5 | 96.52%<br>(+3.08) | 96.29%<br>(+3.31) | **99.60%**<br>(0) | **99.60%**<br>(0) |
-| 2 | Global | 500, 5 | **99.89%**<br>(0) | **99.89%**<br>(0) | **99.89%**<br>(0) | **99.89%**<br>(0) |
-| 3 | Regional | 1000, 10 | 38.79%<br>(+9.38) | 39.91%<br>(+8.26) | 47.50%<br>(+0.67) | **48.17%**<br>(0) |
-| 4 | Global | 1000, 10 | 92.47%<br>(+0.12) | 92.58%<br>(+0.01) | **92.59%**<br>(0) | **92.59%**<br>(0) |
-| 5 | Regional | 1000, 20 | 66.81%<br>(+12.32) | 71.69%<br>(+7.44) | 78.51%<br>(+0.62) | **79.13%**<br>(0) |
-| 6 | Global | 2000, 20 | 98.17%<br>(+0.27) | 98.43%<br>(+0.01) | **98.44%**<br>(0) | **98.44%**<br>(0) |
-| 7 | Regional | 4000, 40 | 56.59%<br>(+10.35) | 62.71%<br>(+4.23) | 63.95%<br>(+2.99) | **66.94%**<br>(0) |
-| 8 | Global | 6000, 60 | 99.35%<br>(+0.65) | 99.92%<br>(+0.08) | **100.00%**<br>(0) | **100.00%**<br>(0) |
-| 9 | Regional | 8000, 80 | 42.45%<br>(+8.95) | 43.41%<br>(+7.99) | 51.22%<br>(+0.18) | **51.40%**<br>(0) |
-| 10 | Regional | 10000, 100 | 28.44%<br>(+5.77) | 29.61%<br>(+4.60) | 34.08%<br>(+0.13) | **34.21%**<br>(0) |
+```{=latex}
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.03}
+\setlength{\tabcolsep}{4pt}
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+\makeatletter
+\renewcommand{\LT@makecaption}[3]{\LT@mcol\LT@cols c{\hbox to\z@{\hss\parbox[t]{\linewidth}{\sffamily\small #1{\textbf{#2}\par}#3\par\vspace{6pt}}\hss}}}
+\makeatother
+\begin{longtable}{@{}p{0.12\linewidth}p{0.28\linewidth}>{\raggedleft\arraybackslash}p{0.25\linewidth}>{\raggedleft\arraybackslash}p{0.25\linewidth}@{}}
+\caption{Mean profit rates and elapsed times on regional scenarios (five runs per method).}\\
+\toprule
+Scenario & Algorithm & Profit rate (\%) & Elapsed (s) \\
+\midrule
+\endfirsthead
+\multicolumn{4}{@{}l}{\small\sffamily\textbf{Table \thetable} (continued)}\\
+\toprule
+Scenario & Algorithm & Profit rate (\%) & Elapsed (s) \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r@{}}{\small Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+R1 & R-ALNS & 94.47 & 7.33 \\*
+ & A-ALNS & 95.39 & 7.01 \\*
+ & HCGA & 94.58 & 13.92 \\*
+ & HPSO & 96.58 & 8.37 \\*
+ & HeDEA & 98.66 & 8.86 \\*
+ & RK-HMA & \textbf{99.60} & 6.12 \\*
+ & Auto-Hybrid & \textbf{99.60} & 5.57 \\
+\midrule
+R2 & R-ALNS & 36.91 & 11.00 \\*
+ & A-ALNS & 41.95 & 11.90 \\*
+ & HCGA & 44.14 & 15.40 \\*
+ & HPSO & 41.73 & 7.98 \\*
+ & HeDEA & 44.04 & 36.54 \\*
+ & RK-HMA & 47.50 & 4.95 \\*
+ & Auto-Hybrid & \textbf{48.17} & 4.40 \\
+\midrule
+R3 & R-ALNS & 25.76 & 32.20 \\*
+ & A-ALNS & 30.90 & 32.89 \\*
+ & HCGA & 29.40 & 32.35 \\*
+ & HPSO & 29.10 & 25.23 \\*
+ & HeDEA & 29.24 & 110.68 \\*
+ & RK-HMA & 34.09 & 19.46 \\*
+ & Auto-Hybrid & \textbf{34.92} & 16.15 \\
+\midrule
+R4 & R-ALNS & 45.42 & 42.09 \\*
+ & A-ALNS & 49.23 & 50.66 \\*
+ & HCGA & 48.76 & 56.77 \\*
+ & HPSO & 48.67 & 49.01 \\*
+ & HeDEA & 40.69 & 180.72 \\*
+ & RK-HMA & 58.62 & 19.84 \\*
+ & Auto-Hybrid & \textbf{59.86} & 14.90 \\
+\midrule
+R5 & R-ALNS & 20.81 & 54.30 \\*
+ & A-ALNS & 23.82 & 62.78 \\*
+ & HCGA & 20.59 & 39.07 \\*
+ & HPSO & 23.43 & 52.61 \\*
+ & HeDEA & 17.54 & 212.89 \\*
+ & RK-HMA & 27.66 & 38.93 \\*
+ & Auto-Hybrid & \textbf{28.12} & 32.95 \\
+\midrule
+R6 & R-ALNS & 53.67 & 169.02 \\*
+ & A-ALNS & 59.70 & 213.19 \\*
+ & HCGA & 48.30 & 157.48 \\*
+ & HPSO & 48.09 & 214.00 \\*
+ & HeDEA & 44.12 & 796.86 \\*
+ & RK-HMA & 63.95 & 9.45 \\*
+ & Auto-Hybrid & \textbf{66.94} & 7.77 \\
+\midrule
+R7 & R-ALNS & 65.39 & 130.54 \\*
+ & A-ALNS & 70.22 & 196.35 \\*
+ & HCGA & 49.39 & 558.40 \\*
+ & HPSO & 56.67 & 189.55 \\*
+ & HeDEA & 58.71 & 673.62 \\*
+ & RK-HMA & 79.59 & 11.03 \\*
+ & Auto-Hybrid & \textbf{81.19} & 9.57 \\
+\midrule
+R8 & R-ALNS & 51.27 & 165.66 \\*
+ & A-ALNS & 56.00 & 243.12 \\*
+ & HCGA & 36.79 & 632.50 \\*
+ & HPSO & 43.14 & 224.14 \\*
+ & HeDEA & 42.21 & 1008.71 \\*
+ & RK-HMA & 65.62 & 14.66 \\*
+ & Auto-Hybrid & \textbf{66.84} & 10.69 \\
+\midrule
+R9 & R-ALNS & 40.66 & 325.99 \\*
+ & A-ALNS & 43.61 & 545.98 \\*
+ & HCGA & 29.34 & 865.49 \\*
+ & HPSO & 34.25 & 490.69 \\*
+ & HeDEA & 33.43 & 2257.98 \\*
+ & RK-HMA & 51.22 & 81.23 \\*
+ & Auto-Hybrid & \textbf{51.40} & 46.40 \\
+\midrule
+R10 & R-ALNS & 27.13 & 435.24 \\*
+ & A-ALNS & 30.41 & 363.74 \\*
+ & HCGA & 19.01 & 1070.38 \\*
+ & HPSO & 23.55 & 561.84 \\*
+ & HeDEA & 21.36 & 3177.28 \\*
+ & RK-HMA & 34.08 & 108.52 \\*
+ & Auto-Hybrid & \textbf{34.21} & 87.13 \\
+\end{longtable}
+\endgroup
+```
 
+```{=latex}
+\begingroup
+\small
+\renewcommand{\arraystretch}{1.03}
+\setlength{\tabcolsep}{4pt}
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+\makeatletter
+\renewcommand{\LT@makecaption}[3]{\LT@mcol\LT@cols c{\hbox to\z@{\hss\parbox[t]{\linewidth}{\sffamily\small #1{\textbf{#2}\par}#3\par\vspace{6pt}}\hss}}}
+\makeatother
+\begin{longtable}{@{}p{0.12\linewidth}p{0.28\linewidth}>{\raggedleft\arraybackslash}p{0.25\linewidth}>{\raggedleft\arraybackslash}p{0.25\linewidth}@{}}
+\caption{Mean profit rates and elapsed times on global scenarios (five runs per method).}\\
+\toprule
+Scenario & Algorithm & Profit rate (\%) & Elapsed (s) \\
+\midrule
+\endfirsthead
+\multicolumn{4}{@{}l}{\small\sffamily\textbf{Table \thetable} (continued)}\\
+\toprule
+Scenario & Algorithm & Profit rate (\%) & Elapsed (s) \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r@{}}{\small Continued on next page}\\
+\endfoot
+\bottomrule
+\endlastfoot
+G1 & R-ALNS & 99.88 & 0.30 \\*
+ & A-ALNS & \textbf{99.89} & 0.89 \\*
+ & HCGA & \textbf{99.89} & 10.96 \\*
+ & HPSO & \textbf{99.89} & 3.10 \\*
+ & HeDEA & \textbf{99.89} & 1.08 \\*
+ & RK-HMA & \textbf{99.89} & 1.27 \\*
+ & Auto-Hybrid & \textbf{99.89} & 0.97 \\
+\midrule
+G2 & R-ALNS & 92.22 & 2.99 \\*
+ & A-ALNS & 92.52 & 3.86 \\*
+ & HCGA & 92.41 & 24.49 \\*
+ & HPSO & 92.50 & 7.97 \\*
+ & HeDEA & 92.57 & 18.07 \\*
+ & RK-HMA & \textbf{92.59} & 1.25 \\*
+ & Auto-Hybrid & \textbf{92.59} & 1.00 \\
+\midrule
+G3 & R-ALNS & 97.86 & 11.37 \\*
+ & A-ALNS & 98.33 & 14.95 \\*
+ & HCGA & 97.37 & 72.47 \\*
+ & HPSO & 97.02 & 28.13 \\*
+ & HeDEA & 98.43 & 25.88 \\*
+ & RK-HMA & \textbf{98.44} & 2.48 \\*
+ & Auto-Hybrid & \textbf{98.44} & 2.03 \\
+\midrule
+G4 & R-ALNS & 93.39 & 20.54 \\*
+ & A-ALNS & 94.07 & 27.84 \\*
+ & HCGA & 92.18 & 121.17 \\*
+ & HPSO & 91.27 & 53.26 \\*
+ & HeDEA & 94.78 & 51.98 \\*
+ & RK-HMA & \textbf{95.01} & 4.86 \\*
+ & Auto-Hybrid & 94.99 & 4.05 \\
+\midrule
+G5 & R-ALNS & 93.98 & 32.80 \\*
+ & A-ALNS & 94.84 & 39.99 \\*
+ & HCGA & 92.01 & 201.55 \\*
+ & HPSO & 90.68 & 86.53 \\*
+ & HeDEA & 96.07 & 76.50 \\*
+ & RK-HMA & \textbf{96.12} & 1.84 \\*
+ & Auto-Hybrid & 96.07 & 1.16 \\
+\midrule
+G6 & R-ALNS & 98.50 & 73.23 \\*
+ & A-ALNS & 99.58 & 145.81 \\*
+ & HCGA & 96.92 & 341.42 \\*
+ & HPSO & 94.58 & 213.37 \\*
+ & HeDEA & \textbf{100.00} & 93.37 \\*
+ & RK-HMA & \textbf{100.00} & 2.63 \\*
+ & Auto-Hybrid & \textbf{100.00} & 0.96 \\
+\end{longtable}
+\endgroup
+```
 
+Elapsed time uses the original solver boundary when all five solver records are available, and otherwise uses all five whole-process records if they have a precise timing boundary. Whole-process time includes JVM startup, data loading, solving, and output. Coarse polling records are not substituted for precise timing; a dash denotes an unavailable mean. A-ALNS on G1 uses the Windows process-creation-to-exit supplement with the same five seeds and unchanged profits. RK-HMA solver time excludes initial scene loading, and R-ALNS includes random allocation. Auto-Hybrid measures the complete scheduling evaluation, including reassignment and calibration, but excludes JVM startup, input loading, initial allocation, and subsequent result output. The new Auto-Hybrid times use precise elapsed-millisecond records from the replay entry. Timing boundaries, budgets, and runtime conditions differ across the full comparison.
 
-![Mean profit rate by task distribution](figures/auto_hybrid_distribution_comparison.svg)
+The updated Auto-Hybrid regional elapsed means range from 4.40 to 87.13 seconds. Seven regional and two global scenarios were selected for rerunning because their earlier Auto-Hybrid means exceeded the recorded RK-HMA means. After the reruns, Auto-Hybrid has a lower recorded mean on all ten regional and six global instances. On R10, the means are 87.13 seconds for Auto-Hybrid and 108.52 seconds for RK-HMA; on G4 and G5, they are 4.05 versus 4.86 seconds and 1.16 versus 1.84 seconds. These are comparisons with existing RK-HMA records. The selected reruns, retained historical results, and different resource conditions do not establish a controlled computational advantage or an independent speed benefit from structural search.
 
-**Fig. 5.** Mean profit rate by task distribution.
+```{=latex}
+\begin{center}
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=0.96\linewidth,keepaspectratio]{figures/auto_hybrid_current16_regional.png}
+\par\vspace{4pt}
+\begin{minipage}{0.96\linewidth}\sffamily\small\textbf{Fig. 5.} Mean profit rates of seven algorithms on the ten regional scenarios in Table VI. Each bar averages five runs. Colors and scenario order follow the updated RK-HMA benchmark, with Auto-Hybrid added in orange. HCGA uses 95,000 evaluations per run; the comparison is descriptive.\end{minipage}
+\end{minipage}
+\end{center}
+```
 
-The computational times of Auto-Hybrid, RK-HMA, R-ALNS, and A-ALNS are shown in Table X. Overall, as the numbers of tasks and satellites increase, all algorithms consume more computational time. Auto-Hybrid is faster than RK-HMA on all ten scenarios; the detailed comparison is given below together with the profit-rate analysis. Compared with R-ALNS and A-ALNS, Auto-Hybrid has lower computational time in most scenarios, especially in the global scenarios, where it is the fastest method on all four cases. On regional scenarios where Auto-Hybrid requires longer runtime than A-ALNS, the higher profit rate accompanies the additional computational cost. For example, on regional scenarios 1, 3, 5, and 10, Auto-Hybrid requires 4.21, 1.84, 0.43, and 27.08 s more than A-ALNS, while achieving 3.31, 8.26, 7.44, and 4.60 percentage-point profit-rate gains, respectively. This pattern reflects two aspects: the shared-population hybrid inner optimizer introduces multiple parent-algorithm updates, while the common allocation and reassignment pipeline makes the computational cost increase with the number of tasks and satellites.
+```{=latex}
+\begin{center}
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=0.96\linewidth,keepaspectratio]{figures/auto_hybrid_current16_global.png}
+\par\vspace{4pt}
+\begin{minipage}{0.96\linewidth}\sffamily\small\textbf{Fig. 6.} Mean profit rates of seven algorithms on the six global scenarios in Table VII. Each bar averages five runs. Method colors and the zero-origin axis match Fig. 5; small differences are resolved in Table XI.\end{minipage}
+\end{minipage}
+\end{center}
+```
 
-**TABLE X: MEAN COMPUTATIONAL TIME ON ALL EXPERIMENTAL SCENARIOS.**
+## D. Designed-Optimizer Comparison
 
-| Scenario | Distribution | $n,m$ | R-ALNS | A-ALNS | RK-HMA | Auto-Hybrid |
-|---:|---|---:|---:|---:|---:|---:|
-| 1 | Regional | 500,5 | 4.18 s | **2.72 s** | 7.83 s | 6.929 s |
-| 2 | Global | 500,5 | 2.36 s | 2.44 s | 1.23 s | **0.969 s** |
-| 3 | Regional | 1000,10 | 4.54 s | **2.56 s** | 5.64 s | 4.402 s |
-| 4 | Global | 1000,10 | 3.90 s | 3.11 s | 1.39 s | **1.004 s** |
-| 5 | Regional | 1000,20 | 5.57 s | **2.99 s** | 4.86 s | 3.423 s |
-| 6 | Global | 2000,20 | 8.00 s | 6.67 s | 2.59 s | **2.025 s** |
-| 7 | Regional | 4000,40 | 34.64 s | 19.31 s | 9.70 s | **7.768 s** |
-| 8 | Global | 6000,60 | 27.59 s | 43.20 s | 1.89 s | **0.964 s** |
-| 9 | Regional | 8000,80 | 94.61 s | 84.20 s | 76.79 s | **46.395 s** |
-| 10 | Regional | 10000,100 | 132.63 s | **86.58 s** | 126.83 s | 113.658 s |
+RK-HMA and Auto-Hybrid implement different inner collaboration structures within the same scheduling architecture. RK-HMA uses sequential DE/rand/1–PSO with elitist truncation; Auto-Hybrid uses EDA–GA with process-no-improvement switching and pairwise-greedy selection. Both use full-population operating levels. The scheduling bridge and reassignment procedures are fixed during structural search, but the reused comparison records do not establish identical executable kernels across batches.
 
-The comparison between Auto-Hybrid and RK-HMA is central to this study, because the two methods share the same random-key scheduling bridge, the same dynamic task reassignment layer, and the same benchmark scenarios; they differ only in how the inner single-satellite optimizer is designed—by automatic structural search versus by manual expert selection of DE/rand/1 and PSO. As shown in Tables IX and X, Auto-Hybrid matches or exceeds RK-HMA in profit rate on all ten scenarios while being faster on every one. Fig. 6 further compares the five-run profit-rate distributions on the six regional scenarios: the Auto-Hybrid median is above the RK-HMA median in all six panels, with standard deviations between 0.03 and 0.53 percentage points; the distributions overlap on smaller-scale scenarios where both methods approach the regional profit ceiling, while the gap widens on the larger and more contention-heavy scenarios (7, 9, 10). These results confirm the effectiveness of automatic structural search: the composed EDA–GA optimizer matches or surpasses the hand-crafted DE/rand/1–PSO combination in both solution quality and computational efficiency across all tested scenarios. Note that the two sets of runs come from different execution periods, so the comparison is descriptive rather than a paired controlled experiment.
+Fig. 7 shows all five observations for both methods on each regional instance. Each panel has an independent vertical scale. Auto-Hybrid sample standard deviations range from 0.026 to 0.289 percentage points. The displayed means tie on R1, and Auto-Hybrid means exceed RK-HMA on R2–R10; the widest mean gap occurs on R6. The figure shows the distributions of the available seed samples, rather than paired differences. A same-kernel, same-budget replay with common actual seeds would be needed to attribute these differences to structural search or to compare computational efficiency.
 
-![Profit rate distribution of RK-HMA and Auto-Hybrid on regional scenarios](figures/rk_hma_auto_hybrid_regional_boxplots.svg)
+```{=latex}
+\begin{center}
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=0.96\linewidth,height=0.84\textheight,keepaspectratio]{figures/rk_hma_auto_hybrid_current10_boxplots.png}
+\par\vspace{4pt}
+\begin{minipage}{0.96\linewidth}\sffamily\small\textbf{Fig. 7.} Five-run profit-rate distributions for RK-HMA and Auto-Hybrid on R1–R10. Dots show individual runs; boxes span the first and third quartiles, center lines show medians, and whiskers extend to observations within 1.5 interquartile ranges. Independent vertical scales resolve local differences and must not be used to compare gap sizes across panels. Actual seeds differ between methods.\end{minipage}
+\end{minipage}
+\end{center}
+```
 
-**Fig. 6.** Profit rate distribution of RK-HMA and Auto-Hybrid on regional scenarios.
-
-
-
+\clearpage
 # V. Conclusion
 
-This paper presented an automatic design framework for collaboration-based hybrid metaheuristics tailored to LS-AEOSTSP. Unlike the manually designed RK-HMA, which fixes the inner single-satellite optimizer as a DE/rand/1–PSO hybrid under a predetermined collaboration structure, the proposed framework encodes the collaboration structure—parent algorithms, operating levels, operating order, and survivor selection—as a six-gene semantic chromosome and searches it through an evolutionary process. The task-satellite allocation layer and the random-key scheduling bridge remain unchanged, so the searched part is strictly the inner optimizer structure.
+This paper presented an automatic design framework for collaboration-based hybrid metaheuristics tailored to LS-AEOSTSP. A six-gene semantic chromosome represents parent algorithms, operating levels, operating order, and survivor selection. Evolutionary search composes the inner optimizer while the random-key scheduling bridge and cross-satellite reassignment procedures are fixed within the search pipeline. The retained configuration combines EDA and GA with full-population updates, process-no-improvement switching, and pairwise-greedy selection.
 
-Experimental results on ten benchmark scenarios containing 500–10,000 tasks and 5–100 satellites show that the composed optimizer obtains the best or tied-best profit rate on all scenarios, with maximum advantages of 12.32 and 8.26 percentage points over R-ALNS and A-ALNS, respectively. Compared with RK-HMA, Auto-Hybrid achieves higher profit rates on all six regional scenarios (up to 2.99 percentage points) while being computationally faster on all ten scenarios, demonstrating that the automatically selected collaboration structure is better suited to the scheduling pipeline than the hand-crafted one. In future work, the component libraries can be enriched with more parent algorithms and hybridization forms, and the same searchable-structure formulation can be extended to complex constrained AEOSTSP variants such as resource-limited scheduling, autonomous task scheduling, and dynamic environments.
+Five-run results on ten regional and six global instances cover 500–10,000 tasks and 5–100 satellites. Auto-Hybrid has the highest displayed regional mean on nine instances and ties on one, with a macro mean of 57.12% compared with 56.19% for RK-HMA. Its largest regional gap over RK-HMA is 2.99 percentage points. On the global instances, the macro means are 97.00% and 97.01%, and RK-HMA has slightly higher means on the two added instances. Because the comparison combines different seed histories, code snapshots, timing boundaries, and method-specific budgets, it supports a descriptive assessment of the selected optimizer rather than a causal or speed-superiority claim. Future work should first evaluate the selected structure under a common-kernel, common-seed protocol, then examine richer component libraries and resource-constrained scheduling variants.
 
 # References
 
