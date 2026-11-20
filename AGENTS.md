@@ -1,6 +1,6 @@
 # 6D pure-semantic dynamic version 全局地图
 
-> 最后更新：2026-10-09
+> 最后更新：2026-11-04
 
 ## 项目概述
 
@@ -62,6 +62,7 @@
 
 ## 论文 PDF 构建产物
 
+- 论文 PDF 默认使用 Elsevier `elsarticle` 单栏 `preprint,12pt` 审稿版；用户另有指定或目标期刊有明确要求时，按相应要求处理。
 - 每份 Markdown 在其目录中只保留一个最终编译 PDF：<basename>.pdf。不要留下 -final、-fixed、日期或其他版本后缀的同源编译 PDF。
 - 新 PDF 必须先在 outputs/<build-id>/ 完成编译、日志和视觉检查；检查通过后再替换 Markdown 同目录的最终 PDF。新稿验证通过前，不覆盖或删除现有最终 PDF。
 - 替换成功后，清理可确认由同一 Markdown 生成的旧版编译 PDF；保留参考论文、投稿模板及其他来源 PDF。
