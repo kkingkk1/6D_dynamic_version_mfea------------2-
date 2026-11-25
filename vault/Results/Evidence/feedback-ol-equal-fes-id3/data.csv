@@ -1,0 +1,6 @@
+per_run,seed_id,seed,source,initialFitness,rawProfit,legalProfit,fes,initialFes,acceptedMigrations,reassignmentRounds,intermediateCalibrations,edaFes,gaFes,beforeExtra,rawBeforeExtra,extraSweeps,improvedExtraSweeps,legalProfit_auto,legalProfit_delta_auto,rawProfit_auto,rawProfit_delta_auto,fes_auto,fes_delta_auto,legalProfit_old_d,legalProfit_delta_old_d,rawProfit_old_d,rawProfit_delta_old_d,fes_old_d,fes_delta_old_d
+0,10,1138252824073986,archived and already equal,2527.0,2683,2669,1078000,196000,28,16,7,774200,284200,1078000,2683.0,0,0,2665,4,2684,-1,1078000,0,2669,0,2683,0,1078000,0
+1,11,1138252824073990,new budget-matched run,2520.0,2683,2661,882000,196000,36,7,7,582904,283416,882000,2683.0,0,0,2635,26,2666,17,882000,0,2678,-17,2695,-12,1274000,-392000
+2,12,1138252824073994,new budget-matched run,2508.0,2682,2671,1078000,196000,34,12,6,822024,236376,980000,2682.0,1,0,2659,12,2679,3,1078000,0,2671,0,2682,0,980000,98000
+3,13,1138252824073997,new budget-matched run,2496.0,2662,2647,1372000,196000,25,15,5,1034096,312424,882000,2659.0,5,1,2699,-52,2705,-43,1372000,0,2644,3,2659,3,882000,490000
+4,14,1138252824073998,archived and already equal,2517.0,2687,2679,1176000,196000,32,21,8,831824,322616,1176000,2687.0,0,0,2688,-9,2696,-9,1176000,0,2679,0,2687,0,1176000,0

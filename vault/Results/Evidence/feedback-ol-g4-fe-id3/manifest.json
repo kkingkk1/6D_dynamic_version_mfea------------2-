@@ -1,0 +1,4139 @@
+{
+  "experiment_id": "feedback-ol-g4-fe-id3",
+  "date": "2026-11-24",
+  "maven_tests": {
+    "tests": 176,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "contract": {
+    "parent_algorithms": [
+      "EDA",
+      "GA"
+    ],
+    "seed_ids": [
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "population": 196,
+    "fixed_per_satellite_FEs": [
+      19600,
+      9800
+    ],
+    "tail_probe_FEs": [
+      19637,
+      9819
+    ],
+    "g4": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      7
+    ],
+    "update_configs": {
+      "A": [
+        2,
+        0,
+        0,
+        0,
+        4,
+        2
+      ],
+      "M": [
+        2,
+        0,
+        2,
+        2,
+        4,
+        2
+      ],
+      "hybrid_tail_only": [
+        2,
+        0,
+        0,
+        2,
+        4,
+        2
+      ]
+    },
+    "rule_window_ratio": 0.05,
+    "allocation": "top eligible fitness on truncated last update",
+    "initialFEAccounting": true
+  },
+  "data": {
+    "path": "data.csv",
+    "rows": 40,
+    "sha256": "723cc7dcd9a05c63167183aa47ae723b66219382d04ace5e99b1aa0529efe730"
+  },
+  "deltas_revised_minus_prototype": {
+    "A-UNIFORM": [
+      -23,
+      -24,
+      4,
+      6,
+      19
+    ],
+    "A-ADAPTIVE": [
+      5,
+      43,
+      22,
+      40,
+      20
+    ],
+    "M-UNIFORM": [
+      16,
+      -6,
+      10,
+      22,
+      -20
+    ],
+    "M-ADAPTIVE": [
+      -9,
+      33,
+      -5,
+      9,
+      -1
+    ]
+  },
+  "variants": {
+    "prototype": {
+      "scene": "1000-10-0-0-12",
+      "scene_path": "F:\\OneDrive\\project\\static_determine\\Scene\\1000-10-0-0-12",
+      "scene_files_sha256": {
+        "tasklist.txt": "22e79dfd1caeee47627fa552ed1d2958d192f86c7611bf791ff2aed6b6997e81",
+        "outputattitude_1.txt": "2e9c2ad11090b720a03534c75f4331c3669e529683e5d3ee5f1d46263ea1f410",
+        "outputattitude_2.txt": "6b7e5c51831ec64eebd099971a082c35a787ef16fc52a1d1a1157158f8d69c07",
+        "outputattitude_3.txt": "efa04973dcebf3bba680ee3dbd352806c1fc2f61e423e42467385ff4c38b6bb7",
+        "outputattitude_4.txt": "3444a13caebb6326d623a91ddf7c63f24bc0986769b3197dc0138fff6c3bda7d",
+        "outputattitude_5.txt": "eb4871fcd54e929a2970d3d999061381d928dba04bf312f880b389589ad9240a",
+        "outputattitude_6.txt": "84a01c1c44a9ea02d7d36fdb6046797431ab3d80236342ccad2811cd2b743964",
+        "outputattitude_7.txt": "600602d1b83b545a060390c8d85fdbe2e2079c29ce8df40ea4dd88a83f15dfed",
+        "outputattitude_8.txt": "94bf5ee81adea9a7d29807c973087189646fe13d7bd53a5e4a422bbeba43e116",
+        "outputattitude_9.txt": "ddd10ec84b3e383efaf4259e0a43eef577da9839ce8560c8e43e90a7fad3c161",
+        "outputattitude_10.txt": "084bc6520462c0139f6de125e194bd6a1c2dd54ad651d9a0fe465c1a9ffdfe2a",
+        "outputtimewindow_1.txt": "c77918526ff44edeaceb0a344bb5dc1de05fbafe43350bd6a69a6317e815a52f",
+        "outputtimewindow_2.txt": "9fd8bdef383e590d8498e054ad441049c70d4c4f8b286fecad34bb1db7ad4d0a",
+        "outputtimewindow_3.txt": "c432c431514463b9d144a23b4f404c766938dcb1f3cff877df46506f470ea54a",
+        "outputtimewindow_4.txt": "be92d61af6527b44291c422563cf4ca666a8aaf6a5e8358061e5c930c779baf3",
+        "outputtimewindow_5.txt": "38449e025af31c38516d3a5148bc99917054bac2a42856f6971ce95f7a32eff2",
+        "outputtimewindow_6.txt": "f3a93173d6a2de1f1898abbe0bf6734efdb724973ef04710d434568c432c0988",
+        "outputtimewindow_7.txt": "e7dcee66accb41ef5580198c56d965c11bdabb7d84766c837ac06e31a267d81b",
+        "outputtimewindow_8.txt": "4ca321e9f18932ad9a85ad6bf0bab4ef51bb8dfe3fa4b91cb8e1b01cd1421212",
+        "outputtimewindow_9.txt": "49d0eef81f420dead10649a9baf8a6cd8c0f267aaff8d1600282771ab56e16e0",
+        "outputtimewindow_10.txt": "544606e7f423d4657802b411cb889cde52e17194a661c5a4c6e799a1e0750e9d"
+      },
+      "seed_table": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\scene-seeds-native200042.properties",
+      "seed_table_sha256": "eff5bdcfe69ac7fd7191e7dcd50160ffc83ae71bed4b9a895bb439fc34ff78bc",
+      "worktree": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)",
+      "git_head": "7f9f4e17f4c6f65b86ae070501b5733011e64bfc",
+      "branch": "codex/g4-adaptive-switching",
+      "fixed_archive": {
+        "path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-id3-full-scene\\manifest.json",
+        "sha256": "cb3706c08ee114c4f5c554e24cebece9bd4a37e78174d526a8c2727744911465"
+      },
+      "old_pool_archive": {
+        "path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-g4-policy-pool-id3\\manifest.json",
+        "sha256": "59330e2cea365505933bfb4edbe5585087113d742be2dd5edf4ba4bfacaf05ff"
+      },
+      "summary": {
+        "A-ADAPTIVE": {
+          "legal": 2626.2,
+          "fes": 921200,
+          "fixed_legal": 2669.2,
+          "fixed_fes": 1117200,
+          "deltas_fixed": [
+            -22,
+            11,
+            -30,
+            -85,
+            -89
+          ],
+          "policies": {
+            "1": {
+              "selected": 3910,
+              "eda": 1995,
+              "ga": 1915,
+              "edaFes": 391020,
+              "gaFes": 375340,
+              "gain": 473,
+              "rewarded": 1292,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1181.363739496,
+              "probabilitySum": 3892.036717170716,
+              "mean_probability": 0.1686324400853863
+            },
+            "2": {
+              "selected": 3710,
+              "eda": 1909,
+              "ga": 1801,
+              "edaFes": 374164,
+              "gaFes": 352996,
+              "gain": 402,
+              "rewarded": 1169,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1044.440712036,
+              "probabilitySum": 3754.688348001538,
+              "mean_probability": 0.1626814708839488
+            },
+            "3": {
+              "selected": 3986,
+              "eda": 632,
+              "ga": 3354,
+              "edaFes": 123872,
+              "gaFes": 657384,
+              "gain": 508,
+              "rewarded": 1270,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1231.509260566,
+              "probabilitySum": 3917.328584991251,
+              "mean_probability": 0.1697282749129658
+            },
+            "4": {
+              "selected": 3870,
+              "eda": 2003,
+              "ga": 1867,
+              "edaFes": 392588,
+              "gaFes": 365932,
+              "gain": 523,
+              "rewarded": 1221,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1190.621382337,
+              "probabilitySum": 3825.272728534071,
+              "mean_probability": 0.16573971960719547
+            },
+            "5": {
+              "selected": 3896,
+              "eda": 149,
+              "ga": 3747,
+              "edaFes": 29204,
+              "gaFes": 734412,
+              "gain": 360,
+              "rewarded": 1242,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1098.011398939,
+              "probabilitySum": 3944.018218797262,
+              "mean_probability": 0.17088467152501136
+            },
+            "7": {
+              "selected": 3708,
+              "eda": 2027,
+              "ga": 1681,
+              "edaFes": 397292,
+              "gaFes": 329476,
+              "gain": 323,
+              "rewarded": 1179,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 987.612344971,
+              "probabilitySum": 3746.6554025051337,
+              "mean_probability": 0.16233342298549105
+            }
+          },
+          "deltas_old_pool": [
+            -7,
+            -10,
+            -13,
+            -28,
+            -79
+          ]
+        },
+        "A-UNIFORM": {
+          "legal": 2643.8,
+          "fes": 960400,
+          "fixed_legal": 2669.2,
+          "fixed_fes": 1117200,
+          "deltas_fixed": [
+            -15,
+            9,
+            -4,
+            -53,
+            -64
+          ],
+          "policies": {
+            "1": {
+              "selected": 3923,
+              "eda": 2057,
+              "ga": 1866,
+              "edaFes": 403172,
+              "gaFes": 365736,
+              "gain": 470,
+              "rewarded": 1251,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1166.365612235,
+              "probabilitySum": 4010.00000000013,
+              "mean_probability": 0.16666666666667207
+            },
+            "2": {
+              "selected": 3984,
+              "eda": 1961,
+              "ga": 2023,
+              "edaFes": 384356,
+              "gaFes": 396508,
+              "gain": 423,
+              "rewarded": 1202,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1081.11435436,
+              "probabilitySum": 4010.00000000013,
+              "mean_probability": 0.16666666666667207
+            },
+            "3": {
+              "selected": 4045,
+              "eda": 599,
+              "ga": 3446,
+              "edaFes": 117404,
+              "gaFes": 675416,
+              "gain": 477,
+              "rewarded": 1239,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1175.42348354,
+              "probabilitySum": 4010.00000000013,
+              "mean_probability": 0.16666666666667207
+            },
+            "4": {
+              "selected": 4011,
+              "eda": 2030,
+              "ga": 1981,
+              "edaFes": 397880,
+              "gaFes": 388276,
+              "gain": 558,
+              "rewarded": 1262,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1244.9835904880001,
+              "probabilitySum": 4010.00000000013,
+              "mean_probability": 0.16666666666667207
+            },
+            "5": {
+              "selected": 4149,
+              "eda": 156,
+              "ga": 3993,
+              "edaFes": 30576,
+              "gaFes": 782628,
+              "gain": 387,
+              "rewarded": 1327,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1169.529732159,
+              "probabilitySum": 4010.00000000013,
+              "mean_probability": 0.16666666666667207
+            },
+            "7": {
+              "selected": 3948,
+              "eda": 2239,
+              "ga": 1709,
+              "edaFes": 438844,
+              "gaFes": 334964,
+              "gain": 326,
+              "rewarded": 1215,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1031.594473272,
+              "probabilitySum": 4010.00000000013,
+              "mean_probability": 0.16666666666667207
+            }
+          },
+          "deltas_old_pool": [
+            -10,
+            0,
+            14,
+            -2,
+            -18
+          ]
+        },
+        "M-ADAPTIVE": {
+          "legal": 2633,
+          "fes": 1058400,
+          "fixed_legal": 2670.4,
+          "fixed_fes": 940800,
+          "deltas_fixed": [
+            -29,
+            -52,
+            -32,
+            -44,
+            -30
+          ],
+          "policies": {
+            "1": {
+              "selected": 8809,
+              "eda": 4405,
+              "ga": 4404,
+              "edaFes": 431690,
+              "gaFes": 431592,
+              "gain": 382,
+              "rewarded": 1736,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1347.454250462,
+              "probabilitySum": 8747.947902281161,
+              "mean_probability": 0.16499335915279445
+            },
+            "2": {
+              "selected": 8568,
+              "eda": 4347,
+              "ga": 4221,
+              "edaFes": 426006,
+              "gaFes": 413658,
+              "gain": 416,
+              "rewarded": 1698,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1318.300967679,
+              "probabilitySum": 8580.23138042422,
+              "mean_probability": 0.16183009016265976
+            },
+            "3": {
+              "selected": 9047,
+              "eda": 1034,
+              "ga": 8013,
+              "edaFes": 101332,
+              "gaFes": 785274,
+              "gain": 445,
+              "rewarded": 1753,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1461.3056496650001,
+              "probabilitySum": 9013.720037975616,
+              "mean_probability": 0.1700060361745684
+            },
+            "4": {
+              "selected": 8747,
+              "eda": 3703,
+              "ga": 5044,
+              "edaFes": 362894,
+              "gaFes": 494312,
+              "gain": 519,
+              "rewarded": 1671,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1445.730467476,
+              "probabilitySum": 8806.832558898175,
+              "mean_probability": 0.1661039713107917
+            },
+            "5": {
+              "selected": 8939,
+              "eda": 349,
+              "ga": 8590,
+              "edaFes": 34202,
+              "gaFes": 841820,
+              "gain": 352,
+              "rewarded": 1757,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1375.771667321,
+              "probabilitySum": 8951.782181158866,
+              "mean_probability": 0.168837838196131
+            },
+            "7": {
+              "selected": 8910,
+              "eda": 5145,
+              "ga": 3765,
+              "edaFes": 504210,
+              "gaFes": 368970,
+              "gain": 461,
+              "rewarded": 1730,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1419.317359963,
+              "probabilitySum": 8919.485939261926,
+              "mean_probability": 0.16822870500305404
+            }
+          }
+        },
+        "M-UNIFORM": {
+          "legal": 2626,
+          "fes": 999600,
+          "fixed_legal": 2670.4,
+          "fixed_fes": 940800,
+          "deltas_fixed": [
+            -64,
+            -40,
+            -32,
+            -66,
+            -20
+          ],
+          "policies": {
+            "1": {
+              "selected": 8257,
+              "eda": 4092,
+              "ga": 4165,
+              "edaFes": 401016,
+              "gaFes": 408170,
+              "gain": 392,
+              "rewarded": 1598,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1282.473425467,
+              "probabilitySum": 8346.666666666531,
+              "mean_probability": 0.16666666666666397
+            },
+            "2": {
+              "selected": 8309,
+              "eda": 4171,
+              "ga": 4138,
+              "edaFes": 408758,
+              "gaFes": 405524,
+              "gain": 469,
+              "rewarded": 1611,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1323.5846808420001,
+              "probabilitySum": 8346.666666666531,
+              "mean_probability": 0.16666666666666397
+            },
+            "3": {
+              "selected": 8105,
+              "eda": 976,
+              "ga": 7129,
+              "edaFes": 95648,
+              "gaFes": 698642,
+              "gain": 449,
+              "rewarded": 1573,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1336.197161023,
+              "probabilitySum": 8346.666666666531,
+              "mean_probability": 0.16666666666666397
+            },
+            "4": {
+              "selected": 8443,
+              "eda": 3569,
+              "ga": 4874,
+              "edaFes": 349762,
+              "gaFes": 477652,
+              "gain": 482,
+              "rewarded": 1565,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1340.964193209,
+              "probabilitySum": 8346.666666666531,
+              "mean_probability": 0.16666666666666397
+            },
+            "5": {
+              "selected": 8532,
+              "eda": 327,
+              "ga": 8205,
+              "edaFes": 32046,
+              "gaFes": 804090,
+              "gain": 383,
+              "rewarded": 1780,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1425.518270229,
+              "probabilitySum": 8346.666666666531,
+              "mean_probability": 0.16666666666666397
+            },
+            "7": {
+              "selected": 8434,
+              "eda": 4809,
+              "ga": 3625,
+              "edaFes": 471282,
+              "gaFes": 355250,
+              "gain": 452,
+              "rewarded": 1612,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1340.68890153,
+              "probabilitySum": 8346.666666666531,
+              "mean_probability": 0.16666666666666397
+            }
+          }
+        },
+        "A": {
+          "paired_adaptive_minus_uniform": [
+            -7,
+            2,
+            -26,
+            -32,
+            -25
+          ]
+        },
+        "M": {
+          "paired_adaptive_minus_uniform": [
+            35,
+            -12,
+            0,
+            22,
+            -10
+          ]
+        }
+      },
+      "runs": {
+        "A-adaptive-0": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-0.log",
+          "log_sha256": "fa3de33df3787eca9c98a397d3e41220b1873b332b6950800569837a44ca6303",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-0-args.json",
+          "args_sha256": "21a6b4bfddb14991036324846521ce363d4d7ef00cb5ba9d026158cb1bc965d2",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 60,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-adaptive-1": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1138252824073990"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-1.log",
+          "log_sha256": "f03f631261381ba1ddb1519912d3ef296e4c22e72b30105e0dcb149afca1b1ea",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-1-args.json",
+          "args_sha256": "b267bc66d06be73d048b9bb523cbfd32fe278b22ff8c091d6307d3c39868ee5f",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 100,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-adaptive-2": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1138252824073994"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-2.log",
+          "log_sha256": "2da5fd53bf96f5de273b6958e780dffe51448a0552cf6874ac5cfa2d187beba2",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-2-args.json",
+          "args_sha256": "a404ac578c7d31bfb23ffef7b5e5f4fe1e20683cb966ac2a2b032bdc51c5269f",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-adaptive-3": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1138252824073997"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-3.log",
+          "log_sha256": "2e91133b5dda9cb7a544605aa4cb9408f978c836970b397e13c0cef8e4f30c5c",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-3-args.json",
+          "args_sha256": "d77ced06e5272233d213867b77f85fa3fe61d1860e40f36a63025cda77371321",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-adaptive-4": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1138252824073998"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-4.log",
+          "log_sha256": "fd47ae2628f2f1226a64c92b78e4fce745285e996ac43d296f8546f791c02cc6",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-4-args.json",
+          "args_sha256": "30595cb538a515db8508c2d8b0150737dbcb998bf1ab3e5bdece832c4b572b07",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-uniform-0": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-uniform-0.log",
+          "log_sha256": "c51d91646bd9a44e99241679e43a7492e4d640a9e325c53c5a84be347e3614d8",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-uniform-0-args.json",
+          "args_sha256": "8337b47a5deebb3e615f116fd40142b9214ff6e3a479ec98c53c8b70e9671556",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 80,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-uniform-1": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1138252824073990"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-uniform-1.log",
+          "log_sha256": "ba1529cbf9107a287520183af696eba28167b7cf212d14e9de909ae7740a2e81",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-uniform-1-args.json",
+          "args_sha256": "e4541f315a186f4351382b900a611da079644fac6c79b7ff894c1c1deb02797a",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-uniform-2": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1138252824073994"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-uniform-2.log",
+          "log_sha256": "2e228b844667744832e693dcbd509f09ce830e8d0caace95b963dfbd23522730",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-uniform-2-args.json",
+          "args_sha256": "ff2843bd1806ebe892338aaf708fe2fbd490cff16c0e257378f8e9e04444c87e",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 90,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-uniform-3": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1138252824073997"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-uniform-3.log",
+          "log_sha256": "8b6613e71ae0eb4b794b68d98eb8d7ecc4c8029858e7a723ccc54e46549429cc",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-uniform-3-args.json",
+          "args_sha256": "a77ed2a7150b3b52ed73edd456276f45531313eda518baf37f42177bd21cbfc3",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-uniform-4": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1138252824073998"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-uniform-4.log",
+          "log_sha256": "5975f146369392d8af3dd7a3ba989cea06738e59241eba130c31275dbe62f8b3",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-uniform-4-args.json",
+          "args_sha256": "01d5b550d87283cd284deaef826e29e8fec81e4c0587110802262456f7adc4ff",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 80,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-adaptive-0": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-0.log",
+          "log_sha256": "84dd855e87897f0737454eb6980bbc80738b090bf71efdec61ca3dc692530759",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-0-args.json",
+          "args_sha256": "8c41f1823973071bbc55bef007d6e1777e92060754335deed23075248d46dbbe",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 120,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-adaptive-1": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1138252824073990"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-1.log",
+          "log_sha256": "15b5f38f2e2fba527f5cd9d2a83be406bd7af204acc65c5c432fdb49bae758ca",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-1-args.json",
+          "args_sha256": "2a50ec5815a123b81b4e32810bdf2ff47bffbf007d8a87328efa91a26d87b3b1",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-adaptive-2": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1138252824073994"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-2.log",
+          "log_sha256": "5f3dec4e65ea7b3523c3cb6e76c89ecf06a7f0772caed8af15f7cdb90db176d4",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-2-args.json",
+          "args_sha256": "20b8af6e7d2d648a957b1a523406842c4f4af8f996f06d1d99be79603f0c7082",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 80,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-adaptive-3": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1138252824073997"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-3.log",
+          "log_sha256": "d6f678a03a88abda92c8fc6d0bfb15ea800a7d1015e518b0421e59c2f3a58554",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-3-args.json",
+          "args_sha256": "4b142df8cab41c09309624155719706c3c96058647df641efdbf27ab8acf984b",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 90,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-adaptive-4": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1138252824073998"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-4.log",
+          "log_sha256": "769871a11a0a2e096b242e855eb87b8dd5982a6bf6acb3eb58c1f1c7181de61e",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-4-args.json",
+          "args_sha256": "b1034229e96bc92a06edc78b9eb351e9efd1f88e12fe9a49801efc35f8b4877b",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 80,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-uniform-0": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-uniform-0.log",
+          "log_sha256": "e663ddb8cc4fb33188a433cc3bbee7deae6e6bdd5a7c9fd25abf4222bdc8f889",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-uniform-0-args.json",
+          "args_sha256": "082b0546fb0b50f522ac0703f7e0ce4e90c9e45a64003f42413700c8364b8ca8",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-uniform-1": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1138252824073990"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-uniform-1.log",
+          "log_sha256": "6f884133588c46be1d8246b360ad36dc529f510d11a54fcece5521c8187ec47a",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-uniform-1-args.json",
+          "args_sha256": "818487ca5f456f419bd8342e4e251a174c3873a07cb6a08c2099ed485f361bcb",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 90,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-uniform-2": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1138252824073994"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-uniform-2.log",
+          "log_sha256": "973e0bc308fdc480517cf201cbb72e0465c256d42ff533de14248933f148ff18",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-uniform-2-args.json",
+          "args_sha256": "d6266bc4cd6aef394a6e4fff509b1ff54eb58f506a7824a82c8aa0b4123f8a17",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 90,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-uniform-3": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1138252824073997"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-uniform-3.log",
+          "log_sha256": "790b096714acc2b7721c08d9115b87008516de402b4d710b48ebcf5362293bb1",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-uniform-3-args.json",
+          "args_sha256": "83b79d5adfc8c71567add2e1e386c3cb2813532f5c56929e83e69a2a947cb57d",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 90,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-uniform-4": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1138252824073998"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-uniform-4.log",
+          "log_sha256": "5e12c93bfc3bf27dfd4a349991f7f5a6955b46578fe3d02f86f8c3dbd4403000",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-uniform-4-args.json",
+          "args_sha256": "3ad8282159d1ee00d919a4208015d60ec844b5feb5fef0cab8064eafa2934fef",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-adaptive-0-tail": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19637"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-0-tail.log",
+          "log_sha256": "238de96f0d43aef0f8d8ae71027c7ce4c8dd2b33fe6b99d3d747b883a08dceda",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\A-adaptive-0-tail-args.json",
+          "args_sha256": "62ca138c1c8b2091586f446684dfe53fdbf451a822b5c296e571e2a3d14499dd",
+          "phase_stats": {
+            "19637": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 10,
+              "tail_fes": 370
+            },
+            "9819": {
+              "optimizers": 60,
+              "zero_reward": 0,
+              "tail_calls": 60,
+              "tail_fes": 1140
+            }
+          }
+        },
+        "M-adaptive-0-tail": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19637"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-0-tail.log",
+          "log_sha256": "a55d66980ad4a9d97273423d7aa04e73e6d1fc7204e3d7e3031746317d961647",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\M-adaptive-0-tail-args.json",
+          "args_sha256": "c75e39736b13d367d030c3af6646a1764b3d6b6b6883e0f3d03501f8e354d54a",
+          "phase_stats": {
+            "19637": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 10,
+              "tail_fes": 370
+            },
+            "9819": {
+              "optimizers": 80,
+              "zero_reward": 0,
+              "tail_calls": 80,
+              "tail_fes": 1520
+            }
+          }
+        },
+        "hybrid-adaptive-0-tail": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,2,4,2",
+            "1",
+            "196",
+            "19637"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\hybrid-adaptive-0-tail.log",
+          "log_sha256": "578b8ae090867ec6b7c1acb7159b880db0f6666c3f3802979325ef60827d319a",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\runs\\hybrid-adaptive-0-tail-args.json",
+          "args_sha256": "265a92ed1124740ac781b2a60f0a742c37fac8d60dcde88a5de1f6e839ae0275",
+          "phase_stats": {
+            "19637": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 10,
+              "tail_fes": 566
+            },
+            "9819": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 70,
+              "tail_fes": 2114
+            }
+          }
+        }
+      },
+      "tail_runs": {
+        "A-adaptive-0-tail": {
+          "arm": "A",
+          "mode": "ADAPTIVE",
+          "seed_id": 10,
+          "seed": 1138252824073986,
+          "budget": 19637,
+          "legalProfit": 2648,
+          "rawProfit": 2654,
+          "fes": 785510,
+          "edaFes": 306695,
+          "gaFes": 465095,
+          "edaCalls": 1571,
+          "gaCalls": 2429,
+          "acceptedMigrations": 26,
+          "intermediateCalibrations": 4,
+          "reassignmentRounds": 10,
+          "fixed_legal": null,
+          "fixed_fes": null,
+          "old_pool_legal": null,
+          "g4_1_selected": 678,
+          "g4_1_eda": 363,
+          "g4_1_ga": 315,
+          "g4_1_edaFes": 71148,
+          "g4_1_gaFes": 59829,
+          "g4_1_gain": 78,
+          "g4_1_rewarded": 207,
+          "g4_1_tailCalls": 11,
+          "g4_1_tailFes": 245,
+          "g4_1_reward": 193.010460902,
+          "g4_1_probabilitySum": 649.919412283394,
+          "g4_2_selected": 680,
+          "g4_2_eda": 346,
+          "g4_2_ga": 334,
+          "g4_2_edaFes": 67816,
+          "g4_2_gaFes": 62845,
+          "g4_2_gain": 85,
+          "g4_2_rewarded": 225,
+          "g4_2_tailCalls": 15,
+          "g4_2_tailFes": 321,
+          "g4_2_reward": 213.988085639,
+          "g4_2_probabilitySum": 661.442878971649,
+          "g4_3_selected": 651,
+          "g4_3_eda": 124,
+          "g4_3_ga": 527,
+          "g4_3_edaFes": 24304,
+          "g4_3_gaFes": 101717,
+          "g4_3_gain": 100,
+          "g4_3_rewarded": 213,
+          "g4_3_tailCalls": 9,
+          "g4_3_tailFes": 189,
+          "g4_3_reward": 217.379072193,
+          "g4_3_probabilitySum": 666.785469964719,
+          "g4_4_selected": 669,
+          "g4_4_eda": 321,
+          "g4_4_ga": 348,
+          "g4_4_edaFes": 62916,
+          "g4_4_gaFes": 65235,
+          "g4_4_gain": 112,
+          "g4_4_rewarded": 202,
+          "g4_4_tailCalls": 17,
+          "g4_4_tailFes": 359,
+          "g4_4_reward": 217.405736799,
+          "g4_4_probabilitySum": 667.022300226769,
+          "g4_5_selected": 665,
+          "g4_5_eda": 25,
+          "g4_5_ga": 640,
+          "g4_5_edaFes": 4741,
+          "g4_5_gaFes": 123865,
+          "g4_5_gain": 79,
+          "g4_5_rewarded": 218,
+          "g4_5_tailCalls": 10,
+          "g4_5_tailFes": 226,
+          "g4_5_reward": 208.726073192,
+          "g4_5_probabilitySum": 681.612561099413,
+          "g4_7_selected": 657,
+          "g4_7_eda": 392,
+          "g4_7_ga": 265,
+          "g4_7_edaFes": 75770,
+          "g4_7_gaFes": 51604,
+          "g4_7_gain": 86,
+          "g4_7_rewarded": 210,
+          "g4_7_tailCalls": 8,
+          "g4_7_tailFes": 170,
+          "g4_7_reward": 207.965097074,
+          "g4_7_probabilitySum": 673.217377454061
+        },
+        "M-adaptive-0-tail": {
+          "arm": "M",
+          "mode": "ADAPTIVE",
+          "seed_id": 10,
+          "seed": 1138252824073986,
+          "budget": 19637,
+          "legalProfit": 2637,
+          "rawProfit": 2660,
+          "fes": 981890,
+          "edaFes": 351473,
+          "gaFes": 612777,
+          "edaCalls": 3598,
+          "gaCalls": 6312,
+          "acceptedMigrations": 30,
+          "intermediateCalibrations": 6,
+          "reassignmentRounds": 22,
+          "fixed_legal": null,
+          "fixed_fes": null,
+          "old_pool_legal": null,
+          "g4_1_selected": 1715,
+          "g4_1_eda": 857,
+          "g4_1_ga": 858,
+          "g4_1_edaFes": 83986,
+          "g4_1_gaFes": 82953,
+          "g4_1_gain": 104,
+          "g4_1_rewarded": 342,
+          "g4_1_tailCalls": 15,
+          "g4_1_tailFes": 339,
+          "g4_1_reward": 293.60628793300003,
+          "g4_1_probabilitySum": 1699.090340225394,
+          "g4_2_selected": 1562,
+          "g4_2_eda": 800,
+          "g4_2_ga": 762,
+          "g4_2_edaFes": 78400,
+          "g4_2_gaFes": 73351,
+          "g4_2_gain": 73,
+          "g4_2_rewarded": 320,
+          "g4_2_tailCalls": 17,
+          "g4_2_tailFes": 341,
+          "g4_2_reward": 242.420527133,
+          "g4_2_probabilitySum": 1571.666867057838,
+          "g4_3_selected": 1756,
+          "g4_3_eda": 236,
+          "g4_3_ga": 1520,
+          "g4_3_edaFes": 23128,
+          "g4_3_gaFes": 148328,
+          "g4_3_gain": 107,
+          "g4_3_rewarded": 358,
+          "g4_3_tailCalls": 8,
+          "g4_3_tailFes": 152,
+          "g4_3_reward": 306.807887433,
+          "g4_3_probabilitySum": 1746.672771163787,
+          "g4_4_selected": 1575,
+          "g4_4_eda": 673,
+          "g4_4_ga": 902,
+          "g4_4_edaFes": 65875,
+          "g4_4_gaFes": 87624,
+          "g4_4_gain": 69,
+          "g4_4_rewarded": 297,
+          "g4_4_tailCalls": 11,
+          "g4_4_tailFes": 227,
+          "g4_4_reward": 238.242344676,
+          "g4_4_probabilitySum": 1572.404824157408,
+          "g4_5_selected": 1696,
+          "g4_5_eda": 79,
+          "g4_5_ga": 1617,
+          "g4_5_edaFes": 7620,
+          "g4_5_gaFes": 156764,
+          "g4_5_gain": 64,
+          "g4_5_rewarded": 340,
+          "g4_5_tailCalls": 24,
+          "g4_5_tailFes": 528,
+          "g4_5_reward": 259.068267316,
+          "g4_5_probabilitySum": 1667.108509163379,
+          "g4_7_selected": 1606,
+          "g4_7_eda": 953,
+          "g4_7_ga": 653,
+          "g4_7_edaFes": 92464,
+          "g4_7_gaFes": 63757,
+          "g4_7_gain": 91,
+          "g4_7_rewarded": 317,
+          "g4_7_tailCalls": 15,
+          "g4_7_tailFes": 303,
+          "g4_7_reward": 256.974271243,
+          "g4_7_probabilitySum": 1653.056688232203
+        },
+        "hybrid-adaptive-0-tail": {
+          "arm": "hybrid",
+          "mode": "ADAPTIVE",
+          "seed_id": 10,
+          "seed": 1138252824073986,
+          "budget": 19637,
+          "legalProfit": 2645,
+          "rawProfit": 2660,
+          "fes": 883700,
+          "edaFes": 420741,
+          "gaFes": 447279,
+          "edaCalls": 2155,
+          "gaCalls": 4615,
+          "acceptedMigrations": 27,
+          "intermediateCalibrations": 5,
+          "reassignmentRounds": 11,
+          "fixed_legal": null,
+          "fixed_fes": null,
+          "old_pool_legal": null,
+          "g4_1_selected": 1068,
+          "g4_1_eda": 502,
+          "g4_1_ga": 566,
+          "g4_1_edaFes": 98392,
+          "g4_1_gaFes": 54775,
+          "g4_1_gain": 63,
+          "g4_1_rewarded": 274,
+          "g4_1_tailCalls": 9,
+          "g4_1_tailFes": 189,
+          "g4_1_reward": 220.231206644,
+          "g4_1_probabilitySum": 1084.696776876529,
+          "g4_2_selected": 988,
+          "g4_2_eda": 453,
+          "g4_2_ga": 535,
+          "g4_2_edaFes": 88788,
+          "g4_2_gaFes": 51737,
+          "g4_2_gain": 50,
+          "g4_2_rewarded": 249,
+          "g4_2_tailCalls": 9,
+          "g4_2_tailFes": 189,
+          "g4_2_reward": 197.600910746,
+          "g4_2_probabilitySum": 997.451412336949,
+          "g4_3_selected": 1169,
+          "g4_3_eda": 115,
+          "g4_3_ga": 1054,
+          "g4_3_edaFes": 22479,
+          "g4_3_gaFes": 102082,
+          "g4_3_gain": 79,
+          "g4_3_rewarded": 273,
+          "g4_3_tailCalls": 17,
+          "g4_3_tailFes": 493,
+          "g4_3_reward": 235.577031377,
+          "g4_3_probabilitySum": 1218.823598945788,
+          "g4_4_selected": 1132,
+          "g4_4_eda": 452,
+          "g4_4_ga": 680,
+          "g4_4_edaFes": 88513,
+          "g4_4_gaFes": 65649,
+          "g4_4_gain": 170,
+          "g4_4_rewarded": 265,
+          "g4_4_tailCalls": 14,
+          "g4_4_tailFes": 400,
+          "g4_4_reward": 312.936195751,
+          "g4_4_probabilitySum": 1131.460195017047,
+          "g4_5_selected": 1281,
+          "g4_5_eda": 34,
+          "g4_5_ga": 1247,
+          "g4_5_edaFes": 6487,
+          "g4_5_gaFes": 121118,
+          "g4_5_gain": 81,
+          "g4_5_rewarded": 299,
+          "g4_5_tailCalls": 15,
+          "g4_5_tailFes": 303,
+          "g4_5_reward": 245.814375901,
+          "g4_5_probabilitySum": 1268.16016487376,
+          "g4_7_selected": 1132,
+          "g4_7_eda": 599,
+          "g4_7_ga": 533,
+          "g4_7_edaFes": 116082,
+          "g4_7_gaFes": 51918,
+          "g4_7_gain": 67,
+          "g4_7_rewarded": 290,
+          "g4_7_tailCalls": 16,
+          "g4_7_tailFes": 1106,
+          "g4_7_reward": 231.807378842,
+          "g4_7_probabilitySum": 1069.40785194994
+        }
+      },
+      "phase_summary": {
+        "A-UNIFORM": {
+          "19600": {
+            "optimizers": 50,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          },
+          "9800": {
+            "optimizers": 390,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          }
+        },
+        "A-ADAPTIVE": {
+          "19600": {
+            "optimizers": 50,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          },
+          "9800": {
+            "optimizers": 370,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          }
+        },
+        "M-UNIFORM": {
+          "19600": {
+            "optimizers": 50,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          },
+          "9800": {
+            "optimizers": 410,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          }
+        },
+        "M-ADAPTIVE": {
+          "19600": {
+            "optimizers": 50,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          },
+          "9800": {
+            "optimizers": 440,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          }
+        }
+      },
+      "source_data": {
+        "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\data.csv",
+        "sha256": "ef9c6f958c4c34e108c54e68f65777acd08ebfe4ef3aad5af9b98eca62238231"
+      },
+      "machine_result": {
+        "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\result.json",
+        "sha256": "2ff5076eca264b6aa317105ed725988346c2df52ccba31a6a4b2189c43fa50f5"
+      },
+      "maven": {
+        "before": {
+          "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\maven-before.log",
+          "sha256": "8786123cb64aab21341f835da4c2f2445c8df7a99b6348a1e5aaec32ea517987"
+        },
+        "after": {
+          "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\maven-after.log",
+          "sha256": "8055f990f9a5ef56fc06f1809a7b99e727d55be167d3f18d9da8c95261da3eb6"
+        }
+      },
+      "source_snapshot": {
+        "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\prototype-source",
+        "sha256": {
+          "src\\main\\java\\core\\G4PolicyPool.java": "ca4d66d91371e2187df615b8b66604575764f08aa93e60679a9c93f9bc4818f1",
+          "src\\test\\java\\core\\HybCecOperationOrderRegressionTest.java": "bd74f1da2c4e5862d76dcc18c55fea0d857ccda54ed7ad13915f19d23bb45151",
+          "outputs\\feedback-ol-g4-fe-id3\\run-id3.py": "2b037a88083c1a2ece6105f4fd849451cb0d462c7bf371c628f882d0ad83a411",
+          "src\\main\\java\\core\\HybCec.java": "a45c906aea550d596b5e43612bdbcf6dae314fadfe984a7b51904e9b7ab46347",
+          "src\\main\\java\\core\\OlTargetExperiment.java": "0cd8469a44f010b59f5209bea2afbd5dc7f3b30008087a0dcc5432f2ce5e1851"
+        }
+      }
+    },
+    "revised": {
+      "scene": "1000-10-0-0-12",
+      "scene_path": "F:\\OneDrive\\project\\static_determine\\Scene\\1000-10-0-0-12",
+      "scene_files_sha256": {
+        "tasklist.txt": "22e79dfd1caeee47627fa552ed1d2958d192f86c7611bf791ff2aed6b6997e81",
+        "outputattitude_1.txt": "2e9c2ad11090b720a03534c75f4331c3669e529683e5d3ee5f1d46263ea1f410",
+        "outputattitude_2.txt": "6b7e5c51831ec64eebd099971a082c35a787ef16fc52a1d1a1157158f8d69c07",
+        "outputattitude_3.txt": "efa04973dcebf3bba680ee3dbd352806c1fc2f61e423e42467385ff4c38b6bb7",
+        "outputattitude_4.txt": "3444a13caebb6326d623a91ddf7c63f24bc0986769b3197dc0138fff6c3bda7d",
+        "outputattitude_5.txt": "eb4871fcd54e929a2970d3d999061381d928dba04bf312f880b389589ad9240a",
+        "outputattitude_6.txt": "84a01c1c44a9ea02d7d36fdb6046797431ab3d80236342ccad2811cd2b743964",
+        "outputattitude_7.txt": "600602d1b83b545a060390c8d85fdbe2e2079c29ce8df40ea4dd88a83f15dfed",
+        "outputattitude_8.txt": "94bf5ee81adea9a7d29807c973087189646fe13d7bd53a5e4a422bbeba43e116",
+        "outputattitude_9.txt": "ddd10ec84b3e383efaf4259e0a43eef577da9839ce8560c8e43e90a7fad3c161",
+        "outputattitude_10.txt": "084bc6520462c0139f6de125e194bd6a1c2dd54ad651d9a0fe465c1a9ffdfe2a",
+        "outputtimewindow_1.txt": "c77918526ff44edeaceb0a344bb5dc1de05fbafe43350bd6a69a6317e815a52f",
+        "outputtimewindow_2.txt": "9fd8bdef383e590d8498e054ad441049c70d4c4f8b286fecad34bb1db7ad4d0a",
+        "outputtimewindow_3.txt": "c432c431514463b9d144a23b4f404c766938dcb1f3cff877df46506f470ea54a",
+        "outputtimewindow_4.txt": "be92d61af6527b44291c422563cf4ca666a8aaf6a5e8358061e5c930c779baf3",
+        "outputtimewindow_5.txt": "38449e025af31c38516d3a5148bc99917054bac2a42856f6971ce95f7a32eff2",
+        "outputtimewindow_6.txt": "f3a93173d6a2de1f1898abbe0bf6734efdb724973ef04710d434568c432c0988",
+        "outputtimewindow_7.txt": "e7dcee66accb41ef5580198c56d965c11bdabb7d84766c837ac06e31a267d81b",
+        "outputtimewindow_8.txt": "4ca321e9f18932ad9a85ad6bf0bab4ef51bb8dfe3fa4b91cb8e1b01cd1421212",
+        "outputtimewindow_9.txt": "49d0eef81f420dead10649a9baf8a6cd8c0f267aaff8d1600282771ab56e16e0",
+        "outputtimewindow_10.txt": "544606e7f423d4657802b411cb889cde52e17194a661c5a4c6e799a1e0750e9d"
+      },
+      "seed_table": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\scene-seeds-native200042.properties",
+      "seed_table_sha256": "eff5bdcfe69ac7fd7191e7dcd50160ffc83ae71bed4b9a895bb439fc34ff78bc",
+      "worktree": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)",
+      "git_head": "7f9f4e17f4c6f65b86ae070501b5733011e64bfc",
+      "branch": "codex/g4-adaptive-switching",
+      "fixed_archive": {
+        "path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-id3-full-scene\\manifest.json",
+        "sha256": "cb3706c08ee114c4f5c554e24cebece9bd4a37e78174d526a8c2727744911465"
+      },
+      "old_pool_archive": {
+        "path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-g4-policy-pool-id3\\manifest.json",
+        "sha256": "59330e2cea365505933bfb4edbe5585087113d742be2dd5edf4ba4bfacaf05ff"
+      },
+      "summary": {
+        "A-ADAPTIVE": {
+          "legal": 2652.2,
+          "fes": 1078000,
+          "fixed_legal": 2669.2,
+          "fixed_fes": 1117200,
+          "deltas_fixed": [
+            -17,
+            54,
+            -8,
+            -45,
+            -69
+          ],
+          "policies": {
+            "1": {
+              "selected": 4626,
+              "eda": 2427,
+              "ga": 2199,
+              "edaFes": 475692,
+              "gaFes": 431004,
+              "gain": 494,
+              "rewarded": 1540,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1378.658680013,
+              "probabilitySum": 4524.629614355013,
+              "mean_probability": 0.1675788746057412
+            },
+            "2": {
+              "selected": 4378,
+              "eda": 2260,
+              "ga": 2118,
+              "edaFes": 442960,
+              "gaFes": 415128,
+              "gain": 389,
+              "rewarded": 1496,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1231.4199956290001,
+              "probabilitySum": 4400.274373257383,
+              "mean_probability": 0.16297312493545862
+            },
+            "3": {
+              "selected": 4397,
+              "eda": 2457,
+              "ga": 1940,
+              "edaFes": 481572,
+              "gaFes": 380240,
+              "gain": 496,
+              "rewarded": 1467,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1321.947168398,
+              "probabilitySum": 4534.797800272692,
+              "mean_probability": 0.1679554740841738
+            },
+            "4": {
+              "selected": 4524,
+              "eda": 2429,
+              "ga": 2095,
+              "edaFes": 476084,
+              "gaFes": 410620,
+              "gain": 598,
+              "rewarded": 1505,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1420.324210948,
+              "probabilitySum": 4499.256994425269,
+              "mean_probability": 0.16663914794167664
+            },
+            "5": {
+              "selected": 4653,
+              "eda": 2981,
+              "ga": 1672,
+              "edaFes": 584276,
+              "gaFes": 327712,
+              "gain": 359,
+              "rewarded": 1514,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1276.910327963,
+              "probabilitySum": 4611.292346042761,
+              "mean_probability": 0.17078860540899116
+            },
+            "7": {
+              "selected": 4422,
+              "eda": 2287,
+              "ga": 2135,
+              "edaFes": 448252,
+              "gaFes": 418460,
+              "gain": 332,
+              "rewarded": 1453,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1177.468827672,
+              "probabilitySum": 4429.748871646877,
+              "mean_probability": 0.16406477302395842
+            }
+          },
+          "deltas_old_pool": [
+            -2,
+            33,
+            9,
+            12,
+            -59
+          ]
+        },
+        "A-UNIFORM": {
+          "legal": 2640.2,
+          "fes": 1038800,
+          "fixed_legal": 2669.2,
+          "fixed_fes": 1117200,
+          "deltas_fixed": [
+            -38,
+            -15,
+            0,
+            -47,
+            -45
+          ],
+          "policies": {
+            "1": {
+              "selected": 4450,
+              "eda": 2341,
+              "ga": 2109,
+              "edaFes": 458836,
+              "gaFes": 413364,
+              "gain": 480,
+              "rewarded": 1403,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1286.95312065,
+              "probabilitySum": 4336.66666666681,
+              "mean_probability": 0.16666666666667215
+            },
+            "2": {
+              "selected": 4308,
+              "eda": 2210,
+              "ga": 2098,
+              "edaFes": 433160,
+              "gaFes": 411208,
+              "gain": 380,
+              "rewarded": 1351,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1125.8710360540001,
+              "probabilitySum": 4336.66666666681,
+              "mean_probability": 0.16666666666667215
+            },
+            "3": {
+              "selected": 4230,
+              "eda": 2325,
+              "ga": 1905,
+              "edaFes": 455700,
+              "gaFes": 373380,
+              "gain": 445,
+              "rewarded": 1328,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1201.502169485,
+              "probabilitySum": 4336.66666666681,
+              "mean_probability": 0.16666666666667215
+            },
+            "4": {
+              "selected": 4386,
+              "eda": 2247,
+              "ga": 2139,
+              "edaFes": 440412,
+              "gaFes": 419244,
+              "gain": 535,
+              "rewarded": 1384,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1307.612373689,
+              "probabilitySum": 4336.66666666681,
+              "mean_probability": 0.16666666666667215
+            },
+            "5": {
+              "selected": 4187,
+              "eda": 2702,
+              "ga": 1485,
+              "edaFes": 529592,
+              "gaFes": 291060,
+              "gain": 374,
+              "rewarded": 1278,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1143.238663296,
+              "probabilitySum": 4336.66666666681,
+              "mean_probability": 0.16666666666667215
+            },
+            "7": {
+              "selected": 4459,
+              "eda": 2294,
+              "ga": 2165,
+              "edaFes": 449624,
+              "gaFes": 424340,
+              "gain": 361,
+              "rewarded": 1468,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1211.933683763,
+              "probabilitySum": 4336.66666666681,
+              "mean_probability": 0.16666666666667215
+            }
+          },
+          "deltas_old_pool": [
+            -33,
+            -24,
+            18,
+            4,
+            1
+          ]
+        },
+        "M-ADAPTIVE": {
+          "legal": 2638.4,
+          "fes": 960400,
+          "fixed_legal": 2670.4,
+          "fixed_fes": 940800,
+          "deltas_fixed": [
+            -38,
+            -19,
+            -37,
+            -35,
+            -31
+          ],
+          "policies": {
+            "1": {
+              "selected": 8018,
+              "eda": 4037,
+              "ga": 3981,
+              "edaFes": 395626,
+              "gaFes": 390138,
+              "gain": 362,
+              "rewarded": 1618,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1266.6244000430002,
+              "probabilitySum": 7950.092911603114,
+              "mean_probability": 0.16521390090613286
+            },
+            "2": {
+              "selected": 7892,
+              "eda": 3976,
+              "ga": 3916,
+              "edaFes": 389648,
+              "gaFes": 383768,
+              "gain": 476,
+              "rewarded": 1544,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1300.549798028,
+              "probabilitySum": 7922.720386166705,
+              "mean_probability": 0.16464506205666468
+            },
+            "3": {
+              "selected": 8093,
+              "eda": 4254,
+              "ga": 3839,
+              "edaFes": 416892,
+              "gaFes": 376222,
+              "gain": 439,
+              "rewarded": 1565,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1317.223263533,
+              "probabilitySum": 8102.482793629071,
+              "mean_probability": 0.16838077293493497
+            },
+            "4": {
+              "selected": 7889,
+              "eda": 3387,
+              "ga": 4502,
+              "edaFes": 331926,
+              "gaFes": 441196,
+              "gain": 504,
+              "rewarded": 1530,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1319.31233083,
+              "probabilitySum": 7965.765506935761,
+              "mean_probability": 0.16553959906350293
+            },
+            "5": {
+              "selected": 8234,
+              "eda": 6044,
+              "ga": 2190,
+              "edaFes": 592312,
+              "gaFes": 214620,
+              "gain": 338,
+              "rewarded": 1564,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1265.425464259,
+              "probabilitySum": 8166.195379370312,
+              "mean_probability": 0.1697048083825917
+            },
+            "7": {
+              "selected": 7994,
+              "eda": 4035,
+              "ga": 3959,
+              "edaFes": 395430,
+              "gaFes": 387982,
+              "gain": 444,
+              "rewarded": 1593,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1298.816931796,
+              "probabilitySum": 8012.743022295041,
+              "mean_probability": 0.1665158566561729
+            }
+          }
+        },
+        "M-UNIFORM": {
+          "legal": 2630.4,
+          "fes": 1019200,
+          "fixed_legal": 2670.4,
+          "fixed_fes": 940800,
+          "deltas_fixed": [
+            -48,
+            -46,
+            -22,
+            -44,
+            -40
+          ],
+          "policies": {
+            "1": {
+              "selected": 8574,
+              "eda": 4297,
+              "ga": 4277,
+              "edaFes": 421106,
+              "gaFes": 419146,
+              "gain": 404,
+              "rewarded": 1741,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1359.537225063,
+              "probabilitySum": 8509.999999999862,
+              "mean_probability": 0.16666666666666397
+            },
+            "2": {
+              "selected": 8416,
+              "eda": 4230,
+              "ga": 4186,
+              "edaFes": 414540,
+              "gaFes": 410228,
+              "gain": 460,
+              "rewarded": 1757,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1399.384335689,
+              "probabilitySum": 8509.999999999862,
+              "mean_probability": 0.16666666666666397
+            },
+            "3": {
+              "selected": 8435,
+              "eda": 4533,
+              "ga": 3902,
+              "edaFes": 444234,
+              "gaFes": 382396,
+              "gain": 436,
+              "rewarded": 1721,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1401.146548733,
+              "probabilitySum": 8509.999999999862,
+              "mean_probability": 0.16666666666666397
+            },
+            "4": {
+              "selected": 8668,
+              "eda": 3860,
+              "ga": 4808,
+              "edaFes": 378280,
+              "gaFes": 471184,
+              "gain": 524,
+              "rewarded": 1726,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1451.199549099,
+              "probabilitySum": 8509.999999999862,
+              "mean_probability": 0.16666666666666397
+            },
+            "5": {
+              "selected": 8494,
+              "eda": 6097,
+              "ga": 2397,
+              "edaFes": 597506,
+              "gaFes": 234906,
+              "gain": 353,
+              "rewarded": 1790,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1405.502090811,
+              "probabilitySum": 8509.999999999862,
+              "mean_probability": 0.16666666666666397
+            },
+            "7": {
+              "selected": 8473,
+              "eda": 4451,
+              "ga": 4022,
+              "edaFes": 436198,
+              "gaFes": 394156,
+              "gain": 441,
+              "rewarded": 1760,
+              "tailCalls": 0,
+              "tailFes": 0,
+              "reward": 1386.768979528,
+              "probabilitySum": 8509.999999999862,
+              "mean_probability": 0.16666666666666397
+            }
+          }
+        },
+        "A": {
+          "paired_adaptive_minus_uniform": [
+            21,
+            69,
+            -8,
+            2,
+            -24
+          ]
+        },
+        "M": {
+          "paired_adaptive_minus_uniform": [
+            10,
+            27,
+            -15,
+            9,
+            9
+          ]
+        }
+      },
+      "runs": {
+        "A-adaptive-0": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-0.log",
+          "log_sha256": "a9b0f2bc0c50c2de1ae1c6162ac963d4aeef33c312a5c5fbde0d0cc70befbcfc",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-0-args.json",
+          "args_sha256": "21a6b4bfddb14991036324846521ce363d4d7ef00cb5ba9d026158cb1bc965d2",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 90,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-adaptive-1": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1138252824073990"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-1.log",
+          "log_sha256": "dca6b134f0ce3e3612669e7892a73d240a987066022494ec9ebf6cbd145ede82",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-1-args.json",
+          "args_sha256": "b267bc66d06be73d048b9bb523cbfd32fe278b22ff8c091d6307d3c39868ee5f",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 120,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-adaptive-2": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1138252824073994"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-2.log",
+          "log_sha256": "e445afb62701aa85991fa4e5d754849b7c5294be58cf91f540bf1b767ca5bbc3",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-2-args.json",
+          "args_sha256": "a404ac578c7d31bfb23ffef7b5e5f4fe1e20683cb966ac2a2b032bdc51c5269f",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 80,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-adaptive-3": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1138252824073997"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-3.log",
+          "log_sha256": "433f2103e92a593556a4768b7f7e63a677bb1e424e49311f73a45e9c46c3fa65",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-3-args.json",
+          "args_sha256": "d77ced06e5272233d213867b77f85fa3fe61d1860e40f36a63025cda77371321",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 60,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-adaptive-4": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1138252824073998"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-4.log",
+          "log_sha256": "1afa81ba4aba54f2dfb45268b272b5b112efdcbf33763c1ecc7114986b4d6325",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-4-args.json",
+          "args_sha256": "30595cb538a515db8508c2d8b0150737dbcb998bf1ab3e5bdece832c4b572b07",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 100,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-uniform-0": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-uniform-0.log",
+          "log_sha256": "6e16be5c6f631586ea6075a527146d8c040a1ca6b5603c279562a022624e9dd4",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-uniform-0-args.json",
+          "args_sha256": "8337b47a5deebb3e615f116fd40142b9214ff6e3a479ec98c53c8b70e9671556",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-uniform-1": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1138252824073990"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-uniform-1.log",
+          "log_sha256": "8d0a31fe36ad4de846881a1d0d6b3c5a613500e7dbc94eb5998d908bff4f9d1b",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-uniform-1-args.json",
+          "args_sha256": "e4541f315a186f4351382b900a611da079644fac6c79b7ff894c1c1deb02797a",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 60,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-uniform-2": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1138252824073994"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-uniform-2.log",
+          "log_sha256": "aa77dc1e6ca37127439f85cf12bb0e2fb201ea0fd4de55fe0cb1b7dcfcb2afda",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-uniform-2-args.json",
+          "args_sha256": "ff2843bd1806ebe892338aaf708fe2fbd490cff16c0e257378f8e9e04444c87e",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 90,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-uniform-3": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1138252824073997"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-uniform-3.log",
+          "log_sha256": "0fa49d37129f6c2997f3c73fde2f5ca0c4875344b752994563494bb3ce637f6d",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-uniform-3-args.json",
+          "args_sha256": "a77ed2a7150b3b52ed73edd456276f45531313eda518baf37f42177bd21cbfc3",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-uniform-4": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1138252824073998"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-uniform-4.log",
+          "log_sha256": "bc4b5f2a2eb14ed7fc213ea087b4328e4673df5df0e43314194769511b8ca9ac",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-uniform-4-args.json",
+          "args_sha256": "01d5b550d87283cd284deaef826e29e8fec81e4c0587110802262456f7adc4ff",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 140,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-adaptive-0": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-0.log",
+          "log_sha256": "7bbf86d9b93058ee0d3d3a5e812f31f90dd5ef0abb8f7f0cefa7c28c410704be",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-0-args.json",
+          "args_sha256": "8c41f1823973071bbc55bef007d6e1777e92060754335deed23075248d46dbbe",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-adaptive-1": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1138252824073990"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-1.log",
+          "log_sha256": "2b97b6bbfa9c9bacc8484f177dd0b55a0e9cb9ac6b0fe6300365bfb33a3d7695",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-1-args.json",
+          "args_sha256": "2a50ec5815a123b81b4e32810bdf2ff47bffbf007d8a87328efa91a26d87b3b1",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 100,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-adaptive-2": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1138252824073994"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-2.log",
+          "log_sha256": "b6558db4ddec23add9a0b7bf6e6fb36a7b678037e1b0fa14a1c1d533848414d6",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-2-args.json",
+          "args_sha256": "20b8af6e7d2d648a957b1a523406842c4f4af8f996f06d1d99be79603f0c7082",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-adaptive-3": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1138252824073997"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-3.log",
+          "log_sha256": "10c60e5a9471e06dbf3b4d5511310227462a3f1379de470f85cc182d3fcbb618",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-3-args.json",
+          "args_sha256": "4b142df8cab41c09309624155719706c3c96058647df641efdbf27ab8acf984b",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-adaptive-4": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1138252824073998"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-4.log",
+          "log_sha256": "6a4e2f6daf242e0e4df7c0a352f458926195da9afc7f189026b87c5d9dfa3230",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-4-args.json",
+          "args_sha256": "b1034229e96bc92a06edc78b9eb351e9efd1f88e12fe9a49801efc35f8b4877b",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 80,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-uniform-0": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-uniform-0.log",
+          "log_sha256": "f5430f6d4cba5576c399e8adcd272bf841b054b6aa1d24950750d6896773f3dd",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-uniform-0-args.json",
+          "args_sha256": "082b0546fb0b50f522ac0703f7e0ce4e90c9e45a64003f42413700c8364b8ca8",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-uniform-1": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1138252824073990"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-uniform-1.log",
+          "log_sha256": "b1901971141ba269942645e2d8ee2dadc51112cb7850d3fff167dfd91165b0c7",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-uniform-1-args.json",
+          "args_sha256": "818487ca5f456f419bd8342e4e251a174c3873a07cb6a08c2099ed485f361bcb",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 80,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-uniform-2": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1138252824073994"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-uniform-2.log",
+          "log_sha256": "be9e4a4c1f8610ff07a29437d097780004f1f7b133b8eeb72106e5b3ca902625",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-uniform-2-args.json",
+          "args_sha256": "d6266bc4cd6aef394a6e4fff509b1ff54eb58f506a7824a82c8aa0b4123f8a17",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 100,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-uniform-3": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1138252824073997"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-uniform-3.log",
+          "log_sha256": "ba7df26b1dd5ebf37cdf173478739bc4a7d6dd58941e1666a33f58d5fb87b787",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-uniform-3-args.json",
+          "args_sha256": "83b79d5adfc8c71567add2e1e386c3cb2813532f5c56929e83e69a2a947cb57d",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "M-uniform-4": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=UNIFORM",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19600"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1138252824073998"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-uniform-4.log",
+          "log_sha256": "3a57249d4cfaf5d20cf9eaccb8fba0624af095becc410fe3314597b16c9a4234",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-uniform-4-args.json",
+          "args_sha256": "3ad8282159d1ee00d919a4208015d60ec844b5feb5fef0cab8064eafa2934fef",
+          "phase_stats": {
+            "19600": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            },
+            "9800": {
+              "optimizers": 100,
+              "zero_reward": 0,
+              "tail_calls": 0,
+              "tail_fes": 0
+            }
+          }
+        },
+        "A-adaptive-0-tail": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,0,4,2",
+            "1",
+            "196",
+            "19637"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-0-tail.log",
+          "log_sha256": "2e101c7079c03e26c61fb250b9a8cfcca75e665bae57de0d915cbb473be80ab9",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\A-adaptive-0-tail-args.json",
+          "args_sha256": "62ca138c1c8b2091586f446684dfe53fdbf451a822b5c296e571e2a3d14499dd",
+          "phase_stats": {
+            "19637": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 10,
+              "tail_fes": 370
+            },
+            "9819": {
+              "optimizers": 70,
+              "zero_reward": 0,
+              "tail_calls": 70,
+              "tail_fes": 1330
+            }
+          }
+        },
+        "M-adaptive-0-tail": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=M",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,2,2,4,2",
+            "1",
+            "196",
+            "19637"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-0-tail.log",
+          "log_sha256": "bbb0becd36797ddcfa5b6b548de1127a69adab9fed8f2be0288274b096a0627b",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\M-adaptive-0-tail-args.json",
+          "args_sha256": "c75e39736b13d367d030c3af6646a1764b3d6b6b6883e0f3d03501f8e354d54a",
+          "phase_stats": {
+            "19637": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 10,
+              "tail_fes": 370
+            },
+            "9819": {
+              "optimizers": 80,
+              "zero_reward": 0,
+              "tail_calls": 80,
+              "tail_fes": 1520
+            }
+          }
+        },
+        "hybrid-adaptive-0-tail": {
+          "argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.source=native200042",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=A",
+            "-Dautohyb.olTarget.g4PolicyPool=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/1000-10-0-0-12",
+            "1000",
+            "10",
+            "2,0,0,2,4,2",
+            "1",
+            "196",
+            "19637"
+          ],
+          "seed": {
+            "source": "native200042",
+            "table": "scene-seeds-native200042.properties",
+            "scene": "1000-10-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1138252824073986"
+          },
+          "log_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\hybrid-adaptive-0-tail.log",
+          "log_sha256": "cc22a3f86de153bec280c8b4d8f705e4f0d4e57d612ee9ebabde8105627c0b09",
+          "args_path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\runs\\hybrid-adaptive-0-tail-args.json",
+          "args_sha256": "265a92ed1124740ac781b2a60f0a742c37fac8d60dcde88a5de1f6e839ae0275",
+          "phase_stats": {
+            "19637": {
+              "optimizers": 10,
+              "zero_reward": 0,
+              "tail_calls": 10,
+              "tail_fes": 566
+            },
+            "9819": {
+              "optimizers": 80,
+              "zero_reward": 0,
+              "tail_calls": 80,
+              "tail_fes": 3088
+            }
+          }
+        }
+      },
+      "tail_runs": {
+        "A-adaptive-0-tail": {
+          "arm": "A",
+          "mode": "ADAPTIVE",
+          "seed_id": 10,
+          "seed": 1138252824073986,
+          "budget": 19637,
+          "legalProfit": 2638,
+          "rawProfit": 2662,
+          "fes": 883700,
+          "edaFes": 488549,
+          "gaFes": 379471,
+          "edaCalls": 2513,
+          "gaCalls": 1987,
+          "acceptedMigrations": 29,
+          "intermediateCalibrations": 5,
+          "reassignmentRounds": 11,
+          "fixed_legal": null,
+          "fixed_fes": null,
+          "old_pool_legal": null,
+          "g4_1_selected": 772,
+          "g4_1_eda": 419,
+          "g4_1_ga": 353,
+          "g4_1_edaFes": 82124,
+          "g4_1_gaFes": 66887,
+          "g4_1_gain": 88,
+          "g4_1_rewarded": 240,
+          "g4_1_tailCalls": 13,
+          "g4_1_tailFes": 247,
+          "g4_1_reward": 232.155450374,
+          "g4_1_probabilitySum": 767.241265949484,
+          "g4_2_selected": 740,
+          "g4_2_eda": 398,
+          "g4_2_ga": 342,
+          "g4_2_edaFes": 78008,
+          "g4_2_gaFes": 64767,
+          "g4_2_gain": 82,
+          "g4_2_rewarded": 233,
+          "g4_2_tailCalls": 13,
+          "g4_2_tailFes": 283,
+          "g4_2_reward": 215.684688477,
+          "g4_2_probabilitySum": 718.823032843474,
+          "g4_3_selected": 729,
+          "g4_3_eda": 420,
+          "g4_3_ga": 309,
+          "g4_3_edaFes": 81984,
+          "g4_3_gaFes": 59166,
+          "g4_3_gain": 95,
+          "g4_3_rewarded": 244,
+          "g4_3_tailCalls": 10,
+          "g4_3_tailFes": 226,
+          "g4_3_reward": 233.780272591,
+          "g4_3_probabilitySum": 758.597670529165,
+          "g4_4_selected": 765,
+          "g4_4_eda": 393,
+          "g4_4_ga": 372,
+          "g4_4_edaFes": 77028,
+          "g4_4_gaFes": 70470,
+          "g4_4_gain": 122,
+          "g4_4_rewarded": 251,
+          "g4_4_tailCalls": 14,
+          "g4_4_tailFes": 302,
+          "g4_4_reward": 264.594963797,
+          "g4_4_probabilitySum": 767.923503578207,
+          "g4_5_selected": 738,
+          "g4_5_eda": 469,
+          "g4_5_ga": 269,
+          "g4_5_edaFes": 89818,
+          "g4_5_gaFes": 52193,
+          "g4_5_gain": 60,
+          "g4_5_rewarded": 214,
+          "g4_5_tailCalls": 15,
+          "g4_5_tailFes": 303,
+          "g4_5_reward": 197.627497368,
+          "g4_5_probabilitySum": 749.971457358021,
+          "g4_7_selected": 756,
+          "g4_7_eda": 414,
+          "g4_7_ga": 342,
+          "g4_7_edaFes": 79587,
+          "g4_7_gaFes": 65988,
+          "g4_7_gain": 93,
+          "g4_7_rewarded": 227,
+          "g4_7_tailCalls": 15,
+          "g4_7_tailFes": 339,
+          "g4_7_reward": 215.956035975,
+          "g4_7_probabilitySum": 737.443069741644
+        },
+        "M-adaptive-0-tail": {
+          "arm": "M",
+          "mode": "ADAPTIVE",
+          "seed_id": 10,
+          "seed": 1138252824073986,
+          "budget": 19637,
+          "legalProfit": 2608,
+          "rawProfit": 2626,
+          "fes": 981890,
+          "edaFes": 526612,
+          "gaFes": 437638,
+          "edaCalls": 5394,
+          "gaCalls": 4516,
+          "acceptedMigrations": 29,
+          "intermediateCalibrations": 6,
+          "reassignmentRounds": 16,
+          "fixed_legal": null,
+          "fixed_fes": null,
+          "old_pool_legal": null,
+          "g4_1_selected": 1583,
+          "g4_1_eda": 794,
+          "g4_1_ga": 789,
+          "g4_1_edaFes": 77812,
+          "g4_1_gaFes": 76471,
+          "g4_1_gain": 57,
+          "g4_1_rewarded": 287,
+          "g4_1_tailCalls": 11,
+          "g4_1_tailFes": 227,
+          "g4_1_reward": 222.177042879,
+          "g4_1_probabilitySum": 1593.052256054657,
+          "g4_2_selected": 1781,
+          "g4_2_eda": 915,
+          "g4_2_ga": 866,
+          "g4_2_edaFes": 89670,
+          "g4_2_gaFes": 83500,
+          "g4_2_gain": 112,
+          "g4_2_rewarded": 356,
+          "g4_2_tailCalls": 18,
+          "g4_2_tailFes": 396,
+          "g4_2_reward": 317.293684936,
+          "g4_2_probabilitySum": 1703.7101920469631,
+          "g4_3_selected": 1675,
+          "g4_3_eda": 866,
+          "g4_3_ga": 809,
+          "g4_3_edaFes": 84588,
+          "g4_3_gaFes": 78510,
+          "g4_3_gain": 111,
+          "g4_3_rewarded": 304,
+          "g4_3_tailCalls": 14,
+          "g4_3_tailFes": 320,
+          "g4_3_reward": 281.665491023,
+          "g4_3_probabilitySum": 1670.643547965591,
+          "g4_4_selected": 1651,
+          "g4_4_eda": 680,
+          "g4_4_ga": 971,
+          "g4_4_edaFes": 66640,
+          "g4_4_gaFes": 93833,
+          "g4_4_gain": 60,
+          "g4_4_rewarded": 331,
+          "g4_4_tailCalls": 17,
+          "g4_4_tailFes": 341,
+          "g4_4_reward": 254.542096374,
+          "g4_4_probabilitySum": 1628.950081734431,
+          "g4_5_selected": 1631,
+          "g4_5_eda": 1245,
+          "g4_5_ga": 386,
+          "g4_5_edaFes": 120843,
+          "g4_5_gaFes": 37767,
+          "g4_5_gain": 57,
+          "g4_5_rewarded": 297,
+          "g4_5_tailCalls": 16,
+          "g4_5_tailFes": 340,
+          "g4_5_reward": 240.649945787,
+          "g4_5_probabilitySum": 1667.577116936987,
+          "g4_7_selected": 1589,
+          "g4_7_eda": 894,
+          "g4_7_ga": 695,
+          "g4_7_edaFes": 87059,
+          "g4_7_gaFes": 67557,
+          "g4_7_gain": 81,
+          "g4_7_rewarded": 300,
+          "g4_7_tailCalls": 14,
+          "g4_7_tailFes": 266,
+          "g4_7_reward": 250.027575812,
+          "g4_7_probabilitySum": 1646.066805261377
+        },
+        "hybrid-adaptive-0-tail": {
+          "arm": "hybrid",
+          "mode": "ADAPTIVE",
+          "seed_id": 10,
+          "seed": 1138252824073986,
+          "budget": 19637,
+          "legalProfit": 2673,
+          "rawProfit": 2679,
+          "fes": 981890,
+          "edaFes": 649489,
+          "gaFes": 314761,
+          "edaCalls": 3343,
+          "gaCalls": 3249,
+          "acceptedMigrations": 31,
+          "intermediateCalibrations": 6,
+          "reassignmentRounds": 12,
+          "fixed_legal": null,
+          "fixed_fes": null,
+          "old_pool_legal": null,
+          "g4_1_selected": 1142,
+          "g4_1_eda": 514,
+          "g4_1_ga": 628,
+          "g4_1_edaFes": 100744,
+          "g4_1_gaFes": 60438,
+          "g4_1_gain": 61,
+          "g4_1_rewarded": 311,
+          "g4_1_tailCalls": 14,
+          "g4_1_tailFes": 266,
+          "g4_1_reward": 249.490204167,
+          "g4_1_probabilitySum": 1123.185974032205,
+          "g4_2_selected": 981,
+          "g4_2_eda": 436,
+          "g4_2_ga": 545,
+          "g4_2_edaFes": 85456,
+          "g4_2_gaFes": 52717,
+          "g4_2_gain": 54,
+          "g4_2_rewarded": 284,
+          "g4_2_tailCalls": 9,
+          "g4_2_tailFes": 189,
+          "g4_2_reward": 216.974981463,
+          "g4_2_probabilitySum": 1025.924130853743,
+          "g4_3_selected": 1086,
+          "g4_3_eda": 552,
+          "g4_3_ga": 534,
+          "g4_3_edaFes": 107778,
+          "g4_3_gaFes": 51542,
+          "g4_3_gain": 85,
+          "g4_3_rewarded": 288,
+          "g4_3_tailCalls": 14,
+          "g4_3_tailFes": 560,
+          "g4_3_reward": 258.771243789,
+          "g4_3_probabilitySum": 1094.621411129517,
+          "g4_4_selected": 1190,
+          "g4_4_eda": 509,
+          "g4_4_ga": 681,
+          "g4_4_edaFes": 99526,
+          "g4_4_gaFes": 65747,
+          "g4_4_gain": 176,
+          "g4_4_rewarded": 312,
+          "g4_4_tailCalls": 15,
+          "g4_4_tailFes": 437,
+          "g4_4_reward": 349.495101376,
+          "g4_4_probabilitySum": 1145.14434971619,
+          "g4_5_selected": 1102,
+          "g4_5_eda": 806,
+          "g4_5_ga": 296,
+          "g4_5_edaFes": 154841,
+          "g4_5_gaFes": 28947,
+          "g4_5_gain": 75,
+          "g4_5_rewarded": 315,
+          "g4_5_tailCalls": 24,
+          "g4_5_tailFes": 1410,
+          "g4_5_reward": 259.624467419,
+          "g4_5_probabilitySum": 1091.307226166221,
+          "g4_7_selected": 1091,
+          "g4_7_eda": 526,
+          "g4_7_ga": 565,
+          "g4_7_edaFes": 101144,
+          "g4_7_gaFes": 55370,
+          "g4_7_gain": 77,
+          "g4_7_rewarded": 314,
+          "g4_7_tailCalls": 14,
+          "g4_7_tailFes": 792,
+          "g4_7_reward": 258.211089269,
+          "g4_7_probabilitySum": 1111.816908102122
+        }
+      },
+      "phase_summary": {
+        "A-UNIFORM": {
+          "19600": {
+            "optimizers": 50,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          },
+          "9800": {
+            "optimizers": 430,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          }
+        },
+        "A-ADAPTIVE": {
+          "19600": {
+            "optimizers": 50,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          },
+          "9800": {
+            "optimizers": 450,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          }
+        },
+        "M-UNIFORM": {
+          "19600": {
+            "optimizers": 50,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          },
+          "9800": {
+            "optimizers": 420,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          }
+        },
+        "M-ADAPTIVE": {
+          "19600": {
+            "optimizers": 50,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          },
+          "9800": {
+            "optimizers": 390,
+            "zero_reward": 0,
+            "tail_calls": 0,
+            "tail_fes": 0
+          }
+        }
+      },
+      "source_data": {
+        "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\data.csv",
+        "sha256": "fb3bf22bbdf3bf779e3f77b738f8fc48ae8739362f841e714cdfff377f7f158f"
+      },
+      "machine_result": {
+        "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\result.json",
+        "sha256": "df353472801707cc3afec4f9e043c2555506229697687addfcdb67f9cb93db73"
+      },
+      "maven": {
+        "before": {
+          "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\maven-before.log",
+          "sha256": "df0b73d24a290edf172cb9507a97e8e5ed3c5f89c49ec352ba249a7fa2bfed87"
+        },
+        "after": {
+          "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-g4-fe-id3\\balanced\\maven-after.log",
+          "sha256": "9ab450318f3bcc595e9b7029d9974f9dd71b121a2ef56dce3e441f48cd65fb4d"
+        }
+      },
+      "source_sha256": {
+        "src/main/java/core/G4PolicyPool.java": "ae566e3710d16094593ea52c59c8645e5e68df1ed82601f3fde1ee4940d2f212",
+        "src/main/java/core/HybCec.java": "a45c906aea550d596b5e43612bdbcf6dae314fadfe984a7b51904e9b7ab46347",
+        "src/main/java/core/OlTargetExperiment.java": "0cd8469a44f010b59f5209bea2afbd5dc7f3b30008087a0dcc5432f2ce5e1851",
+        "src/main/java/core/manager/PopulationManager.java": "b3d40357d59269585af4848430f02d5d1f4c056594be4c0c8489de1a38c55daf",
+        "src/main/java/core/calculator/HybridLevelCalculator.java": "7485d00e1e6d801681f30175317e36b91cbd240c06f072e8315509f08e753f2f",
+        "src/main/java/main/OlSceneExperiment.java": "9d0523476ade9eccc004ab6090a0bcb487e843f6db9a6560cfe8f4ff2796b9a3",
+        "src/main/java/main/TaskAllocationCoordinator.java": "7daed87984f5331068102183f335af1971f62300ad13247ba587432af603455f",
+        "src/main/java/main/RunSingleHybridConfig.java": "04fc524a7aaeac1d7d64b4214cd4529bbd4cd89477421ee9d524a61877410331",
+        "src/main/java/common/AlgorithmConstants.java": "bf7597081b91c7b4e72e00d651b83d24896561843ea3a47ff5d52295d18f6141",
+        "src/main/java/core/state/HybCecState.java": "fd5e982c4bc47427599b04f76b270dce7878d5d70e36a559ad0798fde75ada85",
+        "src/test/java/core/HybCecOperationOrderRegressionTest.java": "c0b1b05c4a5bd6e446490af2dda37aa0187c84c9c35c6f86f4c2834d3afbe617",
+        "outputs/feedback-ol-g4-fe-id3/run-id3.py": "5e56f3eb64c47d0ca26eccde7c8cecec1220b4d28b05274a79f61618f4844e9b",
+        "tuning.properties": "d16b1bfd122010edb16dea2839030d4fc5a1d182d3ff10229a0b4f1e332062c3"
+      }
+    }
+  }
+}

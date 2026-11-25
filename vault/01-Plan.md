@@ -3,7 +3,7 @@ type: project
 title: 计划 - 卫星调度混合元启发式项目
 project: 6d-dynamic-version-mfea
 status: active
-updated: 2026-10-09
+updated: 2026-11-25
 ---
 
 # 计划
@@ -31,6 +31,31 @@ updated: 2026-10-09
 - [x] 用 `RunSingleHybridConfig` 复现自动设计得到的最优配置，并在 10 个场景、seed ID 10-14 上做 full-budget replay。
 - [x] 建立自动设计结果表：场景、外部基线、8D Hybrid 对照、6D 自动设计均值 / 最优 / 最差、绝对提升、最优 6D 配置。
 - [ ] 对收益提升明显的配置做机制分析：父算法组合、G2/G3 update policy、执行顺序和生存选择策略分别贡献什么。
+  - [x] 在最终配置 `[2,0,0,0,4,2]` 上完成 OL 对象选择单星初筛。见 [P0 计划](Plan/mechanisms/P0-最终混合配置OL对象选择验证.md)。
+  - [x] 在同一 ID3 补齐含跨星重分配的 A/B/C 五 seed 对照。见 [全场景报告](Results/Reports/final-hybrid-ol-target-id3-full-scene.md)。
+  - [x] 在 ID3 完成反馈名额分配、原生 `MIXED_SUBSET` 和自动设计胜者的五 seed 配对。反馈名额确有变化，合法收益均值低于两组参照。见 [反馈 OL 报告](Results/Reports/feedback-ol-id3-full-scene.md)。
+  - [x] 在 ID3 完成三项单因素参数调整和两种反馈计分对照。16 次窗口的原计分在反馈组中合法收益均值最高，仍低于 A 和 M。见 [参数和计分报告](Results/Reports/feedback-ol-sensitivity-id3.md)。
+  - [x] 将 16 次窗口的原计分用于 ID4 和 ID6，并复用既有 A 的同 seed 结果。两场景五对整数收益均打平。见 [跨场景对照报告](Results/Reports/feedback-ol-id4-id6-paired.md)。
+  - [x] 在 2,000 任务的 10 星和 20 星区域场景补跑旧反馈，与归档 A 配对。原始整数收益均值分别高 0.2 和 15.8。见 [区域对照报告](Results/Reports/feedback-ol-regional-2000-paired.md)。
+  - [x] 补齐其余七个区域场景的旧反馈，同 seed 复用归档 A。七场景原始整数收益均值 3 升、3 降、1 平，当前十区域已覆盖。见 [剩余区域对照报告](Results/Reports/feedback-ol-remaining-regional.md)。
+  - [x] 在 2,000 任务 / 20 星和 6,000 任务 / 60 星各做五个 seed 的自适应反馈对照。修订版合法收益均值相对旧反馈 −4.4 和 +12.2，实际评估量分别增加 8.24% 和 1.94%，保留旧反馈为默认。见 [自适应分配报告](Results/Reports/feedback-ol-adaptive-allocation.md)。
+  - [x] 在此前落后自动设计的 ID3 比较自适应反馈的三种计分。五个同 seed 的合法收益均值均低于自动设计，保留旧反馈为默认。见 [ID3 计分对照](Results/Reports/feedback-ol-adaptive-id3.md)。
+  - [x] 以旧 D 为基线在 ID3 分别验证线下提分计分与父算法独立轮换。独立轮换的合法收益均值接近自动设计，实际评估量增加，保留旧 D 默认设置。见 [ID3 旧 D 单项改动](Results/Reports/feedback-ol-fixed-d-id3.md)。
+  - [x] 在 ID3 审计并试用旧 D 的 EDA 精英重配。五个同 seed 均存在机会，启用后首轮原始收益略增、终局合法收益均值下降，保留旧 D 默认配对。见 [ID3 EDA 精英重配对照](Results/Reports/feedback-ol-eda-pairing-id3.md)。
+  - [x] 完成 ID3 旧 D 与归档 A 的等评估量试验。五对等量下，旧 D 合法收益均值低 3.8。预算控制实现已撤回，结果作为[历史对照](Results/Reports/feedback-ol-equal-fes-id3.md)保留。
+  - [x] 在 ID3 对旧 D 的窗口和名额下限做四项单因素试验，保留 16 次窗口、25% 下限。完成原 G4 的父算子贡献观测。见 [D 参数与 G4 观测](Results/Reports/feedback-ol-d-parameters-id3.md)。
+  - [x] 固定 EDA/GA 全种群更新，在 ID3 对照六种 G4 切换规则的等概率与自适应抽选。五个同 seed 下自适应合法收益均值比等概率高 6.6，比归档固定切换低 15.6。见 [G4 切换规则池试验](Results/Reports/feedback-ol-g4-policy-pool-id3.md)。
+  - [x] 将 G4 切换规则池的预算、停滞和反馈统一到逐个体 FEs，并验证精英尾批。ID3 修订版自适应在整群和混合子集均高于同规则的等概率组，仍低于各自归档固定切换。见 [G4 逐个体 FE 对照](Results/Reports/feedback-ol-g4-fe-id3.md)。
+  - [x] 对照原生 `MIXED_SUBSET` 与自动设计整群胜者在四个其他区域的表现。各五个配对 seed，2,000 任务 / 20 星的 M 原始收益均值高 46.2，五对均升。见 [原生混合子集区域对照](Results/Reports/native-mixed-subset-regional.md)。
+  - [x] 补齐 4,000 至 10,000 任务的五个区域。混合子集的原始收益在 25 组配对中均低于归档整群，其中 15 组复用相同程序。区域清单十个场景已覆盖。见 [大区域混合子集对照](Results/Reports/native-mixed-subset-regional-large.md)。
+  - [x] 在 ID3 的自动设计胜者上测试自适应更新范围。五个配对 seed 中，全局 FE 窗口合法收益均值高 2.2，按父算子计时的修订版低 4.2。现有证据不足以支持移除 G2/G3。见 [自适应种群范围对照](Results/Reports/ol-adaptive-level-id3.md)。
+  - [x] 将全局 FE 窗口自适应种群扩到另外四个区域，各五个配对 seed。两个 20 星场景的原始收益均值分别高 20.6 和 17.8，其余两场景小幅下降。见 [四区域对照](Results/Reports/ol-adaptive-level-regional.md)。
+  - [x] 补齐全局 FE 窗口版余下五个区域。两个历史 A 对照微升，三个同基础程序的对照均下降。十区域原始收益均值四升六降。见 [五个大区域对照](Results/Reports/ol-adaptive-level-regional-large.md)。
+  - [x] 完成等额度 EDA 分批反馈。两试点比较均匀补齐和反馈分配，冻结版留出八区域收益率宏平均下降 0.00951 个百分点。暂未满足替换 G2/G3 的条件。见 [十区域对照](Results/Reports/adaptive-batch-allocation.md)。
+  - [x] 完成 EDA/GA 精英反馈五区域复测。三个中型区域原始收益差缩小，均值仍低于自动混合 A。精英计分保留为实验选项。见 [五区域对照](Results/Reports/adaptive-batch-elite-feedback.md)。
+  - [x] 在排除首尾姿态后重跑自动设计 A 与精英反馈。统一按终局调度收益比较，自适应四区均值领先，6,000 / 60 五个 seed 均落后。见 [修正后配对复测](Results/Reports/interior-attitude-feedback-replay.md)。
+  - [x] 补齐排除首尾姿态后的十区域配对。自适应八区终局收益均值领先，十区等权收益率高 0.05280 个百分点。见 [十区域结果](Results/Reports/interior-attitude-feedback-ten-regions.md)。
+  - [x] 对两个落后区域完成四种精英反馈候选的五 seed 配对。6,000 / 60 将差距缩至 17.0 分，3,000 / 20 的现版仍最接近 A。保留现版设置，见[落后区域调参](Results/Reports/elite-probe-fraction.md)。
 - [x] 量化重分配级联与 delta fast refine 的贡献，重点检查邻接交换和插入候选位置。压缩结论见 [[Knowledge/Removed-Mechanisms|已移除机制]] 和 [[Knowledge/Source-Inventory|Source Inventory]]。
 - [ ] 自动设计最优配置产出后，只对最终候选补做一次重分配 / delta fast refine 复核。
 - [x] 测试自动设计配置在 500/5 到 10000/100 的 10 个任务-卫星体系下的可扩展性和跨场景稳定性。
@@ -41,6 +66,7 @@ updated: 2026-10-09
 
 | Plan | 状态 | 测试 | 结果 |
 |---|---|---|---|
+| [最终混合配置 OL 对象选择验证](Plan/mechanisms/P0-最终混合配置OL对象选择验证.md) | done | 单星初筛与 ID3 全场景各三组、五 seed | 两轮均未触发目标替换。见 [单星简报](Results/Reports/final-hybrid-ol-target-p0.md) 和 [全场景简报](Results/Reports/final-hybrid-ol-target-id3-full-scene.md) |
 | [全速复测结果更新论文](Plan/2026-10-09-update-paper-fullspeed.md) | done | 560条来源；112单元；21页PDF检查 | [报告](Results/Reports/paper-fullspeed-update-20261009.md)；九处耗时和正文已更新 |
 | [Auto-Hybrid 慢场景全速复测](Plan/2026-10-09-autohybrid-slower-fullspeed.md) | done | 9 场景、45 seed 单元 | 全速复测完成；[验收报告](Results/Reports/autohybrid-slower-than-rkhma-fullspeed-20261009.md) |
 | [十区域六全局论文更新](Plan/2026-10-08-update-paper-current16.md) | done | 来源哈希；112 单元独立复算；21 页 PDF 检查 | [报告](Results/Reports/paper-current16-update-20261008.md)；保留描述性比较边界 |
@@ -58,7 +84,7 @@ updated: 2026-10-09
 ### Plan 详情
 
 - fresh MFEA root 只跟踪代码、配置和主线知识文档；历史单算法调参计划、报告、脚本和原始日志保留在本地，但不进入新 Git 历史。
-- 下一份 tracked plan 应直接服务 `MainMFEAMOPHOA` 搜索预算、场景矩阵和结果复现实验。
+- OL 对象选择扩样以实际替换和正向收益为前提。4D 外层搜索需先有补充验证支持机制有效。
 
 ## 关键设计决策
 

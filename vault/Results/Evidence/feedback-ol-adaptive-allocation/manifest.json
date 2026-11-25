@@ -1,0 +1,1606 @@
+{
+  "experiment_id": "feedback-ol-adaptive-allocation",
+  "date": "2026-11-24",
+  "git_head": "7f9f4e17f4c6f65b86ae070501b5733011e64bfc",
+  "worktree": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)",
+  "scene_root": "F:\\OneDrive\\project\\static_determine\\Scene",
+  "scene_files_sha256": {
+    "2000-20-0-0-12": {
+      "tasklist.txt": "cce2ec085558bce80e9e9b6015b6a5f19bdbaf2a9730df7c934d00ede8c4ae26",
+      "outputattitude_1.txt": "ca652bb1dc92cf9cac03d492cf138a6652cc273790218b7a435806ba4fc702eb",
+      "outputattitude_2.txt": "1d6869928d740fd9cd938d2c2ea1ec8572bb90641b26ac71a28530fb7b76e4e0",
+      "outputattitude_3.txt": "73607971cd041fd9b29e577168e066cd9967c2ec64164ce3f9370ad767ce8330",
+      "outputattitude_4.txt": "655980e30a847241d3c10c7038c14a612ba6b029d8cd31eb43a13421d20301b1",
+      "outputattitude_5.txt": "340b44f271f896120b7f0c5160040a05d3a6bf3acb85d5f10671f1a3bd9cd336",
+      "outputattitude_6.txt": "ed21e7ca18f3499732b3e8053486fab7071674cc9978d5828862329439eb984d",
+      "outputattitude_7.txt": "b8ee8b594f4f95f6b0785363adc373cb33c5af4c5a92671a564e20e2c7d1433b",
+      "outputattitude_8.txt": "16f398b8859123e73308adb2ddffd3dcaf68aab2d3379fb3fbf55b3563c07d6b",
+      "outputattitude_9.txt": "8ef3520e69eec4de49d46d71aa23f70207f9127edecc2cec9a72be4f7f2b1613",
+      "outputattitude_10.txt": "fc468e3cf7dc0337a94066929504603e09ce3231e959a0ff779de29559cdbfe2",
+      "outputattitude_11.txt": "7c0762b1c2a5252b03908d3d084491e37a33e19bc0d526a526a93cab7b8e999a",
+      "outputattitude_12.txt": "00a94e79770499bc2447aec2036fb0fa2114856a60dbccd02e27db6f7b4c2151",
+      "outputattitude_13.txt": "4580a8ed7c235b871f980f00a358369c1a7557a2422859749b6f654e770e57e8",
+      "outputattitude_14.txt": "cf80ffb3e41dc4c770cd35342fd2bae6e21bc7413efd0aab8c58a2b5174a9377",
+      "outputattitude_15.txt": "08baaa75a43ca23d3c3c19db7aac1c02db69e43ab3f3d87b348b74ae8a14f4d2",
+      "outputattitude_16.txt": "97a1b80adbf96e0c20ecbb9acbf3c6e72110f42bd3cb1d3fe97b303812ac417e",
+      "outputattitude_17.txt": "86bc99c89389b3995e5795c54333a4949a44142105c526f220f79ed506b1191d",
+      "outputattitude_18.txt": "2cac47953192ce9937d8eca205497f97f629085e0e182ce295eccc9737286925",
+      "outputattitude_19.txt": "d2a8745691e5f184d1054da611e91c3d07aa09fc4340dfa736e0b8ca10c82b04",
+      "outputattitude_20.txt": "951b33a71e70b3a6ae4aad25b4057a5fdf0491e1e43958f9b55b20525d2a0d9a",
+      "outputtimewindow_1.txt": "835e403b5f1158d055ffa952cc348638d10c80dc0060baf17df1558e1fc2771b",
+      "outputtimewindow_2.txt": "af9563c5c30728d9b321e5fbb63872f66c182b24616a0e797f39f0bcb5e281b7",
+      "outputtimewindow_3.txt": "4258f1e6ecd27a4c4209541dac128018ac80ee3a09cc2f96816a7bc553071ac7",
+      "outputtimewindow_4.txt": "7a104336c4d4a9f90d3cc5badb4d3d90a1d1bd3cd60a26b7b229d3c0837c8a13",
+      "outputtimewindow_5.txt": "7d55bfcd1708b8650e224890ed99d51c9c6f8723447d7da4a57f7c7edb8d789c",
+      "outputtimewindow_6.txt": "fef8d87fc77d23d0d038c6966ebd7a9bc523687b11755057b9b5258f3659199d",
+      "outputtimewindow_7.txt": "0244bef673cc746a7a334fc710945c84200ab8b45e79101698585c5913082f79",
+      "outputtimewindow_8.txt": "13f7b3c1d3d7a27a48c4e4c2614465f053a609f6097b3ea395f00c7d7931dafa",
+      "outputtimewindow_9.txt": "b4768be66c904c1a70f7b535a649b7c7da1ea0d02b303083f4c17e01cb19c18e",
+      "outputtimewindow_10.txt": "092075a19e9ba06d3ad9b8552b64faabc9b5e54707718174cda8e596a226581a",
+      "outputtimewindow_11.txt": "e8083b602042b6a2e7a91b1489839b250f06dc1e3121e20888734c67206e057b",
+      "outputtimewindow_12.txt": "b727de31023f0fddb8e6fe464d351259e8496260711298defd60f8d11dd2669e",
+      "outputtimewindow_13.txt": "bc8d406425db90d03ac2f51f5f9fcf71f1dd729b2368d43b33f67efb857d567a",
+      "outputtimewindow_14.txt": "17be704fec7ab704ecceabb4cf0be4f029c09231930b5a1277804358992c00e2",
+      "outputtimewindow_15.txt": "7e1e5dc67cdee10ab59c9525c397752262bb0f852cba4827eba40ae32ce03594",
+      "outputtimewindow_16.txt": "a6b74d7e3cc70a4134e986765880bcd1e8275dc67b3a9a90acb555fc97d1733c",
+      "outputtimewindow_17.txt": "bac2176a4906704717bd6a16e51749cb4c28e18c281e148bc4c82ac883bab45a",
+      "outputtimewindow_18.txt": "ac6db81304433cf09388bc13d026fa435592ba8125dc5d3ec9eca290482b105f",
+      "outputtimewindow_19.txt": "84d24cd1ec59c9205aaefd7be4187bfa553356aafc6f23b1c1b6f957c62f6378",
+      "outputtimewindow_20.txt": "21a47abb95f519cfce981c239fdb9bbe1b6de3a37f3d53fb11d0a3b8a74e901c"
+    },
+    "6000-60-0-0-6": {
+      "tasklist.txt": "be3866a73957895dd3d43fe57e46155f3d48324dbb551a190a743f4057db1245",
+      "outputattitude_1.txt": "b93927f36a8934fa639302b0efc2f33d452a8f3e30ad1ba24b95d2e6f8fa0ab6",
+      "outputattitude_2.txt": "7b26fdd91ec2dc7cef4af09a65615e5279430092873fbc7b4f0e36cf465a4426",
+      "outputattitude_3.txt": "6c8a72753bc026331d723fbe47d5f147cb5fded5b11d0612c3f5004e4fec1bcb",
+      "outputattitude_4.txt": "a436ae7ff740aba60c3d07ab31cf48eb9ea955a7bd1df0ade1f8a3d675a9ea32",
+      "outputattitude_5.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outputattitude_6.txt": "47daaad8bf10354601673f8e53e52f77bfa06e390fe0be2fa0e1bcabdb9c8375",
+      "outputattitude_7.txt": "96c233e972fe9c53812d5c14ed5978395de25201056c8689d7cf406eaeca60f2",
+      "outputattitude_8.txt": "be3acb1115637f589421b34dc25cd57e2e9d70c936c1442274bab4ce038ecc6e",
+      "outputattitude_9.txt": "423bdc227439454e864b97952e152646ca4adf6e30d906331a561f4cf0d24758",
+      "outputattitude_10.txt": "32ed0501a11ba121dd394d952e50e5e21f28495603b965f495b47976f47d8a86",
+      "outputattitude_11.txt": "91ed5e0e4e838f82e1022a009b23199738577b21d8745479c22a6113fe7d577a",
+      "outputattitude_12.txt": "018b124af4234cc883e70dfffd74efb0315c48d12cc29048b72de82ab9c4f0fd",
+      "outputattitude_13.txt": "d1c76948bc4b38e0b74d7c7a567bb4edf8c94640b2f9a608167f37c797c0cdbf",
+      "outputattitude_14.txt": "32fab1f209af5462797a148aa350be56d4d8c5f800b3749debafa303e7b6fd07",
+      "outputattitude_15.txt": "2345931dee981ae4040b608c206c3ce477c35ff93f8e876ce2df0423643f1a5d",
+      "outputattitude_16.txt": "1e5150394ecd0d1b56d88db2394578b6ed21ec1783ab85396c8ae34684cb864f",
+      "outputattitude_17.txt": "844b8b0f116357427c64f1703908957812193527f6bd8c45345d94a3fda2ff04",
+      "outputattitude_18.txt": "f1248fa33eb492df3c6ba125cdb2b71b0739a1a464cfadf4a4ba585ee55388e9",
+      "outputattitude_19.txt": "d360b6dca3fd538f62870418665bcdf60e89f8f421e70937312745ac090197d5",
+      "outputattitude_20.txt": "d4b489afa307ea462f9fdaa9816cae37d94f0b6271cb2695e96f8e675584d858",
+      "outputattitude_21.txt": "4bf3ec898f57f7bcd488fb5e1f971c9dc20fcb9342324af58e6bf786d26c372a",
+      "outputattitude_22.txt": "5fe14b205d101011b5da9549eb1614ae33d8b0f893dbe91fd6210b7f8ac33304",
+      "outputattitude_23.txt": "63cce92571d3ff5f67c7c7bc0e61c5445842001f430686a61921d971ee461c05",
+      "outputattitude_24.txt": "d3036c00275d2dd4376650a963ee76546ae930d1349f81a04bba01ad9074701f",
+      "outputattitude_25.txt": "4634475db340d11eff3959e102ab5c605f1222bb13cac60c8fdb3719fa4c3adb",
+      "outputattitude_26.txt": "8be2290f34b9a73d8069c6b53539edaee55bce0cd9e810ddb494fce3d9455c59",
+      "outputattitude_27.txt": "b354130fdc512d609a7674f04e6ddf1a9d049f7ffe9c991c8515cfdc92adf43b",
+      "outputattitude_28.txt": "5c127f658233573774957d49d6b33b3885063660a4c6cc3952f02d958d869eed",
+      "outputattitude_29.txt": "317c5562d4cece111540183a1a06c20e05884a92e51a59978e538db27975e773",
+      "outputattitude_30.txt": "0766d745801ddb1a5ab0f152954c4675b217611e21b1104d11852d469dfca8fa",
+      "outputattitude_31.txt": "0988524bdecbb7dce8d0194eb8ca6220dfae94f99740e908fde63804e73cfaae",
+      "outputattitude_32.txt": "e54f463b1fbb1bc062483c9fbbdff2356eba455d1dcbe26bdc74db98cffa3406",
+      "outputattitude_33.txt": "4a49ea56e8edc69a893d50d2b5c195737b9c288935f4f8f736e2af77c6644ba2",
+      "outputattitude_34.txt": "060c62f8069234bf46ab1a4c8dbc63fe10ca9373588e449a1eab1b033efee015",
+      "outputattitude_35.txt": "411dd76d3532589b0dafb52a38119ca479d807264847f2632538f4dafd29ad31",
+      "outputattitude_36.txt": "f75763216bd57a9be8524267796a82814aa439f491c936452585b9ad91cef1bd",
+      "outputattitude_37.txt": "e895c6fed33c4a008dad0a896cc81cb7dcc83f83f6ea9c763f80162a1a75da96",
+      "outputattitude_38.txt": "c4c51fecdf4aa29be9bb5660ae1c0b3fc8c5d53b7b901f661b2b62ad191c794d",
+      "outputattitude_39.txt": "b497640e1f34a9836f272cd6785a7028a22ef1981903e2312e0e11648f2bdb94",
+      "outputattitude_40.txt": "da0cdfaf61f0bad7f8cd5aabd643c04012812e6da0c3c75eff0c9bfe3db350bd",
+      "outputattitude_41.txt": "ab2202fd773d156cd687ecbeb85ceb6907fddadf8421fb28bec2b98e70b8d125",
+      "outputattitude_42.txt": "b1edf61ceec59ecbefcd3b080b928654981f900e025b36cadbf9898ea2cf0233",
+      "outputattitude_43.txt": "95bef6e1a969f81f4127ec3385f858f65528595435fe1aa69dcb96965aafe25d",
+      "outputattitude_44.txt": "71fbc17a71f4204f857d543eb8d04a8fa1a76b8d74910a955670c03b26d0ad03",
+      "outputattitude_45.txt": "ea73b76b19f3750481a1496d7486c8879cb403bae1b0dc5818615601fb1832de",
+      "outputattitude_46.txt": "c306c659af9950b8c8692c201d269adf2b93f7a080f883df1cae0c1564cb2b9d",
+      "outputattitude_47.txt": "84a190210a0c022cdd2d3598cffc3eccb1b051361b4f42c693a1f34cc6e4466f",
+      "outputattitude_48.txt": "7ad5b52adc790c84c05fdc62664dfbaecca4b1cc8bffd4818886142289b78afb",
+      "outputattitude_49.txt": "f1580ece67b1ad83272d8a059c13a81d5f9f050447159e0ca5f708ee772dc21c",
+      "outputattitude_50.txt": "616852aab97a01eeef6d9b81b0e5db13ea01500beb22f1351308d3f4254e5638",
+      "outputattitude_51.txt": "66806b8bebef59d83e3d8afc0ed3d6d98d1a8498a0e5f5733ad2d8c650d7bccf",
+      "outputattitude_52.txt": "2318ea87bc1488b7b7507ad71c2c6f70f6267ee654e79e7eb38e0f8d528c37ad",
+      "outputattitude_53.txt": "15a88ce8268428798eeac4df4987620deec3300f6db5b20be03e4f8a714200b0",
+      "outputattitude_54.txt": "6d77594004ae51ecc7aff3c5c8e8792077e5e522dcdef86043bbd6ece65051ab",
+      "outputattitude_55.txt": "68f8e1dd6d7348ffff462da8cd0d9686e795c2242c395e73663f8172bb4ff3ea",
+      "outputattitude_56.txt": "9c0abe8a586e0966551568d12ae3d76b1220108d5d123b028fcd6b69205b1995",
+      "outputattitude_57.txt": "017103a9da0c426fd32dee91e162a7d56c64563fb1e92935c8ad79ac65d5ec2b",
+      "outputattitude_58.txt": "2ea005cf3de800e186f52ab4b573191f14a8dde04c9d06500c3d70122eb85e41",
+      "outputattitude_59.txt": "b0bc50238b176c1eb8f5793d149f329699152ab8301ec5218e2412d9d8e4f1f8",
+      "outputattitude_60.txt": "3f8e0178a29c1c5bfeed31a255318f5d83298796906884b280053938c78ff997",
+      "outputtimewindow_1.txt": "141d9d1c1a3ac11740345de6934fca1e6b8d6efe40dc012e534d04b9344952de",
+      "outputtimewindow_2.txt": "2abc5fdac70deecd2cebb83580395fa58d3f0607af94efbf00657c9e152823f2",
+      "outputtimewindow_3.txt": "cc419b96f4a9f54f6c262435d45222b245222a9dd21c7500259bdd42230ad53a",
+      "outputtimewindow_4.txt": "cd628c7553d6db6e6834eb1415e0b39663dd0c854257b1f1d83e3c06fdebf3d5",
+      "outputtimewindow_5.txt": "c4c8704e82572861225c40c1a8bfa1ac43d57e513679df791eb832e73dac01e7",
+      "outputtimewindow_6.txt": "58df197c92b9a2f13acfb5b33735d647a780b8ddfe26123faf9f9bfc985bd858",
+      "outputtimewindow_7.txt": "c73ed699605b2d62ad651057d6a681ee483f622454656f13b6386dfa688d7474",
+      "outputtimewindow_8.txt": "f3ac08491d243a6e439c0d1c72520ed2e08b0939fe879922d9525fd3671535f8",
+      "outputtimewindow_9.txt": "fe6e697cacfee4e2ec35c897e18222471ceb32a057b703afcde7abbe11edd16c",
+      "outputtimewindow_10.txt": "91f3c697ffc48c8eda6246f1c10fb7ca7a248f9f2624f91b859d00d6ad525723",
+      "outputtimewindow_11.txt": "0e62039bd4b5487163f469be4fe2bbbbda1fd5276f176310c27e2c68f72aa28e",
+      "outputtimewindow_12.txt": "b41aef3bd7e2fac36bd034ad6fae43923d8c18cdacf3d6bd58976747c0629db5",
+      "outputtimewindow_13.txt": "c33808a442a593d1ee5fc1e8266efd5a0484d661b038764fcb2e028a527df132",
+      "outputtimewindow_14.txt": "c009a24f30b91e80e75744ec9c75270a66df42cbdaf6b4a402a1207c8131553b",
+      "outputtimewindow_15.txt": "12a6fc292f12fc643ebc1a06592ef137700163dffac943ff401528b549b0d6c3",
+      "outputtimewindow_16.txt": "4f15a20590031d5a2a8ed82e3c2c278650c82bd310aa0a6f3a98380a48b50a98",
+      "outputtimewindow_17.txt": "9d96b8bbacd22973d6002b060339b2dee2e31db9e2edb21d6e4e9f247db4823f",
+      "outputtimewindow_18.txt": "b5fa5be85999a1159fa40b099589f884b16b2e1305af45d516a590eaeed56a05",
+      "outputtimewindow_19.txt": "b6e795b3f81205a913836f1237dc64c341017bc690393944afc6be2f38f27087",
+      "outputtimewindow_20.txt": "f5d8b6bf45a535d11f331afd2901de50b0154351d64646ed92c22dbc812cdfc5",
+      "outputtimewindow_21.txt": "2f8a5c57e50306d0bd0128cd647a7c09d440d5e8e4bb8a7ea07dd8bacaa41ed6",
+      "outputtimewindow_22.txt": "3ffbad11eae5011882a64094e996e70a329f161fe88b37bff0ff9598fa3e2737",
+      "outputtimewindow_23.txt": "965100723aa1c00285108d1f8b68dba79b9c8c22ae255517e1813eb58824e51b",
+      "outputtimewindow_24.txt": "48b265a80d22ed6f62f1b6c888c5089ecfb165ceca514d90b0d8dde619291595",
+      "outputtimewindow_25.txt": "473774d24ffb8a9ecbd9d38809bab1d3395e27bf97709bacc8e30ffc6dd0181f",
+      "outputtimewindow_26.txt": "a22a610ec43c7ca1ba46cb382a3d8ecfaf9eb42329ac9f8f5941fc2f6107f0b4",
+      "outputtimewindow_27.txt": "eb28faf994a282b2846761d85172d1866162a3705cf15b432df899573fb9b659",
+      "outputtimewindow_28.txt": "eef975ddfd09eb8e0b4abf6c2c2ba59e5e22ad73932ad7511cd4b1b20f0a9c4c",
+      "outputtimewindow_29.txt": "baaae66b7504e84aca2bc86f1058988bd649bc9211b749287ce81f5889cd49cb",
+      "outputtimewindow_30.txt": "42b1cac1458a77b3d7dd6de7aa326ab9fbd8009dc5f6c9b71a988d74e7742054",
+      "outputtimewindow_31.txt": "19514b36d3a62ca84470d29984e03a0bf148b396a01911bfa0c4ab7758e5a4b7",
+      "outputtimewindow_32.txt": "8d0ec5491ef4ec711e2198bc604d1e81d5b800a2099487088a5f1fdd803809ea",
+      "outputtimewindow_33.txt": "0642a2638fb9b3d50046e7cad6be8b326b2f65896af8bb45ddf31a57ef816cfd",
+      "outputtimewindow_34.txt": "301248369a0ab22dc752945b491f06f433348eefc08e47902e9f3c3296b1d661",
+      "outputtimewindow_35.txt": "45e452f346bad11101df335f1f148b5cbf8b0395d105cdccd9892d9972427f2d",
+      "outputtimewindow_36.txt": "9e65bfeade95b05332da932134f1656378f6cc788abcfe593f44b0ca951897ec",
+      "outputtimewindow_37.txt": "c36524928437a2f7ec7c5457e7423ed082cd90b940858c80c7c9a0b1e7bea6e0",
+      "outputtimewindow_38.txt": "84e9af670f391e1a532556c3d9df0f8dffccd95c28a98c01fbc91886d28ff1c6",
+      "outputtimewindow_39.txt": "fc6c577044ea16d4c43c10d13e1de930a29b5e9cfd101dc70bfff7552a775df7",
+      "outputtimewindow_40.txt": "db932e2d552b24abe9dc2aead4474a785182749dc1b0a03ccfc92d4680e4bc2f",
+      "outputtimewindow_41.txt": "0b0aeebe7c52c6d040f9b11b6c7f5bb2e82027ef5375754c554a7f9bcf5cd519",
+      "outputtimewindow_42.txt": "6e068d413486bdc11da39dbb8e194d9e54f4bf203016110c7fdc922eedbdf905",
+      "outputtimewindow_43.txt": "95a03badf466dd7446cef9d73593d33409f3b633598c1a7c0af728078ef96892",
+      "outputtimewindow_44.txt": "1981a9fcaf720cf96e198727ed5cd0464bae84ea835075c1892e405125cd487e",
+      "outputtimewindow_45.txt": "7a55ff021cb7de318455566c16c5ef2350ba7223e1d8974e0719338562b1ac4d",
+      "outputtimewindow_46.txt": "2736e2f2ac9aace48ae4213ebb5391ca2030545f0ca851d7077cbf67f92443db",
+      "outputtimewindow_47.txt": "818e52dc10ace408fac85650382c4f0245f515cb775be3dc6072e79bbab7c661",
+      "outputtimewindow_48.txt": "02d255561549f609d4d253f54d65259cb73cb0cab6a7d4b868929e15bee09633",
+      "outputtimewindow_49.txt": "0b861a64036727b858b07feefec04b8da22faf5df0e42d6ad4b6805eaa38fe7b",
+      "outputtimewindow_50.txt": "0b47312c32835fe84713011b1f3ace3e6e8326c64b11f91c8ffd51b2259730d9",
+      "outputtimewindow_51.txt": "1723fa44b214cdc928c42ca9a85fabd6449e0f56ca295bdac807980990ad0b87",
+      "outputtimewindow_52.txt": "7b937a641c5b6e9659ad9c73fb56624cbd9bcfd120f058a372a6e91c1e76a846",
+      "outputtimewindow_53.txt": "ff713a7ab1d484017cb64db4528920ce484ebcb89bddebea9c01162ed25d85d2",
+      "outputtimewindow_54.txt": "4216f874e406fb9165005d22d6cc5813b76542dac2a2945a1924e4af4384d86d",
+      "outputtimewindow_55.txt": "d0e052b5cd6cb07e9b7370142c6808bc660c74489e0e2152ffa00f67eeb447fa",
+      "outputtimewindow_56.txt": "a9348d52498e82a652a4d7c46c0d6323d229fe4c71a90a5e0bea729c35431cf9",
+      "outputtimewindow_57.txt": "57bee4d1ddcbbc21ee46f9f54055d2487352e6a1e7820263594c0b1eb4764d1a",
+      "outputtimewindow_58.txt": "918852b34623bf8e71faf7e2adfb264cd69ab085527dce01dad860f6a729dc0f",
+      "outputtimewindow_59.txt": "ad319de2af2b7b11cae5a3f3498922e3bec9ab41e235ef6597817dd6ff52a650",
+      "outputtimewindow_60.txt": "8abc371f8751b0b09abd73286d805dccb3016dd31db0e5d7936b187eba214b0e"
+    }
+  },
+  "archived_fixed_manifests": {
+    "2000-20-0-0-12": {
+      "path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+      "sha256": "b129aabe0a50ce39ea17719dad2a8683d6a3b734996b350f7f8df07b453d8eec"
+    },
+    "6000-60-0-0-6": {
+      "path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+      "sha256": "da23920068f2856d61cd60a331ddbc98f2eec38e2b05e6588152bd3445fd8596"
+    }
+  },
+  "archived_source_scope": {
+    "2000-20-0-0-12": "The later changes to the archived evaluator add >=4000-task eligibility and early stopping telemetry. They are inactive for 2000 tasks.",
+    "6000-60-0-0-6": "Source hashes of the remaining-regional manifest match current inspected sources except the selector and its test."
+  },
+  "source_sha256": {
+    "src/main/java/core/FeedbackOlSelector.java": "2d4a9f5479656d3b4fcb7ad5b1dcf7a81d3e1d2eec49e343805c1ec4bb40a4e4",
+    "src/test/java/core/OlTargetExperimentTest.java": "c4240387055881ae29d6bf0e098a7dd891ea4496dfa4b42b07e733dc340c4283",
+    "src/main/java/core/HybCec.java": "caf03665aff1428ab43c02f0930b91112d1b3bb7d34b73d83a26fabf0dbaddee",
+    "src/main/java/core/OlTargetExperiment.java": "e7fbb963563d378fab06c36533dc48c9911b42f0947e63be520aa6a7b8942ed6",
+    "src/main/java/main/RunSingleHybridConfig.java": "04fc524a7aaeac1d7d64b4214cd4529bbd4cd89477421ee9d524a61877410331",
+    "src/main/java/main/TaskAllocationCoordinator.java": "7daed87984f5331068102183f335af1971f62300ad13247ba587432af603455f",
+    "src/main/java/main/OlSceneExperiment.java": "e9a75405367d93a3f8fb5ea2edbebfa019d5ab4bb1dd24ec8094cb1c5202ce78",
+    "src/main/java/main/EvaluationHyb.java": "5c46b53cc8b8d0424a5ee7e8b813f82b2c83d0437e37298da26e470f192d475c",
+    "src/main/java/main/SceneSeedTable.java": "28ab7eb7613113229d6c87bbe3b14c92b10df23cc08a612f095bc3af08f09aca"
+  },
+  "settings": {
+    "fixed": {
+      "window": 16,
+      "min_share": 0.25,
+      "metric": "GAIN"
+    },
+    "initial": {
+      "allocation": "ADAPTIVE",
+      "metric": "GAIN",
+      "min_exploration": "1"
+    },
+    "revised": {
+      "allocation": "ADAPTIVE",
+      "metric": "GAIN",
+      "min_exploration": "min(floor(quota / 2), ceil(sqrt(quota)))"
+    },
+    "scope": "whole scene, including reassignment, calibration and final schedule legality check",
+    "quota": "half the population during each EDA or GA update"
+  },
+  "test_argv": [
+    "mvn",
+    "-q",
+    "test"
+  ],
+  "test_environment": {
+    "AUTOHYB_SCENE_ROOT": "F:\\OneDrive\\project\\static_determine\\Scene"
+  },
+  "tests": {
+    "passed": 169,
+    "failures": 0
+  },
+  "execution": {
+    "new_runs": 20,
+    "reused_fixed_runs": 10,
+    "automatic_design_runs": 0,
+    "endpoint_preflight_per_run": [
+      0,
+      4
+    ],
+    "remaining_per_run": [
+      1,
+      2,
+      3
+    ]
+  },
+  "comparison": "Matched seed, same parent configuration, nominal per-optimizer budget and schedule phases. Total scene evaluations may differ.",
+  "inputs": {
+    "initial": {
+      "outputs": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation",
+      "files": {
+        "data.csv": "94bec691ef3f16f9cf70d88c7c19d2ed40108df221eff4c6c02c6490b61d7571",
+        "initial-adaptive-source/FeedbackOlSelector.java": "38fd99ff512ea5b20191b4c8ff9e5598063d628c1f364fa1de40b942a3ee7ebf",
+        "initial-adaptive-source/OlTargetExperimentTest.java": "d699076f0dd3a1c2f47f9edf101752057a3bb3298685417be68e49947c797000",
+        "maven-after.log": "dfc4bb4d06da3a65fd31ba8accf6ce3a8d8355186e5798409ff6e4c18f35242e",
+        "maven-before.log": "b99ed9ff193eecd11eae4ca5c7e498ba3e5620b3ff3705e883653e8b66a385cd",
+        "previous-source/FeedbackOlSelector.java": "e2b8212e0f20e04065638f9d96aa6cb81ba82a56ab8b723c9d19587e441f4a70",
+        "previous-source/OlTargetExperimentTest.java": "75d3f288fb5ef554005222c8f9e57ac3b6285a3215e0738e9d7d6dde598f8152",
+        "run-comparison.py": "50e91a9d18d44c7d21d7f2ad99db0a8fc5f73f84a73db7c7c17e91e848a39bbb",
+        "run-index.json": "2ed853c56dcebae5493112a58e46cffbe6807472d9195746cea8ee7f816cc184",
+        "runs/2000-20-0-0-12-0-args.json": "6c577be3ea5530d03034348307f826d0825b928522286c04f7a695ffbb2cf20f",
+        "runs/2000-20-0-0-12-0.log": "b16f7de00935c73ce3e8ee5ea54839942bd0aabfe7e959136c73199abb9994ae",
+        "runs/2000-20-0-0-12-1-args.json": "0c2be0ab3a35e6826ba02270fe4ff999c72f14e576c80abc0c9e4485a7f5dd22",
+        "runs/2000-20-0-0-12-1.log": "e3e45a4226a2062783ce13eebf091782d0892f1c96bc9a00cbcb86beeaee3c65",
+        "runs/2000-20-0-0-12-2-args.json": "3c05e368af68934a66b3951424ce5f60f22125fdcc70314657ede60ce042f8b3",
+        "runs/2000-20-0-0-12-2.log": "345bc85dd192e7551b1626276cad8b096e36b58f3af98a10e377e8d46c641ccc",
+        "runs/2000-20-0-0-12-3-args.json": "7f789cce52667b5f056f6d4405bc2301e62769f19a2bf08634ff2a772dadaf09",
+        "runs/2000-20-0-0-12-3.log": "90a13ab21dafdb9069a1b7054c57f3d03d58aded6d0e435b6772310e0e55fe01",
+        "runs/2000-20-0-0-12-4-args.json": "f9a6b3ca7d34280ce8e5a0864df712e80dfb26223154413f1c790cd748e316cc",
+        "runs/2000-20-0-0-12-4.log": "be27ef9302ea4162e04337654cb0f2336d71d6f020b7da207f5e0d8413984bff",
+        "runs/6000-60-0-0-6-0-args.json": "baa88c142cffa298e543a7557296651c1b6fdd356d5a5f215647340237ff97ae",
+        "runs/6000-60-0-0-6-0.log": "bd8f65ca619b2e0705c07c60a77e39b96fe8599809fbaa14dd8a268da96e45dc",
+        "runs/6000-60-0-0-6-1-args.json": "d1fdaf57883636ac3794c810375a6320016f03560f14894fb76bb6e92c12fee6",
+        "runs/6000-60-0-0-6-1.log": "a9608550f45c0e7339349673d33eccdfddb82a0545dd1455c59db29d297a0300",
+        "runs/6000-60-0-0-6-2-args.json": "4208caf177472370e279d7b3a87ebdfd69dd4be1c3e3c75ba01729ed17ad26da",
+        "runs/6000-60-0-0-6-2.log": "5ca1e967cc24743e2eab9345083cdf7957ac9d83202b6f5ce8f05bd400f50a6d",
+        "runs/6000-60-0-0-6-3-args.json": "7f125bbd5158095283839107b552ccfe505a089d77a92a74ce246e289cbcbec9",
+        "runs/6000-60-0-0-6-3.log": "a195e3c85de202286418738b3d8074ea203f3c0c104ada1bd35f5b6d9b40ad2a",
+        "runs/6000-60-0-0-6-4-args.json": "733bc4f00f30dcabf9f1c196e98ae93df6fdf551142c546b864a0211f21b9b2f",
+        "runs/6000-60-0-0-6-4.log": "0de7d0fa8d37ff1ce5ba669fb36eacdda0f3a5c28b357cdf2b0858bb5bfee7cd"
+      },
+      "runs": {
+        "2000-20-0-0-12/0": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+          "archive_files": {
+            "regional-20-0-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-0-args.json",
+              "sha256": "bbaa3025d84ab96b89e0edd2a2e3f1c23bd183feebd2d869a0f4e0cce8a3e9a7"
+            },
+            "regional-20-0.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-0.log",
+              "sha256": "1ef30e23cc6ca13d522d1a492d0c5a4a5bd0f998d02c94d6829f4686c9a40407"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/2000-20-0-0-12",
+            "2000",
+            "20",
+            "2,0,0,0,4,2",
+            "1",
+            "274",
+            "27400"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "2000-20-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1146972547739811"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\2000-20-0-0-12-0.log",
+            "sha256": "b16f7de00935c73ce3e8ee5ea54839942bd0aabfe7e959136c73199abb9994ae"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\2000-20-0-0-12-0-args.json",
+            "sha256": "6c577be3ea5530d03034348307f826d0825b928522286c04f7a695ffbb2cf20f"
+          }
+        },
+        "2000-20-0-0-12/1": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+          "archive_files": {
+            "regional-20-1-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-1-args.json",
+              "sha256": "95a1a82402288e728f4d247a0e11458ab6bf651c0e3dce395ba79d78ddce6048"
+            },
+            "regional-20-1.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-1.log",
+              "sha256": "66a80cc44cfc844f00a32509027748724daa3665e3ac1d10b97facf58234afb9"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/2000-20-0-0-12",
+            "2000",
+            "20",
+            "2,0,0,0,4,2",
+            "1",
+            "274",
+            "27400"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "2000-20-0-0-12",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1146972547739815"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\2000-20-0-0-12-1.log",
+            "sha256": "e3e45a4226a2062783ce13eebf091782d0892f1c96bc9a00cbcb86beeaee3c65"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\2000-20-0-0-12-1-args.json",
+            "sha256": "0c2be0ab3a35e6826ba02270fe4ff999c72f14e576c80abc0c9e4485a7f5dd22"
+          }
+        },
+        "2000-20-0-0-12/2": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+          "archive_files": {
+            "regional-20-2-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-2-args.json",
+              "sha256": "5cbe8834beaee3810e22737da000e2f17b3c12c2240667968cf5e43b326314bf"
+            },
+            "regional-20-2.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-2.log",
+              "sha256": "cfcc48ac5f7c06761e8c250bda1c92dfc25ac229f29108a97efcf3c6f5c58044"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/2000-20-0-0-12",
+            "2000",
+            "20",
+            "2,0,0,0,4,2",
+            "1",
+            "274",
+            "27400"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "2000-20-0-0-12",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1146972547739819"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\2000-20-0-0-12-2.log",
+            "sha256": "345bc85dd192e7551b1626276cad8b096e36b58f3af98a10e377e8d46c641ccc"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\2000-20-0-0-12-2-args.json",
+            "sha256": "3c05e368af68934a66b3951424ce5f60f22125fdcc70314657ede60ce042f8b3"
+          }
+        },
+        "2000-20-0-0-12/3": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+          "archive_files": {
+            "regional-20-3-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-3-args.json",
+              "sha256": "c47121e6ce227535b18523cb0a7c3421b4f334a82f6d08d52a93935e96a03974"
+            },
+            "regional-20-3.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-3.log",
+              "sha256": "60a41466dcdf23905f2a491d985ff03ef71769803f83acace08421376ee8a009"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/2000-20-0-0-12",
+            "2000",
+            "20",
+            "2,0,0,0,4,2",
+            "1",
+            "274",
+            "27400"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "2000-20-0-0-12",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1146972547739822"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\2000-20-0-0-12-3.log",
+            "sha256": "90a13ab21dafdb9069a1b7054c57f3d03d58aded6d0e435b6772310e0e55fe01"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\2000-20-0-0-12-3-args.json",
+            "sha256": "7f789cce52667b5f056f6d4405bc2301e62769f19a2bf08634ff2a772dadaf09"
+          }
+        },
+        "2000-20-0-0-12/4": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+          "archive_files": {
+            "regional-20-4-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-4-args.json",
+              "sha256": "ced0c36e06bf3fbdfadd7c5dcafe15795fd4f6bc0053127e1faa48e69318eea0"
+            },
+            "regional-20-4.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-4.log",
+              "sha256": "5867081005b0808949ee2e790a46149c318e5116a1c6c5742ce16143f18adf55"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/2000-20-0-0-12",
+            "2000",
+            "20",
+            "2,0,0,0,4,2",
+            "1",
+            "274",
+            "27400"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "2000-20-0-0-12",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1146972547739823"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\2000-20-0-0-12-4.log",
+            "sha256": "be27ef9302ea4162e04337654cb0f2336d71d6f020b7da207f5e0d8413984bff"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\2000-20-0-0-12-4-args.json",
+            "sha256": "f9a6b3ca7d34280ce8e5a0864df712e80dfb26223154413f1c790cd748e316cc"
+          }
+        },
+        "6000-60-0-0-6/0": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+          "archive_files": {
+            "6000-60-0-0-6-D-0-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-0-args.json",
+              "sha256": "3a7ab0c6ef3d47c242755b1c0e69bcaa6a6f5418837c743afe9aee06d4fb2a68"
+            },
+            "6000-60-0-0-6-D-0.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-0.log",
+              "sha256": "580e111ba93523bd0472da1a47e0e7f711f76406edafd7df948289790699ab25"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/6000-60-0-0-6",
+            "6000",
+            "60",
+            "2,0,0,0,4,2",
+            "1",
+            "406",
+            "40600"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "6000-60-0-0-6",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1146972547739811"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\6000-60-0-0-6-0.log",
+            "sha256": "bd8f65ca619b2e0705c07c60a77e39b96fe8599809fbaa14dd8a268da96e45dc"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\6000-60-0-0-6-0-args.json",
+            "sha256": "baa88c142cffa298e543a7557296651c1b6fdd356d5a5f215647340237ff97ae"
+          }
+        },
+        "6000-60-0-0-6/1": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+          "archive_files": {
+            "6000-60-0-0-6-D-1-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-1-args.json",
+              "sha256": "7259d997a5c193478ca3ed12808be2ea58c5efc484f9dc3593b73c8d399fa773"
+            },
+            "6000-60-0-0-6-D-1.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-1.log",
+              "sha256": "666c41940245d3e08c2b33926f398b301aff9d552557638a59a394c0d05af8ff"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/6000-60-0-0-6",
+            "6000",
+            "60",
+            "2,0,0,0,4,2",
+            "1",
+            "406",
+            "40600"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "6000-60-0-0-6",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1146972547739815"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\6000-60-0-0-6-1.log",
+            "sha256": "a9608550f45c0e7339349673d33eccdfddb82a0545dd1455c59db29d297a0300"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\6000-60-0-0-6-1-args.json",
+            "sha256": "d1fdaf57883636ac3794c810375a6320016f03560f14894fb76bb6e92c12fee6"
+          }
+        },
+        "6000-60-0-0-6/2": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+          "archive_files": {
+            "6000-60-0-0-6-D-2-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-2-args.json",
+              "sha256": "03275e03b1c01bf113252e88c9c188425adb5900d7bac4b6fe0fc65afb4867fc"
+            },
+            "6000-60-0-0-6-D-2.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-2.log",
+              "sha256": "8d671b1ec926fecaf3e8318bfc2fdfdcd696fd4094ef22ad0a8c4ac23116bf41"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/6000-60-0-0-6",
+            "6000",
+            "60",
+            "2,0,0,0,4,2",
+            "1",
+            "406",
+            "40600"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "6000-60-0-0-6",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1146972547739819"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\6000-60-0-0-6-2.log",
+            "sha256": "5ca1e967cc24743e2eab9345083cdf7957ac9d83202b6f5ce8f05bd400f50a6d"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\6000-60-0-0-6-2-args.json",
+            "sha256": "4208caf177472370e279d7b3a87ebdfd69dd4be1c3e3c75ba01729ed17ad26da"
+          }
+        },
+        "6000-60-0-0-6/3": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+          "archive_files": {
+            "6000-60-0-0-6-D-3-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-3-args.json",
+              "sha256": "368c053cfecf37738f1d1b5af0d810b0b8cccb23e6eb18f4ee958c208b5ef73a"
+            },
+            "6000-60-0-0-6-D-3.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-3.log",
+              "sha256": "18e22104193d1875d9bf877d2204ec21cf832429b73914ddc2408f89622e6e4c"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/6000-60-0-0-6",
+            "6000",
+            "60",
+            "2,0,0,0,4,2",
+            "1",
+            "406",
+            "40600"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "6000-60-0-0-6",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1146972547739822"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\6000-60-0-0-6-3.log",
+            "sha256": "a195e3c85de202286418738b3d8074ea203f3c0c104ada1bd35f5b6d9b40ad2a"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\6000-60-0-0-6-3-args.json",
+            "sha256": "7f125bbd5158095283839107b552ccfe505a089d77a92a74ce246e289cbcbec9"
+          }
+        },
+        "6000-60-0-0-6/4": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+          "archive_files": {
+            "6000-60-0-0-6-D-4-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-4-args.json",
+              "sha256": "539ba74d217bf1d1857f4eb8aa6dbf00d8c7075cea3cb916578d48eb2cdb3066"
+            },
+            "6000-60-0-0-6-D-4.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-4.log",
+              "sha256": "de5bc6832ba721991655d9f685104b309ceb085147ae74619ef1c4d810083279"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/6000-60-0-0-6",
+            "6000",
+            "60",
+            "2,0,0,0,4,2",
+            "1",
+            "406",
+            "40600"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "6000-60-0-0-6",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1146972547739823"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\6000-60-0-0-6-4.log",
+            "sha256": "0de7d0fa8d37ff1ce5ba669fb36eacdda0f3a5c28b357cdf2b0858bb5bfee7cd"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-allocation\\runs\\6000-60-0-0-6-4-args.json",
+            "sha256": "733bc4f00f30dcabf9f1c196e98ae93df6fdf551142c546b864a0211f21b9b2f"
+          }
+        }
+      }
+    },
+    "revised": {
+      "outputs": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage",
+      "files": {
+        "data.csv": "41e6e8e8252affe780598a039bfa6a4380911dc3ad6695cd8c3dce7058237e82",
+        "maven-after.log": "d9d71f0afa8b7e46f91bd3be909234543c057374a6461b6d6b6b2b2ddc69b0d3",
+        "maven-before.log": "f5b83c8a0f7f5e8ef39b8b15c86785510f41bb812daa42e5e7cdf5f9d9d066d9",
+        "run-index.json": "67feb11530e570095e59bc395ae5a14589cc55d161a77ad3f5b99825b72c230d",
+        "runs/2000-20-0-0-12-0-args.json": "6c577be3ea5530d03034348307f826d0825b928522286c04f7a695ffbb2cf20f",
+        "runs/2000-20-0-0-12-0.log": "3434a6824410bbb6347100bdb2e422e6e8b2571c9ea5cf7bf87161c55aeca4bc",
+        "runs/2000-20-0-0-12-1-args.json": "0c2be0ab3a35e6826ba02270fe4ff999c72f14e576c80abc0c9e4485a7f5dd22",
+        "runs/2000-20-0-0-12-1.log": "f53469a7ddb2b3ef169f05b83ddcb768925de6665544dd57c069ae5fc25297ca",
+        "runs/2000-20-0-0-12-2-args.json": "3c05e368af68934a66b3951424ce5f60f22125fdcc70314657ede60ce042f8b3",
+        "runs/2000-20-0-0-12-2.log": "9fbba937270d08646c4ee3189818d9848a153fb11fe0998f7b4a85e573f0a7f9",
+        "runs/2000-20-0-0-12-3-args.json": "7f789cce52667b5f056f6d4405bc2301e62769f19a2bf08634ff2a772dadaf09",
+        "runs/2000-20-0-0-12-3.log": "782efd33397cc47aea98bc5757e4390d27aecf76bafdf0f48f48f6d4820d733e",
+        "runs/2000-20-0-0-12-4-args.json": "f9a6b3ca7d34280ce8e5a0864df712e80dfb26223154413f1c790cd748e316cc",
+        "runs/2000-20-0-0-12-4.log": "5df767a588db1adfe7535b29b5930a34bbf2c66c3d530514827aa53f5167e3f8",
+        "runs/6000-60-0-0-6-0-args.json": "baa88c142cffa298e543a7557296651c1b6fdd356d5a5f215647340237ff97ae",
+        "runs/6000-60-0-0-6-0.log": "4de1375130a12ece3c5cdde976e436f8a7e18d891ae2797b1679f604d16ac3e2",
+        "runs/6000-60-0-0-6-1-args.json": "d1fdaf57883636ac3794c810375a6320016f03560f14894fb76bb6e92c12fee6",
+        "runs/6000-60-0-0-6-1.log": "f6c0f4fda3c5e0e719e32f217d2dc3b0cbbd3a2d6937ddbac8e47f998e11a482",
+        "runs/6000-60-0-0-6-2-args.json": "4208caf177472370e279d7b3a87ebdfd69dd4be1c3e3c75ba01729ed17ad26da",
+        "runs/6000-60-0-0-6-2.log": "675fd0ae434ba445c12678927f03e4fd471325c7ea31863d984123f78d6223b5",
+        "runs/6000-60-0-0-6-3-args.json": "7f125bbd5158095283839107b552ccfe505a089d77a92a74ce246e289cbcbec9",
+        "runs/6000-60-0-0-6-3.log": "59a989dfab6bda510d9ebaaf1b08ea4cd031de01e0f9e13475c26056ad99e833",
+        "runs/6000-60-0-0-6-4-args.json": "733bc4f00f30dcabf9f1c196e98ae93df6fdf551142c546b864a0211f21b9b2f",
+        "runs/6000-60-0-0-6-4.log": "4a8243bab146804cc0281028c68a2acbdf456487e2a86e2199de0ca0b99ee5c3"
+      },
+      "runs": {
+        "2000-20-0-0-12/0": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+          "archive_files": {
+            "regional-20-0-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-0-args.json",
+              "sha256": "bbaa3025d84ab96b89e0edd2a2e3f1c23bd183feebd2d869a0f4e0cce8a3e9a7"
+            },
+            "regional-20-0.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-0.log",
+              "sha256": "1ef30e23cc6ca13d522d1a492d0c5a4a5bd0f998d02c94d6829f4686c9a40407"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/2000-20-0-0-12",
+            "2000",
+            "20",
+            "2,0,0,0,4,2",
+            "1",
+            "274",
+            "27400"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "2000-20-0-0-12",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1146972547739811"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\2000-20-0-0-12-0.log",
+            "sha256": "3434a6824410bbb6347100bdb2e422e6e8b2571c9ea5cf7bf87161c55aeca4bc"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\2000-20-0-0-12-0-args.json",
+            "sha256": "6c577be3ea5530d03034348307f826d0825b928522286c04f7a695ffbb2cf20f"
+          }
+        },
+        "2000-20-0-0-12/1": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+          "archive_files": {
+            "regional-20-1-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-1-args.json",
+              "sha256": "95a1a82402288e728f4d247a0e11458ab6bf651c0e3dce395ba79d78ddce6048"
+            },
+            "regional-20-1.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-1.log",
+              "sha256": "66a80cc44cfc844f00a32509027748724daa3665e3ac1d10b97facf58234afb9"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/2000-20-0-0-12",
+            "2000",
+            "20",
+            "2,0,0,0,4,2",
+            "1",
+            "274",
+            "27400"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "2000-20-0-0-12",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1146972547739815"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\2000-20-0-0-12-1.log",
+            "sha256": "f53469a7ddb2b3ef169f05b83ddcb768925de6665544dd57c069ae5fc25297ca"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\2000-20-0-0-12-1-args.json",
+            "sha256": "0c2be0ab3a35e6826ba02270fe4ff999c72f14e576c80abc0c9e4485a7f5dd22"
+          }
+        },
+        "2000-20-0-0-12/2": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+          "archive_files": {
+            "regional-20-2-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-2-args.json",
+              "sha256": "5cbe8834beaee3810e22737da000e2f17b3c12c2240667968cf5e43b326314bf"
+            },
+            "regional-20-2.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-2.log",
+              "sha256": "cfcc48ac5f7c06761e8c250bda1c92dfc25ac229f29108a97efcf3c6f5c58044"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/2000-20-0-0-12",
+            "2000",
+            "20",
+            "2,0,0,0,4,2",
+            "1",
+            "274",
+            "27400"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "2000-20-0-0-12",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1146972547739819"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\2000-20-0-0-12-2.log",
+            "sha256": "9fbba937270d08646c4ee3189818d9848a153fb11fe0998f7b4a85e573f0a7f9"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\2000-20-0-0-12-2-args.json",
+            "sha256": "3c05e368af68934a66b3951424ce5f60f22125fdcc70314657ede60ce042f8b3"
+          }
+        },
+        "2000-20-0-0-12/3": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+          "archive_files": {
+            "regional-20-3-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-3-args.json",
+              "sha256": "c47121e6ce227535b18523cb0a7c3421b4f334a82f6d08d52a93935e96a03974"
+            },
+            "regional-20-3.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-3.log",
+              "sha256": "60a41466dcdf23905f2a491d985ff03ef71769803f83acace08421376ee8a009"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/2000-20-0-0-12",
+            "2000",
+            "20",
+            "2,0,0,0,4,2",
+            "1",
+            "274",
+            "27400"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "2000-20-0-0-12",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1146972547739822"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\2000-20-0-0-12-3.log",
+            "sha256": "782efd33397cc47aea98bc5757e4390d27aecf76bafdf0f48f48f6d4820d733e"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\2000-20-0-0-12-3-args.json",
+            "sha256": "7f789cce52667b5f056f6d4405bc2301e62769f19a2bf08634ff2a772dadaf09"
+          }
+        },
+        "2000-20-0-0-12/4": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-regional-2000-paired\\manifest.json",
+          "archive_files": {
+            "regional-20-4-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-4-args.json",
+              "sha256": "ced0c36e06bf3fbdfadd7c5dcafe15795fd4f6bc0053127e1faa48e69318eea0"
+            },
+            "regional-20-4.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-regional-2000-paired\\runs\\regional-20-4.log",
+              "sha256": "5867081005b0808949ee2e790a46149c318e5116a1c6c5742ce16143f18adf55"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/2000-20-0-0-12",
+            "2000",
+            "20",
+            "2,0,0,0,4,2",
+            "1",
+            "274",
+            "27400"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "2000-20-0-0-12",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1146972547739823"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\2000-20-0-0-12-4.log",
+            "sha256": "5df767a588db1adfe7535b29b5930a34bbf2c66c3d530514827aa53f5167e3f8"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\2000-20-0-0-12-4-args.json",
+            "sha256": "f9a6b3ca7d34280ce8e5a0864df712e80dfb26223154413f1c790cd748e316cc"
+          }
+        },
+        "6000-60-0-0-6/0": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+          "archive_files": {
+            "6000-60-0-0-6-D-0-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-0-args.json",
+              "sha256": "3a7ab0c6ef3d47c242755b1c0e69bcaa6a6f5418837c743afe9aee06d4fb2a68"
+            },
+            "6000-60-0-0-6-D-0.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-0.log",
+              "sha256": "580e111ba93523bd0472da1a47e0e7f711f76406edafd7df948289790699ab25"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=0",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/6000-60-0-0-6",
+            "6000",
+            "60",
+            "2,0,0,0,4,2",
+            "1",
+            "406",
+            "40600"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "6000-60-0-0-6",
+            "perRun": "0",
+            "seedId": "10",
+            "seed": "1146972547739811"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\6000-60-0-0-6-0.log",
+            "sha256": "4de1375130a12ece3c5cdde976e436f8a7e18d891ae2797b1679f604d16ac3e2"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\6000-60-0-0-6-0-args.json",
+            "sha256": "baa88c142cffa298e543a7557296651c1b6fdd356d5a5f215647340237ff97ae"
+          }
+        },
+        "6000-60-0-0-6/1": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+          "archive_files": {
+            "6000-60-0-0-6-D-1-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-1-args.json",
+              "sha256": "7259d997a5c193478ca3ed12808be2ea58c5efc484f9dc3593b73c8d399fa773"
+            },
+            "6000-60-0-0-6-D-1.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-1.log",
+              "sha256": "666c41940245d3e08c2b33926f398b301aff9d552557638a59a394c0d05af8ff"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=1",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/6000-60-0-0-6",
+            "6000",
+            "60",
+            "2,0,0,0,4,2",
+            "1",
+            "406",
+            "40600"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "6000-60-0-0-6",
+            "perRun": "1",
+            "seedId": "11",
+            "seed": "1146972547739815"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\6000-60-0-0-6-1.log",
+            "sha256": "f6c0f4fda3c5e0e719e32f217d2dc3b0cbbd3a2d6937ddbac8e47f998e11a482"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\6000-60-0-0-6-1-args.json",
+            "sha256": "d1fdaf57883636ac3794c810375a6320016f03560f14894fb76bb6e92c12fee6"
+          }
+        },
+        "6000-60-0-0-6/2": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+          "archive_files": {
+            "6000-60-0-0-6-D-2-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-2-args.json",
+              "sha256": "03275e03b1c01bf113252e88c9c188425adb5900d7bac4b6fe0fc65afb4867fc"
+            },
+            "6000-60-0-0-6-D-2.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-2.log",
+              "sha256": "8d671b1ec926fecaf3e8318bfc2fdfdcd696fd4094ef22ad0a8c4ac23116bf41"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=2",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/6000-60-0-0-6",
+            "6000",
+            "60",
+            "2,0,0,0,4,2",
+            "1",
+            "406",
+            "40600"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "6000-60-0-0-6",
+            "perRun": "2",
+            "seedId": "12",
+            "seed": "1146972547739819"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\6000-60-0-0-6-2.log",
+            "sha256": "675fd0ae434ba445c12678927f03e4fd471325c7ea31863d984123f78d6223b5"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\6000-60-0-0-6-2-args.json",
+            "sha256": "4208caf177472370e279d7b3a87ebdfd69dd4be1c3e3c75ba01729ed17ad26da"
+          }
+        },
+        "6000-60-0-0-6/3": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+          "archive_files": {
+            "6000-60-0-0-6-D-3-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-3-args.json",
+              "sha256": "368c053cfecf37738f1d1b5af0d810b0b8cccb23e6eb18f4ee958c208b5ef73a"
+            },
+            "6000-60-0-0-6-D-3.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-3.log",
+              "sha256": "18e22104193d1875d9bf877d2204ec21cf832429b73914ddc2408f89622e6e4c"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=3",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/6000-60-0-0-6",
+            "6000",
+            "60",
+            "2,0,0,0,4,2",
+            "1",
+            "406",
+            "40600"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "6000-60-0-0-6",
+            "perRun": "3",
+            "seedId": "13",
+            "seed": "1146972547739822"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\6000-60-0-0-6-3.log",
+            "sha256": "59a989dfab6bda510d9ebaaf1b08ea4cd031de01e0f9e13475c26056ad99e833"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\6000-60-0-0-6-3-args.json",
+            "sha256": "7f125bbd5158095283839107b552ccfe505a089d77a92a74ce246e289cbcbec9"
+          }
+        },
+        "6000-60-0-0-6/4": {
+          "archive_manifest": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\feedback-ol-remaining-regional\\manifest.json",
+          "archive_files": {
+            "6000-60-0-0-6-D-4-args.json": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-4-args.json",
+              "sha256": "539ba74d217bf1d1857f4eb8aa6dbf00d8c7075cea3cb916578d48eb2cdb3066"
+            },
+            "6000-60-0-0-6-D-4.log": {
+              "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-remaining-regional\\runs\\6000-60-0-0-6-D-4.log",
+              "sha256": "de5bc6832ba721991655d9f685104b309ceb085147ae74619ef1c4d810083279"
+            }
+          },
+          "seed_table_path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\seed-table.properties",
+          "seed_table_sha256": "fb062a0c3dd4c82b30992c934d3b6fb083d4551b3c34bec09858516f6fa7780e",
+          "java_argv": [
+            "-Dautohyb.sceneRoot=F:/OneDrive/project/static_determine/Scene",
+            "-Dautohyb.deterministic=true",
+            "-Dhybcec.fastPathBatchSize=1",
+            "-Dhybcec.insertionMode=GREEDY",
+            "-Devaluation.seedTable.path=F:/OneDrive/project/static_determine/6D_dynamic_version_mfea - 副本 - 副本 (2)/outputs/autohybrid-slower-than-rkhma-fullspeed-20261009/seed-table.properties",
+            "-Devaluation.runSeedLog=true",
+            "-Devaluation.perRunStart=4",
+            "-Dautohyb.olTarget.arm=D",
+            "-Dautohyb.olTarget.feedbackWindow=16",
+            "-Dautohyb.olTarget.feedbackMinShare=0.25",
+            "-Dautohyb.olTarget.feedbackMetric=GAIN",
+            "-Dautohyb.olTarget.feedbackAllocation=ADAPTIVE",
+            "-cp",
+            "target/classes;C:\\Users\\a_wei\\.m2\\repository\\org\\apache\\commons\\commons-math3\\3.6.1\\commons-math3-3.6.1.jar",
+            "main.RunSingleHybridConfig",
+            "--quiet",
+            "true",
+            "true",
+            "F:/OneDrive/project/static_determine/Scene/6000-60-0-0-6",
+            "6000",
+            "60",
+            "2,0,0,0,4,2",
+            "1",
+            "406",
+            "40600"
+          ],
+          "seed": {
+            "source": "custom",
+            "table": "seed-table.properties",
+            "scene": "6000-60-0-0-6",
+            "perRun": "4",
+            "seedId": "14",
+            "seed": "1146972547739823"
+          },
+          "adaptive_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\6000-60-0-0-6-4.log",
+            "sha256": "4a8243bab146804cc0281028c68a2acbdf456487e2a86e2199de0ca0b99ee5c3"
+          },
+          "adaptive_argv_log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-adaptive-coverage\\runs\\6000-60-0-0-6-4-args.json",
+            "sha256": "733bc4f00f30dcabf9f1c196e98ae93df6fdf551142c546b864a0211f21b9b2f"
+          }
+        }
+      }
+    }
+  },
+  "canonical_data": {
+    "path": "data.csv",
+    "rows": 10,
+    "sha256": "f5ce162742edfb65c16d84b3e7bfa4f15474504dabd27c34230bcdc66f357498"
+  },
+  "summary": {
+    "2000-20-0-0-12": {
+      "legalProfit": {
+        "old": 6613.6,
+        "initial": 6608.6,
+        "revised": 6609.2
+      },
+      "rawProfit": {
+        "old": 6681.6,
+        "initial": 6670.8,
+        "revised": 6689.4
+      },
+      "fes": {
+        "old": 4658000,
+        "initial": 4877200,
+        "revised": 5041600
+      },
+      "acceptedMigrations": {
+        "old": 94.6,
+        "initial": 94.2,
+        "revised": 98.2
+      },
+      "earlyStoppedOptimizerRuns": {
+        "old": 0,
+        "initial": 0,
+        "revised": 0
+      },
+      "legal_pair_deltas": {
+        "initial": [
+          -6,
+          -19,
+          -28,
+          -7,
+          35
+        ],
+        "revised": [
+          9,
+          -53,
+          12,
+          0,
+          10
+        ]
+      },
+      "lower_quota_range": {
+        "old": [
+          35,
+          102
+        ],
+        "initial": [
+          1,
+          136
+        ],
+        "revised": [
+          12,
+          125
+        ]
+      },
+      "fes_delta_pct": {
+        "initial": 4.7059,
+        "revised": 8.2353
+      },
+      "total_priority": 11136
+    },
+    "6000-60-0-0-6": {
+      "legalProfit": {
+        "old": 21586.8,
+        "initial": 21596,
+        "revised": 21599
+      },
+      "rawProfit": {
+        "old": 21755.6,
+        "initial": 21792.4,
+        "revised": 21792.4
+      },
+      "fes": {
+        "old": 1687336,
+        "initial": 1724079,
+        "revised": 1720019
+      },
+      "acceptedMigrations": {
+        "old": 61.8,
+        "initial": 62.2,
+        "revised": 63
+      },
+      "earlyStoppedOptimizerRuns": {
+        "old": 116,
+        "initial": 115,
+        "revised": 115
+      },
+      "legal_pair_deltas": {
+        "initial": [
+          -23,
+          22,
+          4,
+          74,
+          -31
+        ],
+        "revised": [
+          -23,
+          28,
+          31,
+          67,
+          -42
+        ]
+      },
+      "lower_quota_range": {
+        "old": [
+          51,
+          152
+        ],
+        "initial": [
+          1,
+          202
+        ],
+        "revised": [
+          15,
+          188
+        ]
+      },
+      "fes_delta_pct": {
+        "initial": 2.1776,
+        "revised": 1.937
+      },
+      "total_priority": 32653
+    }
+  }
+}

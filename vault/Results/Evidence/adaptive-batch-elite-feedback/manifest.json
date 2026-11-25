@@ -1,0 +1,939 @@
+{
+  "experiment_id": "adaptive-batch-elite-feedback",
+  "date": "2026-11-25",
+  "branch": "codex/g4-adaptive-switching",
+  "git_head": "7f9f4e17f4c6f65b86ae070501b5733011e64bfc",
+  "canonical_data": {
+    "path": "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\vault\\Results\\Evidence\\adaptive-batch-elite-feedback\\data.csv",
+    "sha256": "4e3d7c3163ef0a7e5ac297184876d747cd605b7f1071ed2168fcca41b20c67c9"
+  },
+  "rows": 40,
+  "previous_evidence": {
+    "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-allocation\\result.json",
+    "sha256": "634a611e87468256b04cb40cf014fcddffd3a62cc2aaf370b8ecf447e922b584"
+  },
+  "stages": [
+    {
+      "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\pilot.json",
+      "sha256": "30eb742a2a418aa21bb74700efc10a69abe0c04cad7ba064ea0d524d24dded35"
+    },
+    {
+      "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\gate\\pilot.json",
+      "sha256": "553715de04ccad2a7ed7368dcec4fd466da328c26260744e537807eff75fa0f4"
+    },
+    {
+      "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\elite-transfer\\transfer.json",
+      "sha256": "155dc5d026e8eb1225170976cab983015a08c33a48211fdec3656aab89f4a52b"
+    }
+  ],
+  "counts": {
+    "formal_runs": 40,
+    "paired_cells": 8,
+    "optimizer_runs": 6710
+  },
+  "paired_statistics": [
+    {
+      "scene": "2000-20-0-0-12",
+      "mode": "ELITE_FEEDBACK",
+      "n": 5,
+      "phase": "pilot",
+      "A_raw": 6665.8,
+      "old_raw": 6696.2,
+      "new_raw": 6674.8,
+      "old_legal": 6626.8,
+      "new_legal": 6610.4,
+      "against_A_raw": {
+        "seed_deltas": [
+          18,
+          59,
+          -35,
+          -5,
+          8
+        ],
+        "mean": 9,
+        "sd": 34.32928778754374,
+        "bootstrap_95_percentile": [
+          -17,
+          38
+        ],
+        "wins": 3,
+        "ties": 0,
+        "losses": 2,
+        "exact_sign_flip_p": 0.625,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_raw": {
+        "seed_deltas": [
+          -55,
+          13,
+          -18,
+          -47,
+          0
+        ],
+        "mean": -21.4,
+        "sd": 29.313819266687172,
+        "bootstrap_95_percentile": [
+          -44.4,
+          1.6
+        ],
+        "wins": 1,
+        "ties": 1,
+        "losses": 3,
+        "exact_sign_flip_p": 0.25,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_legal": {
+        "seed_deltas": [
+          -57,
+          31,
+          -42,
+          -34,
+          20
+        ],
+        "mean": -16.4,
+        "sd": 39.32302124710155,
+        "bootstrap_95_percentile": [
+          -46.4,
+          14.2
+        ],
+        "wins": 2,
+        "ties": 0,
+        "losses": 3,
+        "exact_sign_flip_p": 0.375,
+        "holm_p": 1.0
+      },
+      "initial_delta_FEEDBACK": 4.399999999999636,
+      "raw_rate_delta_pp": 0.08081896551724138,
+      "actual_fes": 4741500,
+      "old_actual_fes": 4905000,
+      "actual_fes_change_pct": -3.3333333333333326,
+      "split_blocks": 39466,
+      "split_rate_pct": 52.493249803812034,
+      "shifted_blocks": 6864,
+      "moved_fes": 43462,
+      "moved_to_upper_fes": 8673,
+      "elite_probe_hits_upper": 193968,
+      "elite_probe_hits_lower": 232351,
+      "optimizer_runs": 1640,
+      "early_stops": 0
+    },
+    {
+      "scene": "2000-20-0-0-12",
+      "mode": "ELITE_GATE",
+      "n": 5,
+      "phase": "gate/pilot",
+      "A_raw": 6665.8,
+      "old_raw": 6696.2,
+      "new_raw": 6655,
+      "old_legal": 6626.8,
+      "new_legal": 6592.8,
+      "against_A_raw": {
+        "seed_deltas": [
+          9,
+          -18,
+          -9,
+          -63,
+          27
+        ],
+        "mean": -10.8,
+        "sd": 33.91459862655019,
+        "bootstrap_95_percentile": [
+          -39.6,
+          12.6
+        ],
+        "wins": 2,
+        "ties": 0,
+        "losses": 3,
+        "exact_sign_flip_p": 0.6875,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_raw": {
+        "seed_deltas": [
+          -64,
+          -64,
+          8,
+          -105,
+          19
+        ],
+        "mean": -41.2,
+        "sd": 52.80814331142499,
+        "bootstrap_95_percentile": [
+          -80.4,
+          0.2
+        ],
+        "wins": 2,
+        "ties": 0,
+        "losses": 3,
+        "exact_sign_flip_p": 0.25,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_legal": {
+        "seed_deltas": [
+          -47,
+          -83,
+          6,
+          -80,
+          34
+        ],
+        "mean": -34,
+        "sd": 52.225472712077966,
+        "bootstrap_95_percentile": [
+          -74.6,
+          6.6
+        ],
+        "wins": 2,
+        "ties": 0,
+        "losses": 3,
+        "exact_sign_flip_p": 0.25,
+        "holm_p": 1.0
+      },
+      "initial_delta_FEEDBACK": -3.0,
+      "raw_rate_delta_pp": -0.09698275862068965,
+      "actual_fes": 4469000,
+      "old_actual_fes": 4905000,
+      "actual_fes_change_pct": -8.888888888888891,
+      "split_blocks": 8944,
+      "split_rate_pct": 12.012141072819576,
+      "shifted_blocks": 1647,
+      "moved_fes": 11032,
+      "moved_to_upper_fes": 2536,
+      "elite_probe_hits_upper": 40387,
+      "elite_probe_hits_lower": 48429,
+      "optimizer_runs": 1540,
+      "early_stops": 0
+    },
+    {
+      "scene": "4000-40-0-0-6",
+      "mode": "ELITE_FEEDBACK",
+      "n": 5,
+      "phase": "elite-transfer/transfer",
+      "A_raw": 14625.2,
+      "old_raw": 14608.4,
+      "new_raw": 14616.8,
+      "old_legal": 14520.2,
+      "new_legal": 14533.6,
+      "against_A_raw": {
+        "seed_deltas": [
+          29,
+          -93,
+          -8,
+          31,
+          -1
+        ],
+        "mean": -8.4,
+        "sd": 50.40634880647477,
+        "bootstrap_95_percentile": [
+          -51.6,
+          23.8
+        ],
+        "wins": 2,
+        "ties": 0,
+        "losses": 3,
+        "exact_sign_flip_p": 0.8125,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_raw": {
+        "seed_deltas": [
+          48,
+          -10,
+          21,
+          12,
+          -29
+        ],
+        "mean": 8.4,
+        "sd": 29.4838939083697,
+        "bootstrap_95_percentile": [
+          -13.8,
+          31
+        ],
+        "wins": 3,
+        "ties": 0,
+        "losses": 2,
+        "exact_sign_flip_p": 0.5625,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_legal": {
+        "seed_deltas": [
+          67,
+          -12,
+          82,
+          -38,
+          -32
+        ],
+        "mean": 13.4,
+        "sd": 56.848922593132755,
+        "bootstrap_95_percentile": [
+          -30.4,
+          57.2
+        ],
+        "wins": 2,
+        "ties": 0,
+        "losses": 3,
+        "exact_sign_flip_p": 0.6875,
+        "holm_p": 1.0
+      },
+      "initial_delta_FEEDBACK": -1.0,
+      "raw_rate_delta_pp": -0.03844745514463566,
+      "actual_fes": 1126093.2,
+      "old_actual_fes": 1124713,
+      "actual_fes_change_pct": 0.12271575059592532,
+      "split_blocks": 7305,
+      "split_rate_pct": 57.348092322185586,
+      "shifted_blocks": 1415,
+      "moved_fes": 11037,
+      "moved_to_upper_fes": 1546,
+      "elite_probe_hits_upper": 52824,
+      "elite_probe_hits_lower": 62773,
+      "optimizer_runs": 390,
+      "early_stops": 385
+    },
+    {
+      "scene": "5000-50-0-0-12",
+      "mode": "ELITE_FEEDBACK",
+      "n": 5,
+      "phase": "elite-transfer/transfer",
+      "A_raw": 22399,
+      "old_raw": 22381.8,
+      "new_raw": 22389.6,
+      "old_legal": 22267,
+      "new_legal": 22301.4,
+      "against_A_raw": {
+        "seed_deltas": [
+          4,
+          53,
+          -17,
+          -83,
+          -4
+        ],
+        "mean": -9.4,
+        "sd": 48.93158489156058,
+        "bootstrap_95_percentile": [
+          -51.4,
+          27.6
+        ],
+        "wins": 2,
+        "ties": 0,
+        "losses": 3,
+        "exact_sign_flip_p": 0.6875,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_raw": {
+        "seed_deltas": [
+          7,
+          99,
+          -22,
+          -12,
+          -33
+        ],
+        "mean": 7.8,
+        "sd": 53.06316990154282,
+        "bootstrap_95_percentile": [
+          -24.4,
+          54.6
+        ],
+        "wins": 2,
+        "ties": 0,
+        "losses": 3,
+        "exact_sign_flip_p": 0.9375,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_legal": {
+        "seed_deltas": [
+          13,
+          125,
+          17,
+          14,
+          3
+        ],
+        "mean": 34.4,
+        "sd": 50.91954438130805,
+        "bootstrap_95_percentile": [
+          8,
+          80.6
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "exact_sign_flip_p": 0.0625,
+        "holm_p": 0.5
+      },
+      "initial_delta_FEEDBACK": 7.200000000000728,
+      "raw_rate_delta_pp": -0.03407402037191431,
+      "actual_fes": 1563084,
+      "old_actual_fes": 1541108,
+      "actual_fes_change_pct": 1.4259870171331235,
+      "split_blocks": 10209,
+      "split_rate_pct": 56.94126833621507,
+      "shifted_blocks": 1965,
+      "moved_fes": 15322,
+      "moved_to_upper_fes": 2493,
+      "elite_probe_hits_upper": 76814,
+      "elite_probe_hits_lower": 90699,
+      "optimizer_runs": 500,
+      "early_stops": 486
+    },
+    {
+      "scene": "6000-60-0-0-6",
+      "mode": "COMPLEMENT",
+      "n": 5,
+      "phase": "pilot",
+      "A_raw": 21825.6,
+      "old_raw": 21747,
+      "new_raw": 21794.2,
+      "old_legal": 21555.8,
+      "new_legal": 21616.8,
+      "against_A_raw": {
+        "seed_deltas": [
+          -81,
+          -51,
+          54,
+          -83,
+          4
+        ],
+        "mean": -31.4,
+        "sd": 59.273096764046336,
+        "bootstrap_95_percentile": [
+          -75.8,
+          17
+        ],
+        "wins": 2,
+        "ties": 0,
+        "losses": 3,
+        "exact_sign_flip_p": 0.375,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_raw": {
+        "seed_deltas": [
+          55,
+          -6,
+          44,
+          42,
+          101
+        ],
+        "mean": 47.2,
+        "sd": 38.15363678602605,
+        "bootstrap_95_percentile": [
+          15.8,
+          78.2
+        ],
+        "wins": 4,
+        "ties": 0,
+        "losses": 1,
+        "exact_sign_flip_p": 0.125,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_legal": {
+        "seed_deltas": [
+          84,
+          3,
+          43,
+          67,
+          108
+        ],
+        "mean": 61,
+        "sd": 40.193283020922784,
+        "bootstrap_95_percentile": [
+          27.2,
+          90.2
+        ],
+        "wins": 5,
+        "ties": 0,
+        "losses": 0,
+        "exact_sign_flip_p": 0.0625,
+        "holm_p": 0.5
+      },
+      "initial_delta_FEEDBACK": 42.20000000000073,
+      "raw_rate_delta_pp": -0.09616268030502557,
+      "actual_fes": 1764666,
+      "old_actual_fes": 1759482,
+      "actual_fes_change_pct": 0.2946321701500887,
+      "split_blocks": 11174,
+      "split_rate_pct": 56.038114343029086,
+      "shifted_blocks": 0,
+      "moved_fes": 0,
+      "moved_to_upper_fes": 0,
+      "elite_probe_hits_upper": 0,
+      "elite_probe_hits_lower": 0,
+      "optimizer_runs": 590,
+      "early_stops": 578
+    },
+    {
+      "scene": "6000-60-0-0-6",
+      "mode": "ELITE_FEEDBACK",
+      "n": 5,
+      "phase": "pilot",
+      "A_raw": 21825.6,
+      "old_raw": 21747,
+      "new_raw": 21795.4,
+      "old_legal": 21555.8,
+      "new_legal": 21623.6,
+      "against_A_raw": {
+        "seed_deltas": [
+          -59,
+          -43,
+          -17,
+          -51,
+          19
+        ],
+        "mean": -30.2,
+        "sd": 31.704889212864316,
+        "bootstrap_95_percentile": [
+          -52.6,
+          -2.6
+        ],
+        "wins": 1,
+        "ties": 0,
+        "losses": 4,
+        "exact_sign_flip_p": 0.1875,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_raw": {
+        "seed_deltas": [
+          77,
+          2,
+          -27,
+          74,
+          116
+        ],
+        "mean": 48.4,
+        "sd": 58.909252244447984,
+        "bootstrap_95_percentile": [
+          -0.4,
+          92
+        ],
+        "wins": 4,
+        "ties": 0,
+        "losses": 1,
+        "exact_sign_flip_p": 0.1875,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_legal": {
+        "seed_deltas": [
+          69,
+          71,
+          -12,
+          103,
+          108
+        ],
+        "mean": 67.8,
+        "sd": 48.048933390867276,
+        "bootstrap_95_percentile": [
+          27.2,
+          99.2
+        ],
+        "wins": 4,
+        "ties": 0,
+        "losses": 1,
+        "exact_sign_flip_p": 0.125,
+        "holm_p": 0.75
+      },
+      "initial_delta_FEEDBACK": 27.200000000000728,
+      "raw_rate_delta_pp": -0.09248767341438766,
+      "actual_fes": 1776492,
+      "old_actual_fes": 1759482,
+      "actual_fes_change_pct": 0.9667618083049501,
+      "split_blocks": 11087,
+      "split_rate_pct": 55.21414342629482,
+      "shifted_blocks": 2130,
+      "moved_fes": 17163,
+      "moved_to_upper_fes": 2357,
+      "elite_probe_hits_upper": 85698,
+      "elite_probe_hits_lower": 102197,
+      "optimizer_runs": 590,
+      "early_stops": 571
+    },
+    {
+      "scene": "6000-60-0-0-6",
+      "mode": "ELITE_GATE",
+      "n": 5,
+      "phase": "gate/pilot",
+      "A_raw": 21825.6,
+      "old_raw": 21747,
+      "new_raw": 21785.8,
+      "old_legal": 21555.8,
+      "new_legal": 21603.4,
+      "against_A_raw": {
+        "seed_deltas": [
+          -102,
+          -77,
+          -4,
+          -45,
+          29
+        ],
+        "mean": -39.8,
+        "sd": 53.13849828514163,
+        "bootstrap_95_percentile": [
+          -80.6,
+          1.2
+        ],
+        "wins": 1,
+        "ties": 0,
+        "losses": 4,
+        "exact_sign_flip_p": 0.1875,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_raw": {
+        "seed_deltas": [
+          34,
+          -32,
+          -14,
+          80,
+          126
+        ],
+        "mean": 38.8,
+        "sd": 65.43087956003649,
+        "bootstrap_95_percentile": [
+          -11.6,
+          89.2
+        ],
+        "wins": 3,
+        "ties": 0,
+        "losses": 2,
+        "exact_sign_flip_p": 0.3125,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_legal": {
+        "seed_deltas": [
+          30,
+          54,
+          -22,
+          42,
+          134
+        ],
+        "mean": 47.6,
+        "sd": 56.32761312180732,
+        "bootstrap_95_percentile": [
+          6,
+          97.2
+        ],
+        "wins": 4,
+        "ties": 0,
+        "losses": 1,
+        "exact_sign_flip_p": 0.125,
+        "holm_p": 0.75
+      },
+      "initial_delta_FEEDBACK": 37.79999999999927,
+      "raw_rate_delta_pp": -0.121887728539491,
+      "actual_fes": 1889082,
+      "old_actual_fes": 1759482,
+      "actual_fes_change_pct": 7.365804253751951,
+      "split_blocks": 2497,
+      "split_rate_pct": 11.451501949094244,
+      "shifted_blocks": 497,
+      "moved_fes": 4473,
+      "moved_to_upper_fes": 852,
+      "elite_probe_hits_upper": 16413,
+      "elite_probe_hits_lower": 19840,
+      "optimizer_runs": 590,
+      "early_stops": 561
+    },
+    {
+      "scene": "10000-100-0-6-12",
+      "mode": "ELITE_FEEDBACK",
+      "n": 5,
+      "phase": "elite-transfer/transfer",
+      "A_raw": 18873.4,
+      "old_raw": 18918.2,
+      "new_raw": 18953.6,
+      "old_legal": 18721.6,
+      "new_legal": 18717.8,
+      "against_A_raw": {
+        "seed_deltas": [
+          164,
+          223,
+          101,
+          -65,
+          -22
+        ],
+        "mean": 80.2,
+        "sd": 121.83472411426884,
+        "bootstrap_95_percentile": [
+          -14.6,
+          175
+        ],
+        "wins": 3,
+        "ties": 0,
+        "losses": 2,
+        "exact_sign_flip_p": 0.25,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_raw": {
+        "seed_deltas": [
+          10,
+          185,
+          92,
+          -63,
+          -47
+        ],
+        "mean": 35.4,
+        "sd": 103.32134339041474,
+        "bootstrap_95_percentile": [
+          -42,
+          120
+        ],
+        "wins": 3,
+        "ties": 0,
+        "losses": 2,
+        "exact_sign_flip_p": 0.5625,
+        "holm_p": 1.0
+      },
+      "against_FEEDBACK_legal": {
+        "seed_deltas": [
+          -19,
+          144,
+          77,
+          -166,
+          -55
+        ],
+        "mean": -3.8,
+        "sd": 119.93206410297456,
+        "bootstrap_95_percentile": [
+          -95.2,
+          90.4
+        ],
+        "wins": 2,
+        "ties": 0,
+        "losses": 3,
+        "exact_sign_flip_p": 1,
+        "holm_p": 1.0
+      },
+      "initial_delta_FEEDBACK": 52.39999999999782,
+      "raw_rate_delta_pp": 0.14536622500951588,
+      "actual_fes": 10794000,
+      "old_actual_fes": 10879500,
+      "actual_fes_change_pct": -0.7858817041224375,
+      "split_blocks": 16284,
+      "split_rate_pct": 62.90902066834074,
+      "shifted_blocks": 5012,
+      "moved_fes": 118514,
+      "moved_to_upper_fes": 9637,
+      "elite_probe_hits_upper": 435694,
+      "elite_probe_hits_lower": 525598,
+      "optimizer_runs": 870,
+      "early_stops": 837
+    }
+  ],
+  "source_launchers": [
+    {
+      "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\run.py",
+      "sha256": "1c0c6b500e1277f3411e1a89090b0cb7ef2cb69397792fa55f6eca66400faf5a"
+    },
+    {
+      "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\run-gate.py",
+      "sha256": "0e88b5b481beb89a4f51a8d97077d5f6010625d428532fc3fff5779d9f80d92e"
+    }
+  ],
+  "checks": {
+    "pilot": {
+      "replay": {
+        "log": {
+          "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\runs\\6000-60-0-0-6-feedback-0.log",
+          "sha256": "7d00ff525dc7a0189d56881d4f3420bae1002da03f953ff01b7209f50fb3a2a9"
+        },
+        "command": {
+          "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\runs\\6000-60-0-0-6-feedback-0-command.json",
+          "sha256": "a20131b244be0a59ed78ce52fe1d0b092b48f897ff180a370583b4e48ff98381"
+        },
+        "lifecycle": {
+          "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\runs\\6000-60-0-0-6-feedback-0-exit.json",
+          "sha256": "afa55b088f3a99bb91e12893950ee9e36b18f3f7fdf205dc4fda9ed7244a8748"
+        },
+        "scene": "6000-60-0-0-6",
+        "mode": "FEEDBACK",
+        "per_run": 0,
+        "seed": "[RunSeed] source=custom table=seed-table.properties scene=6000-60-0-0-6 perRun=0 seedId=10 seed=1146972547739811",
+        "archive_files": {
+          "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per0.stdout.log": "15603c767781255b05090d7abad1275269f017c91d326b427ee2eddb49c0250b",
+          "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per0.pid.json": "65f86455d4f0982826616713b23d518b433a31c6c672db2d108ecdf2eef887d8",
+          "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per0.properties": "17e834a41012eb87cbb0b2d3ffca95dfaa8c4776053a6c1181d2bd0b0d4be7ac"
+        }
+      },
+      "tail_probe": [
+        {
+          "scene": "1000-10-0-0-12",
+          "mode": "ELITE_FEEDBACK",
+          "per_run": 0,
+          "seed_id": 10,
+          "seed": "1138252824073986",
+          "population": 196,
+          "initial_budget": 19637,
+          "total_priority": 5571,
+          "archive_raw_profit": 2684,
+          "adaptive_raw_profit": 2642,
+          "raw_delta": -42,
+          "archive_legal_profit": 2665,
+          "adaptive_legal_profit": 2636,
+          "archive_fes": 1078000,
+          "actual_hybcec_fes": 687320,
+          "nominal_hybcec_fes": 687320,
+          "early_stops": 0,
+          "edaFull": 1561,
+          "edaSplit": 1085,
+          "edaTail": 20,
+          "gaFull": 794,
+          "gaTail": 40,
+          "shiftedBlocks": 163,
+          "movedFes": 855,
+          "repeatedFes": 855,
+          "edaFes": 519050,
+          "gaFes": 156510,
+          "optimizerRuns": 60,
+          "reassignmentRounds": 13,
+          "acceptedMigrations": 19,
+          "intermediateCalibrations": 3,
+          "tailCalibrations": 0,
+          "previous_raw_profit": 2656,
+          "previous_legal_profit": 2645,
+          "previous_actual_fes": 686000,
+          "delta_previous_raw": -14,
+          "delta_previous_legal": -9,
+          "initial_profit": 2511,
+          "initial_fes": 196370,
+          "movedToUpperFes": 182,
+          "eliteProbeHitsUpper": 3849,
+          "eliteProbeHitsLower": 4622
+        },
+        {
+          "log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\runs\\1000-10-0-0-12-elite_feedback-0-tail-probe.log",
+            "sha256": "6456f772b61fccaf295e88a3c75c026caaa36d8c5987d82b845ebe007c4d2f55"
+          },
+          "command": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\runs\\1000-10-0-0-12-elite_feedback-0-tail-probe-command.json",
+            "sha256": "876009a644c2e87b77dc0f2aadcbc1ed71d65c6afd0dabb3b9235aec67790fc1"
+          },
+          "lifecycle": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\runs\\1000-10-0-0-12-elite_feedback-0-tail-probe-exit.json",
+            "sha256": "a57baa4ec39a23b2f961a9d914f0b65ab0681b57ba2c583c71b082eddb18c71a"
+          },
+          "scene": "1000-10-0-0-12",
+          "mode": "ELITE_FEEDBACK",
+          "per_run": 0,
+          "seed": "[RunSeed] source=native200042 table=scene-seeds-native200042.properties scene=1000-10-0-0-12 perRun=0 seedId=10 seed=1138252824073986",
+          "archive_files": {
+            "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-id3-full-scene\\runs\\A-0.log": "bc102a0ca7f73ca9aa3e7c68ba568ab29aa1c0654854602a5784137f318f5754",
+            "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-id3-full-scene\\runs\\A-0-args.json": "68b9d3bd91edaf3c35881a1b5c9a06bde7ba800e0d8dee74490b00d642462a4f"
+          }
+        }
+      ]
+    },
+    "gate/pilot": {
+      "replay": {
+        "log": {
+          "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\gate\\runs\\6000-60-0-0-6-feedback-0.log",
+          "sha256": "2c3621219ba4d72d2a49eeb1c4891e62516076a01bb09ff6881af104a72644ee"
+        },
+        "command": {
+          "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\gate\\runs\\6000-60-0-0-6-feedback-0-command.json",
+          "sha256": "6bc3bbdce6bf9e77102c9ca6facf60661ecd442ec0e5d85aa63de40890c81eeb"
+        },
+        "lifecycle": {
+          "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\gate\\runs\\6000-60-0-0-6-feedback-0-exit.json",
+          "sha256": "9ddf4930aa6f264e9e9c84af03741508b0663a8d52bc8ba5b2642d51459d80d0"
+        },
+        "scene": "6000-60-0-0-6",
+        "mode": "FEEDBACK",
+        "per_run": 0,
+        "seed": "[RunSeed] source=custom table=seed-table.properties scene=6000-60-0-0-6 perRun=0 seedId=10 seed=1146972547739811",
+        "archive_files": {
+          "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per0.stdout.log": "15603c767781255b05090d7abad1275269f017c91d326b427ee2eddb49c0250b",
+          "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per0.pid.json": "65f86455d4f0982826616713b23d518b433a31c6c672db2d108ecdf2eef887d8",
+          "F:\\OneDrive\\project\\static_determine\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\autohybrid-slower-than-rkhma-fullspeed-20261009\\6000-60-0-0-6_per0.properties": "17e834a41012eb87cbb0b2d3ffca95dfaa8c4776053a6c1181d2bd0b0d4be7ac"
+        }
+      },
+      "tail_probe": [
+        {
+          "scene": "1000-10-0-0-12",
+          "mode": "ELITE_GATE",
+          "per_run": 0,
+          "seed_id": 10,
+          "seed": "1138252824073986",
+          "population": 196,
+          "initial_budget": 19637,
+          "total_priority": 5571,
+          "archive_raw_profit": 2684,
+          "adaptive_raw_profit": 2681,
+          "raw_delta": -3,
+          "archive_legal_profit": 2665,
+          "adaptive_legal_profit": 2661,
+          "archive_fes": 1078000,
+          "actual_hybcec_fes": 883700,
+          "nominal_hybcec_fes": 883700,
+          "early_stops": 0,
+          "edaFull": 3400,
+          "edaSplit": 344,
+          "edaTail": 30,
+          "gaFull": 676,
+          "gaTail": 50,
+          "shiftedBlocks": 57,
+          "movedFes": 346,
+          "repeatedFes": 346,
+          "edaFes": 734430,
+          "gaFes": 133590,
+          "optimizerRuns": 80,
+          "reassignmentRounds": 15,
+          "acceptedMigrations": 25,
+          "intermediateCalibrations": 5,
+          "tailCalibrations": 0,
+          "previous_raw_profit": 2656,
+          "previous_legal_profit": 2645,
+          "previous_actual_fes": 686000,
+          "delta_previous_raw": 25,
+          "delta_previous_legal": 16,
+          "initial_profit": 2507,
+          "initial_fes": 196370,
+          "movedToUpperFes": 122,
+          "eliteProbeHitsUpper": 1179,
+          "eliteProbeHitsLower": 1458
+        },
+        {
+          "log": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\gate\\runs\\1000-10-0-0-12-elite_gate-0-tail-probe.log",
+            "sha256": "b3f15ea7f8ac0d5361c97ce9dc3bb26dfb635f215bff8ea2b9811f5da5b90afd"
+          },
+          "command": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\gate\\runs\\1000-10-0-0-12-elite_gate-0-tail-probe-command.json",
+            "sha256": "1153b8a3c5e56a2ab593db4eca1df8e6df5501bd198a14d9454008da40123d85"
+          },
+          "lifecycle": {
+            "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\gate\\runs\\1000-10-0-0-12-elite_gate-0-tail-probe-exit.json",
+            "sha256": "baf3c461ad1a05f1964ea19d978f878d5c310717ad8ae965baa964644d70e429"
+          },
+          "scene": "1000-10-0-0-12",
+          "mode": "ELITE_GATE",
+          "per_run": 0,
+          "seed": "[RunSeed] source=native200042 table=scene-seeds-native200042.properties scene=1000-10-0-0-12 perRun=0 seedId=10 seed=1138252824073986",
+          "archive_files": {
+            "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-id3-full-scene\\runs\\A-0.log": "bc102a0ca7f73ca9aa3e7c68ba568ab29aa1c0654854602a5784137f318f5754",
+            "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\feedback-ol-id3-full-scene\\runs\\A-0-args.json": "68b9d3bd91edaf3c35881a1b5c9a06bde7ba800e0d8dee74490b00d642462a4f"
+          }
+        }
+      ]
+    }
+  },
+  "maven": {
+    "command": "$env:AUTOHYB_SCENE_ROOT='F:/OneDrive/project/static_determine/Scene'; mvn -q test",
+    "run_without_scene_root": {
+      "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\maven-before.log",
+      "sha256": "0c9649a9bd62fd90c16b506fa67b82ed8fd29b9438aca7dbdddc1cc9ed1a4535"
+    },
+    "elite_only": {
+      "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\maven-with-scenes-before.log",
+      "sha256": "a56fda0c42e9f07a3dcb3d760155d5e543ccbe0d01bebdc34c5b0fc642a0b31b"
+    },
+    "before_transfer": {
+      "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\maven-with-gate-before.log",
+      "sha256": "7dde973575c577df27684255be3433751d19d3afaa7db3b8978ff7fb1cb9a5fd"
+    },
+    "after_transfer": {
+      "path": "C:\\Users\\a_wei\\.codex\\worktrees\\final-hybrid-ol-target-p0\\6D_dynamic_version_mfea - 副本 - 副本 (2)\\outputs\\adaptive-batch-elite-feedback\\maven-after.log",
+      "sha256": "196945607c5d1eaf1d8761140ca2e8e0acb637c1341baa8674cb01ef18239986"
+    },
+    "counts": {
+      "tests": 184,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  }
+}

@@ -2,12 +2,16 @@
 type: knowledge
 title: 已移除机制
 project: 6d-dynamic-version-mfea
-updated: 2026-07-24
+updated: 2026-11-24
 ---
 
 # 已移除机制
 
 本页记录已从主线移除、但后续容易误恢复的机制。根 `AGENTS.md` 只写当前行为；删除理由、证据入口和恢复条件放在这里。
+
+## D 的整场等评估量试验
+
+撤回 ID3 试验的 `sceneFesBudget` 开关、预算截停和末尾补足。D 恢复此前的重分配停机和校准路径。若需复核历史试验，使用[等评估量证据与当时源码](../Results/Evidence/feedback-ol-equal-fes-id3/evidence.md)。
 
 ## 3D OA1-only 单算法入口
 
